@@ -4,7 +4,7 @@
     <mat-toolbar-row>
       <span>
         <!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
-        <h5 mat-dialog-title>Member Eligibility Details {{mainModalTitle}}</h5>
+        <h5 mat-dialog-title>Member Eligibility Details</h5>
       </span>
       <span class="fill-remaining-space"></span>
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="onNoClick()" tabindex="-1">
@@ -45,7 +45,7 @@
                       [value]="form.controls.dob.value" [errorStateMatcher]="matcher" (dateInput)="addEvent($event)"
                       (dateChange)="addEvent($event)" required disabled> -->
                     <input matInput [matDatepicker]="dob" placeholder="Enter date of birth" formControlName="dob"
-                      [value]="form.controls.dob.value" [errorStateMatcher]="matcher" (dateInput)="addEvent($event)"
+                      [value]="form.controls?.dob.value" [errorStateMatcher]="matcher" (dateInput)="addEvent($event)"
                       (dateChange)="addEvent($event)" required>
                     <mat-label>Date of birth</mat-label>
                     <!-- <mat-error *ngIf="form.controls['dob'].hasError('required')">
@@ -652,7 +652,7 @@
       <!-- Sub tabs start -->
       <div align="right">
         <!-- <button type="submit" mat-raised-button color="accent" [disabled]="form.invalid">Verify Eligibility</button> -->
-        <button mat-raised-button color="accent" (click)="openDialog(form)">Verify Eligibility</button>
+        <button mat-raised-button color="accent" (click)="openDialog()">Verify Eligibility</button>
       </div>
     </div>
   </form>

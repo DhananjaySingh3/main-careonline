@@ -235,8 +235,8 @@ export class MainModalComponent implements OnInit {
    } */
 
   onSubmit(form: NgForm) {
-    console.log(form);
-    // this.openDialog();
+    console.log(form.value);
+    this.openDialog(form.value);
   }
 
   addEvent(event: MatDatepickerInputEvent<Date>) {
@@ -264,8 +264,8 @@ export class MainModalComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  openDialog(): void {
-    console.log();
+  openDialog(formData: any): void {
+    console.log(formData);
     // this.service.initializeFormGroup();
     const config = new MatDialogConfig();
     config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
@@ -275,7 +275,7 @@ export class MainModalComponent implements OnInit {
     config.id = 'stacked-dialog';
     // config.position.top = '50px';
     // config.position.left = '50px';
-    config.data = { form: this.form };
+    config.data = { form: formData }; // name: 'Djay' name can be accessed in Stackedcomponent
 
     const dialogRef = this.dialog.open(StackedModalComponent, config
       // {
