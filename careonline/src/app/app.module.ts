@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EligibilityCheckService } from './services/eligibility-check.service';
+
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
@@ -16,11 +18,15 @@ import {
   MAT_LABEL_GLOBAL_OPTIONS,
   MAT_DATE_LOCALE
 } from '@angular/material';
+import { MainModalComponent } from './components/main-modal/main-modal.component';
+import { StackedModalComponent } from './components/main-modal/stacked-modal/stacked-modal.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainModalComponent,
+    StackedModalComponent
   ],
   imports: [
     BrowserModule,
@@ -33,13 +39,13 @@ import {
     ReactiveFormsModule
   ],
   providers: [
+    EligibilityCheckService,
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
   ],
   bootstrap: [AppComponent],
-  entryComponents: []
+  entryComponents: [MainModalComponent, StackedModalComponent]
 })
 export class AppModule { }
-
