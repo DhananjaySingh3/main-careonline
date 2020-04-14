@@ -1,3 +1,668 @@
-<p>
-  main-modal works!
-</p>
+<div>
+  <!-- Mat-Dialog Hearder Start -->
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span>
+        <!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
+        <h5 mat-dialog-title>Member Eligibility Details {{mainModalTitle}}</h5>
+      </span>
+      <span class="fill-remaining-space"></span>
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="onNoClick()" tabindex="-1">
+        close
+      </mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <!-- Mat-Dialog Hearder Ends -->
+  <form [formGroup]="form" class="normal-form" (ngSubmit)="onSubmit(form)">
+    <!-- Mat-Dialog Body/Content Start -->
+    <div mat-dialog-content>
+      <mat-tab-group mat-align-tabs="start">
+        <mat-tab label="Health Plan Verification">
+          <ng-template matTabContent>
+            <h5>Member Demographic</h5>
+            <mat-divider></mat-divider>
+            <!-- <form [formGroup]="form" class="normal-form"> -->
+            <mat-grid-list cols="3" rowHeight="78px">
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <input type="hidden" formControlName="$key">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter last name" formControlName="lastName"
+                      [errorStateMatcher]="matcher" [pattern]="userNamePattern" required>
+                    <mat-label>Last Name</mat-label>
+                    <!-- <mat-hint align="end">{{form.controls.lastName.value?.length || 0}}/15</mat-hint>
+                    <mat-hint>Min 8 characters</mat-hint>
+                    <mat-error
+                      *ngIf="form.controls['lastName'].hasError('pattern') && !form.controls['lastName'].hasError('required')">
+                      Please enter a valid last name
+                    </mat-error>
+                    <mat-error *ngIf="form.controls['lastName'].hasError('required')">
+                      Last name is <strong>required</strong>
+                    </mat-error> -->
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width">
+                    <!-- <input matInput [matDatepicker]="dob" placeholder="Enter date of birth" formControlName="dob"
+                      [value]="form.controls.dob.value" [errorStateMatcher]="matcher" (dateInput)="addEvent($event)"
+                      (dateChange)="addEvent($event)" required disabled> -->
+                    <input matInput [matDatepicker]="dob" placeholder="Enter date of birth" formControlName="dob"
+                      [value]="form.controls.dob.value" [errorStateMatcher]="matcher" (dateInput)="addEvent($event)"
+                      (dateChange)="addEvent($event)" required>
+                    <mat-label>Date of birth</mat-label>
+                    <!-- <mat-error *ngIf="form.controls['dob'].hasError('required')">
+                      Date of birth is <strong>required</strong>
+                    </mat-error> -->
+                    <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                    <!-- <mat-datepicker #dob disabled="false"></mat-datepicker> -->
+                    <mat-datepicker #dob></mat-datepicker>
+                  </mat-form-field>
+                  <!-- <mat-form-field class="example-full-width" hintLabel="Your age" appearance="outline">
+                    <input matInput formControlName="age" [value]="form.controls.age.value">
+                    <mat-label>Age</mat-label>
+                  </mat-form-field> -->
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter first name" formControlName="firstName"
+                      [errorStateMatcher]="matcher" [pattern]="userNamePattern" required>
+                    <mat-label>First Name</mat-label>
+                    <!-- <mat-hint align="end">{{form.controls.firstName.value?.length || 0}}/15</mat-hint>
+                    <mat-hint>Min 8 characters</mat-hint>
+                    <mat-error
+                      *ngIf="form.controls['firstName'].hasError('pattern') && !form.controls['firstName'].hasError('required')">
+                      Please enter a valid first name
+                    </mat-error>
+                    <mat-error *ngIf="form.controls['firstName'].hasError('required')">
+                      First name is <strong>required</strong>
+                    </mat-error> -->
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Gender</mat-label>
+                    <mat-select formControlName="gender" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let gender of genders" [value]="gender">
+                        {{gender.name}}
+                      </mat-option>
+                    </mat-select>
+                    <!-- <mat-error *ngIf="form.controls['gender'].hasError('required')">
+                      Please select gender
+                    </mat-error>
+                    <mat-hint>{{form.controls.gender.value?.name}}</mat-hint> -->
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter middle name" formControlName="middleName"
+                      [errorStateMatcher]="matcher" [pattern]="userNamePattern">
+                    <mat-label>Middle Name</mat-label>
+                    <!-- <mat-hint align="end">{{form.controls.middleName.value?.length || 0}}/15</mat-hint>
+                    <mat-hint>Min 8 characters</mat-hint>
+                    <mat-error *ngIf="form.controls['middleName'].hasError('pattern')">
+                      Please enter a valid middle name
+                    </mat-error> -->
+                  </mat-form-field>
+                  <!-- <mat-form-field class="example-full-width">
+                    <mat-label>Suffix</mat-label>
+                    <mat-select formControlName="suffix" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let suffix of suffixes" [value]="suffix">
+                        {{suffix.name}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.controls['suffix'].hasError('required')">
+                      Please select suffix
+                    </mat-error>
+                    <mat-hint>{{form.controls.suffix.value?.name}}</mat-hint>
+                  </mat-form-field> -->
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <!-- </form> -->
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab label="Member Insurance History">
+          <ng-template matTabContent>
+            Content 1 - Loaded: {{getTimeLoaded(2) | date:'medium'}}
+          </ng-template>
+        </mat-tab>
+
+      </mat-tab-group>
+      <mat-divider></mat-divider>
+      <!-- Sub tabs start -->
+      <mat-tab-group mat-align-tabs="start">
+        <mat-tab label="Primary">
+          <ng-template matTabContent>
+            <h5>Insurer Details</h5>
+            <mat-divider></mat-divider>
+            <div formGroupName="insuranceAndDiagnosis" class="normal-form">
+              <mat-grid-list cols="3" rowHeight="80px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Patient Relationship To Insured</mat-label>
+                      <mat-select formControlName="patientReltoInsured" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let relation of relations" [value]="relation">
+                          {{relation.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('patientReltoInsured').hasError('required')">
+                        Please select relation
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('patientReltoInsured').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <!--  <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter insured first name"
+                        formControlName="insuredfirstName" [errorStateMatcher]="matcher" [pattern]="userNamePattern"
+                        required>
+                      <mat-label>Insured First Name</mat-label>
+                     <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('insuredfirstName').value?.length || 0}}/15</mat-hint>
+                      <mat-hint>Min 8 characters</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredfirstName').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('insuredfirstName').hasError('required')">
+                        Please enter a valid insured first name
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredfirstName').hasError('required')">
+                        Insured First name is <strong>required</strong>
+                      </mat-error> 
+                    </mat-form-field>-->
+                    <!-- <mat-form-field class="example-full-width" hintLabel="Select a date" appearance="outline"> -->
+                    <!-- <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
+                        formControlName="insureddob" [value]="form.get('insuranceAndDiagnosis').get('insureddob').value"
+                        [errorStateMatcher]="matcher" required disabled> -->
+                    <!-- <mat-form-field class="example-full-width">
+                          <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
+                            formControlName="insureddob" [value]="form.get('insuranceAndDiagnosis').get('insureddob').value"
+                            [errorStateMatcher]="matcher" required>
+                      <mat-label>Date of birth</mat-label> -->
+                    <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insureddob').hasError('required')">
+                        Date of birth is <strong>required</strong>
+                      </mat-error> -->
+                    <!-- <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle> -->
+                    <!-- <mat-datepicker #insureddob disabled="false"></mat-datepicker> -->
+                    <!-- <mat-datepicker #insureddob></mat-datepicker>
+                    </mat-form-field> -->
+                    <!-- <mat-form-field class="example-full-width">
+                      <mat-label>Insurance In Use</mat-label>
+                      <mat-select formControlName="insuranceInuse" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let insurancePlan of insurancePlans" [value]="insurancePlan">
+                          {{insurancePlan.name}}
+                        </mat-option>
+                      </mat-select> -->
+                    <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuranceInuse').hasError('required')">
+                        Please select payment mode
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('insuranceInuse').value?.name}}</mat-hint> -->
+                    <!-- </mat-form-field> -->
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Mode Of Payment</mat-label>
+                      <mat-select formControlName="modeofPayment" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let payment of payments" [value]="payment">
+                          {{payment.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('modeofPayment').hasError('required')">
+                        Please select payment mode
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('modeofPayment').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+
+                    <!-- <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter insured middle name"
+                        formControlName="insuredmiddleName" [errorStateMatcher]="matcher" [pattern]="userNamePattern">
+                      <mat-label>Insured Middle Name</mat-label> -->
+                    <!-- <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('insuredmiddleName').value?.length || 0}}/15</mat-hint>
+                      <mat-hint>Min 8 characters</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredmiddleName').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('insuredmiddleName').hasError('required')">
+                        Please enter a valid insured middle name
+                      </mat-error>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredmiddleName').hasError('required')">
+                        Insured Middle name is <strong>required</strong>
+                      </mat-error> -->
+                    <!-- </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter ssn" formControlName="ssn"
+                        [errorStateMatcher]="matcher" [pattern]="ssnPattern" required>
+                      <mat-label>SSN</mat-label> -->
+                    <!-- <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('ssn').value?.length || 0}}/11</mat-hint>
+                      <mat-hint>Ex: 123-45-6789</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('ssn').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('ssn').hasError('required')">
+                        Please enter a valid ssn
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('ssn').hasError('required')">
+                        SSN is <strong>required</strong>
+                      </mat-error> -->
+                    <!-- </mat-form-field> -->
+
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <mat-grid-list cols="3" rowHeight="80px">
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                  <div class="controles-container">
+
+                    <!-- <mat-form-field class="example-full-width">
+                      <mat-label>Patient Relationship To Insured</mat-label>
+                      <mat-select formControlName="patientReltoInsured" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let relation of relations" [value]="relation">
+                          {{relation.name}}
+                        </mat-option>
+                      </mat-select> -->
+                    <!-- <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('patientReltoInsured').hasError('required')">
+                        Please select relation
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('patientReltoInsured').value?.name}}</mat-hint> -->
+                    <!-- </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter insured last name" formControlName="insuredlastName"
+                        [errorStateMatcher]="matcher" [pattern]="userNamePattern" required>
+                      <mat-label>Insured Last Name</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('insuredlastName').value?.length || 0}}/15</mat-hint>
+                      <mat-hint>Min 8 characters</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredlastName').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('insuredlastName').hasError('required')">
+                        Please enter a valid insured last name
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredlastName').hasError('required')">
+                        Insured Last name is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Sex</mat-label>
+                      <mat-select formControlName="insuredsex" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let gender of genders" [value]="gender">
+                          {{gender.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredsex').hasError('required')">
+                        Please select sex
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('insuredsex').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter insured first name" formControlName="insuredfirstName"
+                        [errorStateMatcher]="matcher" [pattern]="userNamePattern" required>
+                      <mat-label>Insured First Name</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('insuredfirstName').value?.length || 0}}/15</mat-hint>
+                      <mat-hint>Min 8 characters</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredfirstName').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('insuredfirstName').hasError('required')">
+                        Please enter a valid insured first name
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredfirstName').hasError('required')">
+                        Insured First name is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+                    <!-- <mat-form-field class="example-full-width" hintLabel="Select a date" appearance="outline"> -->
+                    <!-- <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
+                        formControlName="insureddob" [value]="form.get('insuranceAndDiagnosis').get('insureddob').value"
+                        [errorStateMatcher]="matcher" required disabled> -->
+                    <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
+                        formControlName="insureddob" [value]="form.get('insuranceAndDiagnosis').get('insureddob').value"
+                        [errorStateMatcher]="matcher" required>
+                      <mat-label>Date of birth</mat-label>
+                      <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insureddob').hasError('required')">
+                        Date of birth is <strong>required</strong>
+                      </mat-error> -->
+                      <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                      <!-- <mat-datepicker #insureddob disabled="false"></mat-datepicker> -->
+                      <mat-datepicker #insureddob></mat-datepicker>
+                    </mat-form-field>
+                    <!-- <mat-form-field class="example-full-width">
+                      <mat-label>Insurance In Use</mat-label>
+                      <mat-select formControlName="insuranceInuse" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let insurancePlan of insurancePlans" [value]="insurancePlan">
+                          {{insurancePlan.name}}
+                        </mat-option>
+                      </mat-select> -->
+                    <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuranceInuse').hasError('required')">
+                        Please select payment mode
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('insuranceInuse').value?.name}}</mat-hint> -->
+                    <!-- </mat-form-field> -->
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                  <div class="controles-container">
+
+                    <!-- <mat-form-field class="example-full-width">
+                      <mat-label>Mode Of Payment</mat-label>
+                      <mat-select formControlName="modeofPayment" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let payment of payments" [value]="payment">
+                          {{payment.name}}
+                        </mat-option>
+                      </mat-select> -->
+                    <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('modeofPayment').hasError('required')">
+                        Please select payment mode
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('modeofPayment').value?.name}}</mat-hint> -->
+                    <!-- </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter insured middle name" formControlName="insuredmiddleName"
+                        [errorStateMatcher]="matcher" [pattern]="userNamePattern">
+                      <mat-label>Insured Middle Name</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('insuredmiddleName').value?.length || 0}}/15</mat-hint>
+                      <mat-hint>Min 8 characters</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredmiddleName').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('insuredmiddleName').hasError('required')">
+                        Please enter a valid insured middle name
+                      </mat-error>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredmiddleName').hasError('required')">
+                        Insured Middle name is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter ssn" formControlName="ssn" [errorStateMatcher]="matcher"
+                        [pattern]="ssnPattern" required>
+                      <mat-label>SSN</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('ssn').value?.length || 0}}/11</mat-hint>
+                      <mat-hint>Ex: 123-45-6789</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('ssn').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('ssn').hasError('required')">
+                        Please enter a valid ssn
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('ssn').hasError('required')">
+                        SSN is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <!-- Address grid -->
+              <mat-grid-list cols="1" rowHeight="80px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field>
+                      <input matInput #input placeholder="Enter insured address" formControlName="insuredAddress"
+                        [errorStateMatcher]="matcher" required>
+                      <mat-label>Insured Address</mat-label>
+                      <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredAddress').hasError('required')">
+                        Insured Address is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <!-- City state zipcode grid -->
+              <mat-grid-list cols="3" rowHeight="80px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Insured City</mat-label>
+                      <mat-select formControlName="insuredCity" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let city of cities" [value]="city">
+                          {{city.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredCity').hasError('required')">
+                        Please select city
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('insuredCity').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Insured State</mat-label>
+                      <mat-select formControlName="insuredState" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let state of states" [value]="state">
+                          {{state.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredState').hasError('required')">
+                        Please select state
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceAndDiagnosis').get('insuredState').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter Zipcode" formControlName="insuredzipcode"
+                        [errorStateMatcher]="matcher" [pattern]="zipCodePattern" required>
+                      <mat-label>Zipcode</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceAndDiagnosis').get('insuredzipcode').value?.length || 0}}/10</mat-hint>
+                      <mat-hint>Ex: 23654 or 92456-1234</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceAndDiagnosis').get('insuredzipcode').hasError('pattern') && !form.get('insuranceAndDiagnosis').get('insuredzipcode').hasError('required')">
+                        Please enter a valid zipcode
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceAndDiagnosis').get('insuredzipcode').hasError('required')">
+                        Zipcode is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+
+            <h5>Insurance Details</h5>
+            <mat-divider></mat-divider>
+            <div formGroupName="insuranceDetails" class="normal-form">
+              <mat-grid-list cols="2" rowHeight="78px">
+                <mat-grid-tile [colspan]="1" [rowspan]="3">
+                  <div class="controles-container">
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter insured last name" formControlName="policyNumber"
+                        [errorStateMatcher]="matcher" [pattern]="policyPattern" required>
+                      <mat-label>Policy Number</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceDetails').get('policyNumber').value?.length || 0}}/15</mat-hint>
+                      <mat-hint>Min 5 characters</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceDetails').get('policyNumber').hasError('pattern') && !form.get('insuranceDetails').get('policyNumber').hasError('required')">
+                        Please enter a valid insurance number
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceDetails').get('policyNumber').hasError('required')">
+                        Insurance number is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Insurance Plan Name" formControlName="insurancePlanName"
+                        [errorStateMatcher]="matcher" required>
+                      <mat-label>Insurance Plan Name</mat-label>
+                      <!-- <mat-error *ngIf="form.get('insuranceDetails').get('insurancePlanName').hasError('required')">
+                        Insurance plan name is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Insurance Plan Type</mat-label>
+                      <mat-select formControlName="insurancePlanType" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let insurancePlan of insurancePlans" [value]="insurancePlan">
+                          {{insurancePlan.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error *ngIf="form.get('insuranceDetails').get('insurancePlanType').hasError('required')">
+                        Please select insurance plan
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceDetails').get('insurancePlanType').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile>
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter group #" formControlName="group"
+                        [errorStateMatcher]="matcher" [pattern]="policyPattern" required>
+                      <mat-label>Group Number</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceDetails').get('group').value?.length || 0}}/15</mat-hint> -->
+                      <!-- <mat-hint>Min 5 characters</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceDetails').get('group').hasError('pattern') && !form.get('insuranceDetails').get('group').hasError('required')">
+                        Please enter a valid group number
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceDetails').get('group').hasError('required')">
+                        Group number is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+
+              </mat-grid-list>
+              <!-- Address grid -->
+              <mat-grid-list cols="1" rowHeight="80px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter insurance address" formControlName="insuranceAddress"
+                        [errorStateMatcher]="matcher" required>
+                      <mat-label>Insurance Address</mat-label>
+                      <!-- <mat-error *ngIf="form.get('insuranceDetails').get('insuranceAddress').hasError('required')">
+                        Insurance address is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <!-- City state zipcode grid -->
+              <mat-grid-list cols="3" rowHeight="80px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Insurance City</mat-label>
+                      <mat-select formControlName="insuranceCity" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let city of cities" [value]="city">
+                          {{city.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error *ngIf="form.get('insuranceDetails').get('insuranceCity').hasError('required')">
+                        Please select city
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceDetails').get('insuranceCity').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Insurance State</mat-label>
+                      <mat-select formControlName="insuranceState" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let state of states" [value]="state">
+                          {{state.name}}
+                        </mat-option>
+                      </mat-select>
+                      <!-- <mat-error *ngIf="form.get('insuranceDetails').get('insuranceState').hasError('required')">
+                        Please select state
+                      </mat-error>
+                      <mat-hint>{{form.get('insuranceDetails').get('insuranceState').value?.name}}</mat-hint> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                  <div class="controles-container">
+                    <mat-form-field class="example-full-width">
+                      <input matInput #input placeholder="Enter Zipcode" formControlName="insurancezipcode"
+                        [errorStateMatcher]="matcher" [pattern]="zipCodePattern" required>
+                      <mat-label>Zipcode</mat-label>
+                      <!-- <mat-hint align="end">
+                        {{form.get('insuranceDetails').get('insurancezipcode').value?.length || 0}}/10</mat-hint>
+                      <mat-hint>Ex: 23654 or 92456-1234</mat-hint>
+                      <mat-error
+                        *ngIf="form.get('insuranceDetails').get('insurancezipcode').hasError('pattern') && !form.get('insuranceDetails').get('insurancezipcode').hasError('required')">
+                        Please enter a valid zipcode
+                      </mat-error>
+                      <mat-error *ngIf="form.get('insuranceDetails').get('insurancezipcode').hasError('required')">
+                        Zipcode is <strong>required</strong>
+                      </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Secondary">
+          <ng-template matTabContent>
+            Content 1 - Loaded: {{getTimeLoaded(2) | date:'medium'}}
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Tertiary">
+          <ng-template matTabContent>
+            Content 1 - Loaded: {{getTimeLoaded(2) | date:'medium'}}
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+      <!-- Sub tabs start -->
+      <div align="right">
+        <!-- <button type="submit" mat-raised-button color="accent" [disabled]="form.invalid">Verify Eligibility</button> -->
+        <button mat-raised-button color="accent" (click)="openDialog(form)">Verify Eligibility</button>
+      </div>
+    </div>
+  </form>
+  <!-- Mat-Dialog Body/Content End -->
+
+  <!-- Mat-Dialog Action Start -->
+  <div align="left" mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Close</button>
+    <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Cancel</button> -->
+    <!-- <button mat-raised-button cdkFocusInitial color="primary" (click)="openDialog()">Ok</button> -->
+  </div>
+  <!-- Mat-Dialog Action Ends -->
+</div>
