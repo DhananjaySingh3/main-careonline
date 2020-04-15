@@ -12,11 +12,11 @@ export class EligibilityCheckService {
   constructor(private httpClient: HttpClient) { }
 
   getFormData(): Observable<any> {
-    return this.httpClient.get('');
+    return this.httpClient.get('http://localhost:8080/checkEligibility/read');
   }
 
   postFormData(form: Form): Observable<any> {
-    return this.httpClient.post('url', form);
+    return this.httpClient.post('http://localhost:8080/checkEligibility/write', form);
   }
 
 }

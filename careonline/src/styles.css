@@ -1,38 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-  div.container {
-    margin: 0px 40px;
-  }
+div.container {
+  margin: 0px 40px;
+}
 
-  /* fill-remaining-soace {
+/* fill-remaining-soace {
     flex: 1 1 auto;
   } */
 
-  form.normal-form {
-    margin: 2px;
-  }
+form.normal-form {
+  margin: 2px;
+}
 
-  .controles-container > * {
-    width: 100%;
-    margin: 6px;
-  }
-  
+.controles-container > * {
+  width: 100%;
+  margin: 6px;
+}
 
-  div.controles-container {
-    width: 100%;
-    /* padding: 3%; */
-    margin-right: 2px;
+div.controles-container {
+  width: 100%;
+  /* padding: 3%; */
+  margin-right: 2px;
+}
 
-  }
+/* This is required for radio and checkbox alignment */
+.add-bottom-padding {
+  padding: 10px;
+}
+mat-radio-group mat-radio-button {
+  margin-left: 5px;
+}
+/* End of  radio and checkbox alignment*/
 
-  /* This is required for radio and checkbox alignment */
-  .add-bottom-padding {
-    padding: 10px;
-  }
-  mat-radio-group mat-radio-button {
-    margin-left: 5px;
-  }
-  /* End of  radio and checkbox alignment*/
+/* For Toaster messages */
+snack-bar-container.success {
+  background-color: green;
+  color: #fff;
+}
+
+snack-bar-container.notification simple-snack-bar {
+  font-size: 18px !important;
+  font-weight: bold;
+}
+/* For Toaster messages ends*/

@@ -1,12 +1,13 @@
 export class Form {
-    $key: string;
+   // $key: string;
     lastName: string;
     firstName: string;
     middleName: string;
     dob: string;
     gender: string;
-    suffix: string;
-    age: number;
+   // suffix: string;
+   // age: number;
+    mrnNumber: number;
     insuranceAndDiagnosis: {
         insuredlastName: string;
         insuredfirstName: string;
@@ -14,7 +15,7 @@ export class Form {
         insureddob: string;
         insuredsex: string;
         patientReltoInsured: string;
-        insuranceInuse: string;
+       // insuranceInuse: string;
         insuranceAddress: string;
         insuranceCity: string;
         insuranceState: string;
