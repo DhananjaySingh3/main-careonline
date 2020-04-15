@@ -203,7 +203,7 @@ export class MainModalComponent implements OnInit {
        gender: 'Male',
        suffix: 'Mr',
        age: 0,
- 
+
        insuranceAndDiagnosis: {
          insuredlastName: 'Singh',
          insuredfirstName: 'D',
@@ -230,7 +230,7 @@ export class MainModalComponent implements OnInit {
          insurancezipcode: '40005-1234'
        }
      };
- 
+
      this.form.setValue(formData);
    } */
 

@@ -20,13 +20,17 @@ import {
 } from '@angular/material';
 import { MainModalComponent } from './components/main-modal/main-modal.component';
 import { StackedModalComponent } from './components/main-modal/stacked-modal/stacked-modal.component';
+import { PatientsComponent } from './components/patients/patients.component';
+import { PatientComponent } from './components/patients/patient/patient.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainModalComponent,
-    StackedModalComponent
+    StackedModalComponent,
+    PatientsComponent,
+    PatientComponent
   ],
   imports: [
     BrowserModule,
