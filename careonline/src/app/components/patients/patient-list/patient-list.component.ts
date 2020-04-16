@@ -44,9 +44,12 @@ export class PatientListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  patientList: Array<Form> = [];
-  patientListForMatTable: MatTableDataSource<any>;
-  displayedColumns: string[] = ['mrnNumber', 'lastName', 'firstName', 'middleName', 'dob', 'gender', 'actions'];
+  patientList: Form[];
+  patientListForMatTable: MatTableDataSource<Form>;
+  displayedColumns: string[] = [
+    'mrnNumber', 'suffix', 'lastName', 'firstName',
+    'middleName', 'dob', 'gender', 'actions'
+  ];
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -55,8 +58,8 @@ export class PatientListComponent implements OnInit, AfterViewInit {
 
 
   // For firebase
-  patientListFbArray = [];
-  patientDataListForMatTable: MatTableDataSource<any>;
+  // patientListFbArray = [];
+  // patientDataListForMatTable: MatTableDataSource<any>;
   // For firebase ends
 
   /*
@@ -72,15 +75,15 @@ export class PatientListComponent implements OnInit, AfterViewInit {
 */
 
   constructor(
-   // public httpClient: HttpClient,
-    public genderService: GenderService,
+    // public httpClient: HttpClient,
+   // public genderService: GenderService,
     public eligibilityCheckService: EligibilityCheckService,
     public patientDataService: PatientService,
     public toasterService: SnackbarService,
     public dialog: MatDialog,
-   // private elementRef: ElementRef,
-   // public dialogRef: MatDialogRef<PatientsComponent>,
-   // @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    // private elementRef: ElementRef,
+    // public dialogRef: MatDialogRef<PatientsComponent>,
+    // @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
 
 
@@ -89,10 +92,10 @@ export class PatientListComponent implements OnInit, AfterViewInit {
     this.eligibilityCheckService.getFormData().subscribe((patientData) => {
       this.patientList = patientData;
       this.patientListForMatTable = new MatTableDataSource(this.patientList);
-      this.isLoadingResults = false;
       this.patientListForMatTable.sort = this.sort;
       this.patientListForMatTable.paginator = this.paginator;
       // Disallowing user to search data which is not on the page but it is in the array of the subscribe
+      this.isLoadingResults = false;
       this.patientListForMatTable.filterPredicate = (data, filter) => {
         return this.displayedColumns.some((ele) => {
           return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
@@ -100,13 +103,14 @@ export class PatientListComponent implements OnInit, AfterViewInit {
       };
     });
 
+   /*
     // For firebase
     this.patientDataService.getPatient().subscribe(list => {
       this.patientListFbArray = list.map((items) => {
-       // const genderName = this.genderService.getGenderName(items.payload.val().gender);
+        // const genderName = this.genderService.getGenderName(items.payload.val().gender);
         // const genderName = this.genderService.getGenderName(items.payload.val()['gender']);
         return {
-         // genderName,
+          // genderName,
           $key: items.key,
           ...items.payload.val()
         };
@@ -115,6 +119,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
       this.patientDataListForMatTable.sort = this.sort;
       this.patientDataListForMatTable.paginator = this.paginator;
     });
+    */
   }
 
 
@@ -166,7 +171,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
   }
 
   onCreatePatient() {
-   // this.patientDataService.clearFormData();
+    // this.patientDataService.clearFormData();
     const config = new MatDialogConfig();
     config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
     config.autoFocus = false; // does not allow popup to focus on any field or icon
@@ -187,7 +192,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
   //   this.toasterService.success(':: Submitted Successfully');
   // }
 
-  onEditPatient(row) {
+  onEditPatient(row: Form) {
     this.patientDataService.populatePatientFormData(row);
     const config = new MatDialogConfig();
     config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
@@ -197,7 +202,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
     // config.id = 'stacked-dialog';
     // config.position.top = '50px';
     // config.position.left = '50px';
-    config.data = { heading: 'Edit Clicked' }; // name: 'Djay' name can be accessed in Patientcomponent
+    config.data = { heading: 'Edit Clicked', mrnId: row.mrnNumber }; // name: 'Djay' name can be accessed in Patientcomponent
     this.dialog.open(PatientComponent, config);
   }
 

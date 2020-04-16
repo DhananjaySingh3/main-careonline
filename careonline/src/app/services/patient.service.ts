@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+// import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { Form } from '../class-modals/form';
 
 // import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -19,9 +20,13 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 export class PatientService {
   // matcher = new MyErrorStateMatcher();
 
-  constructor(private firebaseService: AngularFireDatabase) { }
+  constructor(
+    // private firebaseService: AngularFireDatabase
+  ) { }
 
-  patientList: AngularFireList<any>;
+  // patient: Form[];
+  patientList: Form[] = [];
+  // patientList: [AngularFireList<any>];
 
   form: FormGroup = new FormGroup({
     // $key: new FormControl(null),
@@ -30,34 +35,32 @@ export class PatientService {
     firstName: new FormControl('', [Validators.required]),
     middleName: new FormControl('', []),
     // dob: new FormControl({value: (new Date()).toISOString(), disabled: true}, [Validators.required]),
-    dob: new FormControl('', [Validators.required]),
-    gender: new FormControl(0, [Validators.required]),
-    suffix: new FormControl('', [Validators.required]),
+    dob: new FormControl((new Date()).toISOString(), [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    suffix: new FormControl(''),
     // age: new FormControl({value: '', disabled: true}),
     // age: new FormControl(''),
     mrnNumber: new FormControl(''),
     insuranceAndDiagnosis: new FormGroup({
-      patientReltoInsured: new FormControl(0, [Validators.required]),
+      patientReltoInsured: new FormControl('', [Validators.required]),
       // insuranceInuse: new FormControl('', [Validators.required]),
       insuredlastName: new FormControl('', [Validators.required]),
       insuredfirstName: new FormControl('', [Validators.required]),
       insuredmiddleName: new FormControl('', []),
-      insureddob: new FormControl('', [Validators.required]),
-      insuredsex: new FormControl(0, [Validators.required]),
+      insureddob: new FormControl((new Date()).toISOString(), [Validators.required]),
+      insuredsex: new FormControl('', [Validators.required]),
       insuredAddress: new FormControl('', [Validators.required]),
       insuredCity: new FormControl('', [Validators.required]),
       insuredState: new FormControl('', [Validators.required]),
       insuredzipcode: new FormControl('', [Validators.required]),
       ssn: new FormControl('', [Validators.required]),
       mop: new FormControl('', [Validators.required]),
-
     }),
-
     insuranceDetail: new FormGroup({
       policyNumber: new FormControl('', [Validators.required]),
-      group_name: new FormControl(null, [Validators.required]),
+      group_name: new FormControl('', [Validators.required]),
       insurancePlanName: new FormControl('', [Validators.required]),
-      insurancePlanType: new FormControl(0, [Validators.required]),
+      insurancePlanType: new FormControl('', [Validators.required]),
       insuranceAddress: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
       state: new FormControl('', [Validators.required]),
@@ -67,7 +70,7 @@ export class PatientService {
 
   setDefaultFormValues() {
     const formData = {
-     // $key: 101,
+      // $key: 101,
       mrnNumber: 1010,
       lastName: 'Singh',
       firstName: 'Dhananjay',
@@ -106,7 +109,7 @@ export class PatientService {
 
   clearFormValues() {
     const formData = {
-  //    $key: null,
+      //    $key: null,
       mrnNumber: null,
       lastName: '',
       firstName: '',
@@ -146,10 +149,10 @@ export class PatientService {
     this.clearFormValues();
   }
 
-  getPatient() {
-    this.patientList = this.firebaseService.list('patients');
-    return this.patientList.snapshotChanges();
-  }
+  // getPatient() {
+  //   this.patientList = this.firebaseService.list('patients');
+  //   return this.patientList.snapshotChanges();
+  // }
 
   // For Create / inserting new data in dB
   insertOrCreatePatient(patient) {
@@ -160,6 +163,7 @@ export class PatientService {
       middleName: patient.middleName,
       dob: patient.dob,
       gender: patient.gender,
+      suffix: patient.suffix,
       insuranceAndDiagnosis: {
         insuredlastName: patient.insuredlastName,
         insuredfirstName: patient.insuredfirstName,
@@ -172,67 +176,102 @@ export class PatientService {
         insuredState: patient.insuredState,
         insuredzipcode: patient.insuredzipcode,
         ssn: patient.ssn,
-        modeofPayment: patient.modeofPayment,
+        mop: patient.mop,
       },
-      insuranceDetails: {
-        policyNumber: patient.modeofPayment,
-        group: patient.modeofPayment,
-        insurancePlanName: patient.modeofPayment,
-        insurancePlanType: patient.modeofPayment,
-        insuranceAddress: patient.modeofPayment,
-        insuranceCity: patient.modeofPayment,
-        insuranceState: patient.modeofPayment,
-        insurancezipcode: patient.modeofPayment
+      insuranceDetail: {
+        policyNumber: patient.policyNumber,
+        group_name: patient.group_name,
+        insurancePlanName: patient.insurancePlanName,
+        insurancePlanType: patient.insurancePlanType,
+        insuranceAddress: patient.insuranceAddress,
+        city: patient.city,
+        state: patient.state,
+        zipcode: patient.zipcode
       }
     });
   }
 
   // For Update / inserting data in dB
-  updatePatient(patient) {
-    this.patientList.update(patient.$key, {
+  // updatePatient(patient) {
+  //   this.patientList.update(patient.$key, {
+  //     mrnNumber: patient.mrnNumber,
+  //     lastName: patient.lastName,
+  //     firstName: patient.firstName,
+  //     middleName: patient.middleName,
+  //     dob: patient.dob,
+  //     gender: patient.gender,
+  //     insuranceAndDiagnosis: {
+  //       insuredlastName: patient.insuredlastName,
+  //       insuredfirstName: patient.insuredfirstName,
+  //       insuredmiddleName: patient.insuredmiddleName,
+  //       insureddob: patient.insureddob,
+  //       insuredsex: patient.insuredsex,
+  //       patientReltoInsured: patient.patientReltoInsured,
+  //       insuredAddress: patient.insuredAddress,
+  //       insuredCity: patient.insuredCity,
+  //       insuredState: patient.insuredState,
+  //       insuredzipcode: patient.insuredzipcode,
+  //       ssn: patient.ssn,
+  //       modeofPayment: patient.modeofPayment,
+  //     },
+  //     insuranceDetails: {
+  //       policyNumber: patient.modeofPayment,
+  //       group: patient.modeofPayment,
+  //       insurancePlanName: patient.modeofPayment,
+  //       insurancePlanType: patient.modeofPayment,
+  //       insuranceAddress: patient.modeofPayment,
+  //       insuranceCity: patient.modeofPayment,
+  //       insuranceState: patient.modeofPayment,
+  //       insurancezipcode: patient.modeofPayment
+  //     }
+  //   });
+  // }
+
+  // For Delete data in dB
+  // deletePatient($key: string) {
+  //   this.patientList.remove($key);
+  // }
+
+  populatePatientFormData(patient: Form) {
+    // let dob = patient.dob.toString().split('T').slice(0);
+    const formData: Form = {
+      // $key: 101,
       mrnNumber: patient.mrnNumber,
       lastName: patient.lastName,
       firstName: patient.firstName,
       middleName: patient.middleName,
       dob: patient.dob,
       gender: patient.gender,
+      suffix: patient.suffix,
       insuranceAndDiagnosis: {
-        insuredlastName: patient.insuredlastName,
-        insuredfirstName: patient.insuredfirstName,
-        insuredmiddleName: patient.insuredmiddleName,
-        insureddob: patient.insureddob,
-        insuredsex: patient.insuredsex,
-        patientReltoInsured: patient.patientReltoInsured,
-        insuredAddress: patient.insuredAddress,
-        insuredCity: patient.insuredCity,
-        insuredState: patient.insuredState,
-        insuredzipcode: patient.insuredzipcode,
-        ssn: patient.ssn,
-        modeofPayment: patient.modeofPayment,
+        insuredlastName: patient.insuranceAndDiagnosis.insuredlastName,
+        insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
+        insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
+        insureddob: patient.insuranceAndDiagnosis.insureddob,
+        insuredsex: patient.insuranceAndDiagnosis.insuredsex,
+        patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
+        insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
+        insuredCity: patient.insuranceAndDiagnosis.insuredCity,
+        insuredState: patient.insuranceAndDiagnosis.insuredState,
+        insuredzipcode: patient.insuranceAndDiagnosis.insuredzipcode,
+        ssn: patient.insuranceAndDiagnosis.ssn,
+        mop: patient.insuranceAndDiagnosis.mop
       },
-      insuranceDetails: {
-        policyNumber: patient.modeofPayment,
-        group: patient.modeofPayment,
-        insurancePlanName: patient.modeofPayment,
-        insurancePlanType: patient.modeofPayment,
-        insuranceAddress: patient.modeofPayment,
-        insuranceCity: patient.modeofPayment,
-        insuranceState: patient.modeofPayment,
-        insurancezipcode: patient.modeofPayment
+      insuranceDetail: {
+        policyNumber: patient.insuranceDetail.policyNumber,
+        group_name: patient.insuranceDetail.group_name,
+        insurancePlanName: patient.insuranceDetail.insurancePlanName,
+        insurancePlanType: patient.insuranceDetail.insurancePlanType,
+        insuranceAddress: patient.insuranceDetail.insuranceAddress,
+        city: patient.insuranceDetail.city,
+        state: patient.insuranceDetail.state,
+        zipcode: patient.insuranceDetail.zipcode
       }
-    });
-  }
-
-  // For Delete data in dB
-  deletePatient($key: string) {
-    this.patientList.remove($key);
-  }
-
-  populatePatientFormData(patient) {
-
-    this.form.setValue(patient);
-
-   // this.form.controls.modeofPayment = patient.insuranceAndDiagnosis.mop;
+    };
+    // formData.dob = new Date(patient.dob.toDateString().split('T').slice(0));
+    // formData.dob = new Date(formData.dob.toDateString().split('T')[0]);
+    this.form.setValue(formData);
+    // this.form.controls.modeofPayment = patient.insuranceAndDiagnosis.mop;
   }
 
 }

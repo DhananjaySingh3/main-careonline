@@ -1,36 +1,43 @@
 export class Form {
-   // $key: string;
+    // $key: string;
+    mrnNumber: string;
     lastName: string;
     firstName: string;
     middleName: string;
-    dob: string;
+    dob: any;
     gender: string;
-   // suffix: string;
-   // age: number;
-    mrnNumber: number;
-    insuranceAndDiagnosis: {
-        insuredlastName: string;
-        insuredfirstName: string;
-        insuredmiddleName: string;
-        insureddob: string;
-        insuredsex: string;
-        patientReltoInsured: string;
-       // insuranceInuse: string;
-        insuranceAddress: string;
-        insuranceCity: string;
-        insuranceState: string;
-        insurancezipcode: string;
-        ssn: string;
-        modeofPayment: string;
-    };
-    insuranceDetails: {
-        policyNumber: number;
-        group: number;
-        insurancePlanName: string;
-        insurancePlanType: string;
-        insuranceAddress: string;
-        insuranceCity: string;
-        insuranceState: string;
-        insurancezipcode: string;
-    };
+    suffix: string;
+    // age: number;
+    insuranceDetail: InsuranceDetail;
+    insuranceAndDiagnosis: InsuranceAndDiagnosis;
+
+
+}
+
+export class InsuranceAndDiagnosis {
+    insuredlastName: string;
+    insuredfirstName: string;
+    insuredmiddleName: string;
+    insureddob: any;
+    insuredsex: string;
+    patientReltoInsured: string;
+    // insuranceInuse: string;
+    insuredAddress: string;
+    insuredCity: string;
+    insuredState: string;
+    insuredzipcode: number;
+    ssn: string;
+    mop: string;
+}
+
+export class InsuranceDetail {
+    policyNumber: string;
+    // tslint:disable-next-line: variable-name
+    group_name: string;
+    insurancePlanName: string;
+    insurancePlanType: string;
+    insuranceAddress: string;
+    city: string;
+    state: string;
+    zipcode: number;
 }

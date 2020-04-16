@@ -11,6 +11,7 @@ export class EligibilityCheckService {
 
   constructor(private httpClient: HttpClient) { }
 
+  // To get list of data
   getFormData(): Observable<any> {
     return this.httpClient.get('http://localhost:8080/checkEligibility/read');
   }

@@ -9,7 +9,7 @@
         <h5 mat-dialog-title>Member Eligibility Details</h5>
       </span>
       <span class="fill-remaining-space"></span>
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" tabindex="-1">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="onNoClick()" tabindex="-1">
         close
       </mat-icon>
       <!-- (click)="onNoClick() -->
@@ -30,42 +30,33 @@
           <h5>Member Demographic</h5>
           <mat-divider></mat-divider>
           <mat-grid-list cols="3" rowHeight="78px">
-            <mat-grid-tile [colspan]="1" [rowspan]="4">
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
               <div class="controles-container">
 
                 <!-- <input type="hidden" formControlName="$key"> -->
 
-                <mat-form-field>
+                <mat-form-field class="no-padding">
                   <input matInput #input placeholder="Enter last name" formControlName="lastName"
                     [errorStateMatcher]="matcher" required>
                   <mat-label>Last Name</mat-label>
 
                 </mat-form-field>
-                <mat-form-field>
-                  <input matInput [matDatepicker]="dob" placeholder="Enter date of birth" formControlName="dob"
-                    [value]="patientFormService.form.controls?.dob.value | date:'MM/dd/yyyy'"
+                <mat-form-field class="no-padding">
+                  <input matInput [matDatepicker]="picker" placeholder="Enter date of birth" formControlName="dob"
+                    [value]="getDOB()"
                     [errorStateMatcher]="matcher" required>
                   <mat-label>Date of birth</mat-label>
-                  <!-- <mat-error *ngIf="patientFormService.form.controls['dob'].hasError('required')">
+                  <!-- <mat-error *ngIf="patientFormService.form.controls['dob'].hasError('required')"date:'MMMM d, y'">
                         Date of birth is <strong>required</strong>
                       </mat-error> -->
-                  <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
-                  <mat-datepicker #dob></mat-datepicker>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field class="no-padding">
                   <input matInput formControlName="mrnNumber"
                     [value]="patientFormService.form.controls?.mrnNumber.value">
                   <mat-label>MRN Number</mat-label>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Suffix</mat-label>
-                  <mat-select [formControl]="patientFormService.form.controls.suffix" required>
-                    <mat-option>--</mat-option>
-                    <mat-option *ngFor="let suffix of suffixes" [value]="suffix">
-                      {{suffix.name}}
-                    </mat-option>
-                  </mat-select>
                 </mat-form-field>
 
               </div>
@@ -73,20 +64,20 @@
 
             <mat-grid-tile [colspan]="1" [rowspan]="2">
               <div class="controles-container">
-                <mat-form-field>
+                <mat-form-field class="no-padding">
                   <input matInput #input placeholder="Enter first name" formControlName="firstName"
                     [errorStateMatcher]="matcher" required>
                   <mat-label>First Name</mat-label>
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field class="no-padding">
                   <mat-label>Gender</mat-label>
                   <mat-select formControlName="gender" required>
                     <mat-option>--</mat-option>
                     <!-- <ng-container *ngFor="let gender of genders; let i = index" value="gender.id">
                       <mat-option>{{gender.name}}</mat-option>
                     </ng-container> -->
-                    <mat-option *ngFor="let gender of genders; let i = index" [value]="gender.id">
+                    <mat-option *ngFor="let gender of genders; let i = index" [value]="gender.name">
                       {{gender.name}}
                     </mat-option>
                   </mat-select>
@@ -99,9 +90,9 @@
               </div>
             </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
               <div class="controles-container">
-                <mat-form-field>
+                <mat-form-field class="no-padding">
                   <input matInput #input placeholder="Enter middle name" formControlName="middleName"
                     [errorStateMatcher]="matcher">
                   <mat-label>Middle Name</mat-label>
@@ -111,7 +102,15 @@
                         Please enter a valid middle name
                       </mat-error> -->
                 </mat-form-field>
-
+                <mat-form-field class="no-padding">
+                  <mat-label>Suffix</mat-label>
+                  <mat-select [formControl]="patientFormService.form.controls.suffix">
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let suffix of suffixes" [value]="suffix.name">
+                      {{suffix.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
             </mat-grid-tile>
           </mat-grid-list>
@@ -151,7 +150,7 @@
                     <mat-label>Patient Relationship To Insured</mat-label>
                     <mat-select formControlName="patientReltoInsured" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let relation of relations" [value]="relation">
+                      <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
                       </mat-option>
                     </mat-select>
@@ -182,7 +181,7 @@
                     <mat-label>Mode Of Payment</mat-label>
                     <mat-select formControlName="mop" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let payment of payments" [value]="payment">
+                      <mat-option *ngFor="let payment of payments" [value]="payment.name">
                         {{payment.name}}
                       </mat-option>
                     </mat-select>
@@ -207,7 +206,7 @@
                     <mat-label>Sex</mat-label>
                     <mat-select formControlName="insuredsex" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let gender of genders" [value]="gender">
+                      <mat-option *ngFor="let gender of genders" [value]="gender.name">
                         {{gender.name}}
                       </mat-option>
                     </mat-select>
@@ -227,7 +226,7 @@
                   <mat-form-field class="example-full-width">
                     <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
                       formControlName="insureddob"
-                      [value]="patientFormService.form.get('insuranceAndDiagnosis').get('insureddob').value"
+                      [value]="patientFormService.form.get('insuranceAndDiagnosis').get('insureddob').value | date"
                       [errorStateMatcher]="matcher" required>
                     <mat-label>Date of birth</mat-label>
                     <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
@@ -281,7 +280,7 @@
                     <mat-label>Insured City</mat-label>
                     <mat-select formControlName="insuredCity" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let city of cities" [value]="city">
+                      <mat-option *ngFor="let city of cities" [value]="city.name">
                         {{city.name}}
                       </mat-option>
                     </mat-select>
@@ -296,7 +295,7 @@
                     <mat-label>Insured State</mat-label>
                     <mat-select formControlName="insuredState" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let state of states" [value]="state">
+                      <mat-option *ngFor="let state of states" [value]="state.name">
                         {{state.name}}
                       </mat-option>
                     </mat-select>
@@ -347,7 +346,7 @@
                     <mat-label>Insurance Plan Type</mat-label>
                     <mat-select formControlName="insurancePlanType" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let insurancePlan of insurancePlans" [value]="insurancePlan">
+                      <mat-option *ngFor="let insurancePlan of insurancePlans" [value]="insurancePlan.name">
                         {{insurancePlan.name}}
                       </mat-option>
                     </mat-select>
@@ -404,7 +403,7 @@
                     <mat-label>Insurance City</mat-label>
                     <mat-select formControlName="city" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let city of cities" [value]="city">
+                      <mat-option *ngFor="let city of cities" [value]="city.name">
                         {{city.name}}
                       </mat-option>
                     </mat-select>
@@ -423,7 +422,7 @@
                         {{state.name}}
                       </mat-option>
                     </mat-select> -->
-                    <!-- <mat-error *ngIf="form.get('insuranceDetails').get('insuranceState').hasError('required')">
+                  <!-- <mat-error *ngIf="form.get('insuranceDetails').get('insuranceState').hasError('required')">
                       Please select state
                     </mat-error>
                     <mat-hint>{{form.get('insuranceDetails').get('insuranceState').value?.name}}</mat-hint> -->
@@ -432,7 +431,7 @@
                     <mat-label>Insurance State</mat-label>
                     <mat-select formControlName="state" required>
                       <mat-option>--</mat-option>
-                      <mat-option *ngFor="let state of states" [value]="state">
+                      <mat-option *ngFor="let state of states" [value]="state.name">
                         {{state.name}}
                       </mat-option>
                     </mat-select>
@@ -483,19 +482,20 @@
     <!-- Tabs (Primary Secondar and Tertiary Tab Section) ENDS here in Health Plan Verification -->
 
 
-    <div align="right" class="button-row">
-      <!-- <button type="submit" mat-raised-button color="accent" [disabled]="patientFormService.form.invalid">Verify Eligibility</button> -->
-      <!-- <button mat-raised-button color="accent" (click)="openDialog()">Verify Eligibility</button> -->
-      <button mat-raised-button color="accent">Verify Eligibility</button>
-      <!-- <button mat-raised-button color="warn" (click)="onClear()">Clear Form</button> -->
-    </div>
+    <!-- <div align="right" class="button-row"> -->
+    <!-- <button type="submit" mat-raised-button color="accent" [disabled]="patientFormService.form.invalid">Verify Eligibility</button> -->
+    <!-- <button mat-raised-button color="accent" (click)="openDialog()">Verify Eligibility</button> -->
+    <!-- <button mat-raised-button color="accent">Verify Eligibility</button> -->
+    <!-- <button mat-raised-button color="warn" (click)="onClear()">Clear Form</button> -->
+    <!-- </div> -->
 
   </div>
   <!-- Main Mat-Dialog Body/Content End -->
 
   <!-- Main Mat-Dialog Action Start -->
-  <div align="left" mat-dialog-actions>
-    <button mat-raised-button color="primary">Close</button>
+  <div mat-dialog-actions fxLayout="row" fxLayoutGap="512px">
+    <button mat-button mat-raised-button type="submit" color="accent">Verify Eligibility</button>
+    <button mat-button mat-raised-button color="primary" (click)="onNoClick()">Close</button>
     <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onNoClick()">Cancel</button> -->
     <!-- <button mat-raised-button cdkFocusInitial color="primary" (click)="openDialog()">Ok</button> -->
   </div>

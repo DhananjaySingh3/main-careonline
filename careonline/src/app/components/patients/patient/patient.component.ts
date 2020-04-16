@@ -22,7 +22,6 @@ export interface DialogData {
 
 interface Gender {
   name: string;
-  id: number;
 }
 
 interface Suffix {
@@ -68,6 +67,8 @@ interface Plans {
 })
 export class PatientComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
+  // events: string[] = [];
+
 
   constructor(
     public patientFormService: PatientService,
@@ -76,7 +77,7 @@ export class PatientComponent implements OnInit {
     // public dialog: MatDialog,
     // private elementRef: ElementRef,
     public dialogRef: MatDialogRef<PatientComponent>,
-  //  @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    //  @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
 
 
@@ -98,19 +99,20 @@ export class PatientComponent implements OnInit {
     { id: 3, name: 'Sibling' },
     { id: 4, name: 'Brother' },
     { id: 5, name: 'Sister' },
-    { id: 6, name: 'Others' },
+    { id: 6, name: 'Self' },
   ];
 
   states: State[] = [
     { id: 1, name: 'New York' },
-    { id: 2, name: 'Washington DC' },
-    { id: 3, name: 'Jamaica' }
+    { id: 2, name: 'MO' },
+    { id: 3, name: 'Minnesota' }
   ];
 
   cities: City[] = [
     { id: 1, name: 'New York' },
-    { id: 2, name: 'Washington DC' },
-    { id: 3, name: 'Jamaica' }
+    { id: 2, name: 'KANSAS CITY' },
+    { id: 3, name: 'Young America' },
+    { id: 4, name: 'Amboy' }
   ];
 
   payments: Payment[] = [
@@ -129,18 +131,35 @@ export class PatientComponent implements OnInit {
     { id: 6, name: 'Others' }
   ];
 
-  // genders: Gender[] = [
-  //   { id: 1, name: 'Male' },
-  //   { id: 2, name: 'Female' },
-  //   { id: 3, name: 'Others' }
-  // ];
-  genders: Gender[] = [];
-  getGender() {
-    this.genders = this.genderService.genderListArray;
+  genders: Gender[] = [
+    { name: 'Male' },
+    { name: 'female' },
+    { name: 'others' }
+  ];
+
+  mrnNumber: string;
+
+  // genders: Gender[] = [];
+  // getGender() {
+  //   this.genders = this.genderService.genderListArray;
+  // }
+
+  // addEvent(event: MatDatepickerInputEvent<Date>) {
+  //   return this.patientFormService.form.get('dob').patchValue(this.getDateOfBirth(event.value));
+  // }
+
+  // getDateOfBirth(dob: any) {
+  //   let birthDate;
+  //   return birthDate = new Date(dob);
+  // }
+
+  getDOB() {
+    return this.patientFormService.form.get('dob').value;
   }
 
   ngOnInit() {
-    this.patientFormService.getPatient();
+   // this.addEvent();
+   this.getDOB();
   }
 
   // onSubmit(form: NgForm) {
@@ -163,14 +182,14 @@ export class PatientComponent implements OnInit {
 
 
   onSubmit() {
-    if (this.patientFormService.form.valid) {
+   // if (this.patientFormService.form.valid) {
       // this.toasterService.success(':: Submitted Successfully');
       this.patientFormService.insertOrCreatePatient(this.patientFormService.form.value);
       this.patientFormService.form.reset();
       this.patientFormService.clearFormData(); // initializeFormGroup() = clearFormData()
       this.toasterService.success(':: Submitted Successfully');
       this.onClose();
-    }
+   // }
   }
 
 
@@ -180,6 +199,10 @@ export class PatientComponent implements OnInit {
     this.patientFormService.clearFormValues();
     this.dialogRef.close();
     this.toasterService.success(':: Submitted Successfully');
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }
