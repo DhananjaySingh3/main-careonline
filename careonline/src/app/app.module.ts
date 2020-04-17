@@ -31,6 +31,7 @@ import { PatientComponent } from './components/patients/patient/patient.componen
 import { GenderService } from './services/gender.service';
 import { SnackbarService } from './services/snackbar.service';
 import { PatientListComponent } from './components/patients/patient-list/patient-list.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { PatientListComponent } from './components/patients/patient-list/patient
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },
+    DatePipe
   ],
   bootstrap: [AppComponent],
   entryComponents: [PatientComponent, PatientsComponent, MainModalComponent, StackedModalComponent]

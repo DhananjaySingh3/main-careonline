@@ -48,7 +48,7 @@ export class PatientListComponent implements OnInit, AfterViewInit {
   patientListForMatTable: MatTableDataSource<Form>;
   displayedColumns: string[] = [
     'mrnNumber', 'suffix', 'lastName', 'firstName',
-    'middleName', 'dob', 'gender', 'actions'
+    'middleName', 'dob', 'insureddob', 'gender', 'actions'
   ];
   resultsLength = 0;
   isLoadingResults = true;

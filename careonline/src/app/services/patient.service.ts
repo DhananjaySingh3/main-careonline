@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 // import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Form } from '../class-modals/form';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+
 
 // import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -22,6 +26,8 @@ export class PatientService {
 
   constructor(
     // private firebaseService: AngularFireDatabase
+    public httpClient: HttpClient,
+    public datePipe: DatePipe
   ) { }
 
   // patient: Form[];
@@ -35,7 +41,8 @@ export class PatientService {
     firstName: new FormControl('', [Validators.required]),
     middleName: new FormControl('', []),
     // dob: new FormControl({value: (new Date()).toISOString(), disabled: true}, [Validators.required]),
-    dob: new FormControl((new Date()).toISOString(), [Validators.required]),
+    // dob: new FormControl((new Date()).toISOString(), [Validators.required]),
+    dob: new FormControl('', [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     suffix: new FormControl(''),
     // age: new FormControl({value: '', disabled: true}),
@@ -47,7 +54,7 @@ export class PatientService {
       insuredlastName: new FormControl('', [Validators.required]),
       insuredfirstName: new FormControl('', [Validators.required]),
       insuredmiddleName: new FormControl('', []),
-      insureddob: new FormControl((new Date()).toISOString(), [Validators.required]),
+      insureddob: new FormControl('', [Validators.required]),
       insuredsex: new FormControl('', [Validators.required]),
       insuredAddress: new FormControl('', [Validators.required]),
       insuredCity: new FormControl('', [Validators.required]),
@@ -126,19 +133,19 @@ export class PatientService {
         insuredAddress: '',
         insuredCity: '0',
         insuredState: '0',
-        insuredzipcode: '',
+        insuredzipcode: '' || null,
         ssn: '',
         modeofPayment: '0'
       },
       insuranceDetails: {
-        policyNumber: null,
-        group: null,
+        policyNumber: '' || null,
+        group: '' || null,
         insurancePlanName: '',
         insurancePlanType: '0',
         insuranceAddress: '',
         insuranceCity: '0',
         insuranceState: '0',
-        insurancezipcode: '0'
+        insurancezipcode: '' || null
       }
     };
 
@@ -161,71 +168,74 @@ export class PatientService {
       lastName: patient.lastName,
       firstName: patient.firstName,
       middleName: patient.middleName,
-      dob: patient.dob,
+      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
       gender: patient.gender,
       suffix: patient.suffix,
       insuranceAndDiagnosis: {
-        insuredlastName: patient.insuredlastName,
-        insuredfirstName: patient.insuredfirstName,
-        insuredmiddleName: patient.insuredmiddleName,
-        insureddob: patient.insureddob,
-        insuredsex: patient.insuredsex,
-        patientReltoInsured: patient.patientReltoInsured,
-        insuredAddress: patient.insuredAddress,
-        insuredCity: patient.insuredCity,
-        insuredState: patient.insuredState,
-        insuredzipcode: patient.insuredzipcode,
-        ssn: patient.ssn,
-        mop: patient.mop,
+        insuredlastName: patient.insuranceAndDiagnosis.insuredlastName,
+        insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
+        insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
+        // tslint:disable-next-line: max-line-length
+        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'yyyy-MM-dd'),
+        insuredsex: patient.insuranceAndDiagnosis.insuredsex,
+        patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
+        insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
+        insuredCity: patient.insuranceAndDiagnosis.insuredCity,
+        insuredState: patient.insuranceAndDiagnosis.insuredState,
+        insuredzipcode: patient.insuranceAndDiagnosis.insuredzipcode,
+        ssn: patient.insuranceAndDiagnosis.ssn,
+        mop: patient.insuranceAndDiagnosis.mop,
       },
       insuranceDetail: {
-        policyNumber: patient.policyNumber,
-        group_name: patient.group_name,
-        insurancePlanName: patient.insurancePlanName,
-        insurancePlanType: patient.insurancePlanType,
-        insuranceAddress: patient.insuranceAddress,
-        city: patient.city,
-        state: patient.state,
-        zipcode: patient.zipcode
+        policyNumber: patient.insuranceDetail.policyNumber,
+        group_name: patient.insuranceDetail.group_name,
+        insurancePlanName: patient.insuranceDetail.insurancePlanName,
+        insurancePlanType: patient.insuranceDetail.insurancePlanType,
+        insuranceAddress: patient.insuranceDetail.insuranceAddress,
+        city: patient.insuranceDetail.city,
+        state: patient.insuranceDetail.state,
+        zipcode: patient.insuranceDetail.zipcode
       }
     });
   }
 
   // For Update / inserting data in dB
-  // updatePatient(patient) {
-  //   this.patientList.update(patient.$key, {
-  //     mrnNumber: patient.mrnNumber,
-  //     lastName: patient.lastName,
-  //     firstName: patient.firstName,
-  //     middleName: patient.middleName,
-  //     dob: patient.dob,
-  //     gender: patient.gender,
-  //     insuranceAndDiagnosis: {
-  //       insuredlastName: patient.insuredlastName,
-  //       insuredfirstName: patient.insuredfirstName,
-  //       insuredmiddleName: patient.insuredmiddleName,
-  //       insureddob: patient.insureddob,
-  //       insuredsex: patient.insuredsex,
-  //       patientReltoInsured: patient.patientReltoInsured,
-  //       insuredAddress: patient.insuredAddress,
-  //       insuredCity: patient.insuredCity,
-  //       insuredState: patient.insuredState,
-  //       insuredzipcode: patient.insuredzipcode,
-  //       ssn: patient.ssn,
-  //       modeofPayment: patient.modeofPayment,
-  //     },
-  //     insuranceDetails: {
-  //       policyNumber: patient.modeofPayment,
-  //       group: patient.modeofPayment,
-  //       insurancePlanName: patient.modeofPayment,
-  //       insurancePlanType: patient.modeofPayment,
-  //       insuranceAddress: patient.modeofPayment,
-  //       insuranceCity: patient.modeofPayment,
-  //       insuranceState: patient.modeofPayment,
-  //       insurancezipcode: patient.modeofPayment
-  //     }
-  //   });
-  // }
+
+  updatePatient(patient: Form) {
+    console.log(patient);
+    // this.patientList.update( {
+    //   mrnNumber: patient.mrnNumber,
+    //   lastName: patient.lastName,
+    //   firstName: patient.firstName,
+    //   middleName: patient.middleName,
+    //   dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
+    //   gender: patient.gender,
+    //   insuranceAndDiagnosis: {
+    //     insuredlastName: patient.insuredlastName,
+    //     insuredfirstName: patient.insuredfirstName,
+    //     insuredmiddleName: patient.insuredmiddleName,
+    //     insureddob: patient.insureddob === '' ? '' : this.datePipe.transform(patient.insureddob, 'yyyy-MM-dd'),
+    //     insuredsex: patient.insuredsex,
+    //     patientReltoInsured: patient.patientReltoInsured,
+    //     insuredAddress: patient.insuredAddress,
+    //     insuredCity: patient.insuredCity,
+    //     insuredState: patient.insuredState,
+    //     insuredzipcode: patient.insuredzipcode,
+    //     ssn: patient.ssn,
+    //     modeofPayment: patient.modeofPayment,
+    //   },
+    //   insuranceDetails: {
+    //     policyNumber: patient.modeofPayment,
+    //     group: patient.modeofPayment,
+    //     insurancePlanName: patient.modeofPayment,
+    //     insurancePlanType: patient.modeofPayment,
+    //     insuranceAddress: patient.modeofPayment,
+    //     insuranceCity: patient.modeofPayment,
+    //     insuranceState: patient.modeofPayment,
+    //     insurancezipcode: patient.modeofPayment
+    //   }
+    // });
+  }
 
   // For Delete data in dB
   // deletePatient($key: string) {
@@ -240,14 +250,15 @@ export class PatientService {
       lastName: patient.lastName,
       firstName: patient.firstName,
       middleName: patient.middleName,
-      dob: patient.dob,
+      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
       gender: patient.gender,
       suffix: patient.suffix,
       insuranceAndDiagnosis: {
         insuredlastName: patient.insuranceAndDiagnosis.insuredlastName,
         insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
         insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
-        insureddob: patient.insuranceAndDiagnosis.insureddob,
+        // tslint:disable-next-line: max-line-length
+        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'yyyy-MM-dd'),
         insuredsex: patient.insuranceAndDiagnosis.insuredsex,
         patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
         insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
@@ -270,8 +281,17 @@ export class PatientService {
     };
     // formData.dob = new Date(patient.dob.toDateString().split('T').slice(0));
     // formData.dob = new Date(formData.dob.toDateString().split('T')[0]);
-    this.form.setValue(formData);
+    this.form.setValue(patient);
     // this.form.controls.modeofPayment = patient.insuranceAndDiagnosis.mop;
+  }
+
+  // To get list of data
+  getFormData(): Observable<any> {
+    return this.httpClient.get('http://localhost:8080/checkEligibility/read');
+  }
+
+  postFormData(form: Form): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/checkEligibility/write', form);
   }
 
 }

@@ -158,8 +158,8 @@ export class PatientComponent implements OnInit {
   }
 
   ngOnInit() {
-   // this.addEvent();
-   this.getDOB();
+    this.patientFormService.getFormData();
+   // this.getDOB();
   }
 
   // onSubmit(form: NgForm) {
@@ -182,16 +182,19 @@ export class PatientComponent implements OnInit {
 
 
   onSubmit() {
-   // if (this.patientFormService.form.valid) {
-      // this.toasterService.success(':: Submitted Successfully');
+    if (this.patientFormService.form.valid) {
+      if (!this.patientFormService.form.get('$key').value) {
       this.patientFormService.insertOrCreatePatient(this.patientFormService.form.value);
+    } else{
+      // this.toasterService.success(':: Submitted Successfully');
+      this.patientFormService.updatePatient(this.patientFormService.form.value);
       this.patientFormService.form.reset();
       this.patientFormService.clearFormData(); // initializeFormGroup() = clearFormData()
       this.toasterService.success(':: Submitted Successfully');
       this.onClose();
-   // }
+    }
+    }
   }
-
 
   // Closing the popup on form submit
   onClose() {
@@ -204,5 +207,7 @@ export class PatientComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+
 
 }

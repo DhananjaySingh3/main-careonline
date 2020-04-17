@@ -42,15 +42,14 @@
 
                 </mat-form-field>
                 <mat-form-field class="no-padding">
-                  <input matInput [matDatepicker]="picker" placeholder="Enter date of birth" formControlName="dob"
-                    [value]="getDOB()"
-                    [errorStateMatcher]="matcher" required>
+                  <input matInput [matDatepicker]="dob" placeholder="Enter date of birth" formControlName="dob"
+                    [errorStateMatcher]="matcher" [value]="patientFormService.form.controls?.dob.value | date:'yyyy-MM-dd'" required>
                   <mat-label>Date of birth</mat-label>
                   <!-- <mat-error *ngIf="patientFormService.form.controls['dob'].hasError('required')"date:'MMMM d, y'">
                         Date of birth is <strong>required</strong>
                       </mat-error> -->
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                  <mat-datepicker #dob></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">
@@ -226,13 +225,13 @@
                   <mat-form-field class="example-full-width">
                     <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
                       formControlName="insureddob"
-                      [value]="patientFormService.form.get('insuranceAndDiagnosis').get('insureddob').value | date"
+                      [value]="patientFormService.form.get('insuranceAndDiagnosis').get('insureddob').value | date:'yyyy-MM-dd'"
                       [errorStateMatcher]="matcher" required>
                     <mat-label>Date of birth</mat-label>
                     <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
                   </mat-form-field>
-
+                  <!-- [value]="patientFormService.form.controls.insuranceAndDiagnosis.controls.insureddob.value| date:'yyyy-MM-dd'" -->
                 </div>
               </mat-grid-tile>
 
