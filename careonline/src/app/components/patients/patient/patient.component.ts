@@ -2,9 +2,12 @@ import { Component, OnInit, Inject, ElementRef, ViewEncapsulation } from '@angul
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent } from '@angular/material';
 import { PatientService } from '../../../services/patient.service';
 import { GenderService } from '../../../services/gender.service';
+import { DialogService } from '../../../services/dialog.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { StackedModalComponent } from '../../main-modal/stacked-modal/stacked-modal.component';
+import { Form, ResponseReceivedForm } from 'src/app/class-modals/form';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -13,11 +16,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
-}
-
-export interface DialogData {
-  form: FormGroup;
-  // mainHeading: string;
 }
 
 interface Gender {
@@ -59,6 +57,11 @@ interface Plans {
   id: number;
 }
 
+export interface DialogData {
+  heading: string;
+  form: Form;
+}
+
 
 @Component({
   selector: 'app-patient',
@@ -68,16 +71,22 @@ interface Plans {
 export class PatientComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   // events: string[] = [];
+  mrnNumber: string;
+  isLoadingResults = false;
+  postRequestRespObj: ResponseReceivedForm;
 
+  headingReceivedViaDialog = this.data.heading;
+  selectedPatientDataReceivedViaDialog = { ...this.data.form };
 
   constructor(
     public patientFormService: PatientService,
     public genderService: GenderService,
     public toasterService: SnackbarService,
-    // public dialog: MatDialog,
+    public dialogService: DialogService,
+    public dialog: MatDialog,
     // private elementRef: ElementRef,
     public dialogRef: MatDialogRef<PatientComponent>,
-    //  @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
 
 
@@ -137,7 +146,7 @@ export class PatientComponent implements OnInit {
     { name: 'others' }
   ];
 
-  mrnNumber: string;
+
 
   // genders: Gender[] = [];
   // getGender() {
@@ -159,7 +168,7 @@ export class PatientComponent implements OnInit {
 
   ngOnInit() {
     this.patientFormService.getFormData();
-   // this.getDOB();
+    // this.getDOB();
   }
 
   // onSubmit(form: NgForm) {
@@ -184,17 +193,82 @@ export class PatientComponent implements OnInit {
   onSubmit() {
     if (this.patientFormService.form.valid) {
       if (!this.patientFormService.form.get('$key').value) {
-      this.patientFormService.insertOrCreatePatient(this.patientFormService.form.value);
-    } else{
-      // this.toasterService.success(':: Submitted Successfully');
-      this.patientFormService.updatePatient(this.patientFormService.form.value);
-      this.patientFormService.form.reset();
-      this.patientFormService.clearFormData(); // initializeFormGroup() = clearFormData()
-      this.toasterService.success(':: Submitted Successfully');
-      this.onClose();
-    }
+        this.patientFormService.insertOrCreatePatient(this.patientFormService.form.value);
+      } else {
+        // this.toasterService.success(':: Submitted Successfully');
+        this.patientFormService.updatePatient(this.patientFormService.form.value);
+        this.patientFormService.form.reset();
+        this.patientFormService.clearFormData(); // initializeFormGroup() = clearFormData()
+        this.toasterService.success(':: Submitted Successfully');
+        this.onClose();
+      }
     }
   }
+
+  onEligibilityCheck() {
+    console.log('Data Received From Patient List: Start');
+    console.log(this.selectedPatientDataReceivedViaDialog);
+    console.log('Data Received From Patient List: Ends');
+    // this.patientFormService.dataForEligibilityCheck(this.patientFormService.form.value);
+    setTimeout(() => {
+      const config = new MatDialogConfig();
+      config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
+      config.autoFocus = false; // does not allow popup to focus on any field or icon
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = { heading: 'Verify Eligibility', form: this.selectedPatientDataReceivedViaDialog };
+      const dialogRef = this.dialog.open(StackedModalComponent, config);
+      // dialogRef.afterOpened().subscribe(result => {
+      //   console.log('Dialog Opend:' + result);
+      // });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
+        // this.toasterService.success(':: Submitted Successfully');
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+        }
+
+      });
+    });
+  }
+
+
+  /*
+    onConfirmClick() {
+      // this.isLoadingResults = true;
+      this.patientFormService.postFormData(this.patientFormService.form.value).subscribe((response) => {
+        if (response) {
+          this.postRequestRespObj = response;
+          console.log(this.postRequestRespObj);
+        }
+        if (response.Ackn) {
+          this.toasterService.success(':: Submitted Successfully');
+          this.isLoadingResults = false;
+        } else {
+          this.toasterService.warn(':: Something went wrong, Please try again');
+          this.isLoadingResults = false;
+        }
+
+      }, (error) => {
+        this.toasterService.warn(':: Something went wrong, Please try again');
+        this.isLoadingResults = false;
+      });
+    }
+    */
+
+  /*
+    onEligibilityCheck() {
+      this.dialogService.OpenConfirmDialog(this.patientFormService.form.value)
+        .afterClosed().subscribe((response) => {
+          console.log(response);
+          if (response) {
+            this.isLoadingResults = true;
+            this.onConfirmClick();
+          }
+        });
+      // this.patientFormService.dataForEligibilityCheck(this.patientFormService.form.value);
+    }
+    */
 
   // Closing the popup on form submit
   onClose() {
@@ -205,9 +279,8 @@ export class PatientComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
-
 
 
 }

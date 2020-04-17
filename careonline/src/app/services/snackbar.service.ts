@@ -21,5 +21,10 @@ export class SnackbarService {
     this.snackbarToaster.open(toasterMessage, '', this.config);
   }
 
+  warn(toasterMessage) {
+    this.config.panelClass = ['notification', 'warn'];
+    this.snackbarToaster.open(toasterMessage, '', this.config);
+  }
+
 
 }

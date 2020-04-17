@@ -22,7 +22,8 @@ import {
   MAT_LABEL_GLOBAL_OPTIONS,
   MAT_DATE_LOCALE,
   MatDialogRef,
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA,
+  MatDialogConfig
 } from '@angular/material';
 import { MainModalComponent } from './components/main-modal/main-modal.component';
 import { StackedModalComponent } from './components/main-modal/stacked-modal/stacked-modal.component';
@@ -32,6 +33,7 @@ import { GenderService } from './services/gender.service';
 import { SnackbarService } from './services/snackbar.service';
 import { PatientListComponent } from './components/patients/patient-list/patient-list.component';
 import { DatePipe } from '@angular/common';
+import { DialogService } from './services/dialog.service';
 
 
 @NgModule({
@@ -60,12 +62,14 @@ import { DatePipe } from '@angular/common';
     PatientService,
     SnackbarService,
     EligibilityCheckService,
+    DialogService,
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },
     { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] },
+    { provide: MatDialogConfig, useValue: {} },
     DatePipe
   ],
   bootstrap: [AppComponent],

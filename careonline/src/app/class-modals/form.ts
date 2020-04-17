@@ -1,3 +1,8 @@
+export class ResponseReceivedForm {
+    ackn: boolean;
+    beneficierydetail: Form;
+}
+
 export class Form {
     // $key: string;
     mrnNumber: string;

@@ -42,6 +42,11 @@ mat-radio-group mat-radio-button {
 /* End of  radio and checkbox alignment*/
 
 /* For Toaster messages */
+snack-bar-container.warn {
+  background-color: orangered;
+  color: #fff;
+}
+
 snack-bar-container.success {
   background-color: green;
   color: #fff;

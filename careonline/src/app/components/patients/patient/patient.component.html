@@ -1,3 +1,9 @@
+<!-- Spinner starts -->
+<!-- <div align="center" class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div> -->
+<!-- Spinner ends -->
+
 <!-- Patient Form Starts Here -->
 <form [formGroup]="patientFormService.form" class="normal-form" (ngSubmit)="onSubmit(patientFormService.form)">
 
@@ -43,7 +49,8 @@
                 </mat-form-field>
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="dob" placeholder="Enter date of birth" formControlName="dob"
-                    [errorStateMatcher]="matcher" [value]="patientFormService.form.controls?.dob.value | date:'yyyy-MM-dd'" required>
+                    [errorStateMatcher]="matcher"
+                    [value]="patientFormService.form.controls?.dob.value | date:'yyyy-MM-dd'" required>
                   <mat-label>Date of birth</mat-label>
                   <!-- <mat-error *ngIf="patientFormService.form.controls['dob'].hasError('required')"date:'MMMM d, y'">
                         Date of birth is <strong>required</strong>
@@ -323,7 +330,7 @@
           <div formGroupName="insuranceDetail" class="normal-form">
 
             <mat-grid-list cols="2" rowHeight="78px">
-              <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
                 <div class="controles-container">
 
                   <mat-form-field class="example-full-width">
@@ -341,6 +348,28 @@
                     </mat-error> -->
                   </mat-form-field>
 
+                  <!-- <mat-form-field class="example-full-width">
+                    <mat-label>Insurance Plan Type</mat-label>
+                    <mat-select formControlName="insurancePlanType" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let insurancePlan of insurancePlans" [value]="insurancePlan.name">
+                        {{insurancePlan.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+
+                </div>
+              </mat-grid-tile>
+
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter group #" formControlName="group_name"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Group Number</mat-label>
+                  </mat-form-field>
+
                   <mat-form-field class="example-full-width">
                     <mat-label>Insurance Plan Type</mat-label>
                     <mat-select formControlName="insurancePlanType" required>
@@ -351,16 +380,6 @@
                     </mat-select>
                   </mat-form-field>
 
-                </div>
-              </mat-grid-tile>
-
-              <mat-grid-tile>
-                <div class="controles-container">
-                  <mat-form-field class="example-full-width">
-                    <input matInput #input placeholder="Enter group #" formControlName="group_name"
-                      [errorStateMatcher]="matcher" required>
-                    <mat-label>Group Number</mat-label>
-                  </mat-form-field>
                 </div>
               </mat-grid-tile>
 
@@ -493,8 +512,9 @@
 
   <!-- Main Mat-Dialog Action Start -->
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="512px">
-    <button mat-button mat-raised-button type="submit" color="accent">Verify Eligibility</button>
-    <button mat-button mat-raised-button color="primary" (click)="onNoClick()">Close</button>
+    <button mat-button mat-raised-button color="accent" (click)="onEligibilityCheck()">Verify
+      Eligibility</button>
+    <button mat-button mat-raised-button color="primary" [mat-dialog-close]="false" (click)="onNoClick()">Close</button>
     <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onNoClick()">Cancel</button> -->
     <!-- <button mat-raised-button cdkFocusInitial color="primary" (click)="openDialog()">Ok</button> -->
   </div>

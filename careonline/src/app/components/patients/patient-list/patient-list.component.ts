@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Inject } from 
 import { EligibilityCheckService } from '../../../services/eligibility-check.service';
 import { PatientService } from '../../../services/patient.service';
 import { SnackbarService } from '../../../services/snackbar.service';
-import { GenderService } from '../../../services/gender.service';
 import { Form } from '../../../class-modals/form';
-import { FormGroup, FormArray } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 
 import { HttpClient } from '@angular/common/http';
@@ -13,34 +11,17 @@ import { MatSort } from '@angular/material/sort';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
-import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { PatientComponent } from '../patient/patient.component';
 
-
-/*
-export interface GithubApi {
-  items: GithubIssue[];
-  total_count: number;
-}
-
-export interface GithubIssue {
-  created_at: string;
-  number: string;
-  state: string;
-  title: string;
-}
-*/
-export interface DialogData {
-  form: FormGroup;
-  // mainHeading: string;
-}
 
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
   styleUrls: ['./patient-list.component.css']
 })
-export class PatientListComponent implements OnInit, AfterViewInit {
+
+export class PatientListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -56,34 +37,13 @@ export class PatientListComponent implements OnInit, AfterViewInit {
 
   searchKey: string;
 
-
-  // For firebase
-  // patientListFbArray = [];
-  // patientDataListForMatTable: MatTableDataSource<any>;
-  // For firebase ends
-
-  /*
-  displayedColumns: string[] = ['created', 'state', 'number', 'title'];
-  exampleDatabase: ExampleHttpDatabase | null;
-  data: GithubIssue[] = [];
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-*/
-
   constructor(
     // public httpClient: HttpClient,
-   // public genderService: GenderService,
     public eligibilityCheckService: EligibilityCheckService,
     public patientDataService: PatientService,
     public toasterService: SnackbarService,
     public dialog: MatDialog,
-    // private elementRef: ElementRef,
-    // public dialogRef: MatDialogRef<PatientsComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: DialogData,
+
   ) { }
 
 
@@ -103,58 +63,23 @@ export class PatientListComponent implements OnInit, AfterViewInit {
       };
     });
 
-   /*
-    // For firebase
-    this.patientDataService.getPatient().subscribe(list => {
-      this.patientListFbArray = list.map((items) => {
-        // const genderName = this.genderService.getGenderName(items.payload.val().gender);
-        // const genderName = this.genderService.getGenderName(items.payload.val()['gender']);
-        return {
-          // genderName,
-          $key: items.key,
-          ...items.payload.val()
-        };
-      });
-      this.patientDataListForMatTable = new MatTableDataSource(this.patientListFbArray);
-      this.patientDataListForMatTable.sort = this.sort;
-      this.patientDataListForMatTable.paginator = this.paginator;
-    });
-    */
-  }
-
-
-
-  ngAfterViewInit() {
     /*
-    this.exampleDatabase = new ExampleHttpDatabase(this._httpClient);
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.exampleDatabase!.getRepoIssues(
-            this.sort.active, this.sort.direction, this.paginator.pageIndex);
-        }),
-        map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = data.total_count;
-
-          return data.items;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          // Catch if the GitHub API has reached its rate limit. Return empty data.
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => this.data = data);
-  }
-  */
+     // For firebase
+     this.patientDataService.getPatient().subscribe(list => {
+       this.patientListFbArray = list.map((items) => {
+         // const genderName = this.genderService.getGenderName(items.payload.val().gender);
+         // const genderName = this.genderService.getGenderName(items.payload.val()['gender']);
+         return {
+           // genderName,
+           $key: items.key,
+           ...items.payload.val()
+         };
+       });
+       this.patientDataListForMatTable = new MatTableDataSource(this.patientListFbArray);
+       this.patientDataListForMatTable.sort = this.sort;
+       this.patientDataListForMatTable.paginator = this.paginator;
+     });
+     */
   }
 
   applyFilter(filterValue: string) {
@@ -193,17 +118,30 @@ export class PatientListComponent implements OnInit, AfterViewInit {
   // }
 
   onEditPatient(row: Form) {
-    this.patientDataService.populatePatientFormData(row);
-    const config = new MatDialogConfig();
-    config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
-    config.autoFocus = false; // does not allow popup to focus on any field or icon
-    config.hasBackdrop = true;
-    config.width = '60%';
-    // config.id = 'stacked-dialog';
-    // config.position.top = '50px';
-    // config.position.left = '50px';
-    config.data = { heading: 'Edit Clicked', mrnId: row.mrnNumber }; // name: 'Djay' name can be accessed in Patientcomponent
-    this.dialog.open(PatientComponent, config);
+    setTimeout(() => {
+      this.patientDataService.populatePatientFormData(row);
+      const config = new MatDialogConfig();
+      config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
+      config.autoFocus = false; // does not allow popup to focus on any field or icon
+      config.hasBackdrop = true;
+      config.width = '60%';
+      // config.position = {top: '50px', left: '50px'};
+      // config.id = 'stacked-dialog';
+      // name: 'Djay' name can be accessed in Patientcomponent
+      config.data = { heading: 'Eligibility Check Details', form: row };
+
+      this.dialog.open(PatientComponent, config)
+        .afterClosed().subscribe(result => {
+          console.log('Close or X button clicked so:  false will come: ' + result);
+          // this.toasterService.success(':: Submitted Successfully');
+          if (result) {
+            // [mat-dialog-close]="true" shuld be placed on eligibility button to get result=true
+            // else result=undefined will come
+            console.log('Check eligibilty button is clicked so TRUE will come: ' + result);
+          }
+        });
+    });
   }
+
 
 }
