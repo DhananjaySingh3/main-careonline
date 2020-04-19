@@ -5,6 +5,8 @@ import { FormGroup } from '@angular/forms';
 import { Form, ResponseReceivedForm } from 'src/app/class-modals/form';
 import { PatientService } from 'src/app/services/patient.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { EligibilityCheckService } from 'src/app/services/eligibility-check.service';
+
 
 export interface DialogData {
   heading: string;
@@ -48,6 +50,7 @@ export class StackedModalComponent implements OnInit {
     public toasterService: SnackbarService,
     public dialogRef: MatDialogRef<StackedModalComponent>, // for getting the ref of the dialog
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    public eligibilityCheckService: EligibilityCheckService,
   ) { }
 
   ngOnInit() {
@@ -72,7 +75,8 @@ export class StackedModalComponent implements OnInit {
         if (response) {
           console.log('Response Data received for Eligibility check');
           console.log(response);
-          this.responseDatReceived = response;
+          this.responseDatReceived = {...response};
+          this.eligibilityCheckService.dataFromEligibilityCheck = {...response};
           console.log(this.responseDatReceived);
           console.log('Data received as Eligibility check response , stored start');
           console.log(this.responseDatReceived);

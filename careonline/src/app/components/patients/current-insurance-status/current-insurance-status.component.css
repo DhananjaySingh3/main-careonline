@@ -1,0 +1,25 @@
+/* .mat-toolbar-row,
+.mat-toolbar-single-row,
+.heading {
+  min-height: 24px;
+  /* background-color: steelblue;
+  box-sizing: border-box; */
+  /* padding: 0 16px;
+  margin-bottom: 4px; */
+/* } */
+
+.normal-form {
+    margin: 3px;
+    height: 24px;
+    background-color: white;
+  }
+
+mat-radio-group mat-radio-button {
+    margin-left: 5px;
+  }
+
+  .border {
+    border: 2px solid gray;
+    margin: 2px;
+    padding: 8px;
+  }

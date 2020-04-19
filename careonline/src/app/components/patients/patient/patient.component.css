@@ -98,3 +98,9 @@ div.controles-container {
   /* padding: 3%; */
   margin-right: 2px;
 }
+
+table {
+  width: 100%;
+  /* margin-left: 0.5px;
+  margin-right: 0.5px; */
+}

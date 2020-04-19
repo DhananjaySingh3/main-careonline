@@ -7,7 +7,7 @@ import { SnackbarService } from '../../../services/snackbar.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { StackedModalComponent } from '../../main-modal/stacked-modal/stacked-modal.component';
-import { Form, ResponseReceivedForm } from 'src/app/class-modals/form';
+import { Form, ResponseReceivedForm, MemberInsuranceHistory } from 'src/app/class-modals/form';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -77,6 +77,19 @@ export class PatientComponent implements OnInit {
 
   headingReceivedViaDialog = this.data.heading;
   selectedPatientDataReceivedViaDialog = { ...this.data.form };
+
+  displayedColumns: string[] = [
+    'statusVerifiedDate', 'lastName', 'firstName', 'insurancePlanType', 'insurancePlanName', 'eligibilityStartDate', 'eligibilityEndDate'
+  ];
+
+  dataSource: MemberInsuranceHistory[] = [
+    // tslint:disable-next-line: max-line-length
+    { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
+    // tslint:disable-next-line: max-line-length
+    { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
+    // tslint:disable-next-line: max-line-length
+    { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
+  ];
 
   constructor(
     public patientFormService: PatientService,

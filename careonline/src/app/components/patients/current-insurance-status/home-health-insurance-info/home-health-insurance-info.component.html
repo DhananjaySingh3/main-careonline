@@ -1,0 +1,34 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Episode ID Column -->
+  <ng-container matColumnDef="episodeId">
+    <th mat-header-cell *matHeaderCellDef> Episode ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.episodeId}} </td>
+  </ng-container>
+
+  <!-- Home Health Agency Name Column -->
+  <ng-container matColumnDef="homeHealthAgencyName">
+    <th mat-header-cell *matHeaderCellDef> Home Health Agency </th>
+    <td mat-cell *matCellDef="let element"> {{element.homeHealthAgencyName}} </td>
+  </ng-container>
+
+  <!-- Service Start Date Column -->
+  <ng-container matColumnDef="serviceStartDate">
+    <th mat-header-cell *matHeaderCellDef> Service Start Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.serviceStartDate}} </td>
+  </ng-container>
+
+  <!-- Service End Date Column -->
+  <ng-container matColumnDef="serviceEndtDate">
+    <th mat-header-cell *matHeaderCellDef> Service End Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.serviceEndtDate}} </td>
+  </ng-container>
+
+  <!-- Admission Status Column -->
+  <ng-container matColumnDef="admissionStatus">
+    <th mat-header-cell *matHeaderCellDef> Admission Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.admissionStatus}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

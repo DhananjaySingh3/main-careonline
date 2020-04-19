@@ -46,3 +46,30 @@ export class InsuranceDetail {
     state: string;
     zipcode: number;
 }
+
+export class MemberInsuranceHistory {
+    statusVerifiedDate: any;
+    lastName: string;
+    firstName: string;
+    insurancePlanType: string;
+    insurancePlanName: string;
+    eligibilityStartDate: any;
+    eligibilityEndDate: any;
+}
+
+export class InsuranceEligibility {
+    insurancePlanType: string;
+    insurancePlanName: string;
+    startDate: any;
+    endtDate: any;
+    eligibility: string;
+    viewDetails: boolean;
+}
+
+export class HomeHealthEpisodeInfo {
+    episodeId: string;
+    homeHealthAgencyName: string;
+    serviceStartDate: any;
+    serviceEndtDate: any;
+    admissionStatus: string;
+}
