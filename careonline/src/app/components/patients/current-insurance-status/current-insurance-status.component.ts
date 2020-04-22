@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ResponseReceivedForm } from 'src/app/class-modals/form';
 
 @Component({
   selector: 'app-current-insurance-status',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./current-insurance-status.component.css']
 })
 export class CurrentInsuranceStatusComponent implements OnInit {
+  @Input() insuranceList: ResponseReceivedForm;
+
+  myInsuranceList = new Array(this.insuranceList);
 
   constructor() { }
 

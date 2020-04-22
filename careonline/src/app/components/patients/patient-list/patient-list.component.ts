@@ -143,5 +143,9 @@ export class PatientListComponent implements OnInit {
     });
   }
 
+  onPrint() {
+    console.log('Print called');
+  }
+
 
 }

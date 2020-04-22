@@ -11,7 +11,7 @@ export class EligibilityCheckService {
 
   constructor(private httpClient: HttpClient) { }
 
-  dataFromEligibilityCheck: ResponseReceivedForm;
+  dataFromEligibilityCheck: ResponseReceivedForm[];
 
   // To get list of data
   getFormData(): Observable<any> {

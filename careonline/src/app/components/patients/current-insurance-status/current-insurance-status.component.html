@@ -7,13 +7,16 @@
     <span>Current Insurance Status</span>
   </mat-toolbar-row>
 </mat-toolbar> -->
+<!-- {{insuranceList |json}}
+<hr />
+{{myInsuranceList | json}} -->
 
   <p>Member Insurance Eligibility</p>
-  <app-member-insurance-eligibility></app-member-insurance-eligibility>
+  <app-member-insurance-eligibility [myInsuranceList]="insuranceList"></app-member-insurance-eligibility>
 
-  <p>Home Health Episode Information</p>
+  <!-- <p>Home Health Episode Information</p> -->
   <!-- <div class="border"> -->
-  <app-home-health-insurance-info></app-home-health-insurance-info>
+  <!-- <app-home-health-insurance-info></app-home-health-insurance-info> -->
 
 </fieldset>
 <!-- </div> -->

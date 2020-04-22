@@ -75,14 +75,14 @@ export class StackedModalComponent implements OnInit {
         if (response) {
           console.log('Response Data received for Eligibility check');
           console.log(response);
-          this.responseDatReceived = {...response};
-          this.eligibilityCheckService.dataFromEligibilityCheck = {...response};
+          this.responseDatReceived = { ...response };
+          this.eligibilityCheckService.dataFromEligibilityCheck = { ...response };
           console.log(this.responseDatReceived);
           console.log('Data received as Eligibility check response , stored start');
           console.log(this.responseDatReceived);
           console.log('Data received as Eligibility check response stored end');
         }
-        if (response.Ackn) {
+        if (response.ackn) {
           this.toasterService.success(':: Submitted Successfully');
           this.isLoadingResults = false;
           this.onNoClick();

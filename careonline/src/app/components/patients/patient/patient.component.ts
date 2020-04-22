@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, ElementRef, ViewEncapsulation } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent } from '@angular/material';
+import { Component, OnInit, Inject, ElementRef, ViewEncapsulation, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent, MatTabGroup, MatTableDataSource } from '@angular/material';
 import { PatientService } from '../../../services/patient.service';
 import { GenderService } from '../../../services/gender.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -8,6 +8,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { StackedModalComponent } from '../../main-modal/stacked-modal/stacked-modal.component';
 import { Form, ResponseReceivedForm, MemberInsuranceHistory } from 'src/app/class-modals/form';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { EligibilityCheckService } from 'src/app/services/eligibility-check.service';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -66,7 +68,15 @@ export interface DialogData {
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.css']
+  styleUrls: ['./patient.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
+
 })
 export class PatientComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
@@ -79,20 +89,44 @@ export class PatientComponent implements OnInit {
   selectedPatientDataReceivedViaDialog = { ...this.data.form };
 
   displayedColumns: string[] = [
-    'statusVerifiedDate', 'lastName', 'firstName', 'insurancePlanType', 'insurancePlanName', 'eligibilityStartDate', 'eligibilityEndDate'
+    'statusVerifiedDate', 'lastName', 'firstName', 'insurancePlanType', 'insurancePlanName', 'eligibilityStartDate',
+    'eligibilityEndDate'
   ];
 
-  dataSource: MemberInsuranceHistory[] = [
-    // tslint:disable-next-line: max-line-length
-    { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
-    // tslint:disable-next-line: max-line-length
-    { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
-    // tslint:disable-next-line: max-line-length
-    { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
-  ];
+  // dataSource: MemberInsuranceHistory[] = [
+  //   // tslint:disable-next-line: max-line-length
+  //   { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
+  //   // tslint:disable-next-line: max-line-length
+  //   { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
+  //   // tslint:disable-next-line: max-line-length
+  //   { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
+  // ];
+
+  // dataSource: ResponseReceivedForm[] = [
+  // {
+  //   statusVerifiedDate: this.dataSource.beneficieryDetail.l,
+  //   lastName: 'H', firstName: 'H',
+  //   insurancePlanType: 'Hydrogen',
+  //   insurancePlanName: 'One',
+  //   eligibilityStartDate: 1.0079,
+  //   eligibilityEndDate: 'H'
+  // },
+  // ];
+  expandedElement: MemberInsuranceHistory | null;
+
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  tabs = [];
+  selectedTab: string;
+  selectedTabIndex: number;
+
+  insuranceList: ResponseReceivedForm[];
+  ELEMENT_DATA: ResponseReceivedForm[] = this.insuranceList;
+  dataSource = new MatTableDataSource<ResponseReceivedForm>(this.ELEMENT_DATA);
+  // dataSource: ResponseReceivedForm[] = this.insuranceList;
 
   constructor(
     public patientFormService: PatientService,
+    public eligibilityCheckService: EligibilityCheckService,
     public genderService: GenderService,
     public toasterService: SnackbarService,
     public dialogService: DialogService,
@@ -181,7 +215,25 @@ export class PatientComponent implements OnInit {
 
   ngOnInit() {
     this.patientFormService.getFormData();
+    this.selectedTabIndex = 0;
     // this.getDOB();
+    /*
+     this.api.getDataset(experimentId).subscribe(
+       response => {
+           this.tabs = response;
+           this.tabGroup.selectedIndex = 1;
+       },
+       error => {
+           console.log(error);
+       }
+     );
+   }*/
+
+  }
+
+  onTabChanged(selectedTab) {
+    this.selectedTabIndex = selectedTab.index;
+    console.log(this.selectedTabIndex);
   }
 
   // onSubmit(form: NgForm) {
@@ -237,6 +289,10 @@ export class PatientComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         console.log('Stacked Dialog Closed: true / false will come ' + result);
         // this.toasterService.success(':: Submitted Successfully');
+        this.insuranceList = {...this.eligibilityCheckService.getEligibilityCheckData()};
+        console.log('Data received from stacked model to patient component start');
+        console.log(this.insuranceList);
+        console.log('Data received from stacked model to patient component ends');
         if (result) {
           console.log('Confirm is clicked: ' + result);
         }

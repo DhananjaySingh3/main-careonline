@@ -1,6 +1,14 @@
 export class ResponseReceivedForm {
-    ackn: boolean;
-    beneficierydetail: Form;
+    lastName?: string;
+    firstName?: string;
+    statusVerifiedDate: any;
+    endDate: any;
+    ackn?: boolean;
+    eligibility: string;
+    insurancePlanType: string;
+    insurancePlanName: string;
+    startDate: any;
+    viewDetails: boolean;
 }
 
 export class Form {
@@ -15,8 +23,9 @@ export class Form {
     // age: number;
     insuranceDetail: InsuranceDetail;
     insuranceAndDiagnosis: InsuranceAndDiagnosis;
-
-
+    // statusVerifiedDate?: any;
+    // startDate?: any;
+    // endDate?: any;
 }
 
 export class InsuranceAndDiagnosis {
@@ -62,8 +71,12 @@ export class InsuranceEligibility {
     insurancePlanName: string;
     startDate: any;
     endtDate: any;
+    ackn: boolean;
     eligibility: string;
-    viewDetails: boolean;
+    viewDetails?: boolean;
+    lastName: string;
+    firstName: string;
+    statusVerifiedDate: any;
 }
 
 export class HomeHealthEpisodeInfo {
