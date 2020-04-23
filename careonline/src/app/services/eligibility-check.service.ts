@@ -11,7 +11,7 @@ export class EligibilityCheckService {
 
   constructor(private httpClient: HttpClient) { }
 
-  dataFromEligibilityCheck: ResponseReceivedForm[];
+  dataFromEligibilityCheck: ResponseReceivedForm;
 
   // To get list of data
   getFormData(): Observable<any> {
@@ -22,9 +22,13 @@ export class EligibilityCheckService {
     return this.httpClient.post('http://localhost:8080/checkEligibility/write', form);
   }
 
+  getEligibilityData(form: Form): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/checkEligibility/eligibilityDetail', form);
+  }
+
   getEligibilityCheckData() {
     console.log(this.dataFromEligibilityCheck);
-    return this.dataFromEligibilityCheck;
+    return this.dataFromEligibilityCheck.ackn;
   }
 
 

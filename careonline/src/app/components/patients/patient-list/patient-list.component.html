@@ -86,10 +86,16 @@
           <button mat-icon-button color="primary" (click)="onEditPatient(row)">
             <mat-icon>launch</mat-icon>
           </button>
-          <!-- <button mat-icon-button color="warn">
+          <!-- <button mat-icon-button color="warn" (click)="onImageDownload()">
             <mat-icon>delete_outline</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="onPdfDownload()">
+            <mat-icon>print</mat-icon>
           </button> -->
-          <!-- <button mat-icon-button color="warn" (click)="onPrint()">
+          <!-- <button mat-icon-button color="warn" [routerLink]="['/toimage']">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" [routerLink]="['/topdf']">
             <mat-icon>print</mat-icon>
           </button> -->
         </td>

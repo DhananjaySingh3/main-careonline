@@ -119,9 +119,13 @@ export class PatientComponent implements OnInit {
   selectedTab: string;
   selectedTabIndex: number;
 
-  insuranceList: ResponseReceivedForm[];
-  ELEMENT_DATA: ResponseReceivedForm[] = this.insuranceList;
-  dataSource = new MatTableDataSource<ResponseReceivedForm>(this.ELEMENT_DATA);
+  insuranceList: boolean;
+  insuranceDatReceivedList: any[];
+  insuranceListForMatTable: MatTableDataSource<any>;
+
+  // insuranceList: ResponseReceivedForm[];
+  // ELEMENT_DATA: ResponseReceivedForm[] = this.insuranceList;
+  // dataSource = new MatTableDataSource<ResponseReceivedForm>(this.ELEMENT_DATA);
   // dataSource: ResponseReceivedForm[] = this.insuranceList;
 
   constructor(
@@ -228,6 +232,22 @@ export class PatientComponent implements OnInit {
        }
      );
    }*/
+    setTimeout(() => {
+      this.patientFormService.getEligibilityData().subscribe((insuranceListData) => {
+        if (insuranceListData) {
+          console.log('Response Data received for Eligibility insurance list');
+          console.log(insuranceListData);
+          this.insuranceDatReceivedList = { ...insuranceListData };
+          this.insuranceDatReceivedList = insuranceListData;
+          this.insuranceListForMatTable = new MatTableDataSource(this.insuranceDatReceivedList);
+          console.log('Response Data received for Eligibility insurance list prepared for mat table');
+          console.log(this.insuranceListForMatTable);
+        }
+
+      }, (error) => {
+        console.log(error);
+      });
+    });
 
   }
 
@@ -289,10 +309,15 @@ export class PatientComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         console.log('Stacked Dialog Closed: true / false will come ' + result);
         // this.toasterService.success(':: Submitted Successfully');
-        this.insuranceList = {...this.eligibilityCheckService.getEligibilityCheckData()};
-        console.log('Data received from stacked model to patient component start');
+        this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
+        console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
         console.log(this.insuranceList);
         console.log('Data received from stacked model to patient component ends');
+        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
+        if (this.insuranceList) {
+          this.ngOnInit();
+          console.log('ngOnInit() was executed for patient component');
+        }
         if (result) {
           console.log('Confirm is clicked: ' + result);
         }

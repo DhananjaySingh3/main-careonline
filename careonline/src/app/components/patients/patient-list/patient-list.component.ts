@@ -37,6 +37,7 @@ export class PatientListComponent implements OnInit {
 
   searchKey: string;
 
+
   constructor(
     // public httpClient: HttpClient,
     public eligibilityCheckService: EligibilityCheckService,
@@ -118,6 +119,7 @@ export class PatientListComponent implements OnInit {
   // }
 
   onEditPatient(row: Form) {
+    this.patientDataService.getFormFieldsData(row);
     setTimeout(() => {
       this.patientDataService.populatePatientFormData(row);
       const config = new MatDialogConfig();
@@ -143,9 +145,11 @@ export class PatientListComponent implements OnInit {
     });
   }
 
-  onPrint() {
-    console.log('Print called');
+  onPdfDownload() {
+    console.log('Print called for pdf');
   }
 
-
+  onImageDownload() {
+    console.log('Print called for download');
+  }
 }

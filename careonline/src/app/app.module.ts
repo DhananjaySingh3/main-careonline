@@ -35,16 +35,19 @@ import { PatientListComponent } from './components/patients/patient-list/patient
 import { DatePipe } from '@angular/common';
 import { DialogService } from './services/dialog.service';
 import { CurrentInsuranceStatusComponent } from './components/patients/current-insurance-status/current-insurance-status.component';
-import { 
-  MemberInsuranceEligibilityComponent 
+import {
+  MemberInsuranceEligibilityComponent
 } from './components/patients/current-insurance-status/member-insurance-eligibility/member-insurance-eligibility.component';
-import { 
+import {
   HomeHealthInsuranceInfoComponent
  } from './components/patients/current-insurance-status/home-health-insurance-info/home-health-insurance-info.component';
-import { 
-  ViewDetailsDialogComponent 
+import {
+  ViewDetailsDialogComponent
 } from './components/patients/current-insurance-status/view-details-dialog/view-details-dialog.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ToPdfComponent } from './components/print-download/to-pdf/to-pdf.component';
+import { ToImageComponent } from './components/print-download/to-image/to-image.component';
+
 
 
 @NgModule({
@@ -58,7 +61,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     CurrentInsuranceStatusComponent,
     MemberInsuranceEligibilityComponent,
     HomeHealthInsuranceInfoComponent,
-    ViewDetailsDialogComponent
+    ViewDetailsDialogComponent,
+    ToPdfComponent,
+    ToImageComponent
   ],
   imports: [
     BrowserModule,

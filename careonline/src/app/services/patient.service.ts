@@ -32,7 +32,7 @@ export class PatientService {
     public datePipe: DatePipe
   ) { }
 
-  // patient: Form[];
+  formData: Form;
   patientList: Form[] = [];
   // patientList: [AngularFireList<any>];
 
@@ -156,6 +156,11 @@ export class PatientService {
 
   clearFormData() {
     this.clearFormValues();
+  }
+
+  getFormFieldsData(row: Form) {
+    this.formData = row;
+    this.formData = {...row};
   }
 
   // getPatient() {
@@ -373,6 +378,10 @@ export class PatientService {
 
   postFormData(form: Form): Observable<any> {
     return this.httpClient.post('http://localhost:8080/checkEligibility/write', form);
+  }
+
+  getEligibilityData(): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/checkEligibility/eligibilityDetail', this.formData);
   }
 
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { InsuranceEligibility, ResponseReceivedForm } from 'src/app/class-modals/form';
+import { InsuranceEligibility, ResponseReceivedForm, Form } from 'src/app/class-modals/form';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatRadioChange } from '@angular/material';
 import { EligibilityCheckService } from 'src/app/services/eligibility-check.service';
+import { PatientService } from 'src/app/services/patient.service';
 
 
 @Component({
@@ -59,35 +60,62 @@ export class MemberInsuranceEligibilityComponent implements OnInit {
   // ];
 
 
-  data = new Array(this.myInsuranceList);
-  // data = [{...this.myInsuranceList}];
-  ELEMENT_DATA: any | null;
-  // ELEMENT_DATA.push(this.insuranceList);
-  dataSource = new MatTableDataSource(this.data);
+  // data = new Array(this.myInsuranceList);
+  // // data = [{...this.myInsuranceList}];
+  // ELEMENT_DATA: any | null;
+  // // ELEMENT_DATA.push(this.insuranceList);
+  // dataSource = new MatTableDataSource(this.data);
 
   //  insuranceList: any;
 
   //  dataSource: ResponseReceivedForm;
 
+  sendFormDataForEligibilityCheck: Form;
+  insuranceDatReceivedList: any[];
+  insuranceListForMatTable: MatTableDataSource<any>;
+
   constructor(
     public eligibilityCheckService: EligibilityCheckService,
+    public patientService: PatientService,
   ) {
     // this.dataSource = new MatTableDataSource(this.data);
   }
 
   ngOnInit() {
+    // this.sendFormDataForEligibilityCheck = this.patientService.dataReceivedForEligibilityCheck();
+    // console.log(this.sendFormDataForEligibilityCheck);
     // this.ELEMENT_DATA = this.eligibilityCheckService.getEligibilityCheckData();
     // console.log(this.insuranceList);
     // this.dataSource = new MatTableDataSource(this.data);
+    // for sql api
+
+    setTimeout(() => {
+      this.patientService.getEligibilityData().subscribe((insuranceListData) => {
+        if (insuranceListData) {
+          console.log('Response Data received for Eligibility insurance list');
+          console.log(insuranceListData);
+          this.insuranceDatReceivedList = { ...insuranceListData };
+          this.insuranceDatReceivedList = insuranceListData;
+          this.insuranceListForMatTable = new MatTableDataSource(this.insuranceDatReceivedList);
+          console.log('Response Data received for Eligibility insurance list prepare for mat table');
+          console.log(this.insuranceListForMatTable);
+        }
+
+      }, (error) => {
+        console.log(error);
+      });
+    });
+
   }
 
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: ResponseReceivedForm) {
 
-    // if (row) {
-    //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
-    // }
+    if (row) {
+     // return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
+     console.log(row);
+    }
   }
 
 

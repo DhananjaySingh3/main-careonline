@@ -3,7 +3,7 @@ export class ResponseReceivedForm {
     firstName?: string;
     statusVerifiedDate: any;
     endDate: any;
-    ackn?: boolean;
+    ackn: boolean;
     eligibility: string;
     insurancePlanType: string;
     insurancePlanName: string;
