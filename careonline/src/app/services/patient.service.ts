@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '
 // import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Form } from '../class-modals/form';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 
@@ -383,5 +383,31 @@ export class PatientService {
   getEligibilityData(): Observable<any> {
     return this.httpClient.post('http://localhost:8080/checkEligibility/eligibilityDetail', this.formData);
   }
+
+  getPdfData(): Observable<any> {
+    return this.httpClient.get('http://localhost:8080/checkEligibility/viewDetail');
+  }
+
+  /*
+  public getPdfFileStream() {
+   // const url = this.CASE_API_URL + '/' + caseId + '/pdf';
+   // let headers = new HttpHeaders();
+    // headers = headers.set('Accept', 'application/pdf');
+
+    // tslint:disable-next-line: object-literal-shorthand
+
+    // tslint:disable-next-line: max-line-length
+
+    // tslint:disable-next-line: max-line-length
+    // const reqHeader = new HttpHeaders({ 'Content-Type': 'application/pdf', 'Content-Disposition': 'inline; filename=PatientEligiblityDetail.pdf' });
+
+   // return this.httpClient.get('http://localhost:8080/checkEligibility/viewDetail',  { headers: reqHeader, responseType: 'blob' });
+    return this.httpClient.post('http://localhost:8080/checkEligibility/viewDetail',  { responseType: 'blob' });
+  }
+  */
+
+ public getPdfFileStream() {
+  return this.httpClient.get('http://localhost:8080/checkEligibility/generate',  { responseType: 'blob' });
+ }
 
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { InsuranceEligibility, ResponseReceivedForm, Form } from 'src/app/class-modals/form';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatRadioChange } from '@angular/material';
 import { EligibilityCheckService } from 'src/app/services/eligibility-check.service';
 import { PatientService } from 'src/app/services/patient.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { PatientService } from 'src/app/services/patient.service';
   templateUrl: './member-insurance-eligibility.component.html',
   styleUrls: ['./member-insurance-eligibility.component.css']
 })
-export class MemberInsuranceEligibilityComponent implements OnInit {
+export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'insurancePlanType', 'insurancePlanName', 'startDate', 'endtDate', 'eligibility', 'viewDetails'
   ];
@@ -27,8 +28,10 @@ export class MemberInsuranceEligibilityComponent implements OnInit {
   //   { insurancePlanType: 'Secondary', insurancePlanName: 'Company Insurance', startDate: '02/02/2020', endtDate: '31/12/2020', eligibility: 'Eligible', viewDetails: false }
   // ];
 
-  initialSelection = [];
-  allowMultiSelect = false;
+  // initialSelection = [];
+  // allowMultiSelect = false;
+
+  private getEligibilitySubscription: Subscription;
   // dataSource = new MatTableDataSource<InsuranceEligibility>(this.ELEMENT_DATA);
   // selection = new SelectionModel<InsuranceEligibility>(this.allowMultiSelect, this.initialSelection);
   // newDataSource: ResponseReceivedForm[] = null || [
@@ -90,7 +93,7 @@ export class MemberInsuranceEligibilityComponent implements OnInit {
     // for sql api
 
     setTimeout(() => {
-      this.patientService.getEligibilityData().subscribe((insuranceListData) => {
+      this.getEligibilitySubscription = this.patientService.getEligibilityData().subscribe((insuranceListData) => {
         if (insuranceListData) {
           console.log('Response Data received for Eligibility insurance list');
           console.log(insuranceListData);
@@ -113,11 +116,13 @@ export class MemberInsuranceEligibilityComponent implements OnInit {
   checkboxLabel(row?: ResponseReceivedForm) {
 
     if (row) {
-     // return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
-     console.log(row);
+      // return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
+      console.log(row);
     }
   }
 
-
+  ngOnDestroy() {
+   // this.getEligibilitySubscription.unsubscribe();
+  }
 
 }

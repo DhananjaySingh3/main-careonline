@@ -126,7 +126,7 @@ export class PatientListComponent implements OnInit {
       config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
       config.autoFocus = false; // does not allow popup to focus on any field or icon
       config.hasBackdrop = true;
-      config.width = '60%';
+      config.width = '65%';
       // config.position = {top: '50px', left: '50px'};
       // config.id = 'stacked-dialog';
       // name: 'Djay' name can be accessed in Patientcomponent

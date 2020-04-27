@@ -1,5 +1,8 @@
-import { Component, OnInit, Inject, ElementRef, ViewEncapsulation, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent, MatTabGroup, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, Inject, ElementRef, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
+import {
+  MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent,
+  MatTabGroup, MatTableDataSource
+} from '@angular/material';
 import { PatientService } from '../../../services/patient.service';
 import { GenderService } from '../../../services/gender.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -10,6 +13,7 @@ import { StackedModalComponent } from '../../main-modal/stacked-modal/stacked-mo
 import { Form, ResponseReceivedForm, MemberInsuranceHistory } from 'src/app/class-modals/form';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { EligibilityCheckService } from 'src/app/services/eligibility-check.service';
+import { Subscription } from 'rxjs';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -69,16 +73,16 @@ export interface DialogData {
   selector: 'app-patient',
   templateUrl: './patient.component.html',
   styleUrls: ['./patient.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  // animations: [
+  //   trigger('detailExpand', [
+  //     state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+  //     state('expanded', style({ height: '*' })),
+  //     transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+  //   ]),
+  // ],
 
 })
-export class PatientComponent implements OnInit {
+export class PatientComponent implements OnInit, OnDestroy {
   matcher = new MyErrorStateMatcher();
   // events: string[] = [];
   mrnNumber: string;
@@ -90,8 +94,10 @@ export class PatientComponent implements OnInit {
 
   displayedColumns: string[] = [
     'statusVerifiedDate', 'lastName', 'firstName', 'insurancePlanType', 'insurancePlanName', 'eligibilityStartDate',
-    'eligibilityEndDate'
+    'eligibilityEndDate', 'eligibility', 'actions'
   ];
+
+  // 'eligibilityEndDate', 'eligibility', 'viewDetails', 'actions'
 
   // dataSource: MemberInsuranceHistory[] = [
   //   // tslint:disable-next-line: max-line-length
@@ -122,6 +128,13 @@ export class PatientComponent implements OnInit {
   insuranceList: boolean;
   insuranceDatReceivedList: any[];
   insuranceListForMatTable: MatTableDataSource<any>;
+
+  private getEligibilitySubscription: Subscription;
+  private getPdfFileSubscription: Subscription;
+
+
+  // pdfView = false;
+  // pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
 
   // insuranceList: ResponseReceivedForm[];
   // ELEMENT_DATA: ResponseReceivedForm[] = this.insuranceList;
@@ -160,6 +173,7 @@ export class PatientComponent implements OnInit {
     { id: 4, name: 'Brother' },
     { id: 5, name: 'Sister' },
     { id: 6, name: 'Self' },
+    { id: 7, name: 'self' },
   ];
 
   states: State[] = [
@@ -233,10 +247,15 @@ export class PatientComponent implements OnInit {
      );
    }*/
     setTimeout(() => {
-      this.patientFormService.getEligibilityData().subscribe((insuranceListData) => {
+      this.getEligibilitySubscription = this.patientFormService.getEligibilityData().subscribe((insuranceListData) => {
         if (insuranceListData) {
+          //  insuranceListData.push(this.selectedPatientDataReceivedViaDialog.firstName);
           console.log('Response Data received for Eligibility insurance list');
           console.log(insuranceListData);
+          insuranceListData.forEach(element => {
+            element.firstName = this.selectedPatientDataReceivedViaDialog.firstName;
+            element.lastName = this.selectedPatientDataReceivedViaDialog.lastName;
+          });
           this.insuranceDatReceivedList = { ...insuranceListData };
           this.insuranceDatReceivedList = insuranceListData;
           this.insuranceListForMatTable = new MatTableDataSource(this.insuranceDatReceivedList);
@@ -376,5 +395,47 @@ export class PatientComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: ResponseReceivedForm) {
+
+    if (row) {
+      // return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
+      console.log(row);
+    }
+  }
+
+  onViewDetails(row) {
+    // this.pdfView = true;
+    // console.log(row);
+    this.getPdfFileSubscription = this.patientFormService.getPdfFileStream().subscribe((response) => {
+      if (response) {
+        console.log(response);
+        const blob = new Blob([response], { type: response.type });
+
+        // const dataURL = window.URL.createObjectURL(blob);
+        const dataURL = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = dataURL;
+        // link.download = 'Filename.pdf';
+        document.body.appendChild(link);
+        link.target = '_blank';
+        link.click();
+        setTimeout(() => {
+          window.URL.revokeObjectURL(dataURL);
+        }, 1000);
+      } else {
+        console.log('No response');
+      }
+
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  ngOnDestroy() {
+   // this.getEligibilitySubscription.unsubscribe();
+   // this.getPdfFileSubscription.unsubscribe();
+  }
 
 }
