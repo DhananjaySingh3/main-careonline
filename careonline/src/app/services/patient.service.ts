@@ -160,7 +160,7 @@ export class PatientService {
 
   getFormFieldsData(row: Form) {
     this.formData = row;
-    this.formData = {...row};
+    this.formData = { ...row };
   }
 
   // getPatient() {
@@ -406,8 +406,19 @@ export class PatientService {
   }
   */
 
- public getPdfFileStream() {
-  return this.httpClient.get('http://localhost:8080/checkEligibility/generate',  { responseType: 'blob' });
- }
+  //  public getPdfFileStream() {
+  //   return this.httpClient.get('http://localhost:8080/checkEligibility/generate',  { responseType: 'blob' });
+  //  }
+
+  public getPdfFileStream(rowData) {
+    // return this.httpClient.get('http://localhost:8080/checkEligibility/generate',  { responseType: 'blob' });
+    const reqHeader = new HttpHeaders({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'inline; filename=PatientEligiblityDetail.pdf'
+    });
+
+    return this.httpClient.post('http://localhost:8080/checkEligibility/generate', rowData,
+    { headers: reqHeader, responseType: 'blob' });
+  }
 
 }

@@ -32,6 +32,7 @@ export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
   // allowMultiSelect = false;
 
   private getEligibilitySubscription: Subscription;
+  private getPdfFileSubscription: Subscription;
   // dataSource = new MatTableDataSource<InsuranceEligibility>(this.ELEMENT_DATA);
   // selection = new SelectionModel<InsuranceEligibility>(this.allowMultiSelect, this.initialSelection);
   // newDataSource: ResponseReceivedForm[] = null || [
@@ -113,12 +114,40 @@ export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
 
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: ResponseReceivedForm) {
+  // checkboxLabel(row?: ResponseReceivedForm) {
 
-    if (row) {
-      // return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
-      console.log(row);
-    }
+  //   if (row) {
+  //     // return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
+  //     console.log(row);
+  //   }
+  // }
+  onViewDetails(row) {
+    // this.pdfView = true;
+    // console.log(row);
+    this.getPdfFileSubscription = this.patientService.getPdfFileStream(row).subscribe((response) => {
+      if (response) {
+        console.log(response);
+        const blob = new Blob([response], { type: response.type });
+
+        // const dataURL = window.URL.createObjectURL(blob);
+        const dataURL = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = dataURL;
+        // link.download = 'Filename.pdf';
+        document.body.appendChild(link);
+        link.target = '_blank';
+        link.click();
+        setTimeout(() => {
+          window.URL.revokeObjectURL(dataURL);
+        }, 1000);
+      } else {
+        console.log('No response');
+      }
+
+    }, (error) => {
+      console.log(error);
+    });
   }
 
   ngOnDestroy() {

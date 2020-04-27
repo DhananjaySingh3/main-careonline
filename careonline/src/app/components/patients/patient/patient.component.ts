@@ -407,7 +407,7 @@ export class PatientComponent implements OnInit, OnDestroy {
   onViewDetails(row) {
     // this.pdfView = true;
     // console.log(row);
-    this.getPdfFileSubscription = this.patientFormService.getPdfFileStream().subscribe((response) => {
+    this.getPdfFileSubscription = this.patientFormService.getPdfFileStream(row).subscribe((response) => {
       if (response) {
         console.log(response);
         const blob = new Blob([response], { type: response.type });
