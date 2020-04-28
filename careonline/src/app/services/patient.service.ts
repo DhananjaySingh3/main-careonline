@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm, FormArray } from '@angular/forms';
 // import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Form } from '../class-modals/form';
 import { Observable } from 'rxjs';
@@ -24,7 +24,7 @@ import { DatePipe } from '@angular/common';
 export class PatientService {
   // matcher = new MyErrorStateMatcher();
   dataReceivedForEligibilityCheck;
-
+  insuranceDetail: FormArray;
 
   constructor(
     // private firebaseService: AngularFireDatabase
@@ -50,6 +50,7 @@ export class PatientService {
     // age: new FormControl({value: '', disabled: true}),
     // age: new FormControl(''),
     mrnNumber: new FormControl({ value: '', disabled: true }),
+
     insuranceAndDiagnosis: new FormGroup({
       patientReltoInsured: new FormControl({ value: '', disabled: true }, [Validators.required]),
       // insuranceInuse: new FormControl('', [Validators.required]),
@@ -65,6 +66,7 @@ export class PatientService {
       ssn: new FormControl({ value: '', disabled: true }, [Validators.required]),
       mop: new FormControl({ value: '', disabled: true }, [Validators.required]),
     }),
+
     insuranceDetail: new FormGroup({
       policyNumber: new FormControl({ value: '', disabled: true }, [Validators.required]),
       group_name: new FormControl({ value: '', disabled: true }, [Validators.required]),
@@ -75,7 +77,34 @@ export class PatientService {
       state: new FormControl({ value: '', disabled: true }, [Validators.required]),
       zipcode: new FormControl({ value: '', disabled: true }, [Validators.required])
     }),
+    // insuranceDetail: this.insuranceDetailFormBuild(),
+    // primaryTabData: null,
+    // secondaryTabData: null,
+    // tertiaryTabData: null
   });
+
+  primaryTabData: any;
+  insuranceDetailFormBuild(insuranceDetail?: any) {
+
+    for (let i = 0; i <= insuranceDetail.length; i++) {
+      this.
+
+      insuranceDetail[0] ? this.primaryTabData = insuranceDetail[0] : this.primaryTabData = null;
+      insuranceDetail[1] ? this.primaryTabData = insuranceDetail[1] : this.primaryTabData = null;
+      insuranceDetail[2] ? this.primaryTabData = insuranceDetail[2] : this.primaryTabData = null;
+      // insuranceDetails[i]
+    }
+    return new FormGroup({
+      policyNumber: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      group_name: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      insurancePlanName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      insurancePlanType: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      insuranceAddress: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      city: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      state: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      zipcode: new FormControl({ value: '', disabled: true }, [Validators.required])
+    });
+  }
 
   setDefaultFormValues() {
     const formData = {
@@ -175,7 +204,7 @@ export class PatientService {
       lastName: patient.lastName,
       firstName: patient.firstName,
       middleName: patient.middleName,
-      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
+      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
       insuranceAndDiagnosis: {
@@ -183,7 +212,7 @@ export class PatientService {
         insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
         insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
         // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'yyyy-MM-dd'),
+        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
         insuredsex: patient.insuranceAndDiagnosis.insuredsex,
         patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
         insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
@@ -216,7 +245,7 @@ export class PatientService {
       lastName: patient.lastName,
       firstName: patient.firstName,
       middleName: patient.middleName,
-      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
+      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
       insuranceAndDiagnosis: {
@@ -224,7 +253,7 @@ export class PatientService {
         insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
         insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
         // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'yyyy-MM-dd'),
+        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
         insuredsex: patient.insuranceAndDiagnosis.insuredsex,
         patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
         insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
@@ -291,7 +320,7 @@ export class PatientService {
       lastName: patient.lastName,
       firstName: patient.firstName,
       middleName: patient.middleName,
-      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
+      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
       insuranceAndDiagnosis: {
@@ -299,7 +328,7 @@ export class PatientService {
         insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
         insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
         // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'yyyy-MM-dd'),
+        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
         insuredsex: patient.insuranceAndDiagnosis.insuredsex,
         patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
         insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
@@ -330,13 +359,14 @@ export class PatientService {
 
   populatePatientFormData(patient: Form) {
     // let dob = patient.dob.toString().split('T').slice(0);
+    this.insuranceDetailFormBuild(patient.insuranceDetail);
     const formData: Form = {
       // $key: 101,
       mrnNumber: patient.mrnNumber,
       lastName: patient.lastName,
       firstName: patient.firstName,
       middleName: patient.middleName,
-      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
+      dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
       insuranceAndDiagnosis: {
@@ -344,7 +374,7 @@ export class PatientService {
         insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
         insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
         // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'yyyy-MM-dd'),
+        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
         insuredsex: patient.insuranceAndDiagnosis.insuredsex,
         patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
         insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
@@ -363,7 +393,37 @@ export class PatientService {
         city: patient.insuranceDetail.city,
         state: patient.insuranceDetail.state,
         zipcode: patient.insuranceDetail.zipcode
-      }
+      },
+      // primaryTabData: {
+      //   policyNumber: patient.insuranceDetail.policyNumber,
+      //   group_name: patient.insuranceDetail[0].group_name,
+      //   insurancePlanName: patient.insuranceDetail.insurancePlanName,
+      //   insurancePlanType: patient.insuranceDetail.insurancePlanType,
+      //   insuranceAddress: patient.insuranceDetail.insuranceAddress,
+      //   city: patient.insuranceDetail.city,
+      //   state: patient.insuranceDetail.state,
+      //   zipcode: patient.insuranceDetail.zipcode
+      // },
+      // secondaryTabData: {
+      //   policyNumber: patient.insuranceDetail.policyNumber,
+      //   group_name: patient.insuranceDetail.group_name,
+      //   insurancePlanName: patient.insuranceDetail.insurancePlanName,
+      //   insurancePlanType: patient.insuranceDetail.insurancePlanType,
+      //   insuranceAddress: patient.insuranceDetail.insuranceAddress,
+      //   city: patient.insuranceDetail.city,
+      //   state: patient.insuranceDetail.state,
+      //   zipcode: patient.insuranceDetail.zipcode
+      // },
+      // tertiaryTabData: {
+      //   policyNumber: patient.insuranceDetail.policyNumber,
+      //   group_name: patient.insuranceDetail.group_name,
+      //   insurancePlanName: patient.insuranceDetail.insurancePlanName,
+      //   insurancePlanType: patient.insuranceDetail.insurancePlanType,
+      //   insuranceAddress: patient.insuranceDetail.insuranceAddress,
+      //   city: patient.insuranceDetail.city,
+      //   state: patient.insuranceDetail.state,
+      //   zipcode: patient.insuranceDetail.zipcode
+      // }
     };
     // formData.dob = new Date(patient.dob.toDateString().split('T').slice(0));
     // formData.dob = new Date(formData.dob.toDateString().split('T')[0]);
@@ -418,7 +478,7 @@ export class PatientService {
     });
 
     return this.httpClient.post('http://localhost:8080/checkEligibility/generate', rowData,
-    { headers: reqHeader, responseType: 'blob' });
+      { headers: reqHeader, responseType: 'blob' });
   }
 
 }

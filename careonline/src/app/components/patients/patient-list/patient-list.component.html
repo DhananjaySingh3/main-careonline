@@ -62,13 +62,13 @@
       <!-- DOB Column M/d/yyyy-->
       <ng-container matColumnDef="dob">
         <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
-        <td mat-cell *matCellDef="let row">{{row.dob | date:'yyyy-MM-dd'}}</td>
+        <td mat-cell *matCellDef="let row">{{row.dob | date:'dd/MM/yyyy'}}</td>
       </ng-container>
 
       <!-- Insured DOB Column M/d/yyyy-->
       <ng-container matColumnDef="insureddob">
         <th mat-header-cell *matHeaderCellDef>Insured DOB</th>
-        <td mat-cell *matCellDef="let row">{{row.insuranceAndDiagnosis.insureddob | date:'yyyy-MM-dd'}}</td>
+        <td mat-cell *matCellDef="let row">{{row.insuranceAndDiagnosis.insureddob | date:'dd/MM/yyyy'}}</td>
       </ng-container>
 
       <!-- Gender Column -->

@@ -132,7 +132,8 @@
       <!-- Member Insurance History Tab Start -->
       <mat-tab label="Member Insurance History">
         <ng-template matTabContent class="mat-elevation-z8">
-          <table mat-table [dataSource]="insuranceListForMatTable" multiTemplateDataRows class="mat-elevation-z8">
+          <table mat-table [dataSource]="insuranceListForMatTable" class="mat-elevation-z8" matSort
+            matSortActive="statusVerifiedDate" matSortDisableClear matSortDirection="desc">
 
             <!-- <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
               <th mat-header-cell *matHeaderCellDef> {{column}} | titlecase </th>
@@ -142,7 +143,7 @@
             <!-- Status Verified Date Column -->
             <ng-container matColumnDef="statusVerifiedDate">
               <th mat-header-cell *matHeaderCellDef rowspan="3"> Status Verified Date </th>
-              <td mat-cell *matCellDef="let element"> {{element?.statusVerifiedDate | date:'yyyy-MM-dd'}} </td>
+              <td mat-cell *matCellDef="let element"> {{element?.statusVerifiedDate | date:'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Last Name Column -->
@@ -192,13 +193,14 @@
             <!-- Eligibility Start Date Column -->
             <ng-container matColumnDef="eligibilityStartDate">
               <th mat-header-cell *matHeaderCellDef> Start Date </th>
-              <td mat-cell *matCellDef="let element"> {{element?.startDate | date:'yyyy-MM-dd'}} </td>
+              <td mat-cell *matCellDef="let element"> {{element?.startDate | date:'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Eligibility End Date Column -->
             <ng-container matColumnDef="eligibilityEndDate">
               <th mat-header-cell *matHeaderCellDef> End Date </th>
-              <td mat-cell *matCellDef="let element"> {{element?.endDate | date:'yyyy-MM-dd'}} </td>
+              <!-- <td mat-cell *matCellDef="let element"> {{element?.endDate | date:'yyyy-MM-dd'}} </td> -->
+              <td mat-cell *matCellDef="let element"> {{element?.endDate | date:'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Eligibility Column -->
@@ -224,7 +226,7 @@
               <td mat-cell *matCellDef="let row">
                 <button mat-icon-button color="primary" (click)="onViewDetails(row)">
                   <mat-icon matTooltip="View Details">open_with</mat-icon>
-                  <mat-icon>open_with</mat-icon>
+                  <!-- <mat-icon>open_with</mat-icon> -->
                   <!-- <mat-icon>visibility</mat-icon> -->
                 </button>
                 <!-- <button mat-icon-button color="warn" (click)="onImageDownload()">
@@ -293,14 +295,38 @@
               </td>
             </ng-container> -->
 
+            <!-- Footer Column -->
+            <ng-container matColumnDef="loading">
+              <th mat-footer-cell *matFooterCellDef colspan="8">
+                Loading Data ...
+              </th>
+            </ng-container>
+
+            <!-- No Data Found Column -->
+            <ng-container matColumnDef="nodatafound">
+              <th mat-footer-cell *matFooterCellDef colspan="8">
+                No Data Found ...
+              </th>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+            <!-- <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
               [class.example-expanded-row]="expandedElement === element"
               (click)="expandedElement = expandedElement === element ? null : element">
-              >
+    
+            </tr> -->
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': insuranceListForMatTable != null}">
+            </tr>
+            <tr mat-footer-row *matFooterRowDef="['nodatafound']"
+              [ngClass]="{'hide': !(insuranceListForMatTable != null && insuranceListForMatTable.data.length == 0)}">
             </tr>
             <!-- <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
           </table>
+
+          <mat-paginator [length]="resultsLength" [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20]"
+            showFirstLastButtons>
+          </mat-paginator>
 
         </ng-template>
       </mat-tab>
@@ -501,6 +527,10 @@
             <h5>Insurance Details</h5>
             <mat-divider></mat-divider>
             <div formGroupName="insuranceDetail" class="normal-form">
+              <!-- <div formArrayName="insuranceDetail" class="normal-form"> -->
+              <!-- <div *ngFor="let data of patientFormService.form.get('insuranceDetail').controls; let i = index;">
+
+                <div [formGroupName]=" i"> -->
 
               <mat-grid-list cols="2" rowHeight="78px">
                 <mat-grid-tile [colspan]="1" [rowspan]="2">
@@ -646,7 +676,10 @@
                   </div>
                 </mat-grid-tile>
               </mat-grid-list>
+
             </div>
+            <!-- </div>
+            </div> -->
             <!-- Insurance Details: Body content of i.e. Primary Tab starts here -->
 
           </ng-template>

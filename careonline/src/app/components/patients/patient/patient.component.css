@@ -152,3 +152,17 @@ tr.example-element-row:not(.example-expanded-row):active {
   opacity: 0.5;
 } */
 
+/* History data table starts */
+.hide {
+  display: none;
+}
+
+mat-footer-row mat-footer-cell {
+  justify-content: center;
+  font-style: italic;
+}
+
+th.mat-sort-header-sorted {
+  color: red;
+}
+/* History data table ends */

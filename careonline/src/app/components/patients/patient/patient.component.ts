@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ElementRef, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
 import {
   MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent,
-  MatTabGroup, MatTableDataSource
+  MatTabGroup, MatTableDataSource, MatPaginator, MatSort
 } from '@angular/material';
 import { PatientService } from '../../../services/patient.service';
 import { GenderService } from '../../../services/gender.service';
@@ -86,11 +86,16 @@ export class PatientComponent implements OnInit, OnDestroy {
   matcher = new MyErrorStateMatcher();
   // events: string[] = [];
   mrnNumber: string;
-  isLoadingResults = false;
+  // isLoadingResults = false;
   postRequestRespObj: ResponseReceivedForm;
 
   headingReceivedViaDialog = this.data.heading;
   selectedPatientDataReceivedViaDialog = { ...this.data.form };
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  resultsLength = 0;
+  isLoadingResults = true;
 
   displayedColumns: string[] = [
     'statusVerifiedDate', 'lastName', 'firstName', 'insurancePlanType', 'insurancePlanName', 'eligibilityStartDate',
@@ -246,6 +251,11 @@ export class PatientComponent implements OnInit, OnDestroy {
        }
      );
    }*/
+   // this.insuranceDataHistory();
+
+  }
+
+  insuranceDataHistory() {
     setTimeout(() => {
       this.getEligibilitySubscription = this.patientFormService.getEligibilityData().subscribe((insuranceListData) => {
         if (insuranceListData) {
@@ -259,6 +269,10 @@ export class PatientComponent implements OnInit, OnDestroy {
           this.insuranceDatReceivedList = { ...insuranceListData };
           this.insuranceDatReceivedList = insuranceListData;
           this.insuranceListForMatTable = new MatTableDataSource(this.insuranceDatReceivedList);
+          this.insuranceListForMatTable.sort = this.sort;
+          this.insuranceListForMatTable.paginator = this.paginator;
+          // Disallowing user to search data which is not on the page but it is in the array of the subscribe
+          this.isLoadingResults = false;
           console.log('Response Data received for Eligibility insurance list prepared for mat table');
           console.log(this.insuranceListForMatTable);
         }
@@ -267,12 +281,12 @@ export class PatientComponent implements OnInit, OnDestroy {
         console.log(error);
       });
     });
-
   }
 
   onTabChanged(selectedTab) {
     this.selectedTabIndex = selectedTab.index;
     console.log(this.selectedTabIndex);
+    this.insuranceDataHistory();
   }
 
   // onSubmit(form: NgForm) {
@@ -434,8 +448,8 @@ export class PatientComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-   // this.getEligibilitySubscription.unsubscribe();
-   // this.getPdfFileSubscription.unsubscribe();
+    // this.getEligibilitySubscription.unsubscribe();
+    // this.getPdfFileSubscription.unsubscribe();
   }
 
 }
