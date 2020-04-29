@@ -308,7 +308,7 @@ export class PatientComponent implements OnInit, OnDestroy {
   // }
 
 
-  onSubmit() {
+  onSubmit(data) {
     if (this.patientFormService.form.valid) {
       if (!this.patientFormService.form.get('$key').value) {
         this.patientFormService.insertOrCreatePatient(this.patientFormService.form.value);

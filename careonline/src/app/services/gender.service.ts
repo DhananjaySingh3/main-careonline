@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+// import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as _ from 'lodash';
 
 @Injectable({
@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 })
 export class GenderService {
 
+  /*
   genderList: AngularFireList<any>;
   genderListArray = [];
 
@@ -34,5 +35,6 @@ export class GenderService {
   //       return searchObj.$key === $key;
   //     }).name;    }
   // }
+*/
 
 }

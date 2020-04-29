@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, OnDestroy, OnChanges, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { MainModalComponent } from './components/main-modal/main-modal.component';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -15,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog, private elementRef: ElementRef) { }
 
-
+/*
   openDialog(): void {
     // this.service.initializeFormGroup();
     const config = new MatDialogConfig();
@@ -47,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.form = result;
     });
   }
+*/
 
   ngOnInit() {
     // By appending or modal we are showing our modal as direct child of our body element

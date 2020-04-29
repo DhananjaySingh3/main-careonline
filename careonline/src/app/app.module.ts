@@ -5,8 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EligibilityCheckService } from './services/eligibility-check.service';
 import { PatientService } from './services/patient.service';
 
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+// import { AngularFireModule } from 'angularfire2';
+// import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -25,7 +25,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialogConfig
 } from '@angular/material';
-import { MainModalComponent } from './components/main-modal/main-modal.component';
+
 import { StackedModalComponent } from './components/main-modal/stacked-modal/stacked-modal.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { PatientComponent } from './components/patients/patient/patient.component';
@@ -40,20 +40,16 @@ import {
 } from './components/patients/current-insurance-status/member-insurance-eligibility/member-insurance-eligibility.component';
 import {
   HomeHealthInsuranceInfoComponent
- } from './components/patients/current-insurance-status/home-health-insurance-info/home-health-insurance-info.component';
+} from './components/patients/current-insurance-status/home-health-insurance-info/home-health-insurance-info.component';
 import {
   ViewDetailsDialogComponent
 } from './components/patients/current-insurance-status/view-details-dialog/view-details-dialog.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { ToPdfComponent } from './components/print-download/to-pdf/to-pdf.component';
-import { ToImageComponent } from './components/print-download/to-image/to-image.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainModalComponent,
     StackedModalComponent,
     PatientsComponent,
     PatientComponent,
@@ -62,8 +58,7 @@ import { ToImageComponent } from './components/print-download/to-image/to-image.
     MemberInsuranceEligibilityComponent,
     HomeHealthInsuranceInfoComponent,
     ViewDetailsDialogComponent,
-    ToPdfComponent,
-    ToImageComponent
+
   ],
   imports: [
     BrowserModule,
@@ -74,12 +69,11 @@ import { ToImageComponent } from './components/print-download/to-image/to-image.
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule,
-    PdfViewerModule
+    // AngularFireModule.initializeApp(environment.firebaseConfig),
+    // AngularFireDatabaseModule,
   ],
   providers: [
-    GenderService,
+   // GenderService,
     PatientService,
     SnackbarService,
     EligibilityCheckService,
@@ -94,7 +88,7 @@ import { ToImageComponent } from './components/print-download/to-image/to-image.
     DatePipe
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientComponent, PatientsComponent, MainModalComponent, StackedModalComponent]
+  entryComponents: [PatientComponent, PatientsComponent, StackedModalComponent]
 })
 export class AppModule { }
 // platformBrowserDynamic().bootstrapModule(AppModule);

@@ -166,3 +166,22 @@ th.mat-sort-header-sorted {
   color: red;
 }
 /* History data table ends */
+
+div.container {
+  margin: 0px 40px;
+}
+
+form.normal-form {
+  margin: 2px;
+}
+
+.controles-container > * {
+  width: 100%;
+  margin: 6px;
+}
+
+div.controles-container {
+  width: 100%;
+  /* padding: 3%; */
+  margin-right: 2px;
+}
