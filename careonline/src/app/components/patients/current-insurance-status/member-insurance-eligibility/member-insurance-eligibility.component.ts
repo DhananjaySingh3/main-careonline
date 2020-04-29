@@ -21,58 +21,8 @@ export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
   @Output() change: EventEmitter<MatRadioChange>;
   @Input() myInsuranceList: ResponseReceivedForm[];
 
-  // ELEMENT_DATA: InsuranceEligibility[] = [
-  //   // tslint:disable-next-line: max-line-length
-  //   { insurancePlanType: 'Primary', insurancePlanName: 'Medicare', startDate: '02/02/2020', endtDate: '31/12/2020', eligibility: 'Eligible', viewDetails: false },
-  //   // tslint:disable-next-line: max-line-length
-  //   { insurancePlanType: 'Secondary', insurancePlanName: 'Company Insurance', startDate: '02/02/2020', endtDate: '31/12/2020', eligibility: 'Eligible', viewDetails: false }
-  // ];
-
-  // initialSelection = [];
-  // allowMultiSelect = false;
-
   private getEligibilitySubscription: Subscription;
   private getPdfFileSubscription: Subscription;
-  // dataSource = new MatTableDataSource<InsuranceEligibility>(this.ELEMENT_DATA);
-  // selection = new SelectionModel<InsuranceEligibility>(this.allowMultiSelect, this.initialSelection);
-  // newDataSource: ResponseReceivedForm[] = null || [
-  //   {
-  //     insurancePlanType: this.insuranceList.insurancePlanType,
-  //     insurancePlanName: this.insuranceList.insurancePlanName,
-  //     startDate: this.insuranceList.startDate,
-  //     endDate: this.insuranceList.endDate,
-  //     eligibility: this.insuranceList.eligibility,
-  //     viewDetails: false
-  //   }
-  // ];
-
-  // arrayKeys = Object.keys(this.myInsuranceList);
-  // data = this.arrayKeys.map((key) => {
-  //   return {[key]: this.myInsuranceList[key]};
-  // });
-
-  // data = new ResponseReceivedForm();
-  // array = [
-  //   {
-  //     insurancePlanType: this.myInsuranceList.insurancePlanType,
-  //     insurancePlanName: this.myInsuranceList.insurancePlanName,
-  //     startDate: this.myInsuranceList.startDate,
-  //     endDate: this.myInsuranceList.endDate,
-  //     eligibility: this.myInsuranceList.eligibility,
-  //     viewDetails: false
-  //   }
-  // ];
-
-
-  // data = new Array(this.myInsuranceList);
-  // // data = [{...this.myInsuranceList}];
-  // ELEMENT_DATA: any | null;
-  // // ELEMENT_DATA.push(this.insuranceList);
-  // dataSource = new MatTableDataSource(this.data);
-
-  //  insuranceList: any;
-
-  //  dataSource: ResponseReceivedForm;
 
   sendFormDataForEligibilityCheck: Form;
   insuranceDatReceivedList: any[];
@@ -86,13 +36,6 @@ export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.sendFormDataForEligibilityCheck = this.patientService.dataReceivedForEligibilityCheck();
-    // console.log(this.sendFormDataForEligibilityCheck);
-    // this.ELEMENT_DATA = this.eligibilityCheckService.getEligibilityCheckData();
-    // console.log(this.insuranceList);
-    // this.dataSource = new MatTableDataSource(this.data);
-    // for sql api
-
     setTimeout(() => {
       this.getEligibilitySubscription = this.patientService.getEligibilityData().subscribe((insuranceListData) => {
         if (insuranceListData) {
@@ -112,7 +55,6 @@ export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
 
   }
 
-
   /** The label for the checkbox on the passed row */
   // checkboxLabel(row?: ResponseReceivedForm) {
 
@@ -121,9 +63,9 @@ export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
   //     console.log(row);
   //   }
   // }
+
   onViewDetails(row) {
-    // this.pdfView = true;
-    // console.log(row);
+
     this.getPdfFileSubscription = this.patientService.getPdfFileStream(row).subscribe((response) => {
       if (response) {
         console.log(response);
@@ -151,7 +93,7 @@ export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-   // this.getEligibilitySubscription.unsubscribe();
+    // this.getEligibilitySubscription.unsubscribe();
   }
 
 }

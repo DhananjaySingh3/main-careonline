@@ -15,9 +15,6 @@
   <!-- Spinner starts -->
   <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-    <!-- <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
-      GitHub's API rate limit has been reached. It will be reset in one minute.
-    </div> -->
   </div>
   <!-- Spinner ends -->
 
@@ -86,18 +83,6 @@
           <button mat-icon-button color="primary" (click)="onEditPatient(row)">
             <mat-icon>launch</mat-icon>
           </button>
-          <!-- <button mat-icon-button color="warn" (click)="onImageDownload()">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="onPdfDownload()">
-            <mat-icon>print</mat-icon>
-          </button> -->
-          <!-- <button mat-icon-button color="warn" [routerLink]="['/toimage']">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" [routerLink]="['/topdf']">
-            <mat-icon>print</mat-icon>
-          </button> -->
         </td>
       </ng-container>
 

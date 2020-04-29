@@ -153,30 +153,12 @@
               <td mat-cell *matCellDef="let element"> {{element?.lastName}} </td>
             </ng-container>
 
-
-            <!-- <ng-container matColumnDef="lastName">
-              <th mat-header-cell *matHeaderCellDef> Last Name </th>
-              <td mat-cell *matCellDef="let element"> {{element[element.length -1]}} </td>
-            </ng-container> -->
-            <!-- Last Name Column -->
-            <!-- <ng-container matColumnDef="lastName">
-              <th mat-header-cell *matHeaderCellDef> Last Name </th>
-              <td mat-cell *matCellDef="let element"> {{element?.lastName}} </td>
-            </ng-container> -->
-
             <!-- First Name Column -->
             <ng-container matColumnDef="firstName">
               <th mat-header-cell *matHeaderCellDef> First Name </th>
               <!-- <td mat-cell *matCellDef="let element"> {{[element[element.length-1]][0]}} </td> -->
               <td mat-cell *matCellDef="let element"> {{element?.firstName}} </td>
             </ng-container>
-
-
-            <!-- First Name Column -->
-            <!-- <ng-container matColumnDef="firstName">
-              <th mat-header-cell *matHeaderCellDef> First Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-            </ng-container> -->
 
             <!-- Insurance Plan Type Column -->
             <ng-container matColumnDef="insurancePlanType">
@@ -229,71 +211,8 @@
                   <!-- <mat-icon>open_with</mat-icon> -->
                   <!-- <mat-icon>visibility</mat-icon> -->
                 </button>
-                <!-- <button mat-icon-button color="warn" (click)="onImageDownload()">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="onPdfDownload()">
-            <mat-icon>print</mat-icon>
-          </button> -->
-                <!-- <button mat-icon-button color="warn" [routerLink]="['/toimage']">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" [routerLink]="['/topdf']">
-            <mat-icon>print</mat-icon>
-          </button> -->
               </td>
             </ng-container>
-
-            <!-- <ng-template *ngIf="pdfView">
-              <pdf-viewer [src]="pdfSrc" [render-text]="true" [external-link-target]="'blank'" style="display: block;"></pdf-viewer>
-            </ng-template> -->
-
-            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-
-            <!-- <ng-container matColumnDef="expandedDetail">
-              <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                <div class="example-element-detail"
-                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"> -->
-
-
-            <!-- <div class="example-element-diagram"> -->
-            <!-- <div class="example-element-position"> {{row.insurancePlanType}} </div>
-                                <div class="example-element-symbol"> {{row.insurancePlanName}} </div>
-                                <div class="example-element-name"> {{row.eligibilityStartDate}} </div>
-                                <div class="example-element-weight"> {{row.eligibilityEndDate}} </div> -->
-            <!-- </div> -->
-            <!-- <table>
-                    <tr>
-                      <td>{{element.insurancePlanType}}</td>
-                      <td>{{element.insurancePlanName}}</td>
-                      <td>{{element.eligibilityStartDate}}</td>
-                      <td>{{element.eligibilityEndDate}}</td> -->
-            <!-- <td></td>
-                      <td></td>
-                      <td></td> -->
-            <!-- <td>{{element.insurancePlanType}}</td>
-                      <td>{{element.insurancePlanName}}</td>
-                      <td>{{element.eligibilityStartDate}}</td>
-                      <td>{{element.eligibilityEndDate}}</td> -->
-            <!-- </tr>
-                  </table> -->
-
-            <!-- <div class="column-count">
-                    <span class="column-span"> {{element.insurancePlanType}} </span>
-                    <span class="column-span"> {{element.insurancePlanName}} </span>
-                  </div>
-                  <div class="example-element-description">
-                    <div> {{element.insurancePlanName}} </div>
-                  </div>
-                  <div class="example-element-description">
-                    <div> {{element.eligibilityStartDate}} </div>
-                  </div>
-                  <div class="example-element-description">
-                    <div> {{element.eligibilityEndDate}} </div>
-                  </div>
-                </div>
-              </td>
-            </ng-container> -->
 
             <!-- Footer Column -->
             <ng-container matColumnDef="loading">
@@ -310,18 +229,13 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <!-- <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
-              [class.example-expanded-row]="expandedElement === element"
-              (click)="expandedElement = expandedElement === element ? null : element">
-    
-            </tr> -->
             <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
             <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': insuranceListForMatTable != null}">
             </tr>
             <tr mat-footer-row *matFooterRowDef="['nodatafound']"
               [ngClass]="{'hide': !(insuranceListForMatTable != null && insuranceListForMatTable.data.length == 0)}">
             </tr>
-            <!-- <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
+
           </table>
 
           <mat-paginator [length]="resultsLength" [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20]"
@@ -707,19 +621,6 @@
     </div>
     <!-- Tabs (Primary Secondar and Tertiary Tab Section) ENDS here in Health Plan Verification -->
 
-
-    <!-- <div align="right" class="button-row"> -->
-    <!-- <button type="submit" mat-raised-button color="accent" [disabled]="patientFormService.form.invalid">Verify Eligibility</button> -->
-    <!-- <button mat-raised-button color="accent" (click)="openDialog()">Verify Eligibility</button> -->
-    <!-- <button mat-raised-button color="accent">Verify Eligibility</button> -->
-    <!-- <button mat-raised-button color="warn" (click)="onClear()">Clear Form</button> -->
-    <!-- </div> -->
-    <!-- Current Insurance Status Starts here -->
-    <!-- <ng-template *ngIf="selectedTabIndex !== 1">
-    <app-current-insurance-status></app-current-insurance-status>
-    </ng-template> -->
-    <!-- Current Insurance Status ends here -->
-
   </div>
   <!-- Main Mat-Dialog Body/Content End -->
 
@@ -730,8 +631,6 @@
         Eligibility</button>
     </div>
     <button mat-button mat-raised-button color="primary" [mat-dialog-close]="false" (click)="onNoClick()">Close</button>
-    <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onNoClick()">Cancel</button> -->
-    <!-- <button mat-raised-button cdkFocusInitial color="primary" (click)="openDialog()">Ok</button> -->
   </div>
   <!-- Main Mat-Dialog Action Ends -->
 

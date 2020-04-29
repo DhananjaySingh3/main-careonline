@@ -20,30 +20,12 @@ export interface DialogData {
 })
 export class StackedModalComponent implements OnInit {
 
-  // form: FormGroup;
-  // formDataSent = this.data.form;
-
-  // instead of this we can directly use  {{data.heading}} in template
   headingReceived = this.data.heading;
   formDataReceived = this.data.form;
 
   isLoadingResults = false;
   isRateLimitReached = false;
-
-
   responseDatReceived: ResponseReceivedForm;
-
-  /*
-    formDataSent: any = {
-      mrnNumber: this.formDataReceived?.mrnNumber,
-      firstName: this.formDataReceived?.firstName,
-      lastName: this.formDataReceived?.lastName,
-      middleName: this.formDataReceived?.middleName,
-      suffix: this.formDataReceived?.suffix,
-      gender: this.formDataReceived?.gender,
-      dob: this.formDataReceived?.dob
-    };
-    */
 
   constructor(
     public patientFormService: PatientService,

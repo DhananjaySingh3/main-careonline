@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EligibilityCheckService } from '../../../services/eligibility-check.service';
 import { PatientService } from '../../../services/patient.service';
 import { SnackbarService } from '../../../services/snackbar.service';
@@ -8,8 +8,6 @@ import { MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { merge, Observable, of as observableOf } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { PatientComponent } from '../patient/patient.component';
@@ -64,23 +62,6 @@ export class PatientListComponent implements OnInit {
       };
     });
 
-    /*
-     // For firebase
-     this.patientDataService.getPatient().subscribe(list => {
-       this.patientListFbArray = list.map((items) => {
-         // const genderName = this.genderService.getGenderName(items.payload.val().gender);
-         // const genderName = this.genderService.getGenderName(items.payload.val()['gender']);
-         return {
-           // genderName,
-           $key: items.key,
-           ...items.payload.val()
-         };
-       });
-       this.patientDataListForMatTable = new MatTableDataSource(this.patientListFbArray);
-       this.patientDataListForMatTable.sort = this.sort;
-       this.patientDataListForMatTable.paginator = this.paginator;
-     });
-     */
   }
 
   applyFilter(filterValue: string) {

@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject, ElementRef, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
 import {
-  MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent,
+  MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA,
   MatTabGroup, MatTableDataSource, MatPaginator, MatSort
 } from '@angular/material';
+
 import { PatientService } from '../../../services/patient.service';
 import { GenderService } from '../../../services/gender.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -11,7 +12,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { StackedModalComponent } from '../../main-modal/stacked-modal/stacked-modal.component';
 import { Form, ResponseReceivedForm, MemberInsuranceHistory } from 'src/app/class-modals/form';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+
 import { EligibilityCheckService } from 'src/app/services/eligibility-check.service';
 import { Subscription } from 'rxjs';
 
@@ -73,20 +74,11 @@ export interface DialogData {
   selector: 'app-patient',
   templateUrl: './patient.component.html',
   styleUrls: ['./patient.component.css'],
-  // animations: [
-  //   trigger('detailExpand', [
-  //     state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
-  //     state('expanded', style({ height: '*' })),
-  //     transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-  //   ]),
-  // ],
-
 })
+
 export class PatientComponent implements OnInit, OnDestroy {
   matcher = new MyErrorStateMatcher();
-  // events: string[] = [];
   mrnNumber: string;
-  // isLoadingResults = false;
   postRequestRespObj: ResponseReceivedForm;
 
   headingReceivedViaDialog = this.data.heading;
@@ -102,27 +94,6 @@ export class PatientComponent implements OnInit, OnDestroy {
     'eligibilityEndDate', 'eligibility', 'actions'
   ];
 
-  // 'eligibilityEndDate', 'eligibility', 'viewDetails', 'actions'
-
-  // dataSource: MemberInsuranceHistory[] = [
-  //   // tslint:disable-next-line: max-line-length
-  //   { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
-  //   // tslint:disable-next-line: max-line-length
-  //   { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
-  //   // tslint:disable-next-line: max-line-length
-  //   { statusVerifiedDate: 'H', lastName: 'H', firstName: 'H', insurancePlanType: 'Hydrogen', insurancePlanName: 'One', eligibilityStartDate: 1.0079, eligibilityEndDate: 'H' },
-  // ];
-
-  // dataSource: ResponseReceivedForm[] = [
-  // {
-  //   statusVerifiedDate: this.dataSource.beneficieryDetail.l,
-  //   lastName: 'H', firstName: 'H',
-  //   insurancePlanType: 'Hydrogen',
-  //   insurancePlanName: 'One',
-  //   eligibilityStartDate: 1.0079,
-  //   eligibilityEndDate: 'H'
-  // },
-  // ];
   expandedElement: MemberInsuranceHistory | null;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
@@ -136,15 +107,6 @@ export class PatientComponent implements OnInit, OnDestroy {
 
   private getEligibilitySubscription: Subscription;
   private getPdfFileSubscription: Subscription;
-
-
-  // pdfView = false;
-  // pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-
-  // insuranceList: ResponseReceivedForm[];
-  // ELEMENT_DATA: ResponseReceivedForm[] = this.insuranceList;
-  // dataSource = new MatTableDataSource<ResponseReceivedForm>(this.ELEMENT_DATA);
-  // dataSource: ResponseReceivedForm[] = this.insuranceList;
 
   constructor(
     public patientFormService: PatientService,
@@ -239,19 +201,6 @@ export class PatientComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.patientFormService.getFormData();
     this.selectedTabIndex = 0;
-    // this.getDOB();
-    /*
-     this.api.getDataset(experimentId).subscribe(
-       response => {
-           this.tabs = response;
-           this.tabGroup.selectedIndex = 1;
-       },
-       error => {
-           console.log(error);
-       }
-     );
-   }*/
-   // this.insuranceDataHistory();
 
   }
 
@@ -359,44 +308,6 @@ export class PatientComponent implements OnInit, OnDestroy {
     });
   }
 
-
-  /*
-    onConfirmClick() {
-      // this.isLoadingResults = true;
-      this.patientFormService.postFormData(this.patientFormService.form.value).subscribe((response) => {
-        if (response) {
-          this.postRequestRespObj = response;
-          console.log(this.postRequestRespObj);
-        }
-        if (response.Ackn) {
-          this.toasterService.success(':: Submitted Successfully');
-          this.isLoadingResults = false;
-        } else {
-          this.toasterService.warn(':: Something went wrong, Please try again');
-          this.isLoadingResults = false;
-        }
-
-      }, (error) => {
-        this.toasterService.warn(':: Something went wrong, Please try again');
-        this.isLoadingResults = false;
-      });
-    }
-    */
-
-  /*
-    onEligibilityCheck() {
-      this.dialogService.OpenConfirmDialog(this.patientFormService.form.value)
-        .afterClosed().subscribe((response) => {
-          console.log(response);
-          if (response) {
-            this.isLoadingResults = true;
-            this.onConfirmClick();
-          }
-        });
-      // this.patientFormService.dataForEligibilityCheck(this.patientFormService.form.value);
-    }
-    */
-
   // Closing the popup on form submit
   onClose() {
     this.patientFormService.form.reset();
@@ -419,8 +330,7 @@ export class PatientComponent implements OnInit, OnDestroy {
   }
 
   onViewDetails(row) {
-    // this.pdfView = true;
-    // console.log(row);
+
     this.getPdfFileSubscription = this.patientFormService.getPdfFileStream(row).subscribe((response) => {
       if (response) {
         console.log(response);

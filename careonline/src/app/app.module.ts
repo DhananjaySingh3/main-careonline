@@ -41,10 +41,6 @@ import {
 import {
   HomeHealthInsuranceInfoComponent
 } from './components/patients/current-insurance-status/home-health-insurance-info/home-health-insurance-info.component';
-import {
-  ViewDetailsDialogComponent
-} from './components/patients/current-insurance-status/view-details-dialog/view-details-dialog.component';
-
 
 
 @NgModule({
@@ -57,7 +53,6 @@ import {
     CurrentInsuranceStatusComponent,
     MemberInsuranceEligibilityComponent,
     HomeHealthInsuranceInfoComponent,
-    ViewDetailsDialogComponent,
 
   ],
   imports: [
@@ -73,7 +68,7 @@ import {
     // AngularFireDatabaseModule,
   ],
   providers: [
-   // GenderService,
+    // GenderService,
     PatientService,
     SnackbarService,
     EligibilityCheckService,
