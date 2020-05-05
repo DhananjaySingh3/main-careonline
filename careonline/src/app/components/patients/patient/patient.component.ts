@@ -108,6 +108,9 @@ export class PatientComponent implements OnInit, OnDestroy {
   private getEligibilitySubscription: Subscription;
   private getPdfFileSubscription: Subscription;
 
+  primaryChecked = false;
+
+
   constructor(
     public patientFormService: PatientService,
     public eligibilityCheckService: EligibilityCheckService,
@@ -206,7 +209,7 @@ export class PatientComponent implements OnInit, OnDestroy {
 
   insuranceDataHistory() {
     setTimeout(() => {
-      this.getEligibilitySubscription = this.patientFormService.getEligibilityData().subscribe((insuranceListData) => {
+      this.getEligibilitySubscription = this.patientFormService.getEligibilityHistoryData().subscribe((insuranceListData) => {
         if (insuranceListData) {
           //  insuranceListData.push(this.selectedPatientDataReceivedViaDialog.firstName);
           console.log('Response Data received for Eligibility insurance list');
@@ -357,6 +360,44 @@ export class PatientComponent implements OnInit, OnDestroy {
     });
   }
 
+  primarySelected(event) {
+    event.stopPropagation();
+    // this.primaryChecked = !this.primaryChecked;
+    // console.log('Primary Insurance selected: ', event.target.value);
+
+    this.selectedPatientDataReceivedViaDialog.
+      insuranceDetailByPolicy.primaryInsuranceDetail.
+      eligibilityCheckSelected = !this.selectedPatientDataReceivedViaDialog.insuranceDetailByPolicy
+        .primaryInsuranceDetail.eligibilityCheckSelected;
+    console.log(this.selectedPatientDataReceivedViaDialog.
+      insuranceDetailByPolicy.primaryInsuranceDetail.
+      eligibilityCheckSelected);
+  }
+
+  secondarySelected(event) {
+    event.stopPropagation();
+    // this.primaryChecked = !this.primaryChecked;
+    // console.log('Primary Insurance selected: ', event.target.value);
+
+    this.selectedPatientDataReceivedViaDialog.
+      insuranceDetailByPolicy.secondaryInsuranceDetail.
+      eligibilityCheckSelected = !this.selectedPatientDataReceivedViaDialog.insuranceDetailByPolicy
+        .secondaryInsuranceDetail.eligibilityCheckSelected;
+    console.log(this.selectedPatientDataReceivedViaDialog.
+      insuranceDetailByPolicy.secondaryInsuranceDetail.
+      eligibilityCheckSelected);
+  }
+
+  tertiarySelected(event) {
+    event.stopPropagation();
+    this.selectedPatientDataReceivedViaDialog.
+      insuranceDetailByPolicy.tertiaryInsuranceDetail.
+      eligibilityCheckSelected = !this.selectedPatientDataReceivedViaDialog.insuranceDetailByPolicy
+        .tertiaryInsuranceDetail.eligibilityCheckSelected;
+    console.log(this.selectedPatientDataReceivedViaDialog.
+      insuranceDetailByPolicy.tertiaryInsuranceDetail.
+      eligibilityCheckSelected);
+  }
   ngOnDestroy() {
     // this.getEligibilitySubscription.unsubscribe();
     // this.getPdfFileSubscription.unsubscribe();

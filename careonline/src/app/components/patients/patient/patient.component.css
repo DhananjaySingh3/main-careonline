@@ -72,9 +72,10 @@ mat-toolbar mat-toolbar-row {
   padding: 0;
 } */
 
-.mat-dialog-actions {
-  padding: 0px 0px;
-}
+/* .mat-dialog-actions {
+  padding: 0px 52px;
+  change margin top in html to 512 fxLayoutGap="512px"
+} */
 
 div.container {
   margin: 0px 40px;
@@ -184,4 +185,52 @@ div.controles-container {
   width: 100%;
   /* padding: 3%; */
   margin-right: 2px;
+}
+/* Mat expansion panel starts */
+.mat-expansion-panel-header {
+  /* background: #fff;
+  background-color: #fff; */
+  /* border-color: #e4e5e7;
+  border: 1px solid #e4e5e7;
+  padding: 10px 10px;
+  border-radius: 2px; */
+  height: 40px !important;
+  border: 1px solid #e4e5e7;
+  border-radius: 2px;
+  margin-top: 12px;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  /* background: #fff;
+  background-color: #fff; */
+  /* border-color: #e4e5e7;
+  border: 1px solid #e4e5e7;
+  padding: 10px 10px;
+  border-radius: 2px; */
+  height: 40px !important;
+  border: none;
+}
+
+.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel-header.mat-expanded:hover,
+.mat-expansion-panel-header.mat-expanded:focus {
+
+  /* height: 40px !important;
+  background: #fff !important;
+  background-color: #fff !important; */
+  /* border-color: #e4e5e7 !important;
+  border: 1px solid #e4e5e7;
+  padding: 10px 10px;
+  border-radius: 2px; */
+  height: 40px !important;
+}
+
+.disable_ripple:hover {
+  background-color: #fff !important;
+
+}
+/* Mat expansion panel starts */
+
+mat-checkbox {
+  margin-right: 5px;
 }

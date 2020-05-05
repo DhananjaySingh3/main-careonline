@@ -23,12 +23,11 @@ export class PatientListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
   patientList: Form[];
   patientListForMatTable: MatTableDataSource<Form>;
   displayedColumns: string[] = [
-    'mrnNumber', 'suffix', 'lastName', 'firstName',
-    'middleName', 'dob', 'insureddob', 'gender', 'actions'
-  ];
+    'mrnNumber', 'suffix', 'lastName', 'firstName', 'middleName', 'dob', 'gender', 'actions'];
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;

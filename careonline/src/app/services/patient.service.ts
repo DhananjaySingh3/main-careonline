@@ -51,38 +51,93 @@ export class PatientService {
     // age: new FormControl(''),
     mrnNumber: new FormControl({ value: '', disabled: true }),
 
-    insuranceAndDiagnosis: new FormGroup({
-      patientReltoInsured: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      // insuranceInuse: new FormControl('', [Validators.required]),
-      insuredlastName: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuredfirstName: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuredmiddleName: new FormControl({ value: '', disabled: true }, []),
-      insureddob: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuredsex: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuredAddress: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuredCity: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuredState: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuredzipcode: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      ssn: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      mop: new FormControl({ value: '', disabled: true }, [Validators.required]),
+    insuranceDetailByPolicy: new FormGroup({
+      policyId: new FormControl({ value: '', disabled: true }, [Validators.required]),
+
+      primaryInsuranceDetail: new FormGroup({
+        ssn: new FormControl({ value: '', disabled: true }),
+        mop: new FormControl({ value: '', disabled: true }),
+        patientRelationInsured: new FormControl({ value: '', disabled: true }),
+        insuredlastName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredfirstName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredmiddleName: new FormControl({ value: '', disabled: true }, []),
+        insureddob: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredsex: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        eligibility: new FormControl({ value: '', disabled: true }),
+        eligibilityCheckSelected: new FormControl({ value: '', disabled: false }),
+        id: new FormControl({ value: '', disabled: true }),
+        statusVerifiedDate: new FormControl({ value: '', disabled: true }),
+        policyNumber: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        group_name: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insurancePlanName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insurancePlanType: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuranceAddress: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        city: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        state: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        zipcode: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        endDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        startDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        mrnNumber: new FormControl({ value: '', disabled: true }),
+      }),
+
+      secondaryInsuranceDetail: new FormGroup({
+        ssn: new FormControl({ value: '', disabled: true }),
+        mop: new FormControl({ value: '', disabled: true }),
+        patientRelationInsured: new FormControl({ value: '', disabled: true }),
+        insuredlastName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredfirstName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredmiddleName: new FormControl({ value: '', disabled: true }, []),
+        insureddob: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredsex: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        eligibility: new FormControl({ value: '', disabled: true }),
+        eligibilityCheckSelected: new FormControl({ value: '', disabled: false }),
+        id: new FormControl({ value: '', disabled: true }),
+        statusVerifiedDate: new FormControl({ value: '', disabled: true }),
+        policyNumber: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        group_name: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insurancePlanName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insurancePlanType: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuranceAddress: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        city: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        state: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        zipcode: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        endDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        startDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        mrnNumber: new FormControl({ value: '', disabled: true }),
+      }),
+
+      tertiaryInsuranceDetail: new FormGroup({
+        ssn: new FormControl({ value: '', disabled: true }),
+        mop: new FormControl({ value: '', disabled: true }),
+        patientRelationInsured: new FormControl({ value: '', disabled: true }),
+        insuredlastName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredfirstName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredmiddleName: new FormControl({ value: '', disabled: true }, []),
+        insureddob: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuredsex: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        eligibility: new FormControl({ value: '', disabled: true }),
+        eligibilityCheckSelected: new FormControl({ value: '', disabled: false }),
+        id: new FormControl({ value: '', disabled: true }),
+        statusVerifiedDate: new FormControl({ value: '', disabled: true }),
+        policyNumber: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        group_name: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insurancePlanName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insurancePlanType: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        insuranceAddress: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        city: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        state: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        zipcode: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        endDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        startDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
+        mrnNumber: new FormControl({ value: '', disabled: true }),
+      }),
+
     }),
 
-    insuranceDetail: new FormGroup({
-      policyNumber: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      group_name: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insurancePlanName: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insurancePlanType: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      insuranceAddress: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      city: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      state: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      zipcode: new FormControl({ value: '', disabled: true }, [Validators.required])
-    }),
-    // insuranceDetail: this.insuranceDetailFormBuild(),
-    // primaryTabData: null,
-    // secondaryTabData: null,
-    // tertiaryTabData: null
   });
 
+
+  /*
   primaryTabData: any;
   insuranceDetailFormBuild(insuranceDetail?: any) {
 
@@ -105,6 +160,7 @@ export class PatientService {
       zipcode: new FormControl({ value: '', disabled: true }, [Validators.required])
     });
   }
+*/
 
   setDefaultFormValues() {
     const formData = {
@@ -121,7 +177,7 @@ export class PatientService {
         insuredmiddleName: '',
         insureddob: '31/3/2000',
         insuredsex: 'Male',
-        patientReltoInsured: 'Mother',
+        patientRelationInsured: 'Mother',
         insuredAddress: '#10 , Church Road',
         insuredCity: 'New York',
         insuredState: 'Washington DC',
@@ -160,7 +216,7 @@ export class PatientService {
         insuredmiddleName: '',
         insureddob: '',
         insuredsex: '',
-        patientReltoInsured: '',
+        patientRelationInsured: '',
         insuredAddress: '',
         insuredCity: '0',
         insuredState: '0',
@@ -207,31 +263,100 @@ export class PatientService {
       dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
-      insuranceAndDiagnosis: {
-        insuredlastName: patient.insuranceAndDiagnosis.insuredlastName,
-        insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
-        insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
-        // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
-        insuredsex: patient.insuranceAndDiagnosis.insuredsex,
-        patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
-        insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
-        insuredCity: patient.insuranceAndDiagnosis.insuredCity,
-        insuredState: patient.insuranceAndDiagnosis.insuredState,
-        insuredzipcode: patient.insuranceAndDiagnosis.insuredzipcode,
-        ssn: patient.insuranceAndDiagnosis.ssn,
-        mop: patient.insuranceAndDiagnosis.mop,
-      },
-      insuranceDetail: {
-        policyNumber: patient.insuranceDetail.policyNumber,
-        group_name: patient.insuranceDetail.group_name,
-        insurancePlanName: patient.insuranceDetail.insurancePlanName,
-        insurancePlanType: patient.insuranceDetail.insurancePlanType,
-        insuranceAddress: patient.insuranceDetail.insuranceAddress,
-        city: patient.insuranceDetail.city,
-        state: patient.insuranceDetail.state,
-        zipcode: patient.insuranceDetail.zipcode
+      insuranceDetailByPolicy: {
+        policyId: patient.insuranceDetailByPolicy.policyId,
+        primaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.primaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.primaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.primaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.primaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.primaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.primaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.primaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mrnNumber,
+        },
+        secondaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mrnNumber,
+        },
+        tertiaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mrnNumber,
+        },
       }
+
     });
   }
 
@@ -248,64 +373,100 @@ export class PatientService {
       dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
-      insuranceAndDiagnosis: {
-        insuredlastName: patient.insuranceAndDiagnosis.insuredlastName,
-        insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
-        insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
-        // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
-        insuredsex: patient.insuranceAndDiagnosis.insuredsex,
-        patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
-        insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
-        insuredCity: patient.insuranceAndDiagnosis.insuredCity,
-        insuredState: patient.insuranceAndDiagnosis.insuredState,
-        insuredzipcode: patient.insuranceAndDiagnosis.insuredzipcode,
-        ssn: patient.insuranceAndDiagnosis.ssn,
-        mop: patient.insuranceAndDiagnosis.mop
-      },
-      insuranceDetail: {
-        policyNumber: patient.insuranceDetail.policyNumber,
-        group_name: patient.insuranceDetail.group_name,
-        insurancePlanName: patient.insuranceDetail.insurancePlanName,
-        insurancePlanType: patient.insuranceDetail.insurancePlanType,
-        insuranceAddress: patient.insuranceDetail.insuranceAddress,
-        city: patient.insuranceDetail.city,
-        state: patient.insuranceDetail.state,
-        zipcode: patient.insuranceDetail.zipcode
+      insuranceDetailByPolicy: {
+        policyId: patient.insuranceDetailByPolicy.policyId,
+        primaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.primaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.primaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.primaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.primaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.primaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.primaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.primaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mrnNumber,
+        },
+        secondaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mrnNumber,
+        },
+        tertiaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mrnNumber,
+        },
       }
     };
-    // this.patientList.update( {
-    //   mrnNumber: patient.mrnNumber,
-    //   lastName: patient.lastName,
-    //   firstName: patient.firstName,
-    //   middleName: patient.middleName,
-    //   dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'yyyy-MM-dd'),
-    //   gender: patient.gender,
-    //   insuranceAndDiagnosis: {
-    //     insuredlastName: patient.insuredlastName,
-    //     insuredfirstName: patient.insuredfirstName,
-    //     insuredmiddleName: patient.insuredmiddleName,
-    //     insureddob: patient.insureddob === '' ? '' : this.datePipe.transform(patient.insureddob, 'yyyy-MM-dd'),
-    //     insuredsex: patient.insuredsex,
-    //     patientReltoInsured: patient.patientReltoInsured,
-    //     insuredAddress: patient.insuredAddress,
-    //     insuredCity: patient.insuredCity,
-    //     insuredState: patient.insuredState,
-    //     insuredzipcode: patient.insuredzipcode,
-    //     ssn: patient.ssn,
-    //     modeofPayment: patient.modeofPayment,
-    //   },
-    //   insuranceDetails: {
-    //     policyNumber: patient.modeofPayment,
-    //     group: patient.modeofPayment,
-    //     insurancePlanName: patient.modeofPayment,
-    //     insurancePlanType: patient.modeofPayment,
-    //     insuranceAddress: patient.modeofPayment,
-    //     insuranceCity: patient.modeofPayment,
-    //     insuranceState: patient.modeofPayment,
-    //     insurancezipcode: patient.modeofPayment
-    //   }
-    // });
 
     console.log(formData);
   }
@@ -323,30 +484,98 @@ export class PatientService {
       dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
-      insuranceAndDiagnosis: {
-        insuredlastName: patient.insuranceAndDiagnosis.insuredlastName,
-        insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
-        insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
-        // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
-        insuredsex: patient.insuranceAndDiagnosis.insuredsex,
-        patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
-        insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
-        insuredCity: patient.insuranceAndDiagnosis.insuredCity,
-        insuredState: patient.insuranceAndDiagnosis.insuredState,
-        insuredzipcode: patient.insuranceAndDiagnosis.insuredzipcode,
-        ssn: patient.insuranceAndDiagnosis.ssn,
-        mop: patient.insuranceAndDiagnosis.mop
-      },
-      insuranceDetail: {
-        policyNumber: patient.insuranceDetail.policyNumber,
-        group_name: patient.insuranceDetail.group_name,
-        insurancePlanName: patient.insuranceDetail.insurancePlanName,
-        insurancePlanType: patient.insuranceDetail.insurancePlanType,
-        insuranceAddress: patient.insuranceDetail.insuranceAddress,
-        city: patient.insuranceDetail.city,
-        state: patient.insuranceDetail.state,
-        zipcode: patient.insuranceDetail.zipcode
+      insuranceDetailByPolicy: {
+        policyId: patient.insuranceDetailByPolicy.policyId,
+        primaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.primaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.primaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.primaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.primaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.primaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.primaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.primaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mrnNumber,
+        },
+        secondaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mrnNumber,
+        },
+        tertiaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mrnNumber,
+        },
       }
     };
     // console.log(formData);
@@ -359,7 +588,7 @@ export class PatientService {
 
   populatePatientFormData(patient: Form) {
     // let dob = patient.dob.toString().split('T').slice(0);
-    this.insuranceDetailFormBuild(patient.insuranceDetail);
+    // this.insuranceDetailFormBuild(patient.insuranceDetail);
     const formData: Form = {
       // $key: 101,
       mrnNumber: patient.mrnNumber,
@@ -369,65 +598,104 @@ export class PatientService {
       dob: patient.dob === '' ? '' : this.datePipe.transform(patient.dob, 'dd-MM-yyyy'),
       gender: patient.gender,
       suffix: patient.suffix,
-      insuranceAndDiagnosis: {
-        insuredlastName: patient.insuranceAndDiagnosis.insuredlastName,
-        insuredfirstName: patient.insuranceAndDiagnosis.insuredfirstName,
-        insuredmiddleName: patient.insuranceAndDiagnosis.insuredmiddleName,
-        // tslint:disable-next-line: max-line-length
-        insureddob: patient.insuranceAndDiagnosis.insureddob === '' ? '' : this.datePipe.transform(patient.insuranceAndDiagnosis.insureddob, 'dd-MM-yyyy'),
-        insuredsex: patient.insuranceAndDiagnosis.insuredsex,
-        patientReltoInsured: patient.insuranceAndDiagnosis.patientReltoInsured,
-        insuredAddress: patient.insuranceAndDiagnosis.insuredAddress,
-        insuredCity: patient.insuranceAndDiagnosis.insuredCity,
-        insuredState: patient.insuranceAndDiagnosis.insuredState,
-        insuredzipcode: patient.insuranceAndDiagnosis.insuredzipcode,
-        ssn: patient.insuranceAndDiagnosis.ssn,
-        mop: patient.insuranceAndDiagnosis.mop
-      },
-      insuranceDetail: {
-        policyNumber: patient.insuranceDetail.policyNumber,
-        group_name: patient.insuranceDetail.group_name,
-        insurancePlanName: patient.insuranceDetail.insurancePlanName,
-        insurancePlanType: patient.insuranceDetail.insurancePlanType,
-        insuranceAddress: patient.insuranceDetail.insuranceAddress,
-        city: patient.insuranceDetail.city,
-        state: patient.insuranceDetail.state,
-        zipcode: patient.insuranceDetail.zipcode
-      },
-      // primaryTabData: {
-      //   policyNumber: patient.insuranceDetail.policyNumber,
-      //   group_name: patient.insuranceDetail[0].group_name,
-      //   insurancePlanName: patient.insuranceDetail.insurancePlanName,
-      //   insurancePlanType: patient.insuranceDetail.insurancePlanType,
-      //   insuranceAddress: patient.insuranceDetail.insuranceAddress,
-      //   city: patient.insuranceDetail.city,
-      //   state: patient.insuranceDetail.state,
-      //   zipcode: patient.insuranceDetail.zipcode
-      // },
-      // secondaryTabData: {
-      //   policyNumber: patient.insuranceDetail.policyNumber,
-      //   group_name: patient.insuranceDetail.group_name,
-      //   insurancePlanName: patient.insuranceDetail.insurancePlanName,
-      //   insurancePlanType: patient.insuranceDetail.insurancePlanType,
-      //   insuranceAddress: patient.insuranceDetail.insuranceAddress,
-      //   city: patient.insuranceDetail.city,
-      //   state: patient.insuranceDetail.state,
-      //   zipcode: patient.insuranceDetail.zipcode
-      // },
-      // tertiaryTabData: {
-      //   policyNumber: patient.insuranceDetail.policyNumber,
-      //   group_name: patient.insuranceDetail.group_name,
-      //   insurancePlanName: patient.insuranceDetail.insurancePlanName,
-      //   insurancePlanType: patient.insuranceDetail.insurancePlanType,
-      //   insuranceAddress: patient.insuranceDetail.insuranceAddress,
-      //   city: patient.insuranceDetail.city,
-      //   state: patient.insuranceDetail.state,
-      //   zipcode: patient.insuranceDetail.zipcode
-      // }
+      insuranceDetailByPolicy: {
+        policyId: patient.insuranceDetailByPolicy.policyId,
+        primaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.primaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.primaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.primaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.primaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.primaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.primaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.primaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.primaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.primaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.primaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.primaryInsuranceDetail.mrnNumber,
+        },
+        secondaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.secondaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.secondaryInsuranceDetail.mrnNumber,
+        },
+        tertiaryInsuranceDetail: {
+          ssn: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.ssn,
+          mop: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mop,
+          patientRelationInsured: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.patientRelationInsured,
+          id: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.id,
+          insuredlastName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredlastName,
+          insuredfirstName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredfirstName,
+          insuredmiddleName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredmiddleName,
+          // tslint:disable-next-line: max-line-length
+          insureddob: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insureddob, 'dd-MM-yyyy'),
+          insuredsex: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuredsex,
+          eligibility: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibility,
+          eligibilityCheckSelected: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibilityCheckSelected,
+          policyNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.policyNumber,
+          statusVerifiedDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.statusVerifiedDate, 'dd-MM-yyyy'),
+          group_name: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.group_name,
+          insurancePlanName: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanName,
+          insurancePlanType: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insurancePlanType,
+          insuranceAddress: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.insuranceAddress,
+          city: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.city,
+          state: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.state,
+          zipcode: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.zipcode,
+          endDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.endDate, 'dd-MM-yyyy'),
+          startDate: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate === '' ? '' :
+            this.datePipe.transform(patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.startDate, 'dd-MM-yyyy'),
+          mrnNumber: patient.insuranceDetailByPolicy.tertiaryInsuranceDetail.mrnNumber,
+        },
+      }
     };
     // formData.dob = new Date(patient.dob.toDateString().split('T').slice(0));
     // formData.dob = new Date(formData.dob.toDateString().split('T')[0]);
     this.form.setValue(patient);
+    this.form.patchValue({ 'patient.insuranceDetailByPolicy.policyId': null });
     // this.form.controls.modeofPayment = patient.insuranceAndDiagnosis.mop;
   }
 
@@ -440,6 +708,7 @@ export class PatientService {
     return this.httpClient.post('http://localhost:8080/checkEligibility/write', form);
   }
 
+  /* Current Insurance Details*/
   getEligibilityData(): Observable<any> {
     return this.httpClient.post('http://localhost:8080/checkEligibility/eligibilityDetail', this.formData);
   }
@@ -448,32 +717,15 @@ export class PatientService {
     return this.httpClient.get('http://localhost:8080/checkEligibility/viewDetail');
   }
 
-  /*
-  public getPdfFileStream() {
-   // const url = this.CASE_API_URL + '/' + caseId + '/pdf';
-   // let headers = new HttpHeaders();
-    // headers = headers.set('Accept', 'application/pdf');
-
-    // tslint:disable-next-line: object-literal-shorthand
-
-    // tslint:disable-next-line: max-line-length
-
-    // tslint:disable-next-line: max-line-length
-    // const reqHeader = new HttpHeaders({ 'Content-Type': 'application/pdf', 'Content-Disposition': 'inline; filename=PatientEligiblityDetail.pdf' });
-
-   // return this.httpClient.get('http://localhost:8080/checkEligibility/viewDetail',  { headers: reqHeader, responseType: 'blob' });
-    return this.httpClient.post('http://localhost:8080/checkEligibility/viewDetail',  { responseType: 'blob' });
+  /* History Insurance Details*/
+  getEligibilityHistoryData(): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/checkEligibility/eligibilityDetailHistory', this.formData);
   }
-  */
-
-  //  public getPdfFileStream() {
-  //   return this.httpClient.get('http://localhost:8080/checkEligibility/generate',  { responseType: 'blob' });
-  //  }
 
   public getPdfFileStream(rowData) {
     // return this.httpClient.get('http://localhost:8080/checkEligibility/generate',  { responseType: 'blob' });
     const reqHeader = new HttpHeaders({
-      'Content-Type': 'application/pdf',
+      'Content-Type': 'application/json',
       'Content-Disposition': 'inline; filename=PatientEligiblityDetail.pdf'
     });
 

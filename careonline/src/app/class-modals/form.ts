@@ -13,19 +13,14 @@ export class ResponseReceivedForm {
 
 export class Form {
     // $key: string;
-    mrnNumber: string;
-    lastName: string;
-    firstName: string;
-    middleName: string;
-    dob: any;
-    gender: string;
-    suffix: string;
-    // age: number;
-    insuranceDetail: InsuranceDetail;
-    insuranceAndDiagnosis: InsuranceAndDiagnosis;
-    // statusVerifiedDate?: any;
-    // startDate?: any;
-    // endDate?: any;
+    mrnNumber?: string;
+    lastName?: string;
+    firstName?: string;
+    middleName?: string;
+    dob?: any;
+    gender?: string;
+    suffix?: string;
+    insuranceDetailByPolicy?: InsuranceDetailByPolicy;
 }
 
 export class InsuranceAndDiagnosis {
@@ -44,16 +39,89 @@ export class InsuranceAndDiagnosis {
     mop: string;
 }
 
-export class InsuranceDetail {
-    policyNumber: string;
-    // tslint:disable-next-line: variable-name
-    group_name: string;
-    insurancePlanName: string;
-    insurancePlanType: string;
-    insuranceAddress: string;
-    city: string;
-    state: string;
-    zipcode: number;
+export class InsuranceDetailByPolicy {
+    policyId?: string;
+    primaryInsuranceDetail?: PrimaryInsuranceDetail;
+    secondaryInsuranceDetail?: SecondaryInsuranceDetail;
+    tertiaryInsuranceDetail?: TertiaryInsuranceDetail;
+}
+
+export class PrimaryInsuranceDetail {
+    insuredlastName?: string;
+    insuredfirstName?: string;
+    insuredmiddleName?: string;
+    insureddob?: any;
+    insuredsex?: string;
+    eligibility?: string;
+    eligibilityCheckSelected?: boolean;
+    id?: number;
+    policyNumber?: string;
+    statusVerifiedDate?: any;
+    'group_name'?: string;
+    insurancePlanName?: string;
+    insurancePlanType?: string;
+    insuranceAddress?: string;
+    city?: string;
+    state?: string;
+    zipcode?: number;
+    endDate?: any;
+    startDate?: any;
+    mrnNumber?: string;
+    ssn?: string;
+    mop?: string;
+    patientRelationInsured?: string;
+}
+
+export class TertiaryInsuranceDetail {
+    insuredlastName?: string;
+    insuredfirstName?: string;
+    insuredmiddleName?: string;
+    insureddob?: any;
+    insuredsex?: string;
+    eligibility?: string;
+    eligibilityCheckSelected?: boolean;
+    id?: number;
+    policyNumber?: string;
+    statusVerifiedDate?: any;
+    'group_name'?: string;
+    insurancePlanName?: string;
+    insurancePlanType?: string;
+    insuranceAddress?: string;
+    city?: string;
+    state?: string;
+    zipcode?: number;
+    endDate?: any;
+    startDate?: any;
+    mrnNumber?: string;
+    ssn?: string;
+    mop?: string;
+    patientRelationInsured?: string;
+}
+
+export class SecondaryInsuranceDetail {
+    insuredlastName?: string;
+    insuredfirstName?: string;
+    insuredmiddleName?: string;
+    insureddob?: any;
+    insuredsex?: string;
+    eligibility?: string;
+    eligibilityCheckSelected?: boolean;
+    id?: number;
+    policyNumber?: string;
+    statusVerifiedDate?: any;
+    'group_name'?: string;
+    insurancePlanName?: string;
+    insurancePlanType?: string;
+    insuranceAddress?: string;
+    city?: string;
+    state?: string;
+    zipcode?: number;
+    endDate?: any;
+    startDate?: any;
+    mrnNumber?: string;
+    ssn?: string;
+    mop?: string;
+    patientRelationInsured?: string;
 }
 
 export class MemberInsuranceHistory {

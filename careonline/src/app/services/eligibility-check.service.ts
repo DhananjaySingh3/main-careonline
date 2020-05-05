@@ -28,7 +28,7 @@ export class EligibilityCheckService {
 
   getEligibilityCheckData() {
     console.log(this.dataFromEligibilityCheck);
-    return this.dataFromEligibilityCheck.ackn;
+    return this.dataFromEligibilityCheck.ackn || null;
   }
 
 
