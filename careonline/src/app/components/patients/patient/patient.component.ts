@@ -204,7 +204,7 @@ export class PatientComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.patientFormService.getFormData();
     this.selectedTabIndex = 0;
-
+    console.log('Tertiary Value: ' , this.tertiaryInsuranceDetail);
   }
 
   insuranceDataHistory() {
@@ -402,6 +402,18 @@ export class PatientComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // this.getEligibilitySubscription.unsubscribe();
     // this.getPdfFileSubscription.unsubscribe();
+  }
+
+  get secondaryInsuranceDetail() {
+    return this.patientFormService.form.get('insuranceDetailByPolicy.secondaryInsuranceDetail').value.eligibilityCheckSelected;
+  }
+
+  get tertiaryInsuranceDetail() {
+    return this.patientFormService.form.get('insuranceDetailByPolicy.tertiaryInsuranceDetail').value.eligibilityCheckSelected;
+  }
+
+  get primaryInsuranceDetail() {
+    return this.patientFormService.form.get('insuranceDetailByPolicy.primaryInsuranceDetail').value.eligibilityCheckSelected;
   }
 
 }

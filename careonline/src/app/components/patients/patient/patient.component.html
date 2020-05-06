@@ -147,8 +147,9 @@
             <div formGroupName="insuranceDetailByPolicy" class="normal-form"
               *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.value != null">
               <!-- Primary Insurance: Subscriber's first last and middle name starts-->
-              <div formGroupName="primaryInsuranceDetail" class="normal-form"
-                *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.get('primaryInsuranceDetail')?.value != null">
+              <!-- <div formGroupName="primaryInsuranceDetail" class="normal-form"
+                *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.get('primaryInsuranceDetail')?.value != null"> -->
+              <div formGroupName="primaryInsuranceDetail" class="normal-form" *ngIf="primaryInsuranceDetail !== null">
                 <mat-expansion-panel>
                   <mat-expansion-panel-header class="disable_ripple">
                     <mat-panel-title>
@@ -276,7 +277,7 @@
               *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.value != null">
               <!-- Primary Insurance: Subscriber's first last and middle name starts-->
               <div formGroupName="secondaryInsuranceDetail" class="normal-form"
-                *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.get('secondaryInsuranceDetail')?.value != null">
+                *ngIf="secondaryInsuranceDetail !== null">
                 <mat-expansion-panel>
                   <mat-expansion-panel-header class="disable_ripple">
                     <mat-panel-title>
@@ -404,7 +405,7 @@
               *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.value != null">
               <!-- Tertiary Insurance: Subscriber's first last and middle name starts-->
               <div formGroupName="tertiaryInsuranceDetail" class="normal-form"
-                *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.get('tertiaryInsuranceDetail')?.value != null">
+                *ngIf="tertiaryInsuranceDetail !== null">
                 <mat-expansion-panel>
                   <mat-expansion-panel-header class="disable_ripple">
                     <mat-panel-title>
