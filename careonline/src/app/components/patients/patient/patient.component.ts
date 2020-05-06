@@ -260,6 +260,7 @@ export class PatientComponent implements OnInit, OnDestroy {
   // }
 
 
+
   onSubmit(data) {
     if (this.patientFormService.form.valid) {
       if (!this.patientFormService.form.get('$key').value) {

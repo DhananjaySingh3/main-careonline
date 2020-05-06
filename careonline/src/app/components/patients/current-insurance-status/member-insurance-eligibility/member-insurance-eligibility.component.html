@@ -14,27 +14,34 @@
   </mat-expansion-panel-header>
 
   <table mat-table [dataSource]="insuranceListForMatTable" class="mat-elevation-z8">
+
+    <!-- Status Verified Date Column -->
+    <ng-container matColumnDef="statusVerifiedDate">
+      <th mat-header-cell *matHeaderCellDef rowspan="3"> Status Verified Date </th>
+      <td mat-cell *matCellDef="let element"> {{element?.statusVerifiedDate | date:'M/d/yyyy'}} </td>
+    </ng-container>
+
     <!-- Insurance Plan Type Column -->
     <ng-container matColumnDef="insurancePlanType">
       <th mat-header-cell *matHeaderCellDef> Insurance Type </th>
-      <td mat-cell *matCellDef="let element"> {{element?.insuranceDetail?.insurancePlanType}} </td>
+      <td mat-cell *matCellDef="let element"> {{element?.insurancePlanType}} </td>
     </ng-container>
     <!-- Insurance Plan Name Column -->
     <ng-container matColumnDef="insurancePlanName">
       <th mat-header-cell *matHeaderCellDef> Insurance Name </th>
-      <td mat-cell *matCellDef="let element"> {{element?.insuranceDetail?.insurancePlanName}} </td>
+      <td mat-cell *matCellDef="let element"> {{element?.insurancePlanName}} </td>
     </ng-container>
 
     <!-- Insurance Start Date Column -->
     <ng-container matColumnDef="startDate">
       <th mat-header-cell *matHeaderCellDef> Start Date </th>
-      <td mat-cell *matCellDef="let element"> {{element?.startDate | date:'dd/MM/yyyy'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element?.startDate | date:'M/d/yyyy'}} </td>
     </ng-container>
 
     <!-- Insurance End Date Column -->
     <ng-container matColumnDef="endtDate">
       <th mat-header-cell *matHeaderCellDef> End Date </th>
-      <td mat-cell *matCellDef="let element"> {{element?.endDate | date:'dd/MM/yyyy'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element?.endDate | date:'M/d/yyyy'}} </td>
     </ng-container>
 
     <!-- Eligibility Column -->

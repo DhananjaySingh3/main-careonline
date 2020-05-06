@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class MemberInsuranceEligibilityComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
-    'insurancePlanType', 'insurancePlanName', 'startDate', 'endtDate', 'eligibility', 'viewDetails'
+    'statusVerifiedDate', 'insurancePlanType', 'insurancePlanName', 'startDate', 'endtDate', 'eligibility', 'viewDetails'
   ];
 
   @Output() change: EventEmitter<MatRadioChange>;
