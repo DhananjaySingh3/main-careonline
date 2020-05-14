@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm, FormArray } from '@angular/forms';
 // import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Form } from '../class-modals/form';
-import { Observable } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
@@ -25,6 +25,9 @@ export class PatientService {
   // matcher = new MyErrorStateMatcher();
   dataReceivedForEligibilityCheck;
   insuranceDetail: FormArray;
+
+  readonly apiUrl = 'http://localhost:8080/checkEligibility';
+  currentInsuranceList = new Subject<any[]>();
 
   constructor(
     // private firebaseService: AngularFireDatabase
@@ -135,6 +138,14 @@ export class PatientService {
     }),
 
   });
+
+  refreshPage() {
+    return this.currentInsuranceList.asObservable();
+  }
+
+  // get refreshPage() {
+  //   return this.insuranceDatReceivedList;
+  // }
 
 
   /*
@@ -363,7 +374,6 @@ export class PatientService {
   // For Update / inserting data in dB
 
   updatePatient(patient: Form) {
-    console.log(patient);
     const formData: Form = {
       // $key: 101,
       mrnNumber: patient.mrnNumber,
@@ -838,25 +848,28 @@ export class PatientService {
 
   // To get list of data
   getFormData(): Observable<any> {
-    return this.httpClient.get('http://localhost:8080/checkEligibility/read');
+    return this.httpClient.get(this.apiUrl + '/read');
   }
 
   postFormData(form: Form): Observable<any> {
-    return this.httpClient.post('http://localhost:8080/checkEligibility/write', form);
+    return this.httpClient.post(this.apiUrl + '/write', form);
   }
 
   /* Current Insurance Details*/
   getEligibilityData(): Observable<any> {
-    return this.httpClient.post('http://localhost:8080/checkEligibility/eligibilityDetail', this.formData);
+    return this.httpClient.post(this.apiUrl + '/eligibilityDetail', this.formData);
+    // .pipe(() => {
+    //   this.subjectRefresh.next();
+    // });
   }
 
   getPdfData(): Observable<any> {
-    return this.httpClient.get('http://localhost:8080/checkEligibility/viewDetail');
+    return this.httpClient.get(this.apiUrl + '/viewDetail');
   }
 
   /* History Insurance Details*/
   getEligibilityHistoryData(): Observable<any> {
-    return this.httpClient.post('http://localhost:8080/checkEligibility/eligibilityDetailHistory', this.formData);
+    return this.httpClient.post(this.apiUrl + '/eligibilityDetailHistory', this.formData);
   }
 
   public getPdfFileStream(rowData) {
@@ -866,7 +879,7 @@ export class PatientService {
       'Content-Disposition': 'inline; filename=PatientEligiblityDetail.pdf'
     });
 
-    return this.httpClient.post('http://localhost:8080/checkEligibility/generate', rowData,
+    return this.httpClient.post(this.apiUrl + '/generate', rowData,
       { headers: reqHeader, responseType: 'blob' });
   }
 

@@ -5,54 +5,43 @@
 <!-- Spinner ends -->
 
 <!-- Patient Form Starts Here -->
-<form [formGroup]="patientFormService.form" class="normal-form" (ngSubmit)="onSubmit(patientFormService.form)"
-  fxLayoutGap="8px">
+<form [formGroup]="patientFormService.patientForm" class="normal-form"
+  (ngSubmit)="onConfirmClick(patientFormService.patientForm)" fxLayoutGap="8px">
 
   <!-- Main Mat-Dialog Hearder Start -->
   <mat-toolbar>
     <mat-toolbar-row>
       <span class="fill-remaining-space"></span>
       <span>
-        <h5 mat-dialog-title>Member Eligibility Details</h5>
+        <h5 mat-dialog-title>{{heading}}</h5>
       </span>
       <span class="fill-remaining-space"></span>
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="onNoClick()" tabindex="-1">
         close
       </mat-icon>
-      <!-- (click)="onNoClick() -->
     </mat-toolbar-row>
   </mat-toolbar>
   <!-- Main Mat-Dialog Hearder Ends -->
 
   <!-- Main Mat-Dialog Body/Content Start -->
   <div mat-dialog-content>
-
     <!-- Tabs in Main Doalog Starts here -->
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChanged($event)" [selectedIndex]="selectedTabIndex">
       <!-- (selectedTabChange)="onTabChanged($event)" [selectedIndex]="1" -->
       <!-- Health Plan Verification Tab Start -->
       <mat-tab label="Health Plan Verification">
         <ng-template matTabContent>
-          <!-- Member Demographic details STARTS here in Health Plan Verification -->
-          <!-- <div *ngIf="selectedTabIndex === 0"> -->
           <mat-accordion>
-            <!-- <mat-expansion-panel expanded color="primary"> -->
             <mat-expansion-panel>
               <mat-expansion-panel-header class="disable_ripple">
-
                 <mat-panel-title>
-                  <!-- <mat-checkbox color="primary" (click)="$event.stopPropagation()"
-                      (keydown)="$event.stopPropagation()">
-                      Member Demographic
-                    </mat-checkbox> -->
                   Member Demographic
                 </mat-panel-title>
-
                 <mat-panel-description>
                   <!-- Member Demographic -->
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <mat-grid-list cols="3" rowHeight="78px">
+              <mat-grid-list cols="3" rowHeight="70px">
                 <mat-grid-tile [colspan]="1" [rowspan]="3">
                   <div class="controles-container">
                     <!-- <input type="hidden" formControlName="$key"> -->
@@ -65,9 +54,9 @@
                     <mat-form-field class="no-padding">
                       <input matInput [matDatepicker]="dob" placeholder="Enter date of birth" formControlName="dob"
                         [errorStateMatcher]="matcher"
-                        [value]="patientFormService.form.controls?.dob.value | date:'yyyy-MM-dd'" required>
+                        [value]="patientFormService.patientForm.controls?.dob.value | date:'yyyy-MM-dd'" required>
                       <mat-label>Date of birth</mat-label>
-                      <!-- <mat-error *ngIf="patientFormService.form.controls['dob'].hasError('required')"date:'MMMM d, y'">
+                      <!-- <mat-error *ngIf="patientFormService.patientForm.controls['dob'].hasError('required')"date:'MMMM d, y'">
                         Date of birth is <strong>required</strong>
                       </mat-error> -->
                       <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
@@ -76,7 +65,7 @@
 
                     <mat-form-field class="no-padding">
                       <input matInput formControlName="mrnNumber"
-                        [value]="patientFormService.form.controls?.mrnNumber.value">
+                        [value]="patientFormService.patientForm.controls?.mrnNumber.value">
                       <mat-label>MRN Number</mat-label>
                     </mat-form-field>
 
@@ -95,17 +84,10 @@
                       <mat-label>Gender</mat-label>
                       <mat-select formControlName="gender" required>
                         <mat-option>--</mat-option>
-                        <!-- <ng-container *ngFor="let gender of genders; let i = index" value="gender.id">
-                      <mat-option>{{gender.name}}</mat-option>
-                    </ng-container> -->
-                        <mat-option *ngFor="let gender of genders; let i = index" [value]="gender.name">
+                        <mat-option *ngFor="let gender of genders().values(); let i = index" [value]="gender.name">
                           {{gender.name}}
                         </mat-option>
                       </mat-select>
-                      <!-- <mat-error *ngIf="patientFormService.form.controls['gender'].hasError('required')">
-                        Please select gender
-                      </mat-error>
-                      <mat-hint>{{patientFormService.form.controls.gender.value?.name}}</mat-hint> -->
                     </mat-form-field>
 
                   </div>
@@ -117,17 +99,13 @@
                       <input matInput #input placeholder="Enter middle name" formControlName="middleName"
                         [errorStateMatcher]="matcher">
                       <mat-label>Middle Name</mat-label>
-                      <!-- <mat-hint align="end">{{patientFormService.form.controls.middleName.value?.length || 0}}/15</mat-hint>
-                      <mat-hint>Min 8 characters</mat-hint>
-                      <mat-error *ngIf="patientFormService.form.controls['middleName'].hasError('pattern')">
-                        Please enter a valid middle name
-                      </mat-error> -->
                     </mat-form-field>
                     <mat-form-field class="no-padding">
                       <mat-label>Suffix</mat-label>
-                      <mat-select [formControl]="patientFormService.form.controls.suffix">
+                      <!-- <mat-select [formControl]="patientFormService.patientForm.controls.suffix"> -->
+                      <mat-select formControlName="suffix">
                         <mat-option>--</mat-option>
-                        <mat-option *ngFor="let suffix of suffixes" [value]="suffix.name">
+                        <mat-option *ngFor="let suffix of suffixes().values()" [value]="suffix.name">
                           {{suffix.name}}
                         </mat-option>
                       </mat-select>
@@ -136,19 +114,14 @@
                 </mat-grid-tile>
               </mat-grid-list>
             </mat-expansion-panel>
-            <!-- </mat-accordion> -->
-            <!-- </div> -->
             <!-- Member Demographic details ENDS here in Health Plan Verification -->
 
             <!-- Primary Insurance details STARTS here in Health Plan Verification -->
-            <!-- <div *ngIf="selectedTabIndex === 0"> -->
-            <!-- <mat-accordion> -->
-            <!-- Primary Insurance Details<mat-expansion-panel expanded color="primary"> -->
             <div formGroupName="insuranceDetailByPolicy" class="normal-form"
-              *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.value != null">
+              *ngIf="patientFormService.patientForm.get('insuranceDetailByPolicy')?.value != null">
               <!-- Primary Insurance: Subscriber's first last and middle name starts-->
               <!-- <div formGroupName="primaryInsuranceDetail" class="normal-form"
-                *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.get('primaryInsuranceDetail')?.value != null"> -->
+                *ngIf="patientFormService.patientForm.get('insuranceDetailByPolicy')?.get('primaryInsuranceDetail')?.value != null"> -->
               <div formGroupName="primaryInsuranceDetail" class="normal-form" *ngIf="primaryInsuranceDetail !== null">
                 <mat-expansion-panel>
                   <mat-expansion-panel-header class="disable_ripple">
@@ -180,14 +153,14 @@
                           <mat-label>Sex</mat-label>
                           <mat-select formControlName="insuredsex" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                            <mat-option *ngFor="let gender of genders().values()" [value]="gender.name">
                               {{gender.name}}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
 
                         <mat-form-field class="example-full-width">
-                          <input matInput #input placeholder="Enter insured last name" formControlName="policyNumber"
+                          <input matInput #input placeholder="Policy Number" formControlName="policyNumber"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>Policy Number</mat-label>
                         </mat-form-field>
@@ -212,18 +185,18 @@
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
                             formControlName="insureddob"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('primaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('primaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>Date Of Birth</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
                           <mat-datepicker #insureddob></mat-datepicker>
                         </mat-form-field>
-                        <!-- [value]="patientFormService.form.controls.insuranceAndDiagnosis.controls.insureddob.value| date:'yyyy-MM-dd'" -->
+                        <!-- [value]="patientFormService.patientForm.controls.insuranceAndDiagnosis.controls.insureddob.value| date:'yyyy-MM-dd'" -->
 
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="startDate" placeholder="Select Start Date"
                             formControlName="startDate"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('primaryInsuranceDetail').get('startDate').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('primaryInsuranceDetail').get('startDate').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>Start Date</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
@@ -246,7 +219,7 @@
                           <mat-label>Patient Relationship To Insured</mat-label>
                           <mat-select formControlName="patientRelationInsured" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let relation of relations" [value]="relation.name">
+                            <mat-option *ngFor="let relation of relations().values()" [value]="relation.name">
                               {{relation.name}}
                             </mat-option>
                           </mat-select>
@@ -255,7 +228,7 @@
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="endDate" placeholder="Select End Date"
                             formControlName="endDate"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('primaryInsuranceDetail').get('endDate').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('primaryInsuranceDetail').get('endDate').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>End Date</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
@@ -274,7 +247,7 @@
 
             <!-- Secondary Insurance Details starts -->
             <div formGroupName="insuranceDetailByPolicy" class="normal-form"
-              *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.value != null">
+              *ngIf="patientFormService.patientForm.get('insuranceDetailByPolicy')?.value != null">
               <!-- Primary Insurance: Subscriber's first last and middle name starts-->
               <div formGroupName="secondaryInsuranceDetail" class="normal-form"
                 *ngIf="secondaryInsuranceDetail !== null">
@@ -308,7 +281,7 @@
                           <mat-label>Sex</mat-label>
                           <mat-select formControlName="insuredsex" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                            <mat-option *ngFor="let gender of genders().values()" [value]="gender.name">
                               {{gender.name}}
                             </mat-option>
                           </mat-select>
@@ -340,18 +313,18 @@
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="insureddob2" placeholder="Enter date of birth"
                             formControlName="insureddob"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('secondaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('secondaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>Date Of Birth</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="insureddob2"></mat-datepicker-toggle>
                           <mat-datepicker #insureddob2></mat-datepicker>
                         </mat-form-field>
-                        <!-- [value]="patientFormService.form.controls.insuranceAndDiagnosis.controls.insureddob.value| date:'yyyy-MM-dd'" -->
+                        <!-- [value]="patientFormService.patientForm.controls.insuranceAndDiagnosis.controls.insureddob.value| date:'yyyy-MM-dd'" -->
 
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="startDate2" placeholder="Select Start Date"
                             formControlName="startDate"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('secondaryInsuranceDetail').get('startDate').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('secondaryInsuranceDetail').get('startDate').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>Start Date</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="startDate2"></mat-datepicker-toggle>
@@ -374,7 +347,7 @@
                           <mat-label>Patient Relationship To Insured</mat-label>
                           <mat-select formControlName="patientRelationInsured" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let relation of relations" [value]="relation.name">
+                            <mat-option *ngFor="let relation of relations().values()" [value]="relation.name">
                               {{relation.name}}
                             </mat-option>
                           </mat-select>
@@ -383,7 +356,7 @@
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="endDate2" placeholder="Select End Date"
                             formControlName="endDate"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('secondaryInsuranceDetail').get('endDate').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('secondaryInsuranceDetail').get('endDate').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>End Date</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="endDate2"></mat-datepicker-toggle>
@@ -402,7 +375,7 @@
 
             <!-- Tertiary Insurance Details starts -->
             <div formGroupName="insuranceDetailByPolicy" class="normal-form"
-              *ngIf="patientFormService.form.get('insuranceDetailByPolicy')?.value != null">
+              *ngIf="patientFormService.patientForm.get('insuranceDetailByPolicy')?.value != null">
               <!-- Tertiary Insurance: Subscriber's first last and middle name starts-->
               <div formGroupName="tertiaryInsuranceDetail" class="normal-form" *ngIf="tertiaryInsuranceDetail !== null">
                 <mat-expansion-panel>
@@ -435,7 +408,7 @@
                           <mat-label>Sex</mat-label>
                           <mat-select formControlName="insuredsex" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                            <mat-option *ngFor="let gender of genders().values()" [value]="gender.name">
                               {{gender.name}}
                             </mat-option>
                           </mat-select>
@@ -467,18 +440,18 @@
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="insureddob3" placeholder="Enter date of birth"
                             formControlName="insureddob"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('tertiaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('tertiaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>Date Of Birth</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="insureddob3"></mat-datepicker-toggle>
                           <mat-datepicker #insureddob3></mat-datepicker>
                         </mat-form-field>
-                        <!-- [value]="patientFormService.form.controls.insuranceAndDiagnosis.controls.insureddob.value| date:'yyyy-MM-dd'" -->
+                        <!-- [value]="patientFormService.patientForm.controls.insuranceAndDiagnosis.controls.insureddob.value| date:'yyyy-MM-dd'" -->
 
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="startDate3" placeholder="Select Start Date"
                             formControlName="startDate"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('tertiaryInsuranceDetail').get('startDate').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('tertiaryInsuranceDetail').get('startDate').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>Start Date</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="startDate3"></mat-datepicker-toggle>
@@ -501,7 +474,7 @@
                           <mat-label>Patient Relationship To Insured</mat-label>
                           <mat-select formControlName="patientRelationInsured" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let relation of relations" [value]="relation.name">
+                            <mat-option *ngFor="let relation of relations().values()" [value]="relation.name">
                               {{relation.name}}
                             </mat-option>
                           </mat-select>
@@ -510,7 +483,7 @@
                         <mat-form-field class="example-full-width">
                           <input matInput [matDatepicker]="endDate3" placeholder="Select End Date"
                             formControlName="endDate"
-                            [value]="patientFormService.form.get('insuranceDetailByPolicy').get('tertiaryInsuranceDetail').get('endDate').value | date:'yyyy-MM-dd'"
+                            [value]="patientFormService.patientForm.get('insuranceDetailByPolicy').get('tertiaryInsuranceDetail').get('endDate').value | date:'yyyy-MM-dd'"
                             [errorStateMatcher]="matcher" required>
                           <mat-label>End Date</mat-label>
                           <mat-datepicker-toggle matSuffix [for]="endDate3"></mat-datepicker-toggle>
@@ -528,167 +501,34 @@
             <!-- Tertiary Insurance Details ends -->
 
             <!-- Current Insurance Status Details starts -->
-            <app-current-insurance-status [insuranceList]="insuranceList"></app-current-insurance-status>
+            <app-current-insurance></app-current-insurance>
             <!-- Current Insurance Status Details ends -->
 
             <!-- Home Health Details starts -->
 
-
             <!-- Home Health Details ends -->
 
           </mat-accordion>
-          <!-- </div> -->
-          <!-- Primary Insurance details ENDS here in Health Plan Verification -->
-
         </ng-template>
-
       </mat-tab>
       <!-- Health Plan Verification Tab Ends -->
 
       <!-- Member Insurance History Tab Start -->
       <mat-tab label="Member Insurance History">
         <ng-template matTabContent class="mat-elevation-z8">
-          <mat-accordion>
-            <mat-expansion-panel expanded>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Member Insurance History
-                </mat-panel-title>
-                <mat-panel-description>
-                  <!-- Member Insurance History -->
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="example-container mat-elevation-z8">
-                <div class="example-table-container">
-                  <table mat-table [dataSource]="insuranceListForMatTable" matSort
-                    matSortActive="statusVerifiedDate" matSortDisableClear matSortDirection="desc">
-
-                    <!-- <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
-                <th mat-header-cell *matHeaderCellDef> {{column}} | titlecase </th>
-                <td mat-cell *matCellDef="let row"> {{row[column]}} </td>
-              </ng-container> -->
-
-                    <!-- Status Verified Date Column -->
-                    <ng-container matColumnDef="statusVerifiedDate">
-                      <th mat-header-cell *matHeaderCellDef rowspan="3"> Status Verified Date </th>
-                      <td mat-cell *matCellDef="let element"> {{element?.statusVerifiedDate | date:'M/d/yyyy'}} </td>
-                    </ng-container>
-
-                    <!-- Last Name Column -->
-                    <ng-container matColumnDef="lastName">
-                      <th mat-header-cell *matHeaderCellDef> Last Name </th>
-                      <!-- <td mat-cell *matCellDef="let element"> {{[element[element.length-1]][0]}} </td> -->
-                      <td mat-cell *matCellDef="let element"> {{element?.lastName}} </td>
-                    </ng-container>
-
-                    <!-- First Name Column -->
-                    <ng-container matColumnDef="firstName">
-                      <th mat-header-cell *matHeaderCellDef> First Name </th>
-                      <!-- <td mat-cell *matCellDef="let element"> {{[element[element.length-1]][0]}} </td> -->
-                      <td mat-cell *matCellDef="let element"> {{element?.firstName}} </td>
-                    </ng-container>
-
-                    <!-- Insurance Plan Type Column -->
-                    <ng-container matColumnDef="insurancePlanType">
-                      <th mat-header-cell *matHeaderCellDef> Insurance Type </th>
-                      <!-- <td mat-cell *matCellDef="let element"> {{element?.primaryInsuranceDetail?.insurancePlanType}} </td> -->
-                      <td mat-cell *matCellDef="let element"> {{element?.insurancePlanType}} </td>
-                    </ng-container>
-
-                    <!-- Insurance Plan Name Column -->
-                    <ng-container matColumnDef="insurancePlanName">
-                      <th mat-header-cell *matHeaderCellDef> Insurance Name </th>
-                      <!-- <td mat-cell *matCellDef="let element"> {{element?.primaryInsuranceDetail?.insurancePlanName}} </td> -->
-                      <td mat-cell *matCellDef="let element"> {{element?.insurancePlanName}} </td>
-                    </ng-container>
-
-                    <!-- Eligibility Start Date Column -->
-                    <ng-container matColumnDef="eligibilityStartDate">
-                      <th mat-header-cell *matHeaderCellDef> Start Date </th>
-                      <td mat-cell *matCellDef="let element"> {{element?.startDate | date:'M/d/yyyy'}} </td>
-                    </ng-container>
-
-                    <!-- Eligibility End Date Column -->
-                    <ng-container matColumnDef="eligibilityEndDate">
-                      <th mat-header-cell *matHeaderCellDef> End Date </th>
-                      <!-- <td mat-cell *matCellDef="let element"> {{element?.endDate | date:'yyyy-MM-dd'}} </td> -->
-                      <td mat-cell *matCellDef="let element"> {{element?.endDate | date:'M/d/yyyy'}} </td>
-                    </ng-container>
-
-                    <!-- Eligibility Column -->
-                    <ng-container matColumnDef="eligibility">
-                      <th mat-header-cell *matHeaderCellDef> Status</th>
-                      <td mat-cell *matCellDef="let element"> {{element?.eligibility | titlecase}} </td>
-                    </ng-container>
-
-                    <!-- View Eligibility Details Column -->
-                    <!-- <ng-container matColumnDef="viewDetails">
-                <th mat-header-cell *matHeaderCellDef> View Details </th>
-                <td mat-cell *matCellDef="let element">
-                  <mat-radio-button (click)="$event.stopPropagation()" [aria-label]="checkboxLabel(element)">
-                    View Details
-                  </mat-radio-button>
-                </td>
-  
-              </ng-container> -->
-
-                    <!-- Actions Column -->
-                    <ng-container matColumnDef="actions">
-                      <th mat-header-cell *matHeaderCellDef>Actions</th>
-                      <td mat-cell *matCellDef="let row">
-                        <button mat-icon-button color="primary" (click)="onViewDetails(row)">
-                          <mat-icon matTooltip="View Details">open_with</mat-icon>
-                          <!-- <mat-icon>open_with</mat-icon> -->
-                          <!-- <mat-icon>visibility</mat-icon> -->
-                        </button>
-                      </td>
-                    </ng-container>
-
-                    <!-- Footer Column -->
-                    <ng-container matColumnDef="loading">
-                      <th mat-footer-cell *matFooterCellDef colspan="8">
-                        Loading Data ...
-                      </th>
-                    </ng-container>
-
-                    <!-- No Data Found Column -->
-                    <ng-container matColumnDef="nodatafound">
-                      <th mat-footer-cell *matFooterCellDef colspan="8">
-                        No Data Found ...
-                      </th>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-                    <tr mat-footer-row *matFooterRowDef="['loading']"
-                      [ngClass]="{'hide': insuranceListForMatTable != null}">
-                    </tr>
-                    <tr mat-footer-row *matFooterRowDef="['nodatafound']"
-                      [ngClass]="{'hide': !(insuranceListForMatTable != null && insuranceListForMatTable.data.length == 0)}">
-                    </tr>
-
-                  </table>
-                </div>
-                <mat-paginator [length]="resultsLength" [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20]"
-                  showFirstLastButtons>
-                </mat-paginator>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-
+          <app-insurance-history></app-insurance-history>
         </ng-template>
       </mat-tab>
       <!-- Member Insurance History Tab Ends -->
 
     </mat-tab-group>
     <!-- Tabs in Main Doalog Ends here -->
-
   </div>
   <!-- Main Mat-Dialog Body/Content End -->
 
   <!-- Main Mat-Dialog Action Start -->
   <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
-    <div *ngIf="selectedTabIndex === 0">
+    <div>
       <button mat-button mat-raised-button color="accent" (click)="onEligibilityCheck()">Verify
         Eligibility</button>
     </div>

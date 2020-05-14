@@ -41,6 +41,7 @@ import {
 import {
   HomeHealthInsuranceInfoComponent
 } from './components/patients/current-insurance-status/home-health-insurance-info/home-health-insurance-info.component';
+import { HeaderComponent } from './shared/header/header.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {
     CurrentInsuranceStatusComponent,
     MemberInsuranceEligibilityComponent,
     HomeHealthInsuranceInfoComponent,
+    HeaderComponent,
 
   ],
   imports: [
@@ -85,5 +87,9 @@ import {
   bootstrap: [AppComponent],
   entryComponents: [PatientComponent, PatientsComponent, StackedModalComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    console.log('App Module Loaded');
+  }
+}
 // platformBrowserDynamic().bootstrapModule(AppModule);

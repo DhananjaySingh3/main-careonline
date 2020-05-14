@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+/* Mat expansion panel starts */
+.mat-expansion-panel-header {
+  height: 40px !important;
+  border: 1px solid #e4e5e7;
+  border-radius: 2px;
+  /* margin-top: 12px; */
+  margin: 12px 0px;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 40px !important;
+  border: none;
+}
+
+.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel-header.mat-expanded:hover,
+.mat-expansion-panel-header.mat-expanded:focus {
+  height: 40px !important;
+}
+
+.disable_ripple:hover {
+  background-color: #fff !important;
+}
+/* Mat expansion panel starts */

@@ -234,3 +234,16 @@ div.controles-container {
 mat-checkbox {
   margin-right: 5px;
 }
+
+.example-container {
+  /* position: relative; */
+  /* min-height: 200px; */
+  height: 300px;
+  overflow: auto;
+}
+
+.example-table-container {
+  /* position: relative; */
+  max-height: 300px;
+  overflow: auto;
+}

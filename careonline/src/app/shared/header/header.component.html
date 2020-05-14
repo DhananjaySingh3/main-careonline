@@ -1,0 +1,39 @@
+<!-- <mat-toolbar color="primary">
+  <div>
+    <!-- <button mat-icon-button (click)="sidenav.toggle()"> -->
+<!-- <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div> -->
+<!-- <div fxLayoutGap="12px" fxLayoutAlign="center center">
+    <a routerLink="/"><img src="../assets/devglan.png" height="54px" width="102px" alt="Logo"></a>
+    <a routerLink="/">Home</a>
+  </div> -->
+<!-- <div fxFlex fxLayout fxLayoutAlign="flex-end">
+    <ul fxLayout fxLayoutGap="10px" class="navigation-items"> -->
+<!-- SignUp and Login should be visible only when user is NOT logged in -->
+<!-- <li *ngIf="!isAuth"><a routerLink="/signup">SignUp</a></li>
+      <li *ngIf="!isAuth"><a routerLink="/login">Login</a></li>
+      <!-- Training and Logout should be visible only when user is logged in -->
+<!-- <li *ngIf="isAuth"><a routerLink="/training">Training</a></li>
+      <li *ngIf="isAuth"><a style="cursor: pointer;" (click)="onLogout()">Logout</a></li>
+    </ul>
+  </div>
+</mat-toolbar> -->
+
+<mat-toolbar color="primary">
+  <div>
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div>
+    <a>CareOnline LOGO</a>
+  </div>
+  <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+    <ul fxLayout class="navigation-items" fxLayoutGap="12px">
+      <li><a routerLink="/eligibility-check" routerLinkActive="active">Eligibility</a></li>
+      <li><a routerLink="/preauthorization" routerLinkActive="active">Preauthorization</a></li>
+    </ul>
+  </div>
+</mat-toolbar>

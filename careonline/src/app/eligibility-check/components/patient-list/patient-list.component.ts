@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EligibilityCheckService } from '../../../services/eligibility-check.service';
 import { PatientService } from '../../../services/patient.service';
 import { SnackbarService } from '../../../services/snackbar.service';
-import { Form } from '../../../class-modals/form';
+
 import { MatTableDataSource } from '@angular/material';
 
 import { HttpClient } from '@angular/common/http';
@@ -10,7 +9,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { PatientComponent } from '../patient/patient.component';
+import { PatientFormDataRequest } from '../../../eligibility-check/models/patient-data.model';
+import { EligibilityCheckService } from '../../../eligibility-check/services/eligibility-check.service';
+import { PatientFormComponent } from '../patient-form/patient-form.component';
+import { PatientFormService } from '../../../eligibility-check/services/patient-form.service';
 
 
 @Component({
@@ -18,36 +20,32 @@ import { PatientComponent } from '../patient/patient.component';
   templateUrl: './patient-list.component.html',
   styleUrls: ['./patient-list.component.css']
 })
-
 export class PatientListComponent implements OnInit {
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  /*To hold Patient List receiced from api as Form model defined */
+  patientList: PatientFormDataRequest[];
+  patientListForMatTable: MatTableDataSource<PatientFormDataRequest>;
 
-  patientList: Form[];
-  patientListForMatTable: MatTableDataSource<Form>;
   displayedColumns: string[] = [
     'mrnNumber', 'suffix', 'lastName', 'firstName', 'middleName', 'dob', 'gender', 'actions'];
   resultsLength = 0;
   isLoadingResults = true;
-  isRateLimitReached = false;
 
   searchKey: string;
-
 
   constructor(
     // public httpClient: HttpClient,
     public eligibilityCheckService: EligibilityCheckService,
-    public patientDataService: PatientService,
-    public toasterService: SnackbarService,
+    public patientFormService: PatientFormService,
+    // public toasterService: SnackbarService,
     public dialog: MatDialog,
 
   ) { }
 
-
   ngOnInit() {
-    // for sql api
-    this.eligibilityCheckService.getFormData().subscribe((patientData) => {
+    /* Fetching Patient List from read api */
+    this.eligibilityCheckService.getPatientList().subscribe((patientData) => {
       this.patientList = patientData;
       this.patientListForMatTable = new MatTableDataSource(this.patientList);
       this.patientListForMatTable.sort = this.sort;
@@ -60,13 +58,14 @@ export class PatientListComponent implements OnInit {
         });
       };
     });
-
   }
 
+  /*Filter table data only from the visible data in the current page */
   applyFilter(filterValue: string) {
     this.patientListForMatTable.filter = filterValue.trim().toLowerCase();
   }
 
+  /*Clear the search/Filter field starts*/
   onSearchClear() {
     this.searchKey = '';
     this.applyFilterTop();
@@ -75,54 +74,25 @@ export class PatientListComponent implements OnInit {
   applyFilterTop() {
     this.patientListForMatTable.filter = this.searchKey.trim().toLowerCase();
   }
+  /*Clear the search/Filter field ends*/
 
-  onCreatePatient() {
-    // this.patientDataService.clearFormData();
-    const config = new MatDialogConfig();
-    config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
-    config.autoFocus = false; // does not allow popup to focus on any field or icon
-    config.hasBackdrop = true;
-    config.width = '60%';
-    // config.id = 'stacked-dialog';
-    // config.position.top = '50px';
-    // config.position.left = '50px';
-    config.data = { heading: 'Edit Clicked' }; // name: 'Djay' name can be accessed in Patientcomponent
-    this.dialog.open(PatientComponent, config);
-    // closing of this dialod is mentioned in Patientcomponent
-  }
-
-  // onClose() {
-  //   this.patientDataService.form.reset();
-  //   this.patientDataService.clearFormValues();
-  //   this.dialogRef.close();
-  //   this.toasterService.success(':: Submitted Successfully');
-  // }
-
-  onEditPatient(row: Form) {
-    this.patientDataService.getFormFieldsData(row);
+  /*Edit Patient onto Patient List Data Table*/
+  onEditPatient(row: PatientFormDataRequest) {
+    /*On Edit Patient sending selected patient data to service so that it can be used for getCurrentInsu..()*/
+    this.eligibilityCheckService.getSelecPatData(row);
+    /*On Edit Patient sending selected patient data to service so that it can be used for getCurrentInsu..()*/
     setTimeout(() => {
-      if (row.insuranceDetailByPolicy.primaryInsuranceDetail != null) {
-        row.insuranceDetailByPolicy.primaryInsuranceDetail.eligibilityCheckSelected = false;
-      }
-      if (row.insuranceDetailByPolicy.secondaryInsuranceDetail != null) {
-        row.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibilityCheckSelected = false;
-      }
-      if (row.insuranceDetailByPolicy.tertiaryInsuranceDetail != null) {
-        row.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibilityCheckSelected = false;
-      }
-
-      this.patientDataService.populatePatientFormData(row);
+      this.patientFormService.populatePatientFormData(row);
       const config = new MatDialogConfig();
       config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
       config.autoFocus = false; // does not allow popup to focus on any field or icon
       config.hasBackdrop = true;
       config.width = '65%';
       // config.position = {top: '50px', left: '50px'};
-      // config.id = 'stacked-dialog';
-      // name: 'Djay' name can be accessed in Patientcomponent
-      config.data = { heading: 'Eligibility Check Details', form: row };
+      config.data = { heading: 'Member Eligibility Details', selectedPatientData: row };
 
-      this.dialog.open(PatientComponent, config)
+      /*Sending Selected Patient data as form and heading to PatientFormComponent*/
+      this.dialog.open(PatientFormComponent, config)
         .afterClosed().subscribe(result => {
           console.log('Close or X button clicked so:  false will come: ' + result);
           // this.toasterService.success(':: Submitted Successfully');
@@ -133,13 +103,8 @@ export class PatientListComponent implements OnInit {
           }
         });
     });
+
+
   }
 
-  onPdfDownload() {
-    console.log('Print called for pdf');
-  }
-
-  onImageDownload() {
-    console.log('Print called for download');
-  }
 }

@@ -1,0 +1,55 @@
+/* For hiding no data found or loading in Table starts*/
+.hide {
+  display: none;
+}
+/* For hiding no data found or loading in Table ends*/
+
+/* Defining the color and place of the loading spinner in Table starts*/
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Defining the color and place of the loading spinner in Table ends*/
+
+/* Defining the Table width (it shows the data equaly spaced and justified) starts*/
+table {
+  width: 100%;
+}
+/* Defining the Table width ends*/
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+/* Mat expansion panel starts */
+.mat-expansion-panel-header {
+  height: 40px !important;
+  border: 1px solid #e4e5e7;
+  border-radius: 2px;
+  /* margin-top: 12px; */
+  margin: 12px 0px;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 40px !important;
+  border: none;
+}
+
+.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel-header.mat-expanded:hover,
+.mat-expansion-panel-header.mat-expanded:focus {
+  height: 40px !important;
+}
+
+.disable_ripple:hover {
+  background-color: #fff !important;
+}
+/* Mat expansion panel starts */

@@ -1,0 +1,1719 @@
+<!-- Spinner starts -->
+<div align="center" class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<!-- Spinner ends -->
+
+<!-- Patient Form Starts Here -->
+<form [formGroup]="preAuthForm" class="normal-form" (ngSubmit)="onSave(preAuthForm)" fxLayoutGap="8px">
+
+  <!-- Main Mat-Dialog Hearder Start -->
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span class="fill-remaining-space"></span>
+      <span>
+        <h5 mat-dialog-title>{{heading}}</h5>
+      </span>
+      <span class="fill-remaining-space"></span>
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="onNoClick()" tabindex="-1">
+        close
+      </mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <!-- Main Mat-Dialog Hearder Ends -->
+
+  <!-- Main Mat-Dialog Body/Content Start -->
+  <div mat-dialog-content>
+    <!-- <mat-accordion> -->
+    <!-- File Details starts -->
+    <div>
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            File Details
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Member Demographic -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-grid-list cols="3" rowHeight="70px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput formControlName="mrnNumber" [value]="preAuthForm?.controls?.mrnNumber.value">
+                <mat-label>MRN Number</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="currenttimdate" formControlName="currenttimdate"
+                  [errorStateMatcher]="matcher"
+                  [value]="preAuthForm?.controls?.currenttimdate?.value | date:'yyyy-MM-dd'">
+                <mat-label>Date</mat-label>
+                <!-- <mat-error *ngIf="patientFormService.patientForm.controls['currenttimdate'].hasError('required')"date:'MMMM d, y'">
+                              Date of birth is <strong>required</strong>
+                            </mat-error> -->
+                <mat-datepicker-toggle matSuffix [for]="currenttimdate"></mat-datepicker-toggle>
+                <mat-datepicker #currenttimdate></mat-datepicker>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-expansion-panel>
+    </div>
+    <!-- File Details ends -->
+
+    <!-- Member Demographic details starts -->
+    <div formGroupName="preAuthDemographics" *ngIf="preAuthForm.get('preAuthDemographics')?.value != null">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            Member Demographic Details
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Member Demographic -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-grid-list cols="3" rowHeight="70px">
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+              <!-- <input type="hidden" formControlName="$key"> -->
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="lastName" [errorStateMatcher]="matcher">
+                <mat-label>Last Name</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="dob" formControlName="dob" [errorStateMatcher]="matcher"
+                  [value]="preAuthForm?.get('preAuthDemographics').get('dob').value | date:'yyyy-MM-dd'">
+                <mat-label>Date of birth</mat-label>
+                <!-- <mat-error *ngIf="patientFormService.patientForm.controls['dob'].hasError('required')"date:'MMMM d, y'">
+                        Date of birth is <strong>required</strong>
+                      </mat-error> -->
+                <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                <mat-datepicker #dob></mat-datepicker>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="firstName" [errorStateMatcher]="matcher">
+                <mat-label>First Name</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option value="">Select</mat-option>
+                  <mat-option *ngFor="let gender of genders; let i = index" [value]="gender.name">
+                    {{gender.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="middleName" [errorStateMatcher]="matcher">
+                <mat-label>Middle Name</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput formControlName="ssn">
+                <mat-label>SSN</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-expansion-panel>
+    </div>
+    <!-- Member Demographic details ends -->
+
+    <!-- Insurance details starts -->
+    <div formGroupName="insuranceDetailPreAuth" *ngIf="preAuthForm.get('insuranceDetailPreAuth')?.value != null">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            Insurance Details
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-grid-list cols="3" rowHeight="70px">
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+              <mat-form-field class="no-padding">
+                <mat-label>Insurance Type</mat-label>
+                <!-- <mat-select formControlName="gender" [(value)]="selectedInsurance"> 
+                  (onSelectionChange)="selectedInsuranceType($event)"-->
+
+                <mat-select formControlName="insuranceTypeSelcted" focused required>
+                  <!-- <mat-option>None</mat-option> -->
+                  <mat-option *ngFor="let insurance of insuranceTypes; let i = index"
+                    (onSelectionChange)="selectedInsuranceType($event)" [value]="insurance.name">
+                    {{insurance.name}}
+                  </mat-option>
+                </mat-select>
+
+                <!-- <mat-select formControlName="insuranceTypeSelcted" (onSelectionChange)="selectedInsuranceType($event)"
+                [(value)]="selected" placeholder="Select Insurance" required>
+                  <mat-option value="primaryInsuranceDetail">Primary Insurance</mat-option>
+                  <mat-option value="secondaryInsuranceDetail"> Secondary Insurance </mat-option>
+                  <mat-option value="tertiaryInsuranceDetail"> Tertiary Insurance </mat-option>
+                </mat-select> -->
+                <mat-error
+                  *ngIf=" preAuthForm.get('insuranceDetailPreAuth').get('insuranceTypeSelcted').hasError('required')">
+                  Please choose an insurance.</mat-error>
+                <mat-error
+                  *ngIf="preAuthForm.get('insuranceDetailPreAuth').get('insuranceTypeSelcted').hasError('touched')">
+                  Insurance is required.</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+            </div>
+          </mat-grid-tile>
+
+          <!-- Show or hide insurances starts -->
+          <!-- <div class="normal-form" *ngIf="primaryInsuranceSelected && 
+          (preAuthForm.get('insuranceDetailPreAuth').get('insuranceTypeSelcted').value === "primaryInsuranceDetail")
+          && (!preAuthForm.get('insuranceDetailPreAuth').get('insuranceTypeSelcted').hasError('required'))"> -->
+          <!-- Primary Insurance details starts -->
+          <div class="normal-form" *ngIf="preAuthForm.get('insuranceDetailPreAuth')
+            .get('insuranceTypeSelcted').value === 'primaryInsuranceDetail' ">
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Insurer Details</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+            <div formGroupName="primaryInsuranceDetail" class="normal-form" *ngIf="primaryInsuranceDetail !== null">
+              <!-- <mat-expansion-panel> -->
+              <!-- <mat-grid-list cols="3" rowHeight="70px"> -->
+              <!-- Insurer 1st column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber last name" formControlName="insuredlastName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Subscriber Last Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Sex</mat-label>
+                    <mat-select formControlName="insuredsex" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                        {{gender.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 1st column ends -->
+
+              <!-- Insurer 2nd column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber first name" formControlName="insuredfirstName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Subscriber First Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
+                      formControlName="insureddob"
+                      [value]="preAuthForm.get('insuranceDetailPreAuth').get('primaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Date Of Birth</mat-label>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker #insureddob></mat-datepicker>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+
+              <!-- Insurer 2nd column ends -->
+
+              <!-- Insurer 3rd column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber middle name"
+                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher">
+                    <mat-label>Subscriber Middle Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter SSN" formControlName="ssn" [errorStateMatcher]="matcher"
+                      required>
+                    <mat-label>SSN</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd column ends -->
+
+
+              <!-- Insurer 3rd row 1st col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field>
+                    <mat-label>Patient Relationship To Insured</mat-label>
+                    <mat-select formControlName="patientRelationInsured" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let relation of relations" [value]="relation.name">
+                        {{relation.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 1st col ends -->
+
+              <!-- Insurer 3rd row 2nd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 2nd col ends -->
+
+              <!-- Insurer 3rd row 3rd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured Address" formControlName="insuranceAddress"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured Address</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 3rd col ends -->
+
+              <!-- Insurer 4th row all 3 col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured State" formControlName="state"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured State</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured City" formControlName="city"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured City</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Zipcode" formControlName="zipcode" [errorStateMatcher]="matcher"
+                      required>
+                    <mat-label>Zipcode</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 4th row all 3 col ends -->
+
+              <mat-grid-tile [colspan]="3" [rowspan]="1">
+                <div class="controles-container">
+                  <p>Insurance Details</p>
+                  <mat-divider></mat-divider>
+                </div>
+              </mat-grid-tile>
+
+              <!-- Insurance 1st row starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Policy Number" formControlName="policyNumber"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Policy Number</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Plan Name" formControlName="insurancePlanName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Plan Name</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Plan Type" formControlName="insurancePlanType"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Plan Type</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurance 1st row ends -->
+
+              <!-- Insurance 2nd row all col starts -->
+              <!-- Insurer 3rd row 1st col ends -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter group #" formControlName="group_name"
+                      [errorStateMatcher]="matcher">
+                    <mat-label>Group Number</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 1st col ends -->
+
+              <!-- Insurer 3rd row 2nd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 2nd col ends -->
+
+              <!-- Insurer 3rd row 3rd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Address" formControlName="insuranceAddress"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Address</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 3rd col ends -->
+              <!-- Insurance 2nd col all col ends -->
+
+              <!-- Insurance 3rd row all 3 col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance State" formControlName="state"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance State</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance City" formControlName="city"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance City</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Zipcode" formControlName="zipcode"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Zipcode</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurance 3rd row all 3 col ends -->
+              <!-- </mat-grid-list> -->
+              <!-- </mat-expansion-panel> -->
+            </div>
+          </div>
+          <!-- Primary Insurance Details ends -->
+
+          <!-- Secondary Insurance Details starts -->
+          <div class="normal-form" *ngIf="preAuthForm.get('insuranceDetailPreAuth')
+            .get('insuranceTypeSelcted').value==='secondaryInsuranceDetail' ">
+            <mat-grid-tile [colspan]=" 3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Insurer Details</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+            <div formGroupName="secondaryInsuranceDetail" class="normal-form" *ngIf="secondaryInsuranceDetail !== null">
+              <!-- <mat-expansion-panel> -->
+              <!-- <mat-grid-list cols="3" rowHeight="70px"> -->
+              <!-- Insurer 1st column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber last name" formControlName="insuredlastName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Subscriber Last Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Sex</mat-label>
+                    <mat-select formControlName="insuredsex" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                        {{gender.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 1st column ends -->
+
+              <!-- Insurer 2nd column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber first name" formControlName="insuredfirstName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Subscriber First Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
+                      formControlName="insureddob"
+                      [value]="preAuthForm.get('insuranceDetailPreAuth').get('secondaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Date Of Birth</mat-label>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker #insureddob></mat-datepicker>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+
+              <!-- Insurer 2nd column ends -->
+
+              <!-- Insurer 3rd column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber middle name"
+                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher">
+                    <mat-label>Subscriber Middle Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter SSN" formControlName="ssn" [errorStateMatcher]="matcher"
+                      required>
+                    <mat-label>SSN</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd column ends -->
+
+
+              <!-- Insurer 3rd row 1st col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field>
+                    <mat-label>Patient Relationship To Insured</mat-label>
+                    <mat-select formControlName="patientRelationInsured" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let relation of relations" [value]="relation.name">
+                        {{relation.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 1st col ends -->
+
+              <!-- Insurer 3rd row 2nd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 2nd col ends -->
+
+              <!-- Insurer 3rd row 3rd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured Address" formControlName="insuranceAddress"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured Address</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 3rd col ends -->
+
+              <!-- Insurer 4th row all 3 col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured State" formControlName="state"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured State</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured City" formControlName="city"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured City</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Zipcode" formControlName="zipcode" [errorStateMatcher]="matcher"
+                      required>
+                    <mat-label>Zipcode</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 4th row all 3 col ends -->
+
+              <mat-grid-tile [colspan]="3" [rowspan]="1">
+                <div class="controles-container">
+                  <p>Insurance Details</p>
+                  <mat-divider></mat-divider>
+                </div>
+              </mat-grid-tile>
+
+              <!-- Insurance 1st row starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Policy Number" formControlName="policyNumber"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Policy Number</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Plan Name" formControlName="insurancePlanName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Plan Name</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Plan Type" formControlName="insurancePlanType"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Plan Type</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurance 1st row ends -->
+
+              <!-- Insurance 2nd row all col starts -->
+              <!-- Insurer 3rd row 1st col ends -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter group #" formControlName="group_name"
+                      [errorStateMatcher]="matcher">
+                    <mat-label>Group Number</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 1st col ends -->
+
+              <!-- Insurer 3rd row 2nd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 2nd col ends -->
+
+              <!-- Insurer 3rd row 3rd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Address" formControlName="insuranceAddress"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Address</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 3rd col ends -->
+              <!-- Insurance 2nd col all col ends -->
+
+              <!-- Insurance 3rd row all 3 col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance State" formControlName="state"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance State</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance City" formControlName="city"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance City</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Zipcode" formControlName="zipcode"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Zipcode</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurance 3rd row all 3 col ends -->
+              <!-- </mat-grid-list> -->
+              <!-- </mat-expansion-panel> -->
+            </div>
+          </div>
+          <!-- Secondary Insurance Details ends -->
+
+          <!-- Tertiary Insurance Details starts -->
+          <div class="normal-form" *ngIf="preAuthForm.get('insuranceDetailPreAuth')
+          .get('insuranceTypeSelcted').value==='tertiaryInsuranceDetail' ">
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Insurer Details</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+            <div formGroupName="tertiaryInsuranceDetail" class="normal-form" *ngIf="tertiaryInsuranceDetail !== null">
+              <!-- <mat-expansion-panel> -->
+              <!-- <mat-grid-list cols="3" rowHeight="70px"> -->
+              <!-- Insurer 1st column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber last name" formControlName="insuredlastName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Subscriber Last Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Sex</mat-label>
+                    <mat-select formControlName="insuredsex" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                        {{gender.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 1st column ends -->
+
+              <!-- Insurer 2nd column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber first name" formControlName="insuredfirstName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Subscriber First Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
+                      formControlName="insureddob"
+                      [value]="preAuthForm.get('insuranceDetailPreAuth').get('tertiaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Date Of Birth</mat-label>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker #insureddob></mat-datepicker>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+
+              <!-- Insurer 2nd column ends -->
+
+              <!-- Insurer 3rd column starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter Subscriber middle name"
+                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher">
+                    <mat-label>Subscriber Middle Name</mat-label>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter SSN" formControlName="ssn" [errorStateMatcher]="matcher"
+                      required>
+                    <mat-label>SSN</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd column ends -->
+
+
+              <!-- Insurer 3rd row 1st col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field>
+                    <mat-label>Patient Relationship To Insured</mat-label>
+                    <mat-select formControlName="patientRelationInsured" required>
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let relation of relations" [value]="relation.name">
+                        {{relation.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 1st col ends -->
+
+              <!-- Insurer 3rd row 2nd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 2nd col ends -->
+
+              <!-- Insurer 3rd row 3rd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured Address" formControlName="insuranceAddress"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured Address</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 3rd col ends -->
+
+              <!-- Insurer 4th row all 3 col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured State" formControlName="state"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured State</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insured City" formControlName="city"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insured City</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Zipcode" formControlName="zipcode" [errorStateMatcher]="matcher"
+                      required>
+                    <mat-label>Zipcode</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 4th row all 3 col ends -->
+
+              <mat-grid-tile [colspan]="3" [rowspan]="1">
+                <div class="controles-container">
+                  <p>Insurance Details</p>
+                  <mat-divider></mat-divider>
+                </div>
+              </mat-grid-tile>
+
+              <!-- Insurance 1st row starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Policy Number" formControlName="policyNumber"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Policy Number</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Plan Name" formControlName="insurancePlanName"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Plan Name</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Plan Type" formControlName="insurancePlanType"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Plan Type</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurance 1st row ends -->
+
+              <!-- Insurance 2nd row all col starts -->
+              <!-- Insurer 3rd row 1st col ends -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Enter group #" formControlName="group_name"
+                      [errorStateMatcher]="matcher">
+                    <mat-label>Group Number</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 1st col ends -->
+
+              <!-- Insurer 3rd row 2nd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 2nd col ends -->
+
+              <!-- Insurer 3rd row 3rd col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Address" formControlName="insuranceAddress"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance Address</mat-label>
+                  </mat-form-field>
+
+                </div>
+              </mat-grid-tile>
+              <!-- Insurer 3rd row 3rd col ends -->
+              <!-- Insurance 2nd col all col ends -->
+
+              <!-- Insurance 3rd row all 3 col satrts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance State" formControlName="state"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance State</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance City" formControlName="city"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Insurance City</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="example-full-width">
+                    <input matInput #input placeholder="Insurance Zipcode" formControlName="zipcode"
+                      [errorStateMatcher]="matcher" required>
+                    <mat-label>Zipcode</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <!-- Insurance 3rd row all 3 col ends -->
+              <!-- </mat-grid-list> -->
+              <!-- </mat-expansion-panel> -->
+            </div>
+          </div>
+          <!-- Tertiary Insurance Details ends -->
+
+          <!-- Show or hide insurances ends -->
+        </mat-grid-list>
+      </mat-expansion-panel>
+    </div>
+    <!-- Insurance details ends -->
+
+    <!-- Requesting Provider details starts -->
+    <div formGroupName="providerDetail" *ngIf="preAuthForm.get('providerDetail')?.value != null">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            Requesting Provider Details
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Requesting Provider Details -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-grid-list cols="3" rowHeight="70px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="requestingAgency" [errorStateMatcher]="matcher">
+                <mat-label>Requesting Agency</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="providerName" [errorStateMatcher]="matcher">
+                <mat-label>Provider Name</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="phoneNumber" [errorStateMatcher]="matcher">
+                <mat-label>Phone Number</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="requestingProviderIDNumber" [errorStateMatcher]="matcher">
+                <mat-label>Requesting Provider Id</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="extension" [errorStateMatcher]="matcher">
+                <mat-label>Phone Ext.</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="providerTaxIDNumber" [errorStateMatcher]="matcher">
+                <mat-label>Provider Tax ID</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput formControlName="faxNumber">
+                <mat-label>Fax Number</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-expansion-panel>
+    </div>
+    <!--Requesting Provider details ends -->
+
+    <!-- Admission details starts -->
+    <div formGroupName="admissionDetail" *ngIf="preAuthForm.get('admissionDetail')?.value != null">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            Admission Details
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Requesting Provider Details -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-grid-list cols="3" rowHeight="70px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <mat-label>Request Type</mat-label>
+                <mat-select formControlName="requestType">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let requestType of requestTypes; let i = index" [value]="requestType.name">
+                    {{requestType.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="referringPhysician" [errorStateMatcher]="matcher">
+                <mat-label>Referring Physician</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="admissionDate" formControlName="admissionDate"
+                  [errorStateMatcher]="matcher"
+                  [value]="preAuthForm?.get('admissionDetail').get('admissionDate').value | date:'yyyy-MM-dd'">
+                <mat-label>Admission Date</mat-label>
+
+                <mat-datepicker-toggle matSuffix [for]="admissionDate"></mat-datepicker-toggle>
+                <mat-datepicker #admissionDate></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="primaryDiagnosis" [errorStateMatcher]="matcher">
+                <mat-label>Primary Diagnosis</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="dischargeDate" formControlName="dischargeDate"
+                  [errorStateMatcher]="matcher"
+                  [value]="preAuthForm?.get('admissionDetail').get('dischargeDate').value | date:'yyyy-MM-dd'">
+                <mat-label>Discharge Date</mat-label>
+
+                <mat-datepicker-toggle matSuffix [for]="dischargeDate"></mat-datepicker-toggle>
+                <mat-datepicker #dischargeDate></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="primaryDiagnosisDescription" [errorStateMatcher]="matcher">
+                <mat-label>Primary Diagnosis Description</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-expansion-panel>
+    </div>
+    <!--Admission details ends -->
+
+    <!-- Request For details starts -->
+    <div formGroupName="requestFor" *ngIf="preAuthForm.get('requestFor')?.value != null">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            Request For
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Request For Details -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="newService">
+          <mat-grid-list cols="3" rowHeight="70px">
+            <!-- New Admission Service Starts -->
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <!-- <mat-form-field class="no-padding"> -->
+                <mat-radio-button [disableRipple]="true" name="newAdmissService" ngDefaultControl
+                  (change)="onNewServiceChange()" #newService formControlName="newadmissionService">New Admission
+                  Service
+                </mat-radio-button>
+                <!-- </mat-form-field> -->
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+              </div>
+            </mat-grid-tile>
+
+            <!-- New Admission Service Ends -->
+          </mat-grid-list>
+        </div>
+
+        <div class="addService" formGroupName="additionalServices" class="normal-form">
+          <!-- <div class="addService" formGroupName="additionalServices" class="normal-form"> -->
+          <mat-grid-list cols="3" rowHeight="70px">
+            <!-- Additional Service Starts -->
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <!-- <mat-form-field class="no-padding"> -->
+                <mat-radio-button [disableRipple]="true" name="serviceflag" ngDefaultControl
+                  (change)="onAddServiceChange()" #additionalService formControlName="serviceflag">Additional
+                  Services
+                </mat-radio-button>
+                <!-- </mat-form-field> -->
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="numberOfServiceCompletedTillDate"
+                    [errorStateMatcher]="matcher">
+                  <mat-label>No. Of Service Completed Till Date</mat-label>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput [matDatepicker]="fromDateAddService" formControlName="fromDate"
+                    [errorStateMatcher]="matcher"
+                    [value]="preAuthForm?.get('requestFor')?.get('additionalServices')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
+                  <mat-label>From Date</mat-label>
+
+                  <mat-datepicker-toggle matSuffix [for]="fromDateAddService"></mat-datepicker-toggle>
+                  <mat-datepicker #fromDateAddService></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput [matDatepicker]="toDateAddService" formControlName="toDate"
+                    [errorStateMatcher]="matcher"
+                    [value]="preAuthForm?.get('requestFor')?.get('additionalServices')?.get('toDate')?.value | date:'yyyy-MM-dd'">
+                  <mat-label>To Date</mat-label>
+
+                  <mat-datepicker-toggle matSuffix [for]="toDateAddService"></mat-datepicker-toggle>
+                  <mat-datepicker #toDateAddService></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                  <mat-label>Previous Authorization Number</mat-label>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+            <!-- Additional Service Ends -->
+
+          </mat-grid-list>
+        </div>
+
+        <div class="extOnly" formGroupName="extension" class="normal-form"
+          *ngIf="preAuthForm.get('requestFor')?.get('extension')?.value != null">
+          <mat-grid-list cols="3" rowHeight="70px">
+
+            <!-- Extension Only Starts -->
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-radio-button [disableRipple]="true" (change)="onExtensionChange()" #extensionOnly
+                  formControlName="serviceflag" name="serviceflag" ngDefaultControl>Extension Only
+                </mat-radio-button>
+                <!-- <input matInput formControlName="serviceflag"> -->
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput [matDatepicker]="fromDateExtOnly" formControlName="fromDate"
+                    [errorStateMatcher]="matcher"
+                    [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
+                  <mat-label>From Date</mat-label>
+
+                  <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker #fromDateExtOnly></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput [matDatepicker]="toDateExtOnly" formControlName="toDate" [errorStateMatcher]="matcher"
+                    [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('toDate')?.value | date:'yyyy-MM-dd'">
+                  <mat-label>To Date</mat-label>
+
+                  <mat-datepicker-toggle matSuffix [for]="toDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker #toDateExtOnly></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                  <mat-label>Previous Authorization Number</mat-label>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <!--Extension Only Ends -->
+
+          </mat-grid-list>
+        </div>
+
+      </mat-expansion-panel>
+    </div>
+    <!--Request For details ends -->
+
+    <!--Request Service or procedure starts -->
+    <div formGroupName="requestService" *ngIf="preAuthForm.get('requestService')?.value != null">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            Request Service/procedure
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Member Demographic -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!-- Physical Therapy starts -->
+        <div class="extOnly" formGroupName="physicalTherapy" class="normal-form"
+          *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.value != null">
+          <mat-grid-list cols="4" rowHeight="70px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                  formControlName="physicalTherapy">
+                  <!-- Physical Therapy -->
+                  PHYSICAL THERAPY
+                </mat-checkbox>
+
+                <!-- <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <mat-label>Revenue Code 1</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <mat-label>No of Visits</mat-label>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <mat-label>No of Units</mat-label>
+                </mat-form-field> -->
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <mat-label>Revenue Code 1</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <mat-label>No of Visits</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <mat-label>No of Units</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+        <!-- Physical Therapy ends -->
+
+        <!-- Occupation Therapy starts -->
+        <div class="extOnly" formGroupName="occupationTherapy" class="normal-form"
+          *ngIf="preAuthForm.get('requestService')?.get('occupationTherapy')?.value != null">
+          <mat-grid-list cols="4" rowHeight="70px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                  formControlName="occupationTherapy">
+                  OCCUPATION THERAPY
+                </mat-checkbox>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <mat-label>Revenue Code 2</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <mat-label>No of Visits</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <mat-label>No of Units</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+        <!-- Occupation Therapy ends -->
+
+        <!-- Speech Pathology starts -->
+        <div class="extOnly" formGroupName="speechPathology" class="normal-form"
+          *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.value != null">
+          <mat-grid-list cols="4" rowHeight="70px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                  formControlName="speechPathology">
+                  <!-- Physical Therapy -->
+                  SPEECH PATHOLOGY
+                </mat-checkbox>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <mat-label>Revenue Code 3</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <mat-label>No of Visits</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <mat-label>No of Units</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+        <!-- Speech Pathology ends -->
+
+        <!-- Skilled Nursing starts -->
+        <div class="extOnly" formGroupName="skilledNursing" class="normal-form"
+          *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.value != null">
+          <mat-grid-list cols="4" rowHeight="70px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                  formControlName="skilledNursing">
+                  <!-- Physical Therapy -->
+                  SKILLED NURSING
+                </mat-checkbox>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <mat-label>Revenue Code 4</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <mat-label>No of Visits</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <mat-label>No of Units</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+        <!-- Skilled Nursing ends -->
+
+        <!-- Medical Social Work starts -->
+        <div class="extOnly" formGroupName="medicalSocialWork" class="normal-form"
+          *ngIf="preAuthForm.get('requestService')?.get('medicalSocialWork')?.value != null">
+          <mat-grid-list cols="4" rowHeight="70px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                  formControlName="medicalSocialWork">
+                  <!-- Physical Therapy -->
+                  MEDICAL SOCIAL WORK
+                </mat-checkbox>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <mat-label>Revenue Code 5</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <mat-label>No of Visits</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <mat-label>No of Units</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+        <!-- Medical Social Work ends -->
+
+        <!-- Home Health Aid starts -->
+        <div class="extOnly" formGroupName="homeHealthAide" class="normal-form"
+          *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.value != null">
+          <mat-grid-list cols="4" rowHeight="70px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                  formControlName="homeHealthAide">
+                  <!-- Physical Therapy -->
+                  HOME HEALTH AIDE
+                </mat-checkbox>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <mat-label>Revenue Code 6</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <mat-label>No of Visits</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <mat-label>No of Units</mat-label>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+        <!-- Home Health Aid ends -->
+      </mat-expansion-panel>
+    </div>
+    <!--Request Service or procedure ends -->
+
+    <!-- </mat-accordion> -->
+  </div>
+  <!-- Main Mat-Dialog Body/Content End -->
+
+  <!-- Main Mat-Dialog Action Start -->
+  <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> -->
+  <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
+    <!-- <div> -->
+    <button mat-button mat-raised-button color="accent" (click)="onEditForm()">Edit Form</button>
+    <!-- </div> -->
+    <button mat-button mat-raised-button color="primary" (click)="onSave(preAuthForm.value)">Save as Draft</button>
+    <button class="button-green" mat-button mat-raised-button color="primary"
+      (click)="onSendRequest(preAuthForm.value)">Send Request</button>
+    <button mat-button mat-raised-button color="accent" [mat-dialog-close]="false" (click)="onNoClick()">Cancel</button>
+  </div>
+  <!-- Main Mat-Dialog Action Ends -->
+
+</form>
+<!-- Patient Form Ends Here -->

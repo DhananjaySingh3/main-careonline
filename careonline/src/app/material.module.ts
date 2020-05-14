@@ -23,6 +23,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
     imports: [
@@ -50,7 +51,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatSortModule,
         MatGridListModule,
         MatSnackBarModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatDividerModule
     ],
     exports: [
         CommonModule,
@@ -77,7 +79,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatSortModule,
         MatGridListModule,
         MatSnackBarModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatDividerModule
     ]
 })
 
