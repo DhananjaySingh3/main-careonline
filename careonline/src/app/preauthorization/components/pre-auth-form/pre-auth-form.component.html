@@ -5,7 +5,7 @@
 <!-- Spinner ends -->
 
 <!-- Patient Form Starts Here -->
-<form [formGroup]="preAuthForm" class="normal-form" (ngSubmit)="onSave(preAuthForm)" fxLayoutGap="8px">
+<form [formGroup]="preAuthForm" class="normal-form" fxLayoutGap="8px" (ngSubmit)="onSave(preAuthForm.value)">
 
   <!-- Main Mat-Dialog Hearder Start -->
   <mat-toolbar>
@@ -1724,9 +1724,10 @@
     <!-- <div> -->
     <!-- <button mat-button mat-raised-button color="accent" (click)="onEditForm()">Edit Form</button> -->
     <!-- </div> -->
-    <button mat-button mat-raised-button color="primary" (click)="onSave(preAuthForm.value)">Save as Draft</button>
-    <button class="button-green" mat-button mat-raised-button color="primary"
-      (click)="onSendRequest(preAuthForm.value)">Send Request</button>
+    <button mat-button mat-raised-button color="primary" type="submit">Save as
+      Draft</button>
+    <button class="button-green" mat-button mat-raised-button color="primary" (click)="onSendRequest()"
+      type="submit">Send Request</button>
     <button mat-button mat-raised-button color="accent" [mat-dialog-close]="false" (click)="onNoClick()">Cancel</button>
   </div>
   <!-- Main Mat-Dialog Action Ends -->
