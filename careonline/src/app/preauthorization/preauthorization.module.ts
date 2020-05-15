@@ -16,7 +16,9 @@ import { PreAuthFormComponent } from './components/pre-auth-form/pre-auth-form.c
 import { CommonService } from '../preauthorization/services/common.service';
 import { PreAuthFormService } from '../preauthorization/services/pre-auth-form.service';
 import { PreAuthService } from '../preauthorization/services/pre-auth.service';
+import { SnackbarToasterService } from '../preauthorization/services/snackbar-toaster.service';
 import { StackedModalComponent } from './components/stacked-modal/stacked-modal.component';
+
 
 
 @NgModule({
@@ -49,6 +51,8 @@ import { StackedModalComponent } from './components/stacked-modal/stacked-modal.
     CommonService,
     PreAuthFormService,
     PreAuthService,
+    SnackbarToasterService,
+
   ],
   entryComponents: [PreAuthFormComponent, StackedModalComponent]
 })

@@ -43,6 +43,11 @@ export class RequestTypes {
     name: string;
 }
 
+export class RequestFor {
+    code: number;
+    name: string;
+}
+
 export class InsuranceTypes {
     code: number;
     name: string;

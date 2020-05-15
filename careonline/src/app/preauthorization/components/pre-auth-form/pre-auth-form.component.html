@@ -170,8 +170,8 @@
                   (onSelectionChange)="selectedInsuranceType($event)"-->
 
                 <mat-select formControlName="insuranceTypeSelcted" focused required>
-                  <!-- <mat-option>None</mat-option> -->
-                  <mat-option *ngFor="let insurance of insuranceTypes; let i = index"
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let insurance of insuranceTypes"
                     (onSelectionChange)="selectedInsuranceType($event)" [value]="insurance.name">
                     {{insurance.name}}
                   </mat-option>
@@ -207,7 +207,7 @@
           && (!preAuthForm.get('insuranceDetailPreAuth').get('insuranceTypeSelcted').hasError('required'))"> -->
           <!-- Primary Insurance details starts -->
           <div class="normal-form" *ngIf="preAuthForm.get('insuranceDetailPreAuth')
-            .get('insuranceTypeSelcted').value === 'primaryInsuranceDetail' ">
+            .get('insuranceTypeSelcted').value === 'Primary Insurance' ">
             <mat-grid-tile [colspan]="3" [rowspan]="1">
               <div class="controles-container">
                 <p>Insurer Details</p>
@@ -215,7 +215,7 @@
               </div>
             </mat-grid-tile>
 
-            <div formGroupName="primaryInsuranceDetail" class="normal-form" *ngIf="primaryInsuranceDetail !== null">
+            <div formGroupName="primaryInsuranceDetail" class="normal-form">
               <!-- <mat-expansion-panel> -->
               <!-- <mat-grid-list cols="3" rowHeight="70px"> -->
               <!-- Insurer 1st column starts -->
@@ -466,7 +466,7 @@
 
           <!-- Secondary Insurance Details starts -->
           <div class="normal-form" *ngIf="preAuthForm.get('insuranceDetailPreAuth')
-            .get('insuranceTypeSelcted').value==='secondaryInsuranceDetail' ">
+            .get('insuranceTypeSelcted').value==='Secondary Insurance' ">
             <mat-grid-tile [colspan]=" 3" [rowspan]="1">
               <div class="controles-container">
                 <p>Insurer Details</p>
@@ -474,7 +474,7 @@
               </div>
             </mat-grid-tile>
 
-            <div formGroupName="secondaryInsuranceDetail" class="normal-form" *ngIf="secondaryInsuranceDetail !== null">
+            <div formGroupName="secondaryInsuranceDetail" class="normal-form">
               <!-- <mat-expansion-panel> -->
               <!-- <mat-grid-list cols="3" rowHeight="70px"> -->
               <!-- Insurer 1st column starts -->
@@ -725,7 +725,7 @@
 
           <!-- Tertiary Insurance Details starts -->
           <div class="normal-form" *ngIf="preAuthForm.get('insuranceDetailPreAuth')
-          .get('insuranceTypeSelcted').value==='tertiaryInsuranceDetail' ">
+          .get('insuranceTypeSelcted').value==='Tertiary Insurance' ">
             <mat-grid-tile [colspan]="3" [rowspan]="1">
               <div class="controles-container">
                 <p>Insurer Details</p>
@@ -733,7 +733,7 @@
               </div>
             </mat-grid-tile>
 
-            <div formGroupName="tertiaryInsuranceDetail" class="normal-form" *ngIf="tertiaryInsuranceDetail !== null">
+            <div formGroupName="tertiaryInsuranceDetail" class="normal-form">
               <!-- <mat-expansion-panel> -->
               <!-- <mat-grid-list cols="3" rowHeight="70px"> -->
               <!-- Insurer 1st column starts -->
@@ -1158,6 +1158,7 @@
 
     <!-- Request For details starts -->
     <div formGroupName="requestFor" *ngIf="preAuthForm.get('requestFor')?.value != null">
+
       <mat-expansion-panel expanded>
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
@@ -1168,15 +1169,26 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div class="newService">
+        <!-- <div> -->
+        <!-- <label id="example-radio-group-label">Pick your request option</label>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+          [(ngModel)]="requestedFor">
+          <mat-radio-button class="example-radio-button" *ngFor="let request of requestFor" [value]="request.code">
+            {{request.name}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <div>Your request option is: {{requestedFor}}</div> -->
+        <!-- </div> -->
+
+        <div class="newService" *ngIf="isNewAdmission">
           <mat-grid-list cols="3" rowHeight="70px">
             <!-- New Admission Service Starts -->
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
                 <!-- <mat-form-field class="no-padding"> -->
-                <mat-radio-button [disableRipple]="true" name="newAdmissService" ngDefaultControl
-                  (change)="onNewServiceChange()" #newService formControlName="newadmissionService">New Admission
+                <mat-radio-button name="newAdmissService" ngDefaultControl [disableRipple]="true"
+                  (change)="onNewServiceChange($event)" #newService formControlName="newadmissionService">New Admission
                   Service
                 </mat-radio-button>
                 <!-- </mat-form-field> -->
@@ -1200,7 +1212,8 @@
           </mat-grid-list>
         </div>
 
-        <div class="addService" formGroupName="additionalServices" class="normal-form">
+        <div class="addService" formGroupName="additionalServices" class="normal-form"
+          *ngIf="!isNewAdmission && isAdditional">
           <!-- <div class="addService" formGroupName="additionalServices" class="normal-form"> -->
           <mat-grid-list cols="3" rowHeight="70px">
             <!-- Additional Service Starts -->
@@ -1283,76 +1296,79 @@
         </div>
 
         <div class="extOnly" formGroupName="extension" class="normal-form"
-          *ngIf="preAuthForm.get('requestFor')?.get('extension')?.value != null">
-          <mat-grid-list cols="3" rowHeight="70px">
+          *ngIf="isExtension && (!isNewAdmission && isAdditional)">
+          <div class="extOnly" formGroupName="extension" class="normal-form"
+            *ngIf="preAuthForm.get('requestFor')?.get('extension')?.value != null">
+            <mat-grid-list cols="3" rowHeight="70px">
 
-            <!-- Extension Only Starts -->
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <div class="controles-container">
+              <!-- Extension Only Starts -->
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
 
-                <mat-radio-button [disableRipple]="true" (change)="onExtensionChange()" #extensionOnly
-                  formControlName="serviceflag" name="serviceflag" ngDefaultControl>Extension Only
-                </mat-radio-button>
-                <!-- <input matInput formControlName="serviceflag"> -->
+                  <mat-radio-button [disableRipple]="true" (change)="onExtensionChange()" #extensionOnly
+                    formControlName="serviceflag" name="serviceflag" ngDefaultControl>Extension Only
+                  </mat-radio-button>
+                  <!-- <input matInput formControlName="serviceflag"> -->
 
-              </div>
-            </mat-grid-tile>
+                </div>
+              </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <div class="controles-container">
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
 
-              </div>
-            </mat-grid-tile>
+                </div>
+              </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <div class="controles-container">
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
 
-              </div>
-            </mat-grid-tile>
+                </div>
+              </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <div class="controles-container">
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
 
-                <mat-form-field class="no-padding">
-                  <input matInput [matDatepicker]="fromDateExtOnly" formControlName="fromDate"
-                    [errorStateMatcher]="matcher"
-                    [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
-                  <mat-label>From Date</mat-label>
+                  <mat-form-field class="no-padding">
+                    <input matInput [matDatepicker]="fromDateExtOnly" formControlName="fromDate"
+                      [errorStateMatcher]="matcher"
+                      [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
+                    <mat-label>From Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly"></mat-datepicker-toggle>
-                  <mat-datepicker #fromDateExtOnly></mat-datepicker>
-                </mat-form-field>
-              </div>
-            </mat-grid-tile>
+                    <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly"></mat-datepicker-toggle>
+                    <mat-datepicker #fromDateExtOnly></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <div class="controles-container">
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
 
-                <mat-form-field class="no-padding">
-                  <input matInput [matDatepicker]="toDateExtOnly" formControlName="toDate" [errorStateMatcher]="matcher"
-                    [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('toDate')?.value | date:'yyyy-MM-dd'">
-                  <mat-label>To Date</mat-label>
+                  <mat-form-field class="no-padding">
+                    <input matInput [matDatepicker]="toDateExtOnly" formControlName="toDate"
+                      [errorStateMatcher]="matcher"
+                      [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('toDate')?.value | date:'yyyy-MM-dd'">
+                    <mat-label>To Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="toDateExtOnly"></mat-datepicker-toggle>
-                  <mat-datepicker #toDateExtOnly></mat-datepicker>
-                </mat-form-field>
-              </div>
-            </mat-grid-tile>
+                    <mat-datepicker-toggle matSuffix [for]="toDateExtOnly"></mat-datepicker-toggle>
+                    <mat-datepicker #toDateExtOnly></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <div class="controles-container">
-                <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
-                  <mat-label>Previous Authorization Number</mat-label>
-                </mat-form-field>
-              </div>
-            </mat-grid-tile>
+              <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <div class="controles-container">
+                  <mat-form-field class="no-padding">
+                    <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                    <mat-label>Previous Authorization Number</mat-label>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
 
-            <!--Extension Only Ends -->
+              <!--Extension Only Ends -->
 
-          </mat-grid-list>
+            </mat-grid-list>
+          </div>
         </div>
-
       </mat-expansion-panel>
     </div>
     <!--Request For details ends -->
@@ -1706,7 +1722,7 @@
   <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> -->
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
     <!-- <div> -->
-    <button mat-button mat-raised-button color="accent" (click)="onEditForm()">Edit Form</button>
+    <!-- <button mat-button mat-raised-button color="accent" (click)="onEditForm()">Edit Form</button> -->
     <!-- </div> -->
     <button mat-button mat-raised-button color="primary" (click)="onSave(preAuthForm.value)">Save as Draft</button>
     <button class="button-green" mat-button mat-raised-button color="primary"

@@ -1,4 +1,5 @@
 export class PreAuthReadResponse {
+    mrnNumber: string;
     preAuthId: number;
     episode: Episode;
     preAuthDemographics: PreAuthDemographics;

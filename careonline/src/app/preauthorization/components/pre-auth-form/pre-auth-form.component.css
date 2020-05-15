@@ -48,7 +48,7 @@ mat-checkbox {
   height: 40px !important;
   border: 1px solid #e4e5e7;
   border-radius: 2px;
-  margin-top: 0px;
+  margin-bottom: 12px;
 }
 
 .mat-expansion-panel-header.mat-expanded {
@@ -81,9 +81,9 @@ mat-checkbox {
 /* Mat expansion panel ends */
 
 /* Radio Buttons */
-.mat-radio-button ~ .mat-radio-button {
+/* .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
-}
+} */
 /* Radio Buttons */
 
 /* .mat-grid-tile .mat-figure { */
@@ -104,6 +104,7 @@ mat-checkbox {
   min-height: 200px;
 }
 
+/* Loader */
 .example-loading-shade {
   /* position: absolute;
     top: 0;
@@ -127,3 +128,16 @@ mat-checkbox {
   min-width: 60px;
   padding: 0 4px;
 }
+/* Loader */
+
+/* Radio buttons */
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+/* Radio buttons */

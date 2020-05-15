@@ -12,7 +12,10 @@ import { PreAuthService } from '../../../preauthorization/services/pre-auth.serv
 import { DialogData } from '../../../preauthorization/models/preauth-dialog-data.model';
 import { PreAuthFormModelResponse } from '../../../preauthorization/models/pre-auth-form.model';
 import { StackedModalComponent } from '../../../preauthorization/components/stacked-modal/stacked-modal.component';
-
+import {
+  Sex, Suffix, Genders, Plans, City, State, Relation,
+  Payment, RequestTypes, InsuranceTypes, RequestFor
+} from '../../../preauthorization/models/preauth-common.model';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -41,6 +44,11 @@ export class PreAuthFormComponent implements OnInit {
   @ViewChild('extensionOnly') extensionOnly: MatRadioButton;
   /* For Radio buttons under Request For */
   isLoadingResults = true;
+  requestedFor: string;
+  isNewAdmission = false;
+  isNewAdmissionSelected = false;
+  isAdditional = false;
+  isExtension = false;
   // editForm = false;
   // selected = 'primaryInsuranceDetail';
   // primaryInsuranceSelected = false;
@@ -50,6 +58,19 @@ export class PreAuthFormComponent implements OnInit {
   // toSelect = this.insuranceTypes().find(c => c.name === 'Primar Insurance');
   // this.patientCategory.get('patientCategory').setValue(toSelect);
 
+  /* Common Data Source from api*/
+  genders: Genders[];
+  relations: Relation[];
+  states: State[];
+  cities: City[];
+  payments: Payment[];
+  insurancePlans: Plans[];
+  suffixes: Suffix[];
+  requestTypes: RequestTypes[];
+  requestFor: RequestFor[];
+  insuranceTypes: InsuranceTypes[];
+
+  /* Common Data Source from api*/
 
   constructor(
     public dialog: MatDialog,
@@ -66,7 +87,7 @@ export class PreAuthFormComponent implements OnInit {
   preAuthForm: FormGroup = new FormGroup({
     id: new FormControl({ value: '', disabled: true }),
     mrnNumber: new FormControl({ value: '', disabled: true }),
-    currenttimdate: new FormControl({ value: '', disabled: true }),
+    currenttimdate: new FormControl({ value: '', disabled: false }),
 
     preAuthDemographics: new FormGroup({
       // id: new FormControl({ value: '', disabled: true }),
@@ -82,7 +103,7 @@ export class PreAuthFormComponent implements OnInit {
 
     insuranceDetailPreAuth: new FormGroup({
       mrnNumber: new FormControl({ value: '', disabled: true }),
-      insuranceTypeSelcted: new FormControl({ value: '', disabled: true }),
+      insuranceTypeSelcted: new FormControl({ value: '', disabled: false }),
       primaryInsuranceDetail: this.createInsuranceFormGroup(),
       secondaryInsuranceDetail: this.createInsuranceFormGroup(),
       tertiaryInsuranceDetail: this.createInsuranceFormGroup(),
@@ -100,37 +121,37 @@ export class PreAuthFormComponent implements OnInit {
     }),
 
     admissionDetail: new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      requestType: new FormControl({ value: '', disabled: true }),
-      admissionDate: new FormControl({ value: '', disabled: true }),
-      dischargeDate: new FormControl({ value: '', disabled: true }),
-      referringPhysician: new FormControl({ value: '', disabled: true }),
-      primaryDiagnosis: new FormControl({ value: '', disabled: true }),
-      primaryDiagnosisDescription: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      requestType: new FormControl({ value: '', disabled: false }),
+      admissionDate: new FormControl({ value: '', disabled: false }),
+      dischargeDate: new FormControl({ value: '', disabled: false }),
+      referringPhysician: new FormControl({ value: '', disabled: false }),
+      primaryDiagnosis: new FormControl({ value: '', disabled: false }),
+      primaryDiagnosisDescription: new FormControl({ value: '', disabled: false }),
     }),
 
     requestFor: new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      newadmissionService: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      newadmissionService: new FormControl({ value: '', disabled: false }),
       additionalServices: new FormGroup({
         // this.createAdditionalServicesFormGroup(),
 
-        id: new FormControl({ value: '', disabled: true }),
-        previousAuthorizationNumber: new FormControl({ value: '', disabled: true }),
-        numberOfServiceCompletedTillDate: new FormControl({ value: '', disabled: true }),
-        fromDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-        toDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-        serviceflag: new FormControl({ value: false, disabled: true }),
+        id: new FormControl({ value: '', disabled: false }),
+        previousAuthorizationNumber: new FormControl({ value: '', disabled: false }),
+        numberOfServiceCompletedTillDate: new FormControl({ value: '', disabled: false }),
+        fromDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        toDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        serviceflag: new FormControl({ value: false, disabled: false }),
       }),
 
       extension: this.createExtensionFormGroup(),
     }),
 
     requestService: new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
       medicalSocialWork: this.createMedicalSocialWorkFormGroup(),
       occupationTherapy: this.createOccupationTherapyFormGroup(),
       skilledNursing: this.createSkilledNursingFormGroup(),
@@ -182,92 +203,134 @@ export class PreAuthFormComponent implements OnInit {
 
   createExtensionFormGroup() {
     return new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      previousAuthorizationNumber: new FormControl({ value: '', disabled: true }),
-      fromDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      toDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      serviceflag: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      previousAuthorizationNumber: new FormControl({ value: '', disabled: false }),
+      fromDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      toDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      serviceflag: new FormControl({ value: '', disabled: false }),
     });
   }
 
   createMedicalSocialWorkFormGroup() {
     return new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      revenueCode: new FormControl({ value: '', disabled: true }),
-      visits: new FormControl({ value: '', disabled: true }),
-      units: new FormControl({ value: '', disabled: true }),
-      medicalSocialWork: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      revenueCode: new FormControl({ value: '', disabled: false }),
+      visits: new FormControl({ value: '', disabled: false }),
+      units: new FormControl({ value: '', disabled: false }),
+      medicalSocialWork: new FormControl({ value: '', disabled: false }),
     });
   }
 
   createOccupationTherapyFormGroup() {
     return new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      revenueCode: new FormControl({ value: '', disabled: true }),
-      visits: new FormControl({ value: '', disabled: true }),
-      units: new FormControl({ value: '', disabled: true }),
-      occupationTherapy: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      revenueCode: new FormControl({ value: '', disabled: false }),
+      visits: new FormControl({ value: '', disabled: false }),
+      units: new FormControl({ value: '', disabled: false }),
+      occupationTherapy: new FormControl({ value: '', disabled: false }),
     });
   }
 
   createSkilledNursingFormGroup() {
     return new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      revenueCode: new FormControl({ value: '', disabled: true }),
-      visits: new FormControl({ value: '', disabled: true }),
-      units: new FormControl({ value: '', disabled: true }),
-      skilledNursing: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      revenueCode: new FormControl({ value: '', disabled: false }),
+      visits: new FormControl({ value: '', disabled: false }),
+      units: new FormControl({ value: '', disabled: false }),
+      skilledNursing: new FormControl({ value: '', disabled: false }),
     });
   }
 
   createPhysicalTherapyFormGroup() {
     return new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      revenueCode: new FormControl({ value: '', disabled: true }),
-      visits: new FormControl({ value: '', disabled: true }),
-      units: new FormControl({ value: '', disabled: true }),
-      physicalTherapy: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      revenueCode: new FormControl({ value: '', disabled: false }),
+      visits: new FormControl({ value: '', disabled: false }),
+      units: new FormControl({ value: '', disabled: false }),
+      physicalTherapy: new FormControl({ value: '', disabled: false }),
     });
   }
 
   createSpeechPathologyFormGroup() {
     return new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      revenueCode: new FormControl({ value: '', disabled: true }),
-      visits: new FormControl({ value: '', disabled: true }),
-      units: new FormControl({ value: '', disabled: true }),
-      speechPathology: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      revenueCode: new FormControl({ value: '', disabled: false }),
+      visits: new FormControl({ value: '', disabled: false }),
+      units: new FormControl({ value: '', disabled: false }),
+      speechPathology: new FormControl({ value: '', disabled: false }),
     });
   }
 
   createHomeHealthAideFormGroup() {
     return new FormGroup({
-      id: new FormControl({ value: '', disabled: true }),
-      mrnNumber: new FormControl({ value: '', disabled: true }),
-      revenueCode: new FormControl({ value: '', disabled: true }),
-      visits: new FormControl({ value: '', disabled: true }),
-      units: new FormControl({ value: '', disabled: true }),
-      homeHealthAide: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }),
+      revenueCode: new FormControl({ value: '', disabled: false }),
+      visits: new FormControl({ value: '', disabled: false }),
+      units: new FormControl({ value: '', disabled: false }),
+      homeHealthAide: new FormControl({ value: '', disabled: false }),
     });
   }
 
   /* Building Form */
 
+  /* Common Methods */
+  commonMethods() {
+    this.genders = this.commonService.getGenders();
+    this.cities = this.commonService.getCities();
+    this.payments = this.commonService.getPayments();
+    this.insurancePlans = this.commonService.getPlans();
+    this.relations = this.commonService.getRelations();
+    this.states = this.commonService.getStates();
+    this.suffixes = this.commonService.getSuffixes();
+    this.requestTypes = this.commonService.getRequestTypes();
+    this.requestFor = this.commonService.getRequestFor();
+    this.insuranceTypes = this.commonService.getInsuranceTypes();
+  }
+  /* Common methods */
 
   ngOnInit() {
+    this.commonMethods();
     console.log('Data via list page ', this.selectedPatientViaDialog);
+
+    if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
+      this.isNewAdmission = true;
+      this.isAdditional = false;
+      this.isExtension = false;
+    }
+
     this.preAuthService.postPreauthPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
       if (selectedPatAuthformInfo) {
         this.isLoadingResults = false;
         // this.preAuthformDetails = selectedPatAuthformInfo;
         // this.preAuthformDetails = { ...selectedPatAuthformInfo };
         //  selectedPatAuthformInfo[0].insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
-        this.populatePatientFormData(selectedPatAuthformInfo[2]);
+
+        if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === false) {
+          this.isAdditional = false;
+          console.log('Additional Service is "False"');
+          console.log('"requestFor" error cuz api is not returning data');
+        }
+
+        if (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === false) {
+          this.isExtension = false;
+          console.log('Extension Service is "False"');
+          console.log('"extension" error cuz api is not returning data');
+        }
+
+        if ((selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === false) &&
+          (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === false)) {
+          // selectedPatAuthformInfo[0].requestFor.newadmissionService === false
+          console.log('Both Additional and Extension Service is "False" enabling newService true for ui show');
+          this.isNewAdmission = true;
+        }
+
+        this.populatePatientFormData(selectedPatAuthformInfo[0]);
       }
     },
       (error) => {
@@ -282,7 +345,7 @@ export class PreAuthFormComponent implements OnInit {
     //   }
     // }
     // );
-    this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
+    //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
   }
 
   /* Populating Form Data */
@@ -293,7 +356,8 @@ export class PreAuthFormComponent implements OnInit {
       id: patient.id,
       mrnNumber: patient.mrnNumber,
       // currenttimdate: patient.currenttimdate === '' ? '' : this.datePipe.transform(patient.currenttimdate, 'M/d/yyyy'),
-      currenttimdate: patient.currenttimdate === '' ? '' : this.datePipe.transform(patient.currenttimdate, 'M/d/yyyy'),
+      currenttimdate: patient.currenttimdate,
+      // === '' ? '' : this.datePipe.transform(patient.currenttimdate, 'yyyy-MM-dd'),
       preAuthDemographics: {
         mrnNumber: patient.preAuthDemographics.mrnNumber ? (patient.preAuthDemographics.mrnNumber) : null,
         firstName: patient.preAuthDemographics.firstName ? (patient.preAuthDemographics.firstName) : null,
@@ -301,16 +365,16 @@ export class PreAuthFormComponent implements OnInit {
         middleName: patient.preAuthDemographics.middleName ? (patient.preAuthDemographics.middleName) : null,
         suffix: patient.preAuthDemographics.suffix ? (patient.preAuthDemographics.suffix) : null,
         gender: patient.preAuthDemographics.gender ? (patient.preAuthDemographics.gender) : null,
-        dob: patient.preAuthDemographics ? (patient.preAuthDemographics.dob === '' ? '' :
-          this.datePipe.transform(patient.preAuthDemographics.dob, 'M/d/yyyy')) : null,
+        // dob: patient.preAuthDemographics ? (patient.preAuthDemographics.dob === '' ? '' :
+        //   this.datePipe.transform(patient.preAuthDemographics.dob, 'yyyy-MM-dd')) : null,
+        dob: patient.preAuthDemographics ? (patient.preAuthDemographics.dob) : null,
         ssn: patient.preAuthDemographics.ssn ? (patient.preAuthDemographics.ssn) : null,
       },
 
       insuranceDetailPreAuth: {
         mrnNumber: patient.insuranceDetailPreAuth.mrnNumber ?
           (patient.insuranceDetailPreAuth.mrnNumber) : null,
-        insuranceTypeSelcted: patient.insuranceDetailPreAuth.insuranceTypeSelcted ?
-          (patient.insuranceDetailPreAuth.insuranceTypeSelcted) : null,
+        insuranceTypeSelcted: patient.insuranceDetailPreAuth.insuranceTypeSelcted,
         primaryInsuranceDetail: {
           ssn: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.primaryInsuranceDetail.ssn)
@@ -334,9 +398,7 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insuredmiddleName)
             : null,
           insureddob: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insureddob === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.primaryInsuranceDetail.insureddob, 'M/d/yyyy'))
-            : null,
+            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insureddob) : null,
           insuredsex: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insuredsex)
             : null,
@@ -350,8 +412,7 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.primaryInsuranceDetail.policyNumber)
             : null,
           statusVerifiedDate: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.statusVerifiedDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.primaryInsuranceDetail.statusVerifiedDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.statusVerifiedDate)
             : null,
           group_name: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.primaryInsuranceDetail.group_name)
@@ -375,12 +436,10 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.primaryInsuranceDetail.zipcode)
             : null,
           endDate: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.endDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.primaryInsuranceDetail.endDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.endDate)
             : null,
           startDate: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.startDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.primaryInsuranceDetail.startDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.startDate)
             : null,
           mrnNumber: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.primaryInsuranceDetail.mrnNumber)
@@ -409,8 +468,7 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insuredmiddleName)
             : null,
           insureddob: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insureddob === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insureddob, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insureddob)
             : null,
           insuredsex: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insuredsex)
@@ -425,8 +483,7 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.policyNumber)
             : null,
           statusVerifiedDate: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.statusVerifiedDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.secondaryInsuranceDetail.statusVerifiedDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.statusVerifiedDate)
             : null,
           group_name: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.group_name)
@@ -450,12 +507,10 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.zipcode)
             : null,
           endDate: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.endDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.secondaryInsuranceDetail.endDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.endDate)
             : null,
           startDate: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.startDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.secondaryInsuranceDetail.startDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.startDate)
             : null,
           mrnNumber: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.mrnNumber)
@@ -484,8 +539,7 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insuredmiddleName)
             : null,
           insureddob: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insureddob === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insureddob, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insureddob)
             : null,
           insuredsex: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insuredsex)
@@ -500,8 +554,7 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.policyNumber)
             : null,
           statusVerifiedDate: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.statusVerifiedDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.statusVerifiedDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.statusVerifiedDate)
             : null,
           group_name: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.group_name)
@@ -525,12 +578,10 @@ export class PreAuthFormComponent implements OnInit {
             (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.zipcode)
             : null,
           endDate: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.endDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.endDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.endDate)
             : null,
           startDate: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.startDate === '' ? '' :
-              this.datePipe.transform(patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.startDate, 'M/d/yyyy'))
+            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.startDate)
             : null,
           mrnNumber: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
             (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.mrnNumber)
@@ -555,10 +606,10 @@ export class PreAuthFormComponent implements OnInit {
         id: patient.admissionDetail.id ? (patient.admissionDetail.id) : null,
         mrnNumber: patient.admissionDetail.mrnNumber ? (patient.admissionDetail.mrnNumber) : null,
         requestType: patient.admissionDetail.requestType ? (patient.admissionDetail.requestType) : null,
-        admissionDate: patient.admissionDetail.dischargeDate ? (patient.admissionDetail.admissionDate === '' ? '' :
-          this.datePipe.transform(patient.admissionDetail.admissionDate, 'M/d/yyyy')) : null,
-        dischargeDate: patient.admissionDetail.dischargeDate ? (patient.admissionDetail.dischargeDate === '' ? '' :
-          this.datePipe.transform(patient.admissionDetail.dischargeDate, 'M/d/yyyy')) : null,
+        admissionDate: patient.admissionDetail.admissionDate,
+        // ? (patient.admissionDetail.admissionDate === '' ? '' :
+        // this.datePipe.transform(patient.admissionDetail.admissionDate, 'yyyy-MM-dd')) : null,
+        dischargeDate: patient.admissionDetail.dischargeDate,
         referringPhysician: patient.admissionDetail.referringPhysician ?
           (patient.admissionDetail.referringPhysician) : null,
         primaryDiagnosis: patient.admissionDetail.primaryDiagnosis ? (patient.admissionDetail.primaryDiagnosis) : null,
@@ -577,10 +628,8 @@ export class PreAuthFormComponent implements OnInit {
             (patient.requestFor.additionalServices.previousAuthorizationNumber) : null,
           numberOfServiceCompletedTillDate: patient.requestFor.additionalServices ?
             (patient.requestFor.additionalServices.numberOfServiceCompletedTillDate) : null,
-          fromDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.fromDate === '' ? '' :
-            this.datePipe.transform(patient.requestFor.additionalServices.fromDate, 'M/d/yyyy')) : null,
-          toDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.toDate === '' ? '' :
-            this.datePipe.transform(patient.requestFor.additionalServices.toDate, 'M/d/yyyy')) : null,
+          fromDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.fromDate) : null,
+          toDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.toDate) : null,
           serviceflag: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.serviceflag) : null,
         },
 
@@ -588,10 +637,8 @@ export class PreAuthFormComponent implements OnInit {
           id: patient.requestFor.extension ? (patient.requestFor.extension.id) : null,
           previousAuthorizationNumber: patient.requestFor.extension ?
             (patient.requestFor.extension.previousAuthorizationNumber) : null,
-          fromDate: patient.requestFor.extension ? (patient.requestFor.extension.fromDate === '' ? '' :
-            this.datePipe.transform(patient.requestFor.extension.fromDate, 'M/d/yyyy')) : null,
-          toDate: patient.requestFor.extension ? (patient.requestFor.extension.toDate === '' ? '' :
-            this.datePipe.transform(patient.requestFor.extension.toDate, 'M/d/yyyy')) : null,
+          fromDate: patient.requestFor.extension ? (patient.requestFor.extension.fromDate) : null,
+          toDate: patient.requestFor.extension ? (patient.requestFor.extension.toDate) : null,
           serviceflag: patient.requestFor.extension ? (patient.requestFor.extension.serviceflag) : null,
         }
       },
@@ -671,19 +718,19 @@ export class PreAuthFormComponent implements OnInit {
     };
     // formData.insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
     this.preAuthForm.setValue(formData);
-    this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
+    //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
     console.log('Form Populated Data ', formData);
   }
   /* Populating Form Data */
 
 
   /* Request for New Admission Service via Radio button starts */
-  onNewServiceChange() {
-    console.log(this.newAdmissService.checked);
-  }
-
-  get serviceflag() {
-    return this.preAuthForm.get('requestFor').get('extension').get('serviceflag').value;
+  onNewServiceChange(event) {
+    if (this.newAdmissService.checked) {
+      console.log('New Service', this.newAdmissService.checked.valueOf());
+      // console.log('New Service2', event.target.value);
+      this.isNewAdmissionSelected = true;
+    }
   }
 
   onExtensionChange() {
@@ -700,6 +747,7 @@ export class PreAuthFormComponent implements OnInit {
   /* Request for New Admission Service via Radio button ends */
   /*Save as Draft */
   onSave(selectedPatientData: PreAuthFormModelResponse) {
+    this.isLoadingResults = true;
     /*
     if (this.preAuthFormService.patientForm.valid) {
       if (!this.preAuthFormService.patientForm.get('$key').value) {
@@ -713,95 +761,76 @@ export class PreAuthFormComponent implements OnInit {
         this.onClose();
       }
     }
-
+selectedPatientData.currenttimdate =admissionDate
     */
+    console.log(selectedPatientData.currenttimdate);
+    // console.log(selectedPatientData.admissionDetail.admissionDate);
+    //  console.log(this.datePipe.transform(selectedPatientData.currenttimdate, 'yyyy-MM-dd').toLocaleString());
+    //  console.log(this.datePipe.transform(selectedPatientData.currenttimdate).toLocaleString());
+    // const on = this.newAdmissService.checked;
+    if (this.newAdmissService.checked.valueOf()) {
+      console.log('New Add selected', selectedPatientData.requestFor.newadmissionService = this.newAdmissService.checked.valueOf());
+      console.log('New Add selected after modific', this.newAdmissService.checked);
+      console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    }
     this.preAuthService.saveOrDraftPatientData(selectedPatientData).subscribe((saveResponse) => {
       if (saveResponse) {
         // this.preAuthformDetails = selectedPatAuthformInfo;
         // this.preAuthformDetails = { ...selectedPatAuthformInfo };
         //  selectedPatAuthformInfo[0].insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
         console.log('Save Respon ', saveResponse);
+        this.isLoadingResults = false;
         this.onClose();
       }
     },
       (error) => {
         console.log(error);
         this.onClose();
+        this.isLoadingResults = false;
       });
 
     console.log('On Save ', selectedPatientData);
   }
 
   /*Edit Form*/
-  onEditForm(preAuthForm) {
+  // onEditForm(preAuthForm) {
 
-    // this.newAdmissService.disabled = false;
-    // this.additionalService.disabled = false;
-    // this.extensionOnly.disabled = false;
+  // this.newAdmissService.disabled = false;
+  // this.additionalService.disabled = false;
+  // this.extensionOnly.disabled = false;
 
-    // const ctrl = this.preAuthForm.get('currenttimdate');
-    // preAuthForm.controls.currenttimdate.enabled();
-    // if (event.value === 'currenttimdate') {
-    //   ctrl.enable();
-    // } else {
-    //   ctrl.disable();
-    // }
-    // this.editForm = true;
-    // this.preAuthService.postPreauthPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
-    //   if (selectedPatAuthformInfo) {
-    //     // this.preAuthformDetails = selectedPatAuthformInfo;
-    //     // this.preAuthformDetails = { ...selectedPatAuthformInfo };
-    //     this.populatePatientFormData(selectedPatAuthformInfo[0]);
-    //   }
-    // },
-    //   (error) => {
-    //     console.log(error);
-    //   });
-  }
+  // const ctrl = this.preAuthForm.get('currenttimdate');
+  // preAuthForm.controls.currenttimdate.enabled();
+  // if (event.value === 'currenttimdate') {
+  //   ctrl.enable();
+  // } else {
+  //   ctrl.disable();
+  // }
+  // this.editForm = true;
+  // this.preAuthService.postPreauthPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
+  //   if (selectedPatAuthformInfo) {
+  //     // this.preAuthformDetails = selectedPatAuthformInfo;
+  //     // this.preAuthformDetails = { ...selectedPatAuthformInfo };
+  //     this.populatePatientFormData(selectedPatAuthformInfo[0]);
+  //   }
+  // },
+  //   (error) => {
+  //     console.log(error);
+  //   });
+  // }
 
   /*On Send Request for PreAutorization*/
   onSendRequest() {
 
   }
 
+
   /* Common getters for drop down values */
-  get genders() {
-    return this.commonService.getGenders();
+
+
+  get serviceflag() {
+    return this.preAuthForm.get('requestFor').get('extension').get('serviceflag').value;
   }
-
-  get cities() {
-    return this.commonService.getCities();
-  }
-
-  get payments() {
-    return this.commonService.getPayments();
-  }
-
-  get insurancePlans() {
-    return this.commonService.getPlans();
-  }
-
-  get relations() {
-    return this.commonService.getRelations();
-  }
-
-  get states() {
-    return this.commonService.getStates();
-  }
-
-  get suffixes() {
-    return this.commonService.getSuffixes();
-  }
-
-  get requestTypes() {
-    return this.commonService.getRequestTypes();
-  }
-
-  get insuranceTypes() {
-    return this.commonService.getInsuranceTypes();
-  }
-
-
   /* Common getters for drop down values */
 
   onClose() {
@@ -815,54 +844,54 @@ export class PreAuthFormComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-
-  onEligibilityCheck() {
-    console.log('Data Received From Patient List: Start');
-    console.log(this.selectedPatientViaDialog);
-    console.log('Data Received From Patient List: Ends');
-    // this.patientFormService.dataForEligibilityCheck(this.patientFormService.form.value);
-    setTimeout(() => {
-      const config = new MatDialogConfig();
-      config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
-      config.autoFocus = false; // does not allow popup to focus on any field or icon
-      config.hasBackdrop = true;
-      config.width = '40%';
-      config.data = { heading: 'Verify Eligibility', form: this.selectedPatientViaDialog };
-      const dialogRef = this.dialog.open(StackedModalComponent, config);
-      // dialogRef.afterOpened().subscribe(result => {
-      //   console.log('Dialog Opend:' + result);
-      // });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Stacked Dialog Closed: true / false will come ' + result);
-        // this.toasterService.success(':: Submitted Successfully');
-        // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
-        console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
-        // console.log(this.insuranceList);
-        console.log('Data received from stacked model to patient component ends');
-        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-        // if (this.insuranceList) {
-        //   this.ngOnInit();
-        //   console.log('ngOnInit() was executed for patient component');
-        // }
-        if (result) {
-          console.log('Confirm is clicked: ' + result);
-        }
-
+  /*
+    onEligibilityCheck() {
+      console.log('Data Received From Patient List: Start');
+      console.log(this.selectedPatientViaDialog);
+      console.log('Data Received From Patient List: Ends');
+      // this.patientFormService.dataForEligibilityCheck(this.patientFormService.form.value);
+      setTimeout(() => {
+        const config = new MatDialogConfig();
+        config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
+        config.autoFocus = false; // does not allow popup to focus on any field or icon
+        config.hasBackdrop = true;
+        config.width = '40%';
+        config.data = { heading: 'Verify Eligibility', form: this.selectedPatientViaDialog };
+        const dialogRef = this.dialog.open(StackedModalComponent, config);
+        // dialogRef.afterOpened().subscribe(result => {
+        //   console.log('Dialog Opend:' + result);
+        // });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('Stacked Dialog Closed: true / false will come ' + result);
+          // this.toasterService.success(':: Submitted Successfully');
+          // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
+          console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
+          // console.log(this.insuranceList);
+          console.log('Data received from stacked model to patient component ends');
+          // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
+          // if (this.insuranceList) {
+          //   this.ngOnInit();
+          //   console.log('ngOnInit() was executed for patient component');
+          // }
+          if (result) {
+            console.log('Confirm is clicked: ' + result);
+          }
+   
+        });
       });
-    });
-  }
-
+    }
+  */
 
 
   /* On Selection of Insurance Type Drop down */
   selectedInsuranceType(event) {
     // console.log(event.source.value);
-    if (event.source.value === 'primaryInsuranceDetail') {
-      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
-    } else if (event.source.value === 'secondaryInsuranceDetail') {
-      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'secondaryInsuranceDetail' });
-    } else if (event.source.value === 'tertiaryInsuranceDetail') {
-      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'tertiaryInsuranceDetail' });
+    if (event.source.value === 'Primary Insurance') {
+      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Primary Insurance' });
+    } else if (event.source.value === 'Secondary Insurance') {
+      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Secondary Insurance' });
+    } else if (event.source.value === 'Tertiary Insurance') {
+      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Tertiary Insurance' });
     }
 
     // switch (event.source.value) {
@@ -908,39 +937,39 @@ export class PreAuthFormComponent implements OnInit {
     // }
   }
   /* On Selection of Insurance Type Drop down */
+  /*
+    primarySelected(event) {
+      // event.stopPropagation();
+      // this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected =
+      //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected;
+      // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected);
+    }
+   
+    secondarySelected(event) {
+      // event.stopPropagation();
+      // this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected =
+      //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected;
+      // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected);
+    }
+   
+    tertiarySelected(event) {
+      //   event.stopPropagation();
+      //   this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected =
+      //     !this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected;
+      //   console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected);
+    }
+  */
+  // get secondaryInsuranceDetail() {
+  //   return this.preAuthForm.get('insuranceDetailPreAuth.secondaryInsuranceDetail').value.eligibilityCheckSelected;
+  // }
 
-  primarySelected(event) {
-    // event.stopPropagation();
-    // this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected =
-    //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected;
-    // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected);
-  }
+  // get tertiaryInsuranceDetail() {
+  //   return this.preAuthForm.get('insuranceDetailPreAuth.tertiaryInsuranceDetail').value.eligibilityCheckSelected;
+  // }
 
-  secondarySelected(event) {
-    // event.stopPropagation();
-    // this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected =
-    //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected;
-    // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected);
-  }
-
-  tertiarySelected(event) {
-    //   event.stopPropagation();
-    //   this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected =
-    //     !this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected;
-    //   console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected);
-  }
-
-  get secondaryInsuranceDetail() {
-    return this.preAuthForm.get('insuranceDetailPreAuth.secondaryInsuranceDetail').value.eligibilityCheckSelected;
-  }
-
-  get tertiaryInsuranceDetail() {
-    return this.preAuthForm.get('insuranceDetailPreAuth.tertiaryInsuranceDetail').value.eligibilityCheckSelected;
-  }
-
-  get primaryInsuranceDetail() {
-    return this.preAuthForm.get('insuranceDetailPreAuth.primaryInsuranceDetail').value.eligibilityCheckSelected;
-  }
+  // get primaryInsuranceDetail() {
+  //   return this.preAuthForm.get('insuranceDetailPreAuth.primaryInsuranceDetail').value.eligibilityCheckSelected;
+  // }
 
 
   phyThepySelected(event) {

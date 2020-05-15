@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import {
   Sex, Suffix, Genders, Plans, City, State, Relation,
-  Payment, RequestTypes, InsuranceTypes
+  Payment, RequestTypes, InsuranceTypes, RequestFor
 } from '../../preauthorization/models/preauth-common.model';
 
 @Injectable({
@@ -76,13 +76,19 @@ export class CommonService {
     { code: 3, name: 'Others' }
   ];
 
+  requestFor: RequestFor[] = [
+    { code: 1, name: 'New Admission Service' },
+    { code: 2, name: 'Additional Service' },
+    { code: 3, name: 'Extension Only' }
+  ];
+
   insuranceTypes: InsuranceTypes[] = [
-    { code: 1, name: 'primaryInsuranceDetail'},
-    { code: 2, name: 'secondaryInsuranceDetail'},
-    { code: 3, name: 'tertiaryInsuranceDetail'},
-    // { code: 1, name: 'Primary Insurance' },
-    // { code: 2, name: 'Secondary Insurance' },
-    // { code: 3, name: 'Tertiary Insurance' },
+    // { code: 1, name: 'primaryInsuranceDetail'},
+    // { code: 2, name: 'secondaryInsuranceDetail'},
+    // { code: 3, name: 'tertiaryInsuranceDetail'},
+    { code: 1, name: 'Primary Insurance' },
+    { code: 2, name: 'Secondary Insurance' },
+    { code: 3, name: 'Tertiary Insurance' },
   ];
 
   constructor(
@@ -132,9 +138,15 @@ export class CommonService {
     return this.requestTypes;
   }
 
-    /* InsuranceTypes Details*/
-    getInsuranceTypes() {
-      return this.insuranceTypes;
-    }
+
+  /* RequestFor Details*/
+  getRequestFor() {
+    return this.requestFor;
+  }
+
+  /* InsuranceTypes Details*/
+  getInsuranceTypes() {
+    return this.insuranceTypes;
+  }
 
 }
