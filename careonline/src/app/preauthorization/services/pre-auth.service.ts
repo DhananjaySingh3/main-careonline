@@ -19,36 +19,25 @@ export class PreAuthService {
 
   ) { }
 
-  // dataFromEligibilityCheck: ResponseReceivedForm;
-
-  // getEligibilityCheckData() {
-  //   console.log(this.dataFromEligibilityCheck);
-  //   return this.dataFromEligibilityCheck.ackn || null;
-  // }
-  /*On Edit Patient receiving selected patient data so that it can be used for getCurrentInsuranceData()*/
-  // getSelecPatData(row: PatientFormDataRequest) {
-  //   this.formData = row;
-  //   this.formData = { ...row };
-  // }
-  /*Edit Patient onto Patient List Data Table*/
-  // refreshPage() {
-  //   return this.currentInsuranceList.asObservable();
-  // }
 
   /*To get list of Preauthorization data : http://localhost:8080/preAuthorization/preAuthList*/
   getPreAuthorizationtList(): Observable<any> {
     return this.httpClient.get(this.apiURL + '/preAuthList');
   }
   /*Sending Patient data on PreAuth Form Click onto the table*/
-  postPreauthPatientData(form: PreAuthReadResponse): Observable<any> {
+  viewEditPatientData(form: PreAuthReadResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preauthview', { mrnNumber: form.preAuthDemographics.mrnNumber });
   }
 
   /*Drafting Edited Patient data*/
-  saveOrDraftPatientData(form: PreAuthFormModelResponse): Observable<any> {
+  saveAsDraftPatientData(form: PreAuthFormModelResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preauthSave', form);
   }
 
+  /*Preauth Send Request Patient data*/
+  sendRequestPatientData(form: PreAuthFormModelResponse): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preauthSend', form);
+  }
 
   /* Current Insurance Details*/
   // getCurrentInsuranceData(): Observable<any> {

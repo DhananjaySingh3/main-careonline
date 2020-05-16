@@ -51,13 +51,8 @@ export class PreAuthFormComponent implements OnInit {
   isExtension = false;
 
   isFormUpdated = false;
-  // editForm = false;
-  // selected = 'primaryInsuranceDetail';
-  // primaryInsuranceSelected = false;
-  // secondaryInsuranceSelected = false;
-  // tertiaryInsuranceSelected = false;
-  // noneInsuranceSelected = false;
-  // toSelect = this.insuranceTypes().find(c => c.name === 'Primar Insurance');
+
+  // toSelect = this.insuranceTypes().find(c => c.name === 'Primary Insurance');
   // this.patientCategory.get('patientCategory').setValue(toSelect);
 
   /* Common Data Source from api*/
@@ -306,10 +301,9 @@ export class PreAuthFormComponent implements OnInit {
       this.isExtension = false;
     }
 
-    this.preAuthService.postPreauthPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
+    this.preAuthService.viewEditPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
       if (selectedPatAuthformInfo) {
         this.isLoadingResults = false;
-        // this.preAuthformDetails = selectedPatAuthformInfo;
         // this.preAuthformDetails = { ...selectedPatAuthformInfo };
         //  selectedPatAuthformInfo[0].insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
 
@@ -339,14 +333,6 @@ export class PreAuthFormComponent implements OnInit {
         console.log(error);
       });
 
-    // this.preAuthService.getPreauthPatientData().subscribe((selectedPatAuthformInfo) => {
-    //   if (selectedPatAuthformInfo) {
-    //     // this.preAuthformDetails = selectedPatAuthformInfo;
-    //     // this.preAuthformDetails = { ...selectedPatAuthformInfo };
-    //     this.populatePatientFormData(selectedPatAuthformInfo);
-    //   }
-    // }
-    // );
     //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
   }
 
@@ -743,87 +729,47 @@ export class PreAuthFormComponent implements OnInit {
 
   onAddServiceChange() {
     console.log(this.additionalService.checked);
+    this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
   }
   /* Request for New Admission Service via Radio button ends */
   /*Save as Draft */
-  onSave1(selectedPatientData: PreAuthFormModelResponse) {
-    this.isLoadingResults = true;
-    /*
-    if (this.preAuthFormService.patientForm.valid) {
-      if (!this.preAuthFormService.patientForm.get('$key').value) {
-        // this.preAuthFormService.insertOrCreatePatient(this.preAuthFormService.patientForm.value);
-      } else {
-        // this.toasterService.success(':: Submitted Successfully');
-        this.preAuthFormService.updatePatient(this.preAuthFormService.patientForm.value);
-        this.preAuthFormService.patientForm.reset();
-        // this.preAuthFormService.clearFormData(); // initializeFormGroup() = clearFormData()
-        // this.toasterService.success(':: Submitted Successfully');
-        this.onClose();
-      }
-    }
-selectedPatientData.currenttimdate =admissionDate
-    */
-    console.log(selectedPatientData.currenttimdate);
-    // console.log(selectedPatientData.admissionDetail.admissionDate);
-    //  console.log(this.datePipe.transform(selectedPatientData.currenttimdate, 'yyyy-MM-dd').toLocaleString());
-    //  console.log(this.datePipe.transform(selectedPatientData.currenttimdate).toLocaleString());
-    // const on = this.newAdmissService.checked;
-    // selectedPatientData.currenttimdate = new Date().toISOString();
-    // console.log('Date after change ', selectedPatientData);
-    // if (this.newAdmissService.checked.valueOf()) {
-    //   console.log('New Add selected', selectedPatientData.requestFor.newadmissionService = this.newAdmissService.checked.valueOf());
-    //   console.log('New Add selected after modific', this.newAdmissService.checked);
-    //   console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-    // }
-    this.preAuthService.saveOrDraftPatientData(selectedPatientData).subscribe((saveResponse) => {
-      if (saveResponse) {
-        // this.preAuthformDetails = selectedPatAuthformInfo;
-        // this.preAuthformDetails = { ...selectedPatAuthformInfo };
-        //  selectedPatAuthformInfo[0].insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
-        console.log('Save Respon ', saveResponse);
-        this.isLoadingResults = false;
-        this.onClose();
-      }
-    },
-      (error) => {
-        console.log(error);
-        this.onClose();
-        this.isLoadingResults = false;
-      });
-
-    console.log('On Save ', selectedPatientData);
-  }
-
-  /*Edit Form*/
-  // onEditForm(preAuthForm) {
-
-  // this.newAdmissService.disabled = false;
-  // this.additionalService.disabled = false;
-  // this.extensionOnly.disabled = false;
-
-  // const ctrl = this.preAuthForm.get('currenttimdate');
-  // preAuthForm.controls.currenttimdate.enabled();
-  // if (event.value === 'currenttimdate') {
-  //   ctrl.enable();
-  // } else {
-  //   ctrl.disable();
-  // }
-  // this.editForm = true;
-  // this.preAuthService.postPreauthPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
-  //   if (selectedPatAuthformInfo) {
-  //     // this.preAuthformDetails = selectedPatAuthformInfo;
-  //     // this.preAuthformDetails = { ...selectedPatAuthformInfo };
-  //     this.populatePatientFormData(selectedPatAuthformInfo[0]);
-  //   }
-  // },
-  //   (error) => {
-  //     console.log(error);
-  //   });
-  // }
 
   /*On Send Request for PreAutorization*/
-  onSendRequest() {
+  onSendRequest(selectedPatntData: PreAuthFormModelResponse) {
+    // selectedPatientData.currenttimdate = new Date().toISOString();
+    // console.log('Date after change ', selectedPatientData);
+    console.log('Form data on send request', selectedPatntData);
 
+    setTimeout(() => {
+      // formcontrol =newadmissionService and template ref = newAdmissService
+      if (this.isNewAdmissionSelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+        // console.log('New Add selected after modific', this.newAdmissService.checked);
+        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      }
+
+      const config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = false;
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = {
+        heading: '"Send Request" Confirmation Alert',
+        messageContent: 'Do you want to "Send" the Preauthorization form?',
+        selectedPatientData: selectedPatntData,
+        actionType: 'sendRequest'
+      };
+      const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+          this.isFormUpdated = result;
+        }
+
+      });
+    });
   }
 
 
@@ -836,10 +782,8 @@ selectedPatientData.currenttimdate =admissionDate
   /* Common getters for drop down values */
 
   onClose() {
-    // this.preAuthFormService.patientForm.reset();
-    // this.preAuthFormService.clearFormValues();
+    this.preAuthForm.reset();
     this.dialogRef.close();
-    // this.toasterService.success(':: Submitted Successfully');
   }
 
   onNoClick(): void {
@@ -849,7 +793,7 @@ selectedPatientData.currenttimdate =admissionDate
   onSave(selectedPatntData: PreAuthFormModelResponse) {
     // selectedPatientData.currenttimdate = new Date().toISOString();
     // console.log('Date after change ', selectedPatientData);
-    console.log('Form data1', selectedPatntData);
+    console.log('Form data on save', selectedPatntData);
 
     setTimeout(() => {
       // formcontrol =newadmissionService and template ref = newAdmissService
@@ -867,7 +811,8 @@ selectedPatientData.currenttimdate =admissionDate
       config.data = {
         heading: '"Save" Confirmation Alert',
         messageContent: 'Do you want to "Save" the content?',
-        selectedPatientData: selectedPatntData
+        selectedPatientData: selectedPatntData,
+        actionType: 'saveRequest'
       };
       const dialogRef = this.dialog.open(StackedModalComponent, config);
 
@@ -892,45 +837,6 @@ selectedPatientData.currenttimdate =admissionDate
     });
   }
 
-  /*
-    onEligibilityCheck() {
-      console.log('Data Received From Patient List: Start');
-      console.log(this.selectedPatientViaDialog);
-      console.log('Data Received From Patient List: Ends');
-      // this.patientFormService.dataForEligibilityCheck(this.patientFormService.form.value);
-      setTimeout(() => {
-        const config = new MatDialogConfig();
-        config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
-        config.autoFocus = false; // does not allow popup to focus on any field or icon
-        config.hasBackdrop = true;
-        config.width = '40%';
-        config.data = { heading: 'Verify Preautorization', form: this.selectedPatientViaDialog };
-        const dialogRef = this.dialog.open(StackedModalComponent, config);
-        // dialogRef.afterOpened().subscribe(result => {
-        //   console.log('Dialog Opend:' + result);
-        // });
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('Stacked Dialog Closed: true / false will come ' + result);
-          // this.toasterService.success(':: Submitted Successfully');
-          // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
-          console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
-          // console.log(this.insuranceList);
-          console.log('Data received from stacked model to patient component ends');
-          // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-          // if (this.insuranceList) {
-          //   this.ngOnInit();
-          //   console.log('ngOnInit() was executed for patient component');
-          // }
-          if (result) {
-            console.log('Confirm is clicked: ' + result);
-          }
-  
-        });
-      });
-    }
-  */
-
-
   /* On Selection of Insurance Type Drop down */
   selectedInsuranceType(event) {
     // console.log(event.source.value);
@@ -943,48 +849,6 @@ selectedPatientData.currenttimdate =admissionDate
     // } else if (event.source.value === 'Tertiary Insurance') {
     //   this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Tertiary Insurance' });
     // }
-
-    // switch (event.source.value) {
-    //   case 'primaryInsuranceDetail': {
-    //     this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: null });
-    //     this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
-    //     // this.preAuthForm.get('insuranceDetailPreAuth').get('primaryInsuranceDetail').patchValue({ eligibilityCheckSelected: 'true' });
-    //     console.log('Primary selected and eligibilityCheckSelected = true :', this.preAuthForm.value);
-    //     // this.primaryInsuranceSelected = true;
-    //     // this.secondaryInsuranceSelected = false;
-    //     // this.tertiaryInsuranceSelected = false;
-    //     break;
-    //   }
-    //   case 'secondaryInsuranceDetail': {
-    //     this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: null });
-    //     this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'secondaryInsuranceDetail' });
-    //     // this.primaryInsuranceSelected = false;
-    //     // this.secondaryInsuranceSelected = true;
-    //     // this.tertiaryInsuranceSelected = false;
-    //     // console.log('Selcted Insu: ', event.source.value);
-    //     // this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected = false;
-    //     // this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected = true;
-    //     // this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected = false;
-    //     break;
-    //   }
-    //   case 'tertiaryInsuranceDetail': {
-    //     this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: null });
-    //     this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'tertiaryInsuranceDetail' });
-    //     // this.primaryInsuranceSelected = false;
-    //     // this.secondaryInsuranceSelected = false;
-    //     // this.tertiaryInsuranceSelected = true;
-    //     break;
-    //   }
-    //   default: {
-    //     this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: null });
-    //     // this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'null' });
-    //     // this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
-    //     // this.primaryInsuranceSelected = false;
-    //     // this.secondaryInsuranceSelected = false;
-    //     // this.tertiaryInsuranceSelected = false;
-    //     break;
-    //   }
-    // }
   }
   /* On Selection of Insurance Type Drop down */
   /*
@@ -994,33 +858,12 @@ selectedPatientData.currenttimdate =admissionDate
       //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected;
       // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected);
     }
-   
-    secondarySelected(event) {
-      // event.stopPropagation();
-      // this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected =
-      //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected;
-      // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected);
-    }
-   
-    tertiarySelected(event) {
-      //   event.stopPropagation();
-      //   this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected =
-      //     !this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected;
-      //   console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected);
-    }
-  */
-  // get secondaryInsuranceDetail() {
-  //   return this.preAuthForm.get('insuranceDetailPreAuth.secondaryInsuranceDetail').value.eligibilityCheckSelected;
-  // }
-
-  // get tertiaryInsuranceDetail() {
-  //   return this.preAuthForm.get('insuranceDetailPreAuth.tertiaryInsuranceDetail').value.eligibilityCheckSelected;
-  // }
 
   // get primaryInsuranceDetail() {
   //   return this.preAuthForm.get('insuranceDetailPreAuth.primaryInsuranceDetail').value.eligibilityCheckSelected;
   // }
 
+  */
 
   phyThepySelected(event) {
     // event.stopPropagation();
@@ -1029,7 +872,5 @@ selectedPatientData.currenttimdate =admissionDate
 
     // console.log(this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy);
   }
-
-
 
 }

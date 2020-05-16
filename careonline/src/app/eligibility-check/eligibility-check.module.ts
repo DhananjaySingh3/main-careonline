@@ -14,6 +14,7 @@ import {
 import { EligibilityCheckComponent } from '../eligibility-check/eligibility-check.component';
 import { PatientListComponent } from '../eligibility-check/components/patient-list/patient-list.component';
 import { EligibilityCheckService } from '../eligibility-check/services/eligibility-check.service';
+import { EligibilityToasterService } from '../eligibility-check/services/eligibility-toaster.service';
 import { PatientFormComponent } from './components/patient-form/patient-form.component';
 import { PatientFormService } from '../eligibility-check/services/patient-form.service';
 import { CommonService } from '../eligibility-check/services/common.service';
@@ -57,7 +58,7 @@ import { StackedModalComponent } from './components/stacked-modal/stacked-modal.
     EligibilityCheckService,
     PatientFormService,
     CommonService,
-
+    EligibilityToasterService
   ],
   entryComponents: [PatientFormComponent, StackedModalComponent]
 })

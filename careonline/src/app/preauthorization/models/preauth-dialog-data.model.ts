@@ -4,4 +4,5 @@ export class DialogData {
     heading: string;
     messageContent: string;
     selectedPatientData: PreAuthReadResponse;
+    actionType: string;
 }

@@ -4,7 +4,7 @@ import { PatientFormDataRequest, ResponseReceivedForm } from '../../models/patie
 import { DialogData } from '../../models/patient-form-dialog-data.model';
 import { EligibilityCheckService } from '../../../eligibility-check/services/eligibility-check.service';
 import { PatientFormService } from '../../../eligibility-check/services/patient-form.service';
-// import { SnackbarService } from 'src/app/services/snackbar.service';
+import { EligibilityToasterService } from '../../../eligibility-check/services/eligibility-toaster.service';
 
 @Component({
   selector: 'app-stacked-modal',
@@ -22,7 +22,7 @@ export class StackedModalComponent implements OnInit {
 
   constructor(
     public patientFormService: PatientFormService,
-    // public toasterService: SnackbarService,
+    public toasterService: EligibilityToasterService,
     public dialogRef: MatDialogRef<StackedModalComponent>, // for getting the ref of the dialog
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public eligibilityCheckService: EligibilityCheckService,
@@ -59,12 +59,12 @@ export class StackedModalComponent implements OnInit {
         }
         if (response.ackn) {
           // this.patientFormService.getEligibilityData();
-          // this.toasterService.success(':: Submitted Successfully');
+          this.toasterService.success(':: Submitted Successfully');
           this.isLoadingResults = false;
           this.onNoClick();
         }
       }, (error) => {
-        // this.toasterService.warn(':: Sent request failed!');
+        this.toasterService.warn(':: Sent request failed!');
         this.onNoClick();
       });
     });

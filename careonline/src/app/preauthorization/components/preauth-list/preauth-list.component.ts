@@ -22,11 +22,7 @@ export class PreauthListComponent implements OnInit {
   /*To hold Patient List receiced from api as Form model defined */
   preAuthorizationList: PreAuthReadResponse[];
   preAuthListForMatTable: MatTableDataSource<PreAuthReadResponse>;
-  /*
-    displayedColumns: string[] = [
-      'mrnNumber', 'patientName', 'suffix', 'lastName', 'firstName', 'middleName', 'admissionDate', 'admissionStatus', 'episodeType',
-      'payorType', 'preAuthForm', 'preauthFormStatus', 'formSentDate', 'formStatus'];
-  */
+
   displayedColumns: string[] = [
     'mrnNumber', 'patientName', 'admissionDate', 'admissionStatus', 'episodeType',
     'payorType', 'preAuthForm', 'preauthFormStatus', 'formSentDate', 'formStatus'];
@@ -105,23 +101,6 @@ export class PreauthListComponent implements OnInit {
 
   /* Fetching edited Patient's Form Data starts*/
   onEditPatient(row: PreAuthReadResponse) {
-    /* Sending edited patient details for post api so that corresponding data can be retrieved */
-    // this.preAuthService.postPreauthPatientData(row).subscribe((selectedPatAuthformInfo) => {
-    //   if (selectedPatAuthformInfo) {
-    //     this.preAuthformDetails = selectedPatAuthformInfo;
-    //     this.preAuthformDetails = { ...selectedPatAuthformInfo };
-    //   }
-    // },
-    //   (error) => {
-    //     console.log(error);
-    //   });
-
-    /* Passing received auth form detail to Pre-auth FormService starts */
-   // this.preAuthFormService.getSelecPatData(this.preAuthformDetails);
-    // this.preAuthFormService.populatePreAuthFormData(this.preAuthformDetails);
-    /* Passing received auth form detail to Pre-auth FormService ends */
-
-    /* To open the Modal to show Pre Auth Form Details */
     this.openPreAuthForm(row);
   }
   /* Fetching edited Patient's Form Data ends*/
