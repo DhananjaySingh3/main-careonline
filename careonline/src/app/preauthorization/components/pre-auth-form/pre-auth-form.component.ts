@@ -295,7 +295,7 @@ export class PreAuthFormComponent implements OnInit {
   ngOnInit() {
     this.commonMethods();
     console.log('Data via list page ', this.selectedPatientViaDialog);
-    
+
 
     if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
       this.isNewAdmission = true;
