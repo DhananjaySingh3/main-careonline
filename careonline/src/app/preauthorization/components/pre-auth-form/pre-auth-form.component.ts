@@ -47,6 +47,8 @@ export class PreAuthFormComponent implements OnInit {
   requestedFor: string;
   isNewAdmission = false;
   isNewAdmissionSelected = false;
+  isAddiServSelected = false;
+  isExtOnlySelected = false;
   isAdditional = false;
   isExtension = false;
   isNewServiceChecked = false;
@@ -757,6 +759,7 @@ export class PreAuthFormComponent implements OnInit {
   }
   /* Populating Form Data */
 
+  // compareInsurance = (val1: string, val2: string) => val1 === val2;
 
   /* Request for New Admission Service via Radio button starts */
   onNewServiceChange(event) {
@@ -775,6 +778,8 @@ export class PreAuthFormComponent implements OnInit {
     console.log(this.extensionOnly.checked);
     if (this.extensionOnly.checked) {
       // this.preAuthForm.patchValue({ serviceflag: true });
+
+      this.isExtOnlySelected = true;
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
       // get('requestFor').get('extension').get('serviceflag') as FormContro.value = true;
       this.isNewServiceChecked = false;
@@ -786,6 +791,7 @@ export class PreAuthFormComponent implements OnInit {
   onAddServiceChange() {
     if (this.additionalService.checked) {
       console.log(this.additionalService.checked);
+      this.isExtOnlySelected = true;
       this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
       //  this.isNewServiceChecked = false;
       this.isNewServiceChecked = false;
@@ -805,6 +811,20 @@ export class PreAuthFormComponent implements OnInit {
       // formcontrol =newadmissionService and template ref = newAdmissService
       if (this.isNewAdmissionSelected) {
         this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+        // console.log('New Add selected after modific', this.newAdmissService.checked);
+        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      }
+
+      if (this.isAddiServSelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+        this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
+        // console.log('New Add selected after modific', this.newAdmissService.checked);
+        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      }
+
+      if (this.isExtOnlySelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+        this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
         // console.log('New Add selected after modific', this.newAdmissService.checked);
         // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
       }
@@ -932,6 +952,7 @@ export class PreAuthFormComponent implements OnInit {
         if (result) {
           console.log('Confirm is clicked: ' + result);
           this.dialogRef.close(false);
+         // this.preAuthService.filter('Refresh Initiated');
         }
 
       });
@@ -950,6 +971,21 @@ export class PreAuthFormComponent implements OnInit {
         // console.log('New Add selected after modific', this.newAdmissService.checked);
         // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
       }
+
+      if (this.isAddiServSelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+        this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
+        // console.log('New Add selected after modific', this.newAdmissService.checked);
+        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      }
+
+      if (this.isExtOnlySelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+        this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
+        // console.log('New Add selected after modific', this.newAdmissService.checked);
+        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      }
+
 
       const config = new MatDialogConfig();
       config.disableClose = true;
@@ -980,6 +1016,7 @@ export class PreAuthFormComponent implements OnInit {
           console.log('Confirm is clicked: ' + result);
           this.isFormUpdated = result;
           this.dialogRef.close(false);
+         // this.preAuthService.filter('Refresh Initiated');
         }
 
       });
@@ -1022,4 +1059,7 @@ export class PreAuthFormComponent implements OnInit {
     // console.log(this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy);
   }
 
+  compareFn = (val1: string, val2: string) => {
+    return (val1 === val2);
+  }
 }

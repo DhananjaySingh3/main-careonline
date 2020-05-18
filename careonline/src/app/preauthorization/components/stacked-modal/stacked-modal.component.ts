@@ -45,6 +45,7 @@ export class StackedModalComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close(false);
+   // this.preAuthService.filter('Refresh Initiated');
   }
 
   onConfirmClick() {

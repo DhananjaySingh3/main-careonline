@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PreAuthReadResponse } from '../../preauthorization/models/read-pre-auth.model';
 import { PreAuthFormModelResponse } from '../../preauthorization/models/pre-auth-form.model';
+import { tap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ export class PreAuthService {
   // formData: PatientFormDataRequest;
   readonly apiURL = 'http://localhost:8080/preAuthorization';
   // currentInsuranceList = new Subject<any[]>();
-
+  public refreshPage$ = new Subject<any>();
 
   constructor(
     private httpClient: HttpClient,
@@ -31,13 +32,26 @@ export class PreAuthService {
 
   /*Drafting Edited Patient data*/
   saveAsDraftPatientData(form: PreAuthFormModelResponse): Observable<any> {
-    return this.httpClient.post(this.apiURL + '/preauthSave', form);
+    return this.httpClient.post(this.apiURL + '/preauthSave', form).pipe(tap(() => {
+      this.refreshPage$.next();
+    })
+    );
   }
 
   /*Preauth Send Request Patient data*/
   sendRequestPatientData(form: PreAuthFormModelResponse): Observable<any> {
-    return this.httpClient.post(this.apiURL + '/preauthSendRequest', form);
+    return this.httpClient.post(this.apiURL + '/preauthSendRequest', form).pipe(tap(() => {
+      this.refreshPage$.next();
+    })
+    );
   }
+
+  refreshPage(): Observable<any> {
+    return this.refreshPage$.asObservable();
+  }
+  // filter(filterby: string) {
+  //   return this.listeners$.next(filterby);
+  // }
 
   /* Current Insurance Details*/
   // getCurrentInsuranceData(): Observable<any> {

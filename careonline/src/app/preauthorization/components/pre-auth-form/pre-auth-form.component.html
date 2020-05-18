@@ -175,11 +175,11 @@
                 <!-- <mat-select formControlName="gender" [(value)]="selectedInsurance"> 
                   (onSelectionChange)="selectedInsuranceType($event)"-->
 
-                <mat-select formControlName="insuranceTypeSelcted" focused required>
+                <mat-select formControlName="insuranceTypeSelcted" focused [compareWith]="compareFn" required>
                   <!-- <mat-option>None</mat-option> -->
 
                   <mat-option *ngFor="let insurance of insuranceTypes"
-                    (onSelectionChange)="selectedInsuranceType($event)" [value]="insurance.name" selected>
+                    (onChange)="selectedInsuranceType($event)" [value]="insurance.name">
                     {{insurance.name}}
                   </mat-option>
                 </mat-select>
@@ -236,7 +236,7 @@
 
                   <mat-form-field class="example-full-width">
                     <mat-label>Sex</mat-label>
-                    <input *ngIf="editing" mat-input formControlName="insuredsex" [readonly]="isReadonly">
+                    <input *ngIf="editing" matInput formControlName="insuredsex" [readonly]="isReadonly">
                     <mat-select formControlName="insuredsex" required *ngIf="!editing">
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let gender of genders" [value]="gender.name">
@@ -475,7 +475,7 @@
 
           <!-- Secondary Insurance Details starts -->
           <div class="normal-form" *ngIf="preAuthForm.get('insuranceDetailPreAuth')
-            .get('insuranceTypeSelcted').value==='Secondary Insurance' ">
+            .get('insuranceTypeSelcted').value ==='Secondary Insurance' ">
             <mat-grid-tile [colspan]=" 3" [rowspan]="1">
               <div class="controles-container">
                 <p>Insurer Details</p>

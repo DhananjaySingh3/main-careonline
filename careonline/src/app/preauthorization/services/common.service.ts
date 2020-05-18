@@ -72,8 +72,9 @@ export class CommonService {
 
   requestTypes: RequestTypes[] = [
     { code: 1, name: 'Urgent Care' },
-    { code: 2, name: 'Normal' },
-    { code: 3, name: 'Others' }
+    { code: 2, name: 'Elective' },
+    { code: 3, name: 'Urgent' },
+    { code: 4, name: 'Emergency' }
   ];
 
   requestFor: RequestFor[] = [

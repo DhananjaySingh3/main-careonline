@@ -40,11 +40,22 @@ export class PreauthListComponent implements OnInit {
     public preAuthFormService: PreAuthFormService,
     public dialog: MatDialog,
 
-  ) { }
+  ) {
+
+
+  }
 
 
   ngOnInit() {
+    this.preAuthService.refreshPage().subscribe((message) => {
+      this.isLoadingResults = true;
+      console.log(message);
+      this.getPreAuthorizationList();
+      this.isLoadingResults = false;
+    });
+
     this.getPreAuthorizationList();
+    // this.preAuthService.refreshPage().unsubscribe();
 
   }
 
