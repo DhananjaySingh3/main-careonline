@@ -72,7 +72,7 @@ export class StackedModalComponent implements OnInit {
           }
           if (response.ackn) {
             // this.patientFormService.getEligibilityData();
-            this.snackbarToasterService.success(':: Submitted Successfully');
+            this.snackbarToasterService.success(':: Successfully Saved as Draft');
             this.isLoadingResults = false;
             this.closePopup(true);
           }
@@ -94,7 +94,7 @@ export class StackedModalComponent implements OnInit {
           }
           if (response.ackn || true) {
             // this.patientFormService.getEligibilityData();
-            this.snackbarToasterService.success(':: Submitted Successfully');
+            this.snackbarToasterService.success(':: Data submitted for approval Successfully');
             this.isLoadingResults = false;
             this.closePopup(true);
           }

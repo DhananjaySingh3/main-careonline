@@ -36,13 +36,14 @@
             <!-- Member Demographic -->
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-grid-list cols="3" rowHeight="70px">
+        <mat-grid-list cols="3" rowHeight="70px" readonly>
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput formControlName="mrnNumber" [value]="preAuthForm?.controls?.mrnNumber.value">
+                <input matInput [readonly]="isReadonly" formControlName="mrnNumber"
+                  [value]="preAuthForm?.controls?.mrnNumber.value">
                 <mat-label>MRN Number</mat-label>
               </mat-form-field>
 
@@ -59,8 +60,8 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput [matDatepicker]="currenttimdate" formControlName="currenttimdate"
-                  [errorStateMatcher]="matcher"
+                <input matInput [readonly]="isReadonly" [matDatepicker]="currenttimdate"
+                  formControlName="currenttimdate" [errorStateMatcher]="matcher"
                   [value]="preAuthForm?.controls?.currenttimdate?.value | date:'yyyy-MM-dd'">
                 <mat-label>Date</mat-label>
                 <!-- <mat-error *ngIf="patientFormService.patientForm.controls['currenttimdate'].hasError('required')"date:'MMMM d, y'">
@@ -72,6 +73,7 @@
 
             </div>
           </mat-grid-tile>
+
         </mat-grid-list>
       </mat-expansion-panel>
     </div>
@@ -93,13 +95,14 @@
             <div class="controles-container">
               <!-- <input type="hidden" formControlName="$key"> -->
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="lastName" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="lastName" [errorStateMatcher]="matcher" [readonly]="isReadonly">
                 <mat-label>Last Name</mat-label>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="dob" formControlName="dob" [errorStateMatcher]="matcher"
-                  [value]="preAuthForm?.get('preAuthDemographics').get('dob').value | date:'yyyy-MM-dd'">
+                  [value]="preAuthForm?.get('preAuthDemographics').get('dob').value | date:'yyyy-MM-dd'"
+                  [readonly]="isReadonly">
                 <mat-label>Date of birth</mat-label>
                 <!-- <mat-error *ngIf="patientFormService.patientForm.controls['dob'].hasError('required')"date:'MMMM d, y'">
                         Date of birth is <strong>required</strong>
@@ -114,18 +117,20 @@
           <mat-grid-tile [colspan]="1" [rowspan]="2">
             <div class="controles-container">
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="firstName" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="firstName" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>First Name</mat-label>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
+                <input #input matInput formControlName="gender" [readonly]="isReadonly">
                 <mat-label>Gender</mat-label>
-                <mat-select formControlName="gender">
+                <!-- <mat-select *ngIf="!editing" formControlName="gender">
                   <mat-option value="">Select</mat-option>
                   <mat-option *ngFor="let gender of genders; let i = index" [value]="gender.name">
                     {{gender.name}}
                   </mat-option>
-                </mat-select>
+                </mat-select> -->
               </mat-form-field>
 
             </div>
@@ -135,12 +140,13 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="middleName" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="middleName" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>Middle Name</mat-label>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput formControlName="ssn">
+                <input matInput formControlName="ssn" [readonly]="isReadonly">
                 <mat-label>SSN</mat-label>
               </mat-form-field>
 
@@ -171,6 +177,7 @@
 
                 <mat-select formControlName="insuranceTypeSelcted" focused required>
                   <!-- <mat-option>None</mat-option> -->
+
                   <mat-option *ngFor="let insurance of insuranceTypes"
                     (onSelectionChange)="selectedInsuranceType($event)" [value]="insurance.name" selected>
                     {{insurance.name}}
@@ -223,13 +230,14 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber last name" formControlName="insuredlastName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Subscriber Last Name</mat-label>
                   </mat-form-field>
 
                   <mat-form-field class="example-full-width">
                     <mat-label>Sex</mat-label>
-                    <mat-select formControlName="insuredsex" required>
+                    <input *ngIf="editing" mat-input formControlName="insuredsex" [readonly]="isReadonly">
+                    <mat-select formControlName="insuredsex" required *ngIf="!editing">
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let gender of genders" [value]="gender.name">
                         {{gender.name}}
@@ -246,7 +254,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber first name" formControlName="insuredfirstName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Subscriber First Name</mat-label>
                   </mat-form-field>
 
@@ -254,7 +262,7 @@
                     <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
                       formControlName="insureddob"
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('primaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
                     <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
@@ -271,13 +279,13 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber middle name"
-                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher">
+                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher" [readonly]="isReadonly">
                     <mat-label>Subscriber Middle Name</mat-label>
                   </mat-form-field>
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter SSN" formControlName="ssn" [errorStateMatcher]="matcher"
-                      required>
+                      required [readonly]="isReadonly">
                     <mat-label>SSN</mat-label>
                   </mat-form-field>
 
@@ -292,7 +300,8 @@
 
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
-                    <mat-select formControlName="patientRelationInsured" required>
+                    <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
+                    <mat-select formControlName="patientRelationInsured" required *ngIf="!editing">
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -318,7 +327,7 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured Address" formControlName="insuranceAddress"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured Address</mat-label>
                   </mat-form-field>
 
@@ -331,7 +340,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured State" formControlName="state"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured State</mat-label>
                   </mat-form-field>
                 </div>
@@ -340,7 +349,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured City" formControlName="city"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured City</mat-label>
                   </mat-form-field>
                 </div>
@@ -349,7 +358,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Zipcode" formControlName="zipcode" [errorStateMatcher]="matcher"
-                      required>
+                      required [readonly]="isReadonly">
                     <mat-label>Zipcode</mat-label>
                   </mat-form-field>
                 </div>
@@ -368,7 +377,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Policy Number" formControlName="policyNumber"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Policy Number</mat-label>
                   </mat-form-field>
                 </div>
@@ -377,7 +386,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Plan Name" formControlName="insurancePlanName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Plan Name</mat-label>
                   </mat-form-field>
                 </div>
@@ -386,7 +395,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Plan Type" formControlName="insurancePlanType"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Plan Type</mat-label>
                   </mat-form-field>
                 </div>
@@ -399,7 +408,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter group #" formControlName="group_name"
-                      [errorStateMatcher]="matcher">
+                      [errorStateMatcher]="matcher" [readonly]="isReadonly">
                     <mat-label>Group Number</mat-label>
                   </mat-form-field>
                 </div>
@@ -420,7 +429,7 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Address" formControlName="insuranceAddress"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Address</mat-label>
                   </mat-form-field>
 
@@ -434,7 +443,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance State" formControlName="state"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance State</mat-label>
                   </mat-form-field>
                 </div>
@@ -443,7 +452,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance City" formControlName="city"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance City</mat-label>
                   </mat-form-field>
                 </div>
@@ -452,7 +461,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Zipcode" formControlName="zipcode"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Zipcode</mat-label>
                   </mat-form-field>
                 </div>
@@ -482,13 +491,14 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber last name" formControlName="insuredlastName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Subscriber Last Name</mat-label>
                   </mat-form-field>
 
                   <mat-form-field class="example-full-width">
                     <mat-label>Sex</mat-label>
-                    <mat-select formControlName="insuredsex" required>
+                    <input *ngIf="editing" matInput formControlName="insuredsex" [readonly]="isReadonly">
+                    <mat-select *ngIf="!editing" formControlName="insuredsex" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let gender of genders" [value]="gender.name">
                         {{gender.name}}
@@ -505,7 +515,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber first name" formControlName="insuredfirstName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Subscriber First Name</mat-label>
                   </mat-form-field>
 
@@ -513,7 +523,7 @@
                     <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
                       formControlName="insureddob"
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('secondaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
                     <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
@@ -530,13 +540,13 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber middle name"
-                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher">
+                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher" [readonly]="isReadonly">
                     <mat-label>Subscriber Middle Name</mat-label>
                   </mat-form-field>
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter SSN" formControlName="ssn" [errorStateMatcher]="matcher"
-                      required>
+                      required [readonly]="isReadonly">
                     <mat-label>SSN</mat-label>
                   </mat-form-field>
 
@@ -551,7 +561,8 @@
 
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
-                    <mat-select formControlName="patientRelationInsured" required>
+                    <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
+                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -577,7 +588,7 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured Address" formControlName="insuranceAddress"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured Address</mat-label>
                   </mat-form-field>
 
@@ -590,7 +601,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured State" formControlName="state"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured State</mat-label>
                   </mat-form-field>
                 </div>
@@ -599,7 +610,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured City" formControlName="city"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured City</mat-label>
                   </mat-form-field>
                 </div>
@@ -608,7 +619,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Zipcode" formControlName="zipcode" [errorStateMatcher]="matcher"
-                      required>
+                      required [readonly]="isReadonly">
                     <mat-label>Zipcode</mat-label>
                   </mat-form-field>
                 </div>
@@ -627,7 +638,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Policy Number" formControlName="policyNumber"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Policy Number</mat-label>
                   </mat-form-field>
                 </div>
@@ -636,7 +647,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Plan Name" formControlName="insurancePlanName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Plan Name</mat-label>
                   </mat-form-field>
                 </div>
@@ -645,7 +656,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Plan Type" formControlName="insurancePlanType"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Plan Type</mat-label>
                   </mat-form-field>
                 </div>
@@ -658,7 +669,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter group #" formControlName="group_name"
-                      [errorStateMatcher]="matcher">
+                      [errorStateMatcher]="matcher" [readonly]="isReadonly">
                     <mat-label>Group Number</mat-label>
                   </mat-form-field>
                 </div>
@@ -679,7 +690,7 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Address" formControlName="insuranceAddress"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Address</mat-label>
                   </mat-form-field>
 
@@ -693,7 +704,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance State" formControlName="state"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance State</mat-label>
                   </mat-form-field>
                 </div>
@@ -702,7 +713,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance City" formControlName="city"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance City</mat-label>
                   </mat-form-field>
                 </div>
@@ -711,7 +722,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Zipcode" formControlName="zipcode"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Zipcode</mat-label>
                   </mat-form-field>
                 </div>
@@ -741,13 +752,14 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber last name" formControlName="insuredlastName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Subscriber Last Name</mat-label>
                   </mat-form-field>
 
                   <mat-form-field class="example-full-width">
                     <mat-label>Sex</mat-label>
-                    <mat-select formControlName="insuredsex" required>
+                    <input *ngIf="editing" matInput formControlName="insuredsex" [readonly]="isReadonly">
+                    <mat-select *ngIf="!editing" formControlName="insuredsex" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let gender of genders" [value]="gender.name">
                         {{gender.name}}
@@ -764,7 +776,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber first name" formControlName="insuredfirstName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Subscriber First Name</mat-label>
                   </mat-form-field>
 
@@ -772,7 +784,7 @@
                     <input matInput [matDatepicker]="insureddob" placeholder="Enter date of birth"
                       formControlName="insureddob"
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('tertiaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
                     <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
@@ -789,13 +801,13 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter Subscriber middle name"
-                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher">
+                      formControlName="insuredmiddleName" [errorStateMatcher]="matcher" [readonly]="isReadonly">
                     <mat-label>Subscriber Middle Name</mat-label>
                   </mat-form-field>
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter SSN" formControlName="ssn" [errorStateMatcher]="matcher"
-                      required>
+                      required [readonly]="isReadonly">
                     <mat-label>SSN</mat-label>
                   </mat-form-field>
 
@@ -810,7 +822,8 @@
 
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
-                    <mat-select formControlName="patientRelationInsured" required>
+                    <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
+                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -836,7 +849,7 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured Address" formControlName="insuranceAddress"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured Address</mat-label>
                   </mat-form-field>
 
@@ -849,7 +862,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured State" formControlName="state"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured State</mat-label>
                   </mat-form-field>
                 </div>
@@ -858,7 +871,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insured City" formControlName="city"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insured City</mat-label>
                   </mat-form-field>
                 </div>
@@ -867,7 +880,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Zipcode" formControlName="zipcode" [errorStateMatcher]="matcher"
-                      required>
+                      required [readonly]="isReadonly">
                     <mat-label>Zipcode</mat-label>
                   </mat-form-field>
                 </div>
@@ -886,7 +899,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Policy Number" formControlName="policyNumber"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Policy Number</mat-label>
                   </mat-form-field>
                 </div>
@@ -895,7 +908,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Plan Name" formControlName="insurancePlanName"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Plan Name</mat-label>
                   </mat-form-field>
                 </div>
@@ -904,7 +917,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Plan Type" formControlName="insurancePlanType"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Plan Type</mat-label>
                   </mat-form-field>
                 </div>
@@ -917,7 +930,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Enter group #" formControlName="group_name"
-                      [errorStateMatcher]="matcher">
+                      [errorStateMatcher]="matcher" [readonly]="isReadonly">
                     <mat-label>Group Number</mat-label>
                   </mat-form-field>
                 </div>
@@ -938,7 +951,7 @@
 
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Address" formControlName="insuranceAddress"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance Address</mat-label>
                   </mat-form-field>
 
@@ -952,7 +965,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance State" formControlName="state"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance State</mat-label>
                   </mat-form-field>
                 </div>
@@ -961,7 +974,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance City" formControlName="city"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Insurance City</mat-label>
                   </mat-form-field>
                 </div>
@@ -970,7 +983,7 @@
                 <div class="controles-container">
                   <mat-form-field class="example-full-width">
                     <input matInput #input placeholder="Insurance Zipcode" formControlName="zipcode"
-                      [errorStateMatcher]="matcher" required>
+                      [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Zipcode</mat-label>
                   </mat-form-field>
                 </div>
@@ -1005,7 +1018,8 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="requestingAgency" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="requestingAgency" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>Requesting Agency</mat-label>
               </mat-form-field>
 
@@ -1028,12 +1042,14 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="providerName" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="providerName" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>Provider Name</mat-label>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="phoneNumber" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="phoneNumber" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>Phone Number</mat-label>
               </mat-form-field>
 
@@ -1044,12 +1060,14 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="requestingProviderIDNumber" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="requestingProviderIDNumber" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>Requesting Provider Id</mat-label>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="extension" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="extension" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>Phone Ext.</mat-label>
               </mat-form-field>
 
@@ -1060,12 +1078,13 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="providerTaxIDNumber" [errorStateMatcher]="matcher">
+                <input matInput #input formControlName="providerTaxIDNumber" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
                 <mat-label>Provider Tax ID</mat-label>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput formControlName="faxNumber">
+                <input matInput formControlName="faxNumber" [readonly]="isReadonly">
                 <mat-label>Fax Number</mat-label>
               </mat-form-field>
 
@@ -1180,15 +1199,16 @@
         <div>Your request option is: {{requestedFor}}</div> -->
         <!-- </div> -->
 
-        <div class="newService">
+        <div class="newService" *ngIf="!isNewServiceChecked || noActionTaken || savedAsDraft">
           <mat-grid-list cols="3" rowHeight="70px">
             <!-- New Admission Service Starts -->
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
                 <!-- <mat-form-field class="no-padding"> -->
-                <mat-radio-button name="newAdmissService" ngDefaultControl [disableRipple]="true" [(checked)]="isNewServiceChecked"
-                  (change)="onNewServiceChange($event)" #newService formControlName="newadmissionService">New Admission
+                <mat-radio-button name="newAdmissService" ngDefaultControl [disableRipple]="true"
+                  [(checked)]="isNewServiceChecked" (change)="onNewServiceChange($event)" #newService
+                  formControlName="newadmissionService">New Admission
                   Service
                 </mat-radio-button>
                 <!-- </mat-form-field> -->
@@ -1221,7 +1241,8 @@
 
                 <!-- <mat-form-field class="no-padding"> -->
                 <mat-radio-button [disableRipple]="true" name="serviceflag" ngDefaultControl
-                  (change)="onAddServiceChange()" #additionalService formControlName="serviceflag">Additional
+                  [(checked)]="isAddSerChecked" (change)="onAddServiceChange()" #additionalService
+                  formControlName="serviceflag">Additional
                   Services
                 </mat-radio-button>
                 <!-- </mat-form-field> -->
@@ -1294,79 +1315,78 @@
           </mat-grid-list>
         </div>
 
-        <div class="extOnly" formGroupName="extension" class="normal-form">
-          <div class="extOnly" formGroupName="extension" class="normal-form"
-            *ngIf="preAuthForm.get('requestFor')?.get('extension')?.value != null">
-            <mat-grid-list cols="3" rowHeight="70px">
+        <div class="extOnly" formGroupName="extension" class="normal-form"
+          *ngIf="preAuthForm.get('requestFor')?.get('extension')?.value != null">
+          <mat-grid-list cols="3" rowHeight="70px">
 
-              <!-- Extension Only Starts -->
-              <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <div class="controles-container">
+            <!-- Extension Only Starts -->
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
 
-                  <mat-radio-button [disableRipple]="true" (change)="onExtensionChange()" #extensionOnly
-                    formControlName="serviceflag" name="serviceflag" ngDefaultControl>Extension Only
-                  </mat-radio-button>
-                  <!-- <input matInput formControlName="serviceflag"> -->
+                <mat-radio-button [disableRipple]="true" (change)="onExtensionChange()" #extensionOnly
+                  [(checked)]="isExtOnlyChecked" formControlName="serviceflag" name="serviceflag" ngDefaultControl>
+                  Extension Only
+                </mat-radio-button>
+                <!-- <input matInput formControlName="serviceflag"> -->
 
-                </div>
-              </mat-grid-tile>
+              </div>
+            </mat-grid-tile>
 
-              <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <div class="controles-container">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
 
-                </div>
-              </mat-grid-tile>
+              </div>
+            </mat-grid-tile>
 
-              <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <div class="controles-container">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
 
-                </div>
-              </mat-grid-tile>
+              </div>
+            </mat-grid-tile>
 
-              <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <div class="controles-container">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
 
-                  <mat-form-field class="no-padding">
-                    <input matInput [matDatepicker]="fromDateExtOnly" formControlName="fromDate"
-                      [errorStateMatcher]="matcher"
-                      [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
-                    <mat-label>From Date</mat-label>
+                <mat-form-field class="no-padding">
+                  <input matInput [matDatepicker]="fromDateExtOnly" formControlName="fromDate"
+                    [errorStateMatcher]="matcher"
+                    [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
+                  <mat-label>From Date</mat-label>
 
-                    <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly"></mat-datepicker-toggle>
-                    <mat-datepicker #fromDateExtOnly></mat-datepicker>
-                  </mat-form-field>
-                </div>
-              </mat-grid-tile>
+                  <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker #fromDateExtOnly></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
 
-              <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <div class="controles-container">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
 
-                  <mat-form-field class="no-padding">
-                    <input matInput [matDatepicker]="toDateExtOnly" formControlName="toDate"
-                      [errorStateMatcher]="matcher"
-                      [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('toDate')?.value | date:'yyyy-MM-dd'">
-                    <mat-label>To Date</mat-label>
+                <mat-form-field class="no-padding">
+                  <input matInput [matDatepicker]="toDateExtOnly" formControlName="toDate" [errorStateMatcher]="matcher"
+                    [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('toDate')?.value | date:'yyyy-MM-dd'">
+                  <mat-label>To Date</mat-label>
 
-                    <mat-datepicker-toggle matSuffix [for]="toDateExtOnly"></mat-datepicker-toggle>
-                    <mat-datepicker #toDateExtOnly></mat-datepicker>
-                  </mat-form-field>
-                </div>
-              </mat-grid-tile>
+                  <mat-datepicker-toggle matSuffix [for]="toDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker #toDateExtOnly></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
 
-              <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <div class="controles-container">
-                  <mat-form-field class="no-padding">
-                    <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
-                    <mat-label>Previous Authorization Number</mat-label>
-                  </mat-form-field>
-                </div>
-              </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+                <mat-form-field class="no-padding">
+                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                  <mat-label>Previous Authorization Number</mat-label>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
 
-              <!--Extension Only Ends -->
+            <!--Extension Only Ends -->
 
-            </mat-grid-list>
-          </div>
+          </mat-grid-list>
         </div>
+
       </mat-expansion-panel>
     </div>
     <!--Request For details ends -->

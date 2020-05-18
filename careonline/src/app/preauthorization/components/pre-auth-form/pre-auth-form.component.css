@@ -141,3 +141,13 @@ mat-checkbox {
   margin: 5px;
 }
 /* Radio buttons */
+
+/* disable select fields */
+/* .readonly-wrapper {
+  cursor: not-allowed;
+}
+
+.readonly-wrapper .readonly-block {
+  pointer-events: none;
+} */
+/* disable select fields */

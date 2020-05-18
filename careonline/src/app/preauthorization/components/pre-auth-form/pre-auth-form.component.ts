@@ -50,8 +50,13 @@ export class PreAuthFormComponent implements OnInit {
   isAdditional = false;
   isExtension = false;
   isNewServiceChecked = false;
+  isExtOnlyChecked = false;
+  isAddSerChecked = false;
+  noActionTaken = false;
+  savedAsDraft = false;
   isFormUpdated = false;
-
+  isReadonly = true;
+  editing = true;
   // toSelect = this.insuranceTypes().find(c => c.name === 'Primary Insurance');
   // this.patientCategory.get('patientCategory').setValue(toSelect);
 
@@ -298,6 +303,18 @@ export class PreAuthFormComponent implements OnInit {
 
 
     if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
+      this.noActionTaken = true;
+      this.isNewAdmission = true;
+      this.isAdditional = false;
+      this.isExtension = false;
+      // this.isExtOnlyChecked = false;
+      // this.isAddSerChecked = false;
+      // this.isNewServiceChecked = false;
+    }
+
+    if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'Saved As Draft') {
+      this.noActionTaken = true;
+      this.savedAsDraft = true;
       this.isNewAdmission = true;
       this.isAdditional = false;
       this.isExtension = false;
@@ -315,6 +332,7 @@ export class PreAuthFormComponent implements OnInit {
         // this.preAuthformDetails = { ...selectedPatAuthformInfo };
         //  selectedPatAuthformInfo[0].insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
 
+        /* For Cecking and unckecking radio buttons */
         if (selectedPatAuthformInfo[0].requestFor.newadmissionService === true) {
           this.isNewServiceChecked = true;
           this.isNewAdmission = false;
@@ -325,6 +343,14 @@ export class PreAuthFormComponent implements OnInit {
         } else {
           // this.isAdditional = false;
         }
+
+        if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === true) {
+          this.isAddSerChecked = true;
+        }
+        if (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === true) {
+          this.isExtOnlyChecked = true;
+        }
+        /* For Cecking and unckecking radio buttons */
 
         if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === false) {
           this.isAdditional = false;
@@ -740,20 +766,31 @@ export class PreAuthFormComponent implements OnInit {
       this.isNewAdmissionSelected = true;
       // formcontrol =newadmissionService and template ref = newAdmissService
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+      // this.isAddSerChecked = false;
+      // this.isExtOnlyChecked = false;
     }
   }
 
   onExtensionChange() {
     console.log(this.extensionOnly.checked);
     if (this.extensionOnly.checked) {
-      this.preAuthForm.patchValue({ serviceflag: true });
+      // this.preAuthForm.patchValue({ serviceflag: true });
+      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
       // get('requestFor').get('extension').get('serviceflag') as FormContro.value = true;
+      this.isNewServiceChecked = false;
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      // this.isAddSerChecked = false;
     }
   }
 
   onAddServiceChange() {
-    console.log(this.additionalService.checked);
-    this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
+    if (this.additionalService.checked) {
+      console.log(this.additionalService.checked);
+      this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
+      //  this.isNewServiceChecked = false;
+      this.isNewServiceChecked = false;
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+    }
   }
   /* Request for New Admission Service via Radio button ends */
   /*Save as Draft */
@@ -803,6 +840,10 @@ export class PreAuthFormComponent implements OnInit {
 
   get serviceflag() {
     return this.preAuthForm.get('requestFor').get('extension').get('serviceflag').value;
+  }
+
+  get newadmissionService() {
+    return this.preAuthForm.get('requestFor').get('newadmissionService').value;
   }
   /* Common getters for drop down values */
 
