@@ -24,7 +24,8 @@
 
   <div mat-dialog-actions align="center">
     <button mat-raised-button cdkFocusInitial (click)="onConfirmClick()" color="accent" cdkFocusInitial>Confirm</button>
-    <button mat-raised-button [mat-dialog-close]="false" color="accent" (click)="onNoClick()">Close</button>
+    <!-- <button mat-raised-button [mat-dialog-close]="false" color="accent" (click)="onNoClick()">Close</button> -->
+    <button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
   </div>
 
 </div>

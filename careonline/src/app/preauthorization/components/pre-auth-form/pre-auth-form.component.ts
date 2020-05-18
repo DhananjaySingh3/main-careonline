@@ -49,7 +49,7 @@ export class PreAuthFormComponent implements OnInit {
   isNewAdmissionSelected = false;
   isAdditional = false;
   isExtension = false;
-
+  isNewServiceChecked = false;
   isFormUpdated = false;
 
   // toSelect = this.insuranceTypes().find(c => c.name === 'Primary Insurance');
@@ -288,17 +288,25 @@ export class PreAuthFormComponent implements OnInit {
     this.requestTypes = this.commonService.getRequestTypes();
     this.requestFor = this.commonService.getRequestFor();
     this.insuranceTypes = this.commonService.getInsuranceTypes();
+    console.log(this.insuranceTypes);
   }
   /* Common methods */
 
   ngOnInit() {
     this.commonMethods();
     console.log('Data via list page ', this.selectedPatientViaDialog);
+    
 
     if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
       this.isNewAdmission = true;
       this.isAdditional = false;
       this.isExtension = false;
+    }
+
+    if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'Sent For Approval') {
+      this.isNewAdmission = false;
+      this.isAdditional = true;
+      this.isExtension = true;
     }
 
     this.preAuthService.viewEditPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
@@ -307,16 +315,31 @@ export class PreAuthFormComponent implements OnInit {
         // this.preAuthformDetails = { ...selectedPatAuthformInfo };
         //  selectedPatAuthformInfo[0].insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
 
+        if (selectedPatAuthformInfo[0].requestFor.newadmissionService === true) {
+          this.isNewServiceChecked = true;
+          this.isNewAdmission = false;
+          this.isAdditional = true;
+          this.isExtension = true;
+          console.log('Additional Service is "False"');
+          console.log('"requestFor" error cuz api is not returning data');
+        } else {
+          // this.isAdditional = false;
+        }
+
         if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === false) {
           this.isAdditional = false;
           console.log('Additional Service is "False"');
           console.log('"requestFor" error cuz api is not returning data');
+        } else {
+          this.isAdditional = false;
         }
 
         if (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === false) {
           this.isExtension = false;
           console.log('Extension Service is "False"');
           console.log('"extension" error cuz api is not returning data');
+        } else {
+          this.isAdditional = false;
         }
 
         if ((selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === false) &&
@@ -702,6 +725,7 @@ export class PreAuthFormComponent implements OnInit {
     };
     // formData.insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
     this.preAuthForm.setValue(formData);
+    this.preAuthForm.get('requestFor').patchValue({ newadmissionService: this.newAdmissService.checked = true });
     //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
     console.log('Form Populated Data ', formData);
   }
@@ -766,6 +790,7 @@ export class PreAuthFormComponent implements OnInit {
         if (result) {
           console.log('Confirm is clicked: ' + result);
           this.isFormUpdated = result;
+          this.dialogRef.close(false);
         }
 
       });
@@ -782,12 +807,94 @@ export class PreAuthFormComponent implements OnInit {
   /* Common getters for drop down values */
 
   onClose() {
-    this.preAuthForm.reset();
-    this.dialogRef.close();
+    setTimeout(() => {
+      // formcontrol =newadmissionService and template ref = newAdmissService
+      // if (this.isNewAdmissionSelected) {
+      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+      //   // console.log('New Add selected after modific', this.newAdmissService.checked);
+      //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      // }
+
+      const config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = false;
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = {
+        heading: '"Close" Confirmation Alert',
+        messageContent: 'Do you want to "Close" without saving or sending the preauth form?',
+        selectedPatientData: null,
+        actionType: 'onXicon'
+      };
+      const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
+        // this.toasterService.success(':: Submitted Successfully');
+        // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
+        console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
+        // console.log(this.insuranceList);
+        console.log('Data received from stacked model to patient component ends');
+        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
+        // if (this.insuranceList) {
+        //   this.ngOnInit();
+        //   console.log('ngOnInit() was executed for patient component');
+        // }
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+          this.isFormUpdated = result;
+        }
+
+      });
+    });
+    //  this.preAuthForm.reset();
+    //  this.dialogRef.close();
   }
 
   onNoClick(): void {
-    this.dialogRef.close(false);
+    //  this.dialogRef.close(false);
+    // console.log('Form data on save', selectedPatntData);
+
+    setTimeout(() => {
+      // formcontrol =newadmissionService and template ref = newAdmissService
+      // if (this.isNewAdmissionSelected) {
+      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+      //   // console.log('New Add selected after modific', this.newAdmissService.checked);
+      //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      // }
+
+      const config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = false;
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = {
+        heading: '"Close" Confirmation Alert',
+        messageContent: 'Do you want to "Close" without saving or sending the preauth form?',
+        selectedPatientData: null,
+        actionType: 'onCloseBtn'
+      };
+      const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
+        // this.toasterService.success(':: Submitted Successfully');
+        // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
+        console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
+        // console.log(this.insuranceList);
+        console.log('Data received from stacked model to patient component ends');
+        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
+        // if (this.insuranceList) {
+        //   this.ngOnInit();
+        //   console.log('ngOnInit() was executed for patient component');
+        // }
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+          this.dialogRef.close(false);
+        }
+
+      });
+    });
   }
 
   onSave(selectedPatntData: PreAuthFormModelResponse) {
@@ -831,6 +938,7 @@ export class PreAuthFormComponent implements OnInit {
         if (result) {
           console.log('Confirm is clicked: ' + result);
           this.isFormUpdated = result;
+          this.dialogRef.close(false);
         }
 
       });
@@ -840,15 +948,15 @@ export class PreAuthFormComponent implements OnInit {
   /* On Selection of Insurance Type Drop down */
   selectedInsuranceType(event) {
     // console.log(event.source.value);
-    this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: event.source.value });
-    // if (event.source.value === 'Primary Insurance') {
-    //   this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Primary Insurance' });
-    //   return true;
-    // } else if (event.source.value === 'Secondary Insurance') {
-    //   this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Secondary Insurance' });
-    // } else if (event.source.value === 'Tertiary Insurance') {
-    //   this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Tertiary Insurance' });
-    // }
+    //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: event.source.value });
+    if (event.source.value === 'Primary Insurance') {
+      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Primary Insurance' });
+      // return true;
+    } else if (event.source.value === 'Secondary Insurance') {
+      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Secondary Insurance' });
+    } else if (event.source.value === 'Tertiary Insurance') {
+      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Tertiary Insurance' });
+    }
   }
   /* On Selection of Insurance Type Drop down */
   /*

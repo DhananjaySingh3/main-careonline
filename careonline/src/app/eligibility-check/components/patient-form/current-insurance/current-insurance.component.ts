@@ -37,14 +37,19 @@ export class CurrentInsuranceComponent implements OnInit, OnDestroy {
   ) {
     // this.dataSource = new MatTableDataSource(this.data);
     /* This is for instant page refresh using Subject in service */
-    this.eligibilityCheckService.refreshPage().subscribe(() => {
-      this.getCurrentInsurance();
-    });
+
   }
 
   ngOnInit() {
+    // this.eligibilityCheckService.currentInsuranceList$.subscribe(() => {
+    //   this.getCurrentInsurance();
+    // });
     this.getCurrentInsurance();
   }
+
+  // refreshPageData() {
+
+  // }
 
   getCurrentInsurance() {
     setTimeout(() => {

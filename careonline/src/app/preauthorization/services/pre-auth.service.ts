@@ -36,7 +36,7 @@ export class PreAuthService {
 
   /*Preauth Send Request Patient data*/
   sendRequestPatientData(form: PreAuthFormModelResponse): Observable<any> {
-    return this.httpClient.post(this.apiURL + '/preauthSend', form);
+    return this.httpClient.post(this.apiURL + '/preauthSendRequest', form);
   }
 
   /* Current Insurance Details*/

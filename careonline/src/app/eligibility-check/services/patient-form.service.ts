@@ -412,5 +412,96 @@ export class PatientFormService {
     };
   }
 
-  /*End of the service class */
+  clearFormValues() {
+    const formData = {
+      mrnNumber: null,
+      lastName: '',
+      firstName: '',
+      middleName: '',
+      dob: '',
+      gender: '0',
+      suffix: '',
+      insuranceDetailByPolicy: {
+        policyId: '',
+        primaryInsuranceDetail: {
+          ssn: '',
+          mop: '',
+          patientRelationInsured: '',
+          id: '',
+          insuredlastName: '',
+          insuredfirstName: '',
+          insuredmiddleName: '',
+          insureddob: '',
+          insuredsex: '',
+          eligibility: '',
+          eligibilityCheckSelected: false,
+          policyNumber: 0,
+          statusVerifiedDate: '',
+          group_name: '',
+          insurancePlanName: '',
+          insurancePlanType: '',
+          insuranceAddress: '',
+          city: '',
+          state: '',
+          zipcode: '',
+          endDate: '',
+          startDate: '',
+          mrnNumber: '',
+        },
+        secondaryInsuranceDetail: {
+          ssn: '',
+          mop: '',
+          patientRelationInsured: '',
+          id: '',
+          insuredlastName: '',
+          insuredfirstName: '',
+          insuredmiddleName: '',
+          insureddob: '',
+          insuredsex: '',
+          eligibility: '',
+          eligibilityCheckSelected: false,
+          policyNumber: 0,
+          statusVerifiedDate: '',
+          group_name: '',
+          insurancePlanName: '',
+          insurancePlanType: '',
+          insuranceAddress: '',
+          city: '',
+          state: '',
+          zipcode: '',
+          endDate: '',
+          startDate: '',
+          mrnNumber: '',
+        },
+        tertiaryInsuranceDetail: {
+          ssn: '',
+          mop: '',
+          patientRelationInsured: '',
+          id: '',
+          insuredlastName: '',
+          insuredfirstName: '',
+          insuredmiddleName: '',
+          insureddob: '',
+          insuredsex: '',
+          eligibility: '',
+          eligibilityCheckSelected: false,
+          policyNumber: 0,
+          statusVerifiedDate: '',
+          group_name: '',
+          insurancePlanName: '',
+          insurancePlanType: '',
+          insuranceAddress: '',
+          city: '',
+          state: '',
+          zipcode: '',
+          endDate: '',
+          startDate: '',
+          mrnNumber: '',
+        }
+      }
+    }
+    this.patientForm.setValue(formData);
+    /*End of the service class */
+  }
+
 }

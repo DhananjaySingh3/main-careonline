@@ -170,9 +170,9 @@
                   (onSelectionChange)="selectedInsuranceType($event)"-->
 
                 <mat-select formControlName="insuranceTypeSelcted" focused required>
-                  <mat-option>None</mat-option>
+                  <!-- <mat-option>None</mat-option> -->
                   <mat-option *ngFor="let insurance of insuranceTypes"
-                    (onSelectionChange)="selectedInsuranceType($event)" [value]="insurance.name">
+                    (onSelectionChange)="selectedInsuranceType($event)" [value]="insurance.name" selected>
                     {{insurance.name}}
                   </mat-option>
                 </mat-select>
@@ -1180,14 +1180,14 @@
         <div>Your request option is: {{requestedFor}}</div> -->
         <!-- </div> -->
 
-        <div class="newService" *ngIf="isNewAdmission">
+        <div class="newService">
           <mat-grid-list cols="3" rowHeight="70px">
             <!-- New Admission Service Starts -->
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
                 <!-- <mat-form-field class="no-padding"> -->
-                <mat-radio-button name="newAdmissService" ngDefaultControl [disableRipple]="true"
+                <mat-radio-button name="newAdmissService" ngDefaultControl [disableRipple]="true" [(checked)]="isNewServiceChecked"
                   (change)="onNewServiceChange($event)" #newService formControlName="newadmissionService">New Admission
                   Service
                 </mat-radio-button>
@@ -1212,8 +1212,7 @@
           </mat-grid-list>
         </div>
 
-        <div class="addService" formGroupName="additionalServices" class="normal-form"
-          *ngIf="!isNewAdmission && isAdditional">
+        <div class="addService" formGroupName="additionalServices" class="normal-form">
           <!-- <div class="addService" formGroupName="additionalServices" class="normal-form"> -->
           <mat-grid-list cols="3" rowHeight="70px">
             <!-- Additional Service Starts -->
@@ -1295,8 +1294,7 @@
           </mat-grid-list>
         </div>
 
-        <div class="extOnly" formGroupName="extension" class="normal-form"
-          *ngIf="isExtension && (!isNewAdmission && isAdditional)">
+        <div class="extOnly" formGroupName="extension" class="normal-form">
           <div class="extOnly" formGroupName="extension" class="normal-form"
             *ngIf="preAuthForm.get('requestFor')?.get('extension')?.value != null">
             <mat-grid-list cols="3" rowHeight="70px">
@@ -1725,9 +1723,9 @@
       Draft</button>
     <button class="button-green" mat-button mat-raised-button color="primary" (click)="onSendRequest(preAuthForm.value)"
       type="submit">Send Request</button>
-    <button mat-button mat-raised-button color="accent" [mat-dialog-close]="false" (click)="onNoClick()">Cancel</button>
+    <button mat-button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
   </div>
-  <!-- Main Mat-Dialog Action Ends -->
+  <!-- Main Mat-Dialog Action Ends [mat-dialog-close]="false"-->
 
 </form>
 <!-- Patient Form Ends Here -->

@@ -6,7 +6,7 @@
 
 <!-- Patient Form Starts Here -->
 <form [formGroup]="patientFormService.patientForm" class="normal-form"
-  (ngSubmit)="onConfirmClick(patientFormService.patientForm)" fxLayoutGap="8px">
+  (ngSubmit)="onVerifyEligibilityClick(patientFormService.patientForm)" fxLayoutGap="8px">
 
   <!-- Main Mat-Dialog Hearder Start -->
   <mat-toolbar>
@@ -84,7 +84,7 @@
                       <mat-label>Gender</mat-label>
                       <mat-select formControlName="gender" required>
                         <mat-option>--</mat-option>
-                        <mat-option *ngFor="let gender of genders().values(); let i = index" [value]="gender.name">
+                        <mat-option *ngFor="let gender of genders; let i = index" [value]="gender.name">
                           {{gender.name}}
                         </mat-option>
                       </mat-select>
@@ -105,7 +105,7 @@
                       <!-- <mat-select [formControl]="patientFormService.patientForm.controls.suffix"> -->
                       <mat-select formControlName="suffix">
                         <mat-option>--</mat-option>
-                        <mat-option *ngFor="let suffix of suffixes().values()" [value]="suffix.name">
+                        <mat-option *ngFor="let suffix of suffixes" [value]="suffix.name">
                           {{suffix.name}}
                         </mat-option>
                       </mat-select>
@@ -153,7 +153,7 @@
                           <mat-label>Sex</mat-label>
                           <mat-select formControlName="insuredsex" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let gender of genders().values()" [value]="gender.name">
+                            <mat-option *ngFor="let gender of genders" [value]="gender.name">
                               {{gender.name}}
                             </mat-option>
                           </mat-select>
@@ -219,7 +219,7 @@
                           <mat-label>Patient Relationship To Insured</mat-label>
                           <mat-select formControlName="patientRelationInsured" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let relation of relations().values()" [value]="relation.name">
+                            <mat-option *ngFor="let relation of relations" [value]="relation.name">
                               {{relation.name}}
                             </mat-option>
                           </mat-select>
@@ -281,7 +281,7 @@
                           <mat-label>Sex</mat-label>
                           <mat-select formControlName="insuredsex" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let gender of genders().values()" [value]="gender.name">
+                            <mat-option *ngFor="let gender of genders" [value]="gender.name">
                               {{gender.name}}
                             </mat-option>
                           </mat-select>
@@ -347,7 +347,7 @@
                           <mat-label>Patient Relationship To Insured</mat-label>
                           <mat-select formControlName="patientRelationInsured" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let relation of relations().values()" [value]="relation.name">
+                            <mat-option *ngFor="let relation of relations" [value]="relation.name">
                               {{relation.name}}
                             </mat-option>
                           </mat-select>
@@ -408,7 +408,7 @@
                           <mat-label>Sex</mat-label>
                           <mat-select formControlName="insuredsex" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let gender of genders().values()" [value]="gender.name">
+                            <mat-option *ngFor="let gender of genders" [value]="gender.name">
                               {{gender.name}}
                             </mat-option>
                           </mat-select>
@@ -474,7 +474,7 @@
                           <mat-label>Patient Relationship To Insured</mat-label>
                           <mat-select formControlName="patientRelationInsured" required>
                             <mat-option>--</mat-option>
-                            <mat-option *ngFor="let relation of relations().values()" [value]="relation.name">
+                            <mat-option *ngFor="let relation of relations" [value]="relation.name">
                               {{relation.name}}
                             </mat-option>
                           </mat-select>

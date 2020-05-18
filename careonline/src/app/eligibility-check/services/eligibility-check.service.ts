@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PatientFormDataRequest, ResponseReceivedForm } from '../../eligibility-check/models/patient-data.model';
-
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,8 @@ import { PatientFormDataRequest, ResponseReceivedForm } from '../../eligibility-
 export class EligibilityCheckService {
   formData: PatientFormDataRequest;
   readonly apiURL = 'http://localhost:8080/checkEligibility';
-  currentInsuranceList = new Subject<any[]>();
-
+  currentInsuranceList$ = new Subject<any>();
+  // cast = this.currentInsuranceList$.asObservable();
 
   constructor(
     private httpClient: HttpClient,
@@ -30,8 +30,8 @@ export class EligibilityCheckService {
     this.formData = { ...row };
   }
   /*Edit Patient onto Patient List Data Table*/
-  refreshPage() {
-    return this.currentInsuranceList.asObservable();
+  refreshPage(): Observable<any> {
+    return this.currentInsuranceList$.asObservable();
   }
 
   /*To get list of data*/
@@ -46,6 +46,11 @@ export class EligibilityCheckService {
   getCurrentInsuranceData(): Observable<any> {
     return this.httpClient.post(this.apiURL + '/eligibilityDetail', this.formData);
   }
+  // getCurrentInsuranceData(): Observable<any> {
+  //   return this.httpClient.post(this.apiURL + '/eligibilityDetail', this.formData).pipe(tap(() => {
+  //     this.currentInsuranceList$.next();
+  //   }));
+  // }
 
   getPdfData(): Observable<any> {
     return this.httpClient.get(this.apiURL + '/viewDetail');

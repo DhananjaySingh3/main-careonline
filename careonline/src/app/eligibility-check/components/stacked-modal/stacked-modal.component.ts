@@ -33,7 +33,7 @@ export class StackedModalComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(true);
   }
 
   onConfirmClick() {

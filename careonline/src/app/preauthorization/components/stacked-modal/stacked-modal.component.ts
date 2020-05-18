@@ -35,6 +35,14 @@ export class StackedModalComponent implements OnInit {
 
   }
 
+  closePopup(isTrue) {
+    if (isTrue) {
+      this.dialogRef.close(true);
+    } else {
+      this.dialogRef.close(false);
+    }
+  }
+
   onNoClick(): void {
     this.dialogRef.close(false);
   }
@@ -66,11 +74,11 @@ export class StackedModalComponent implements OnInit {
             // this.patientFormService.getEligibilityData();
             this.snackbarToasterService.success(':: Submitted Successfully');
             this.isLoadingResults = false;
-            this.onNoClick();
+            this.closePopup(true);
           }
         }, (error) => {
           this.snackbarToasterService.warn(':: Sent request failed!');
-          this.onNoClick();
+          this.closePopup(true);
         });
       } else if (this.actionType === 'sendRequest') {
         this.preAuthService.sendRequestPatientData(formDataSent).subscribe((response) => {
@@ -84,16 +92,18 @@ export class StackedModalComponent implements OnInit {
             console.log(this.responseDatReceived);
             console.log('Data received as Preautorization check response stored end');
           }
-          if (response.ackn) {
+          if (response.ackn || true) {
             // this.patientFormService.getEligibilityData();
             this.snackbarToasterService.success(':: Submitted Successfully');
             this.isLoadingResults = false;
-            this.onNoClick();
+            this.closePopup(true);
           }
         }, (error) => {
           this.snackbarToasterService.warn(':: Sent request failed!');
-          this.onNoClick();
+          this.closePopup(true);
         });
+      } else if (this.actionType === 'onXicon' || this.actionType === 'onCloseBtn') {
+        this.closePopup(true);
       }
 
     });
