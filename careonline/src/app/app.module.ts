@@ -20,7 +20,7 @@ import {
   MatDialogConfig
 } from '@angular/material';
 
-
+import 'hammerjs';
 import { DatePipe } from '@angular/common';
 import { HeaderComponent } from './shared/header/header.component';
 
