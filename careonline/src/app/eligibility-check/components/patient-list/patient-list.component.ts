@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PatientService } from '../../../services/patient.service';
-import { SnackbarService } from '../../../services/snackbar.service';
 
 import { MatTableDataSource } from '@angular/material';
 
@@ -112,8 +110,7 @@ export class PatientListComponent implements OnInit {
           }
         });
     });
-
-
   }
+
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
-import { InsuranceEligibility, ResponseReceivedForm, Form } from 'src/app/class-modals/form';
+import { ResponseReceivedForm } from '../../../models/patient-data.model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatRadioChange } from '@angular/material';
 import { EligibilityCheckService } from '../../../services/eligibility-check.service';
