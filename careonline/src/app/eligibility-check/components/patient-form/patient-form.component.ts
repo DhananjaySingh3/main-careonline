@@ -117,16 +117,16 @@ export class PatientFormComponent implements OnInit {
 
   onVerifyEligibilityClick(data) {
     if (this.patientFormService.patientForm.valid) {
-      if (!this.patientFormService.patientForm.get('$key').value) {
-        // this.patientFormService.insertOrCreatePatient(this.patientFormService.patientForm.value);
-      } else {
-        // this.toasterService.success(':: Submitted Successfully');
-        this.patientFormService.updatePatient(this.patientFormService.patientForm.value);
-        //  this.patientFormService.patientForm.reset();
-        this.patientFormService.clearFormValues(); // initializeFormGroup() = clearFormData()
-        this.toasterService.success(':: Submitted Successfully');
-        this.onClose();
-      }
+      // if (!this.patientFormService.patientForm.get('$key').value) {
+      //   // this.patientFormService.insertOrCreatePatient(this.patientFormService.patientForm.value);
+      // } else {
+      // this.toasterService.success(':: Submitted Successfully');
+      this.patientFormService.updatePatient(this.patientFormService.patientForm.value);
+      //  this.patientFormService.patientForm.reset();
+      this.patientFormService.clearFormValues(); // initializeFormGroup() = clearFormData()
+      this.toasterService.success(':: Submitted Successfully');
+      this.onClose();
+      // }
     }
   }
 

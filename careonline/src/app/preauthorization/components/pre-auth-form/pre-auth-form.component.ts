@@ -753,7 +753,10 @@ export class PreAuthFormComponent implements OnInit {
     };
     // formData.insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
     this.preAuthForm.setValue(formData);
-    this.preAuthForm.get('requestFor').patchValue({ newadmissionService: this.newAdmissService.checked = true });
+    if (this.preAuthForm.get('requestFor').get('newadmissionService').value === true) {
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: this.newAdmissService.checked = true });
+    }
+
     //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
     console.log('Form Populated Data ', formData);
   }
@@ -767,10 +770,20 @@ export class PreAuthFormComponent implements OnInit {
       console.log('New Service', this.newAdmissService.checked.valueOf());
       // console.log('New Service2', event.target.value);
       this.isNewAdmissionSelected = true;
+      this.newAdmissService.checked = true;
+      this.isNewServiceChecked = true;
       // formcontrol =newadmissionService and template ref = newAdmissService
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
       // this.isAddSerChecked = false;
       // this.isExtOnlyChecked = false;
+
+      this.isAddSerChecked = false;
+      this.additionalService.checked = false;
+      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: false });
+
+      this.isExtOnlyChecked = false;
+      this.extensionOnly.checked = false;
+      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: false });
     }
   }
 
@@ -782,20 +795,34 @@ export class PreAuthFormComponent implements OnInit {
       this.isExtOnlySelected = true;
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
       // get('requestFor').get('extension').get('serviceflag') as FormContro.value = true;
-      this.isNewServiceChecked = false;
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      // this.isNewServiceChecked = false;
+      // this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       // this.isAddSerChecked = false;
+      this.isNewAdmissionSelected = false;
+      this.isNewServiceChecked = false;
+      this.newAdmissService.checked = false;
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+
+      this.isAddSerChecked = false;
+      this.additionalService.checked = false;
+      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: false });
     }
   }
 
   onAddServiceChange() {
     if (this.additionalService.checked) {
       console.log(this.additionalService.checked);
-      this.isExtOnlySelected = true;
-      this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
+      this.isAddiServSelected = true;
+      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
       //  this.isNewServiceChecked = false;
+      this.isNewAdmissionSelected = false;
       this.isNewServiceChecked = false;
+      this.newAdmissService.checked = false;
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+
+      this.isExtOnlyChecked = false;
+      this.extensionOnly.checked = false;
+      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: false });
     }
   }
   /* Request for New Admission Service via Radio button ends */
@@ -807,51 +834,51 @@ export class PreAuthFormComponent implements OnInit {
     // console.log('Date after change ', selectedPatientData);
     console.log('Form data on send request', selectedPatntData);
 
-    setTimeout(() => {
-      // formcontrol =newadmissionService and template ref = newAdmissService
-      if (this.isNewAdmissionSelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-        // console.log('New Add selected after modific', this.newAdmissService.checked);
-        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    //  setTimeout(() => {
+    // formcontrol =newadmissionService and template ref = newAdmissService
+    if (this.isNewAdmissionSelected) {
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+      // console.log('New Add selected after modific', this.newAdmissService.checked);
+      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    }
+
+    if (this.isAddiServSelected) {
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
+      // console.log('New Add selected after modific', this.newAdmissService.checked);
+      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    }
+
+    if (this.isExtOnlySelected) {
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
+      // console.log('New Add selected after modific', this.newAdmissService.checked);
+      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    }
+
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = false;
+    config.hasBackdrop = true;
+    config.width = '40%';
+    config.data = {
+      heading: '"Send Request" Confirmation Alert',
+      messageContent: 'Do you want to "Send" the Preauthorization form?',
+      selectedPatientData: selectedPatntData,
+      actionType: 'sendRequest'
+    };
+    const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Stacked Dialog Closed: true / false will come ' + result);
+      if (result) {
+        console.log('Confirm is clicked: ' + result);
+        this.isFormUpdated = result;
+        this.dialogRef.close(false);
       }
 
-      if (this.isAddiServSelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-        this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
-        // console.log('New Add selected after modific', this.newAdmissService.checked);
-        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-      }
-
-      if (this.isExtOnlySelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-        this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-        // console.log('New Add selected after modific', this.newAdmissService.checked);
-        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-      }
-
-      const config = new MatDialogConfig();
-      config.disableClose = true;
-      config.autoFocus = false;
-      config.hasBackdrop = true;
-      config.width = '40%';
-      config.data = {
-        heading: '"Send Request" Confirmation Alert',
-        messageContent: 'Do you want to "Send" the Preauthorization form?',
-        selectedPatientData: selectedPatntData,
-        actionType: 'sendRequest'
-      };
-      const dialogRef = this.dialog.open(StackedModalComponent, config);
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Stacked Dialog Closed: true / false will come ' + result);
-        if (result) {
-          console.log('Confirm is clicked: ' + result);
-          this.isFormUpdated = result;
-          this.dialogRef.close(false);
-        }
-
-      });
     });
+    // });
   }
 
 
@@ -868,46 +895,46 @@ export class PreAuthFormComponent implements OnInit {
   /* Common getters for drop down values */
 
   onClose() {
-    setTimeout(() => {
-      // formcontrol =newadmissionService and template ref = newAdmissService
-      // if (this.isNewAdmissionSelected) {
-      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      //   // console.log('New Add selected after modific', this.newAdmissService.checked);
-      //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    // setTimeout(() => {
+    // formcontrol =newadmissionService and template ref = newAdmissService
+    // if (this.isNewAdmissionSelected) {
+    //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+    //   // console.log('New Add selected after modific', this.newAdmissService.checked);
+    //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    // }
+
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = false;
+    config.hasBackdrop = true;
+    config.width = '40%';
+    config.data = {
+      heading: '"Close" Confirmation Alert',
+      messageContent: 'Do you want to "Close" without saving or sending the preauth form?',
+      selectedPatientData: null,
+      actionType: 'onXicon'
+    };
+    const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Stacked Dialog Closed: true / false will come ' + result);
+      // this.toasterService.success(':: Submitted Successfully');
+      // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
+      console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
+      // console.log(this.insuranceList);
+      console.log('Data received from stacked model to patient component ends');
+      // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
+      // if (this.insuranceList) {
+      //   this.ngOnInit();
+      //   console.log('ngOnInit() was executed for patient component');
       // }
+      if (result) {
+        console.log('Confirm is clicked: ' + result);
+        this.isFormUpdated = result;
+      }
 
-      const config = new MatDialogConfig();
-      config.disableClose = true;
-      config.autoFocus = false;
-      config.hasBackdrop = true;
-      config.width = '40%';
-      config.data = {
-        heading: '"Close" Confirmation Alert',
-        messageContent: 'Do you want to "Close" without saving or sending the preauth form?',
-        selectedPatientData: null,
-        actionType: 'onXicon'
-      };
-      const dialogRef = this.dialog.open(StackedModalComponent, config);
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Stacked Dialog Closed: true / false will come ' + result);
-        // this.toasterService.success(':: Submitted Successfully');
-        // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
-        console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
-        // console.log(this.insuranceList);
-        console.log('Data received from stacked model to patient component ends');
-        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-        // if (this.insuranceList) {
-        //   this.ngOnInit();
-        //   console.log('ngOnInit() was executed for patient component');
-        // }
-        if (result) {
-          console.log('Confirm is clicked: ' + result);
-          this.isFormUpdated = result;
-        }
-
-      });
     });
+    //  });
     //  this.preAuthForm.reset();
     //  this.dialogRef.close();
   }
@@ -952,7 +979,7 @@ export class PreAuthFormComponent implements OnInit {
         if (result) {
           console.log('Confirm is clicked: ' + result);
           this.dialogRef.close(false);
-         // this.preAuthService.filter('Refresh Initiated');
+          // this.preAuthService.filter('Refresh Initiated');
         }
 
       });
@@ -964,63 +991,63 @@ export class PreAuthFormComponent implements OnInit {
     // console.log('Date after change ', selectedPatientData);
     console.log('Form data on save', selectedPatntData);
 
-    setTimeout(() => {
-      // formcontrol =newadmissionService and template ref = newAdmissService
-      if (this.isNewAdmissionSelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-        // console.log('New Add selected after modific', this.newAdmissService.checked);
-        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    // setTimeout(() => {
+    // formcontrol =newadmissionService and template ref = newAdmissService
+    if (this.isNewAdmissionSelected) {
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+      // console.log('New Add selected after modific', this.newAdmissService.checked);
+      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    }
+
+    if (this.isAddiServSelected) {
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
+      // console.log('New Add selected after modific', this.newAdmissService.checked);
+      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    }
+
+    if (this.isExtOnlySelected) {
+      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
+      // console.log('New Add selected after modific', this.newAdmissService.checked);
+      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    }
+
+
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = false;
+    config.hasBackdrop = true;
+    config.width = '40%';
+    config.data = {
+      heading: '"Save" Confirmation Alert',
+      messageContent: 'Do you want to "Save" the content?',
+      selectedPatientData: selectedPatntData,
+      actionType: 'saveRequest'
+    };
+    const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Stacked Dialog Closed: true / false will come ' + result);
+      // this.toasterService.success(':: Submitted Successfully');
+      // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
+      console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
+      // console.log(this.insuranceList);
+      console.log('Data received from stacked model to patient component ends');
+      // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
+      // if (this.insuranceList) {
+      //   this.ngOnInit();
+      //   console.log('ngOnInit() was executed for patient component');
+      // }
+      if (result) {
+        console.log('Confirm is clicked: ' + result);
+        this.isFormUpdated = result;
+        this.dialogRef.close(false);
+        // this.preAuthService.filter('Refresh Initiated');
       }
 
-      if (this.isAddiServSelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-        this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
-        // console.log('New Add selected after modific', this.newAdmissService.checked);
-        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-      }
-
-      if (this.isExtOnlySelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-        this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-        // console.log('New Add selected after modific', this.newAdmissService.checked);
-        // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-      }
-
-
-      const config = new MatDialogConfig();
-      config.disableClose = true;
-      config.autoFocus = false;
-      config.hasBackdrop = true;
-      config.width = '40%';
-      config.data = {
-        heading: '"Save" Confirmation Alert',
-        messageContent: 'Do you want to "Save" the content?',
-        selectedPatientData: selectedPatntData,
-        actionType: 'saveRequest'
-      };
-      const dialogRef = this.dialog.open(StackedModalComponent, config);
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Stacked Dialog Closed: true / false will come ' + result);
-        // this.toasterService.success(':: Submitted Successfully');
-        // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
-        console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
-        // console.log(this.insuranceList);
-        console.log('Data received from stacked model to patient component ends');
-        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-        // if (this.insuranceList) {
-        //   this.ngOnInit();
-        //   console.log('ngOnInit() was executed for patient component');
-        // }
-        if (result) {
-          console.log('Confirm is clicked: ' + result);
-          this.isFormUpdated = result;
-          this.dialogRef.close(false);
-         // this.preAuthService.filter('Refresh Initiated');
-        }
-
-      });
     });
+    // });
   }
 
   /* On Selection of Insurance Type Drop down */
