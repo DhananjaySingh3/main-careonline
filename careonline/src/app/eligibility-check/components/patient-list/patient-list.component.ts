@@ -82,6 +82,15 @@ export class PatientListComponent implements OnInit {
     this.eligibilityCheckService.getSelecPatData(row);
     /*On Edit Patient sending selected patient data to service so that it can be used for getCurrentInsu..()*/
     setTimeout(() => {
+      if (row.insuranceDetailByPolicy.primaryInsuranceDetail != null) {
+        row.insuranceDetailByPolicy.primaryInsuranceDetail.eligibilityCheckSelected = false;
+      }
+      if (row.insuranceDetailByPolicy.secondaryInsuranceDetail != null) {
+        row.insuranceDetailByPolicy.secondaryInsuranceDetail.eligibilityCheckSelected = false;
+      }
+      if (row.insuranceDetailByPolicy.tertiaryInsuranceDetail != null) {
+        row.insuranceDetailByPolicy.tertiaryInsuranceDetail.eligibilityCheckSelected = false;
+      }
       this.patientFormService.populatePatientFormData(row);
       const config = new MatDialogConfig();
       config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup

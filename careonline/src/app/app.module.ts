@@ -2,12 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EligibilityCheckService } from './services/eligibility-check.service';
-import { PatientService } from './services/patient.service';
-
-// import { AngularFireModule } from 'angularfire2';
-// import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { environment } from '../environments/environment';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
@@ -26,34 +20,14 @@ import {
   MatDialogConfig
 } from '@angular/material';
 
-import { StackedModalComponent } from './components/main-modal/stacked-modal/stacked-modal.component';
-import { PatientsComponent } from './components/patients/patients.component';
-import { PatientComponent } from './components/patients/patient/patient.component';
-import { GenderService } from './services/gender.service';
-import { SnackbarService } from './services/snackbar.service';
-import { PatientListComponent } from './components/patients/patient-list/patient-list.component';
+
 import { DatePipe } from '@angular/common';
-import { DialogService } from './services/dialog.service';
-import { CurrentInsuranceStatusComponent } from './components/patients/current-insurance-status/current-insurance-status.component';
-import {
-  MemberInsuranceEligibilityComponent
-} from './components/patients/current-insurance-status/member-insurance-eligibility/member-insurance-eligibility.component';
-import {
-  HomeHealthInsuranceInfoComponent
-} from './components/patients/current-insurance-status/home-health-insurance-info/home-health-insurance-info.component';
 import { HeaderComponent } from './shared/header/header.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    StackedModalComponent,
-    PatientsComponent,
-    PatientComponent,
-    PatientListComponent,
-    CurrentInsuranceStatusComponent,
-    MemberInsuranceEligibilityComponent,
-    HomeHealthInsuranceInfoComponent,
     HeaderComponent,
 
   ],
@@ -70,11 +44,6 @@ import { HeaderComponent } from './shared/header/header.component';
     // AngularFireDatabaseModule,
   ],
   providers: [
-    // GenderService,
-    PatientService,
-    SnackbarService,
-    EligibilityCheckService,
-    DialogService,
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },
@@ -85,11 +54,10 @@ import { HeaderComponent } from './shared/header/header.component';
     DatePipe
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PatientComponent, PatientsComponent, StackedModalComponent]
+  entryComponents: []
 })
 export class AppModule {
   constructor() {
     console.log('App Module Loaded');
   }
 }
-// platformBrowserDynamic().bootstrapModule(AppModule);
