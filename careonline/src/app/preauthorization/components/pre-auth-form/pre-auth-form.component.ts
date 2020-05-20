@@ -59,21 +59,7 @@ export class PreAuthFormComponent implements OnInit {
   isFormUpdated = false;
   isReadonly = true;
   editing = true;
-  // toSelect = this.insuranceTypes().find(c => c.name === 'Primary Insurance');
-  // this.patientCategory.get('patientCategory').setValue(toSelect);
-  isReadonlyPt = true;
-  isReadonlyOt = true;
-  isReadonlySpt = true;
-  isReadonlySn = true;
-  isReadonlyMsw = true;
-  isReadonlyHha = true;
 
-  physicalTherapyChk = false;
-  occupationTherapyChk = false;
-  speechPathologyChk = false;
-  skilledNursingChk = false;
-  medicalSocialWorkChk = false;
-  homeHealthAideChk = false;
 
   /* Common Data Source from api*/
   genders: Genders[];
@@ -848,10 +834,7 @@ export class PreAuthFormComponent implements OnInit {
 
       this.isExtOnlySelected = true;
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-      // get('requestFor').get('extension').get('serviceflag') as FormContro.value = true;
-      // this.isNewServiceChecked = false;
-      // this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      // this.isAddSerChecked = false;
+
       this.isNewAdmissionSelected = false;
       this.isNewServiceChecked = false;
       this.newAdmissService.checked = false;
@@ -892,22 +875,16 @@ export class PreAuthFormComponent implements OnInit {
     // formcontrol =newadmissionService and template ref = newAdmissService
     if (this.isNewAdmissionSelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
     if (this.isAddiServSelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
     if (this.isExtOnlySelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
     const config = new MatDialogConfig();
@@ -937,13 +914,6 @@ export class PreAuthFormComponent implements OnInit {
 
 
   onClose() {
-    // setTimeout(() => {
-    // formcontrol =newadmissionService and template ref = newAdmissService
-    // if (this.isNewAdmissionSelected) {
-    //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-    //   // console.log('New Add selected after modific', this.newAdmissService.checked);
-    //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-    // }
 
     const config = new MatDialogConfig();
     config.disableClose = true;
@@ -976,9 +946,7 @@ export class PreAuthFormComponent implements OnInit {
       }
 
     });
-    //  });
-    //  this.preAuthForm.reset();
-    //  this.dialogRef.close();
+
   }
 
   onNoClick(): void {
@@ -986,12 +954,6 @@ export class PreAuthFormComponent implements OnInit {
     // console.log('Form data on save', selectedPatntData);
 
     setTimeout(() => {
-      // formcontrol =newadmissionService and template ref = newAdmissService
-      // if (this.isNewAdmissionSelected) {
-      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      //   // console.log('New Add selected after modific', this.newAdmissService.checked);
-      //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-      // }
 
       const config = new MatDialogConfig();
       config.disableClose = true;
@@ -1013,11 +975,7 @@ export class PreAuthFormComponent implements OnInit {
         console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
         // console.log(this.insuranceList);
         console.log('Data received from stacked model to patient component ends');
-        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-        // if (this.insuranceList) {
-        //   this.ngOnInit();
-        //   console.log('ngOnInit() was executed for patient component');
-        // }
+
         if (result) {
           console.log('Confirm is clicked: ' + result);
           this.dialogRef.close(false);
@@ -1044,15 +1002,11 @@ export class PreAuthFormComponent implements OnInit {
     if (this.isAddiServSelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
     if (this.isExtOnlySelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
 
@@ -1106,78 +1060,14 @@ export class PreAuthFormComponent implements OnInit {
     }
   }
   /* On Selection of Insurance Type Drop down */
-  /*
-    primarySelected(event) {
-      // event.stopPropagation();
-      // this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected =
-      //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected;
-      // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected);
-    }
-
-  // get primaryInsuranceDetail() {
-  //   return this.preAuthForm.get('insuranceDetailPreAuth.primaryInsuranceDetail').value.eligibilityCheckSelected;
-  // }
-
-  */
 
   phyThepySelected(event) {
-    // console.log('skilledNursing', this.skilledNursing);
-    //  event.stopPropagation();
-    //  this.preAuthForm.requestService.physicalTherapy.physicalTherapy =
-    // !this.preAuthForm.requestService.physicalTherapy.physicalTherapy;
     //  const isSelected = this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapy').value;
-    //  console.log('isPT selected', isSelected);
-    // console.log(this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy);
     console.log('PT ', event.checked); // gices true when checked
     if (event.checked || this.physicalTherapyChk) {
       this.isReadonlyPt = false;
     } else {
       this.isReadonlyPt = true;
-    }
-  }
-
-  spechPathSelected(event) {
-    console.log('PT ', event.checked); // gices true when checked
-    if (event.checked || this.speechPathologyChk) {
-      this.isReadonlySpt = false;
-    } else {
-      this.isReadonlySpt = true;
-    }
-  }
-
-  OccThepySelected(event) {
-    if (event.checked || this.occupationTherapyChk) {
-      this.isReadonlyOt = false;
-    } else {
-      this.isReadonlyOt = true;
-    }
-  }
-
-  skillNursSelected(event) {
-    // console.log('skilledNursing', this.skilledNursing);
-    // if (event.checked) {
-    //   this.isReadonlySn = false;
-    // } else {
-    //   this.isReadonlySn = true;
-    // }
-    // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursing').value =
-    //   !this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursing');
-
-  }
-
-  medSoclWorkSelected(event) {
-    if (event.checked || this.medicalSocialWorkChk) {
-      this.isReadonlyMsw = false;
-    } else {
-      this.isReadonlyMsw = true;
-    }
-  }
-
-  homeHelthAideSelected(event) {
-    if (event.checked || this.homeHealthAideChk) {
-      this.isReadonlyHha = false;
-    } else {
-      this.isReadonlyHha = true;
     }
   }
 
