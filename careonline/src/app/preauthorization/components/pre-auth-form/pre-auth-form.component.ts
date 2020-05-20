@@ -679,10 +679,12 @@ export class PreAuthFormComponent implements OnInit {
         id: patient.admissionDetail.id ? (patient.admissionDetail.id) : null,
         mrnNumber: patient.admissionDetail.mrnNumber ? (patient.admissionDetail.mrnNumber) : null,
         requestType: patient.admissionDetail.requestType ? (patient.admissionDetail.requestType) : null,
-        admissionDate: (new Date(patient.admissionDetail.admissionDate)).toISOString(),
+        admissionDate: (new Date(patient.admissionDetail.admissionDate)).toISOString() ?
+          (new Date(patient.admissionDetail.admissionDate)).toISOString() : new Date().toISOString(),
         // ? (patient.admissionDetail.admissionDate === '' ? '' :
         // this.datePipe.transform(patient.admissionDetail.admissionDate, 'yyyy-MM-dd')) : null,
-        dischargeDate: (new Date(patient.admissionDetail.dischargeDate)).toISOString(),
+        dischargeDate: (new Date(patient.admissionDetail.dischargeDate)).toISOString() ?
+          (new Date(patient.admissionDetail.dischargeDate)).toISOString() : new Date().toISOString(),
         referringPhysician: patient.admissionDetail.referringPhysician ?
           (patient.admissionDetail.referringPhysician) : null,
         primaryDiagnosis: patient.admissionDetail.primaryDiagnosis ? (patient.admissionDetail.primaryDiagnosis) : null,
@@ -703,8 +705,10 @@ export class PreAuthFormComponent implements OnInit {
             (patient.requestFor.additionalServices.numberOfServiceCompletedTillDate) : null,
           // fromDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.fromDate) : null,
           // toDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.toDate) : null,
-          fromDate: (new Date(patient.requestFor.additionalServices.fromDate)).toISOString(),
-          toDate: (new Date(patient.requestFor.additionalServices.toDate)).toISOString(),
+          fromDate: (new Date(patient.requestFor.additionalServices.fromDate)).toISOString() ?
+            (new Date(patient.requestFor.additionalServices.fromDate)).toISOString() : new Date().toISOString(),
+          toDate: (new Date(patient.requestFor.additionalServices.toDate)).toISOString() ?
+            (new Date(patient.requestFor.additionalServices.toDate)).toISOString() : new Date().toISOString(),
           serviceflag: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.serviceflag) : null,
         },
 
@@ -712,8 +716,10 @@ export class PreAuthFormComponent implements OnInit {
           id: patient.requestFor.extension ? (patient.requestFor.extension.id) : null,
           previousAuthorizationNumber: patient.requestFor.extension ?
             (patient.requestFor.extension.previousAuthorizationNumber) : null,
-          fromDate: (new Date(patient.requestFor.extension.fromDate)).toISOString(),
-          toDate: (new Date(patient.requestFor.extension.toDate)).toISOString(),
+          fromDate: (new Date(patient.requestFor.extension.fromDate)).toISOString() ?
+            (new Date(patient.requestFor.extension.fromDate)).toISOString() : new Date().toISOString(),
+          toDate: (new Date(patient.requestFor.extension.toDate)).toISOString() ?
+            (new Date(patient.requestFor.extension.toDate)).toISOString() : new Date().toISOString(),
           serviceflag: patient.requestFor.extension ? (patient.requestFor.extension.serviceflag) : null,
         }
       },
@@ -879,7 +885,7 @@ export class PreAuthFormComponent implements OnInit {
 
     if (this.isAddiServSelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
+      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
     }
 
     if (this.isExtOnlySelected) {
@@ -1063,12 +1069,12 @@ export class PreAuthFormComponent implements OnInit {
 
   phyThepySelected(event) {
     //  const isSelected = this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapy').value;
-    console.log('PT ', event.checked); // gices true when checked
-    if (event.checked || this.physicalTherapyChk) {
-      this.isReadonlyPt = false;
-    } else {
-      this.isReadonlyPt = true;
-    }
+    // console.log('PT ', event.checked); // gices true when checked
+    // if (event.checked || this.physicalTherapyChk) {
+    //   this.isReadonlyPt = false;
+    // } else {
+    //   this.isReadonlyPt = true;
+    // }
   }
 
   compareFn = (val1: string, val2: string) => {
