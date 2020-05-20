@@ -29,6 +29,7 @@ export class PreAuthDemographics {
 export class InsuranceDetailPreAuth {
     mrnNumber: string;
     // policyId?: string;
+    id?: number;
     insuranceTypeSelcted: string;
     primaryInsuranceDetail?: PrimaryInsuranceDetail;
     secondaryInsuranceDetail?: SecondaryInsuranceDetail;

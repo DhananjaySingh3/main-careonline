@@ -61,6 +61,8 @@ export class PreAuthFormComponent implements OnInit {
   editing = true;
   // toSelect = this.insuranceTypes().find(c => c.name === 'Primary Insurance');
   // this.patientCategory.get('patientCategory').setValue(toSelect);
+  isReadonlyPt = false;
+
 
   /* Common Data Source from api*/
   genders: Genders[];
@@ -106,6 +108,7 @@ export class PreAuthFormComponent implements OnInit {
     }),
 
     insuranceDetailPreAuth: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }),
       insuranceTypeSelcted: new FormControl({ value: '', disabled: false }),
       primaryInsuranceDetail: this.createInsuranceFormGroup(),
@@ -411,6 +414,7 @@ export class PreAuthFormComponent implements OnInit {
       },
 
       insuranceDetailPreAuth: {
+        id: patient.insuranceDetailPreAuth.id,
         mrnNumber: patient.insuranceDetailPreAuth.mrnNumber ?
           (patient.insuranceDetailPreAuth.mrnNumber) : null,
         insuranceTypeSelcted: patient.insuranceDetailPreAuth.insuranceTypeSelcted,
@@ -1079,11 +1083,12 @@ export class PreAuthFormComponent implements OnInit {
   */
 
   phyThepySelected(event) {
-    // event.stopPropagation();
-    // this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy =
-    //   !this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy;
+    //  event.stopPropagation();
+    //  this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy =
+    // !this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy;
 
     // console.log(this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy);
+    console.log('PT ', event.target.value);
   }
 
   compareFn = (val1: string, val2: string) => {

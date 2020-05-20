@@ -178,8 +178,8 @@
                 <mat-select formControlName="insuranceTypeSelcted" focused [compareWith]="compareFn" required>
                   <!-- <mat-option>None</mat-option> -->
 
-                  <mat-option *ngFor="let insurance of insuranceTypes"
-                    (onChange)="selectedInsuranceType($event)" [value]="insurance.name">
+                  <mat-option *ngFor="let insurance of insuranceTypes" (onChange)="selectedInsuranceType($event)"
+                    [value]="insurance.name">
                     {{insurance.name}}
                   </mat-option>
                 </mat-select>
@@ -1404,7 +1404,7 @@
         </mat-expansion-panel-header>
 
         <!-- Physical Therapy starts -->
-        <div class="extOnly" formGroupName="physicalTherapy" class="normal-form"
+        <div class="physicalTherapy" formGroupName="physicalTherapy" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1438,7 +1438,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 1</mat-label>
                 </mat-form-field>
 
@@ -1449,7 +1450,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="preAuthForm.get('requestService')?.get('physicalTherapy')?.value ? isReadonly: isReadonlyPt">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1460,7 +1462,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="preAuthForm.get('requestService')?.get('physicalTherapy')?.value ? isReadonly: isReadonlyPt">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1471,7 +1474,7 @@
         <!-- Physical Therapy ends -->
 
         <!-- Occupation Therapy starts -->
-        <div class="extOnly" formGroupName="occupationTherapy" class="normal-form"
+        <div class="occupationTherapy" formGroupName="occupationTherapy" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('occupationTherapy')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1489,7 +1492,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 2</mat-label>
                 </mat-form-field>
 
@@ -1522,7 +1526,7 @@
         <!-- Occupation Therapy ends -->
 
         <!-- Speech Pathology starts -->
-        <div class="extOnly" formGroupName="speechPathology" class="normal-form"
+        <div class="speechPathology" formGroupName="speechPathology" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1541,7 +1545,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 3</mat-label>
                 </mat-form-field>
 
@@ -1574,7 +1579,7 @@
         <!-- Speech Pathology ends -->
 
         <!-- Skilled Nursing starts -->
-        <div class="extOnly" formGroupName="skilledNursing" class="normal-form"
+        <div class="skilledNursing" formGroupName="skilledNursing" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1593,7 +1598,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 4</mat-label>
                 </mat-form-field>
 
@@ -1626,7 +1632,7 @@
         <!-- Skilled Nursing ends -->
 
         <!-- Medical Social Work starts -->
-        <div class="extOnly" formGroupName="medicalSocialWork" class="normal-form"
+        <div class="medicalSocialWork" formGroupName="medicalSocialWork" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('medicalSocialWork')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1645,7 +1651,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 5</mat-label>
                 </mat-form-field>
 
@@ -1678,7 +1685,7 @@
         <!-- Medical Social Work ends -->
 
         <!-- Home Health Aid starts -->
-        <div class="extOnly" formGroupName="homeHealthAide" class="normal-form"
+        <div class="homeHealthAide" formGroupName="homeHealthAide" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1697,7 +1704,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 6</mat-label>
                 </mat-form-field>
 
