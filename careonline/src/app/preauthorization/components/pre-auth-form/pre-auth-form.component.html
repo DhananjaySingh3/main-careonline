@@ -67,7 +67,7 @@
                 <!-- <mat-error *ngIf="patientFormService.patientForm.controls['currenttimdate'].hasError('required')"date:'MMMM d, y'">
                               Date of birth is <strong>required</strong>
                             </mat-error> -->
-                <mat-datepicker-toggle matSuffix [for]="currenttimdate"></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="currenttimdate" disabled></mat-datepicker-toggle>
                 <mat-datepicker #currenttimdate></mat-datepicker>
               </mat-form-field>
 
@@ -107,7 +107,7 @@
                 <!-- <mat-error *ngIf="patientFormService.patientForm.controls['dob'].hasError('required')"date:'MMMM d, y'">
                         Date of birth is <strong>required</strong>
                       </mat-error> -->
-                <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="dob" disabled></mat-datepicker-toggle>
                 <mat-datepicker #dob></mat-datepicker>
               </mat-form-field>
 
@@ -264,7 +264,7 @@
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('primaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                       [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
-                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob" disabled></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
                   </mat-form-field>
 
@@ -525,7 +525,7 @@
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('secondaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                       [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
-                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob" disabled></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
                   </mat-form-field>
 
@@ -786,7 +786,7 @@
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('tertiaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                       [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
-                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob" disabled></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
                   </mat-form-field>
 
@@ -1406,11 +1406,11 @@
         <!-- Physical Therapy starts -->
         <div class="physicalTherapy" formGroupName="physicalTherapy" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.value != null">
-          <mat-grid-list cols="4" rowHeight="70px">
+          <mat-grid-list cols="4" rowHeight="72px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="physicalTherapy">
                   <!-- Physical Therapy -->
                   PHYSICAL THERAPY
@@ -1451,7 +1451,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
-                    [readonly]="preAuthForm.get('requestService')?.get('physicalTherapy')?.value ? isReadonly: isReadonlyPt">
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1463,7 +1463,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
-                    [readonly]="preAuthForm.get('requestService')?.get('physicalTherapy')?.value ? isReadonly: isReadonlyPt">
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1480,7 +1480,7 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="occupationTherapy">
                   OCCUPATION THERAPY
                 </mat-checkbox>
@@ -1504,7 +1504,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1515,7 +1516,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1532,7 +1534,7 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="speechPathology">
                   <!-- Physical Therapy -->
                   SPEECH PATHOLOGY
@@ -1557,7 +1559,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1568,7 +1571,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1585,7 +1589,7 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="skilledNursing">
                   <!-- Physical Therapy -->
                   SKILLED NURSING
@@ -1610,7 +1614,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1621,7 +1626,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1638,7 +1644,7 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="medicalSocialWork">
                   <!-- Physical Therapy -->
                   MEDICAL SOCIAL WORK
@@ -1663,7 +1669,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1674,7 +1681,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1691,7 +1699,7 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="homeHealthAide">
                   <!-- Physical Therapy -->
                   HOME HEALTH AIDE
@@ -1716,7 +1724,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1727,7 +1736,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 

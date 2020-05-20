@@ -61,8 +61,19 @@ export class PreAuthFormComponent implements OnInit {
   editing = true;
   // toSelect = this.insuranceTypes().find(c => c.name === 'Primary Insurance');
   // this.patientCategory.get('patientCategory').setValue(toSelect);
-  isReadonlyPt = false;
+  isReadonlyPt = true;
+  isReadonlyOt = true;
+  isReadonlySpt = true;
+  isReadonlySn = true;
+  isReadonlyMsw = true;
+  isReadonlyHha = true;
 
+  physicalTherapyChk = false;
+  occupationTherapyChk = false;
+  speechPathologyChk = false;
+  skilledNursingChk = false;
+  medicalSocialWorkChk = false;
+  homeHealthAideChk = false;
 
   /* Common Data Source from api*/
   genders: Genders[];
@@ -299,13 +310,52 @@ export class PreAuthFormComponent implements OnInit {
     this.requestFor = this.commonService.getRequestFor();
     this.insuranceTypes = this.commonService.getInsuranceTypes();
     console.log(this.insuranceTypes);
+
   }
   /* Common methods */
+
+  /* Common getters for drop down values */
+  get physicalTherapy() {
+    return this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapy').value;
+  }
+
+  get occupationTherapy() {
+    return this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapy').value;
+    console.log('occupationTherapy', this.occupationTherapy);
+  }
+
+  get speechPathology() {
+    return this.preAuthForm.get('requestService').get('speechPathology').get('speechPathology').value;
+    console.log('speechPathology', this.speechPathology);
+  }
+
+  get skilledNursing() {
+    return this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursing').value;
+    console.log('skilledNursing', this.skilledNursing);
+  }
+
+  get medicalSocialWork() {
+    return this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWork').value;
+    console.log('medicalSocialWork', this.medicalSocialWork);
+  }
+
+  get homeHealthAide() {
+    return this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAide').value;
+    console.log('homeHealthAide', this.homeHealthAide);
+  }
+
+  get serviceflag() {
+    return this.preAuthForm.get('requestFor').get('extension').get('serviceflag').value;
+  }
+
+  get newadmissionService() {
+    return this.preAuthForm.get('requestFor').get('newadmissionService').value;
+  }
+  /* Common getters for drop down values */
 
   ngOnInit() {
     this.commonMethods();
     console.log('Data via list page ', this.selectedPatientViaDialog);
-
 
     if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
       this.noActionTaken = true;
@@ -886,18 +936,6 @@ export class PreAuthFormComponent implements OnInit {
   }
 
 
-  /* Common getters for drop down values */
-
-
-  get serviceflag() {
-    return this.preAuthForm.get('requestFor').get('extension').get('serviceflag').value;
-  }
-
-  get newadmissionService() {
-    return this.preAuthForm.get('requestFor').get('newadmissionService').value;
-  }
-  /* Common getters for drop down values */
-
   onClose() {
     // setTimeout(() => {
     // formcontrol =newadmissionService and template ref = newAdmissService
@@ -1083,12 +1121,64 @@ export class PreAuthFormComponent implements OnInit {
   */
 
   phyThepySelected(event) {
+    // console.log('skilledNursing', this.skilledNursing);
     //  event.stopPropagation();
-    //  this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy =
-    // !this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy;
-
+    //  this.preAuthForm.requestService.physicalTherapy.physicalTherapy =
+    // !this.preAuthForm.requestService.physicalTherapy.physicalTherapy;
+    //  const isSelected = this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapy').value;
+    //  console.log('isPT selected', isSelected);
     // console.log(this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy);
-    console.log('PT ', event.target.value);
+    console.log('PT ', event.checked); // gices true when checked
+    if (event.checked || this.physicalTherapyChk) {
+      this.isReadonlyPt = false;
+    } else {
+      this.isReadonlyPt = true;
+    }
+  }
+
+  spechPathSelected(event) {
+    console.log('PT ', event.checked); // gices true when checked
+    if (event.checked || this.speechPathologyChk) {
+      this.isReadonlySpt = false;
+    } else {
+      this.isReadonlySpt = true;
+    }
+  }
+
+  OccThepySelected(event) {
+    if (event.checked || this.occupationTherapyChk) {
+      this.isReadonlyOt = false;
+    } else {
+      this.isReadonlyOt = true;
+    }
+  }
+
+  skillNursSelected(event) {
+    // console.log('skilledNursing', this.skilledNursing);
+    // if (event.checked) {
+    //   this.isReadonlySn = false;
+    // } else {
+    //   this.isReadonlySn = true;
+    // }
+    // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursing').value =
+    //   !this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursing');
+
+  }
+
+  medSoclWorkSelected(event) {
+    if (event.checked || this.medicalSocialWorkChk) {
+      this.isReadonlyMsw = false;
+    } else {
+      this.isReadonlyMsw = true;
+    }
+  }
+
+  homeHelthAideSelected(event) {
+    if (event.checked || this.homeHealthAideChk) {
+      this.isReadonlyHha = false;
+    } else {
+      this.isReadonlyHha = true;
+    }
   }
 
   compareFn = (val1: string, val2: string) => {
