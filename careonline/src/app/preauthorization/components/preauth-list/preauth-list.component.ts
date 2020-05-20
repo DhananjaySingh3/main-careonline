@@ -8,7 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { PreAuthFormModelResponse } from '../../../preauthorization/models/pre-auth-form.model';
 import { PreAuthFormComponent } from '../../../preauthorization/components/pre-auth-form/pre-auth-form.component';
-
+import { DeniedDialogComponent } from '../../../preauthorization/components/denied-dialog/denied-dialog.component';
 
 @Component({
   selector: 'app-preauth-list',
@@ -116,7 +116,30 @@ export class PreauthListComponent implements OnInit {
   }
   /* Fetching edited Patient's Form Data ends*/
 
+  onViewErrorDetails(row: PreAuthReadResponse) {
+    /* To open the Modal to show Pre Auth Form Details starts*/
+    // openPreAuthForm(row: PreAuthReadResponse) {
+    const config = new MatDialogConfig();
+    config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
+    config.autoFocus = false; // does not allow popup to focus on any field or icon
+    config.hasBackdrop = true;
+    config.width = '65%';
 
+    config.data = { heading: 'Preauthorization Form Denial Reasons', selectedPatientData: row };
+
+    this.dialog.open(DeniedDialogComponent, config).afterClosed().subscribe(result => {
+      console.log('Close or X button clicked so:  false will come: ' + result);
+      // this.toasterService.success(':: Submitted Successfully');
+      if (result) {
+        // [mat-dialog-close]="true" shuld be placed on eligibility button to get result=true
+        // else result=undefined will come
+        console.log('Denied View Details button is clicked so TRUE will come: ' + result);
+      }
+    });
+
+    // }
+    /* To open the Modal to show Pre Auth Form Details ends*/
+  }
 
   /* Pre-auth Class ends*/
 }

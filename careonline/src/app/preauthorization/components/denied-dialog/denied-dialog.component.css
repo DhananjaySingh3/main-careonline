@@ -1,0 +1,154 @@
+/* Main Form class */
+form.normal-form {
+    margin: 3px;
+  }
+  
+  .normal-form {
+    margin: 3px;
+  }
+  /* Main Form class */
+  
+  /* Hide spinner */
+  .hide {
+    display: none;
+  }
+  /* Hide spinner */
+  
+  /* space between heading and close icon */
+  .fill-remaining-space {
+    flex: 1 1 auto;
+  }
+  
+  .example-icon {
+    /* padding: 0 14px; */
+    color: red;
+    cursor: pointer;
+    /* align-items: end; */
+  }
+  
+  mat-toolbar mat-toolbar-row {
+    background-color: white;
+    padding: 0px;
+  }
+  
+  /* space between heading and close icon */
+  
+  /* Mat expansion panel starts */
+  mat-checkbox {
+    margin-right: 5px;
+  }
+  
+  .mat-expansion-panel-header {
+    /* background: #fff;
+        background-color: #fff; */
+    /* border-color: #e4e5e7;
+        border: 1px solid #e4e5e7;
+        padding: 10px 10px;
+        border-radius: 2px; */
+    height: 40px !important;
+    border: 1px solid #e4e5e7;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+  
+  .mat-expansion-panel-header.mat-expanded {
+    /* background: #fff;
+        background-color: #fff; */
+    /* border-color: #e4e5e7;
+        border: 1px solid #e4e5e7;
+        padding: 10px 10px;
+        border-radius: 2px; */
+    height: 40px !important;
+    border: none;
+  }
+  
+  .mat-expansion-panel-header.mat-expanded,
+  .mat-expansion-panel-header.mat-expanded:hover,
+  .mat-expansion-panel-header.mat-expanded:focus {
+    /* height: 40px !important;
+        background: #fff !important;
+        background-color: #fff !important; */
+    /* border-color: #e4e5e7 !important;
+        border: 1px solid #e4e5e7;
+        padding: 10px 10px;
+        border-radius: 2px; */
+    height: 40px !important;
+  }
+  
+  .disable_ripple:hover {
+    background-color: #fff !important;
+  }
+  /* Mat expansion panel ends */
+  
+  /* Radio Buttons */
+  /* .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  } */
+  /* Radio Buttons */
+  
+  /* .mat-grid-tile .mat-figure { */
+  /* position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 8px; This decreases the distance btn 2 fields */
+  /* } */
+  
+  .mat-divider {
+    border-top-color: black;
+  }
+  
+  .spinner-class {
+    position: relative;
+    min-height: 200px;
+  }
+  
+  /* Loader */
+  .example-loading-shade {
+    /* position: absolute;
+      top: 0;
+      left: 0; */
+    position: fixed;
+    top: -28px;
+    left: -24px;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .button-green {
+    background-color: lightgreen;
+    color: blue;
+    text-align: center;
+    min-width: 60px;
+    padding: 0 4px;
+  }
+  /* Loader */
+  
+  /* Radio buttons */
+  .example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+  }
+  
+  .example-radio-button {
+    margin: 5px;
+  }
+  /* Radio buttons */
+  
+  /* disable select fields */
+  /* .readonly-wrapper {
+    cursor: not-allowed;
+  }
+  
+  .readonly-wrapper .readonly-block {
+    pointer-events: none;
+  } */
+  /* disable select fields */
+  

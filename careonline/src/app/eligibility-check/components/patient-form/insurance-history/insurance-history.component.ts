@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef, ViewEncapsulation, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import {
   MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA,
   MatTabGroup, MatTableDataSource, MatPaginator, MatSort
