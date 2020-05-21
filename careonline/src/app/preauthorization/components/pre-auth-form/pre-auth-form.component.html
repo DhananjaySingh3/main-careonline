@@ -1198,8 +1198,9 @@
         </mat-radio-group>
         <div>Your request option is: {{requestedFor}}</div> -->
         <!-- </div> -->
-
-        <div class="newService" *ngIf="!isNewServiceChecked || noActionTaken || savedAsDraft">
+        <!-- <div *ngIf="!isAddSerChecked && !isExtOnlyChecked">
+          <div class="newService" *ngIf="isNewAdmission || !isNewServiceChecked || noActionTaken || savedAsDraft"> -->
+        <div class="newService">
           <mat-grid-list cols="3" rowHeight="70px">
             <!-- New Admission Service Starts -->
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1230,8 +1231,9 @@
 
             <!-- New Admission Service Ends -->
           </mat-grid-list>
+          <!-- </div>
+        </div> -->
         </div>
-
         <div class="addService" formGroupName="additionalServices" class="normal-form">
           <!-- <div class="addService" formGroupName="additionalServices" class="normal-form"> -->
           <mat-grid-list cols="3" rowHeight="70px">

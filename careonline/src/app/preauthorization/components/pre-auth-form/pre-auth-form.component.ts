@@ -387,9 +387,11 @@ export class PreAuthFormComponent implements OnInit {
 
         if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === true) {
           this.isAddSerChecked = true;
+          this.isAdditional = true;
         }
         if (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === true) {
           this.isExtOnlyChecked = true;
+          this.isExtension = true;
         }
         /* For Cecking and unckecking radio buttons */
 
