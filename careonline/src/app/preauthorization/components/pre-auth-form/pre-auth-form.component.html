@@ -1113,8 +1113,8 @@
 
               <mat-form-field class="no-padding">
                 <mat-label>Request Type</mat-label>
-                <mat-select formControlName="requestType">
-                  <mat-option>Select</mat-option>
+                <mat-select formControlName="requestType" [compareWith]="compareFn" required>
+                  <!-- <mat-option>Select</mat-option> -->
                   <mat-option *ngFor="let requestType of requestTypes; let i = index" [value]="requestType.name">
                     {{requestType.name}}
                   </mat-option>
@@ -1242,7 +1242,7 @@
               <div class="controles-container">
 
                 <!-- <mat-form-field class="no-padding"> -->
-                <mat-radio-button [disableRipple]="true" name="serviceflag" ngDefaultControl
+                <mat-radio-button [disableRipple]="true" name="additionalService" ngDefaultControl
                   [(checked)]="isAddSerChecked" (change)="onAddServiceChange()" #additionalService
                   formControlName="serviceflag">Additional
                   Services
@@ -1268,7 +1268,7 @@
               <div class="controles-container">
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="numberOfServiceCompletedTillDate"
-                    [errorStateMatcher]="matcher">
+                    [errorStateMatcher]="matcher" [readonly]="!additionalService.checked">
                   <mat-label>No. Of Service Completed Till Date</mat-label>
                 </mat-form-field>
               </div>
@@ -1279,11 +1279,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="fromDateAddService" formControlName="fromDate"
-                    [errorStateMatcher]="matcher"
+                    [readonly]="!additionalService.checked" [errorStateMatcher]="matcher"
                     [value]="preAuthForm?.get('requestFor')?.get('additionalServices')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>From Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="fromDateAddService"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="fromDateAddService" [disabled]="!additionalService.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #fromDateAddService></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1294,11 +1295,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="toDateAddService" formControlName="toDate"
-                    [errorStateMatcher]="matcher"
+                    [readonly]="!additionalService.checked" [errorStateMatcher]="matcher"
                     [value]="preAuthForm?.get('requestFor')?.get('additionalServices')?.get('toDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>To Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="toDateAddService"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="toDateAddService" [disabled]="!additionalService.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #toDateAddService></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1307,7 +1309,8 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher"
+                    [readonly]="!additionalService.checked">
                   <mat-label>Previous Authorization Number</mat-label>
                 </mat-form-field>
               </div>
@@ -1326,7 +1329,7 @@
               <div class="controles-container">
 
                 <mat-radio-button [disableRipple]="true" (change)="onExtensionChange()" #extensionOnly
-                  [(checked)]="isExtOnlyChecked" formControlName="serviceflag" name="serviceflag" ngDefaultControl>
+                  [(checked)]="isExtOnlyChecked" formControlName="serviceflag" name="extensionOnly" ngDefaultControl>
                   Extension Only
                 </mat-radio-button>
                 <!-- <input matInput formControlName="serviceflag"> -->
@@ -1351,11 +1354,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="fromDateExtOnly" formControlName="fromDate"
-                    [errorStateMatcher]="matcher"
+                    [readonly]="!extensionOnly.checked" [errorStateMatcher]="matcher"
                     [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>From Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly" [disabled]="!extensionOnly.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #fromDateExtOnly></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1366,10 +1370,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="toDateExtOnly" formControlName="toDate" [errorStateMatcher]="matcher"
+                    [readonly]="!extensionOnly.checked"
                     [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('toDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>To Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="toDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="toDateExtOnly" [disabled]="!extensionOnly.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #toDateExtOnly></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1378,7 +1384,8 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher"
+                    [readonly]="!extensionOnly.checked">
                   <mat-label>Previous Authorization Number</mat-label>
                 </mat-form-field>
               </div>
@@ -1453,7 +1460,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1465,7 +1472,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1507,7 +1514,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1519,7 +1526,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1562,7 +1569,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1574,7 +1581,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1617,7 +1624,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1629,7 +1636,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1672,7 +1679,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1684,7 +1691,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1727,7 +1734,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1739,7 +1746,7 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
-                    [readonly]="!isActive.checked">
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 

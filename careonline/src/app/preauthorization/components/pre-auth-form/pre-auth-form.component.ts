@@ -60,6 +60,9 @@ export class PreAuthFormComponent implements OnInit {
   isReadonly = true;
   editing = true;
 
+  visitsPattern = '^[0-9]{1,3}$';
+  unitsPattern = '^[0-9]{1,3}$';
+  // usernamePattern = '^[a-z0-9_-]{8,15}$';
 
   /* Common Data Source from api*/
   genders: Genders[];
