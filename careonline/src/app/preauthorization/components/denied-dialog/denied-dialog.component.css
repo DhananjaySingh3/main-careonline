@@ -133,8 +133,8 @@ form.normal-form {
   /* Radio buttons */
   .example-radio-group {
     display: flex;
-    flex-direction: column;
-    margin: 15px 0;
+    flex-direction: row;
+    margin: 10px 0;
   }
   
   .example-radio-button {
@@ -152,3 +152,6 @@ form.normal-form {
   } */
   /* disable select fields */
   
+  .flex-end {
+    flex: none;
+  }

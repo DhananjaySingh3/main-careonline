@@ -301,7 +301,7 @@
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
                     <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
-                    <mat-select formControlName="patientRelationInsured" required *ngIf="!editing">
+                    <mat-select formControlName="patientRelationInsured" required *ngIf="!editing" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -562,7 +562,7 @@
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
                     <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
-                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" required>
+                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -759,7 +759,7 @@
                   <mat-form-field class="example-full-width">
                     <mat-label>Sex</mat-label>
                     <input *ngIf="editing" matInput formControlName="insuredsex" [readonly]="isReadonly">
-                    <mat-select *ngIf="!editing" formControlName="insuredsex" required>
+                    <mat-select *ngIf="!editing" formControlName="insuredsex" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let gender of genders" [value]="gender.name">
                         {{gender.name}}
@@ -823,7 +823,7 @@
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
                     <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
-                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" required>
+                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
