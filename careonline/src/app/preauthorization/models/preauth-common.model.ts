@@ -1,14 +1,19 @@
 export class Genders {
-    code: number;
+    code: string;
     name: string;
 }
 
 export class Sex {
-    code: number;
+    code: string;
     name: string;
 }
 
 export class Suffix {
+    code: number;
+    name: string;
+}
+
+export class Prefixes {
     code: number;
     name: string;
 }
@@ -29,7 +34,7 @@ export class State {
 }
 
 export class Relation {
-    code: number;
+    code: string;
     name: string;
 }
 
@@ -50,5 +55,70 @@ export class RequestFor {
 
 export class InsuranceTypes {
     code: number;
+    name: string;
+}
+
+export class PreAuthStatus {
+    code: number;
+    name: string;
+}
+
+export class RejectReasons {
+    code: string;
+    name: string;
+}
+
+export class FollowUpActDesc {
+    code: string;
+    name: string;
+}
+
+export class IdentificationNoType {
+    code: string;
+    name: string;
+}
+
+export class RequestCategory {
+    code: string;
+    name: string;
+}
+
+export class CertificationType {
+    code: string;
+    name: string;
+}
+
+export class ServiceType {
+    code: string;
+    name: string;
+}
+
+export class LevelOfService {
+    code: string;
+    name: string;
+}
+
+export class CertificationAction {
+    code: string;
+    name: string;
+}
+
+export class RejectReasonsMsg {
+    code: string;
+    name: string;
+}
+
+export class IdNoType {
+    code: string;
+    name: string;
+}
+
+export class IdentificationCodeType {
+    code: string;
+    name: string;
+}
+
+export class ProviderTypes {
+    code: string;
     name: string;
 }

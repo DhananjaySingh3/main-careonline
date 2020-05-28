@@ -59,8 +59,10 @@ export class PreAuthFormComponent implements OnInit {
   isFormUpdated = false;
   isReadonly = true;
   editing = true;
-  // toSelect = this.insuranceTypes().find(c => c.name === 'Primary Insurance');
-  // this.patientCategory.get('patientCategory').setValue(toSelect);
+
+  visitsPattern = '^[0-9]{1,3}$';
+  unitsPattern = '^[0-9]{1,3}$';
+  // usernamePattern = '^[a-z0-9_-]{8,15}$';
 
   /* Common Data Source from api*/
   genders: Genders[];
@@ -106,6 +108,7 @@ export class PreAuthFormComponent implements OnInit {
     }),
 
     insuranceDetailPreAuth: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }),
       insuranceTypeSelcted: new FormControl({ value: '', disabled: false }),
       primaryInsuranceDetail: this.createInsuranceFormGroup(),
@@ -296,13 +299,52 @@ export class PreAuthFormComponent implements OnInit {
     this.requestFor = this.commonService.getRequestFor();
     this.insuranceTypes = this.commonService.getInsuranceTypes();
     console.log(this.insuranceTypes);
+
   }
   /* Common methods */
+
+  /* Common getters for drop down values */
+  get physicalTherapy() {
+    return this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapy').value;
+  }
+
+  get occupationTherapy() {
+    return this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapy').value;
+    console.log('occupationTherapy', this.occupationTherapy);
+  }
+
+  get speechPathology() {
+    return this.preAuthForm.get('requestService').get('speechPathology').get('speechPathology').value;
+    console.log('speechPathology', this.speechPathology);
+  }
+
+  get skilledNursing() {
+    return this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursing').value;
+    console.log('skilledNursing', this.skilledNursing);
+  }
+
+  get medicalSocialWork() {
+    return this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWork').value;
+    console.log('medicalSocialWork', this.medicalSocialWork);
+  }
+
+  get homeHealthAide() {
+    return this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAide').value;
+    console.log('homeHealthAide', this.homeHealthAide);
+  }
+
+  get serviceflag() {
+    return this.preAuthForm.get('requestFor').get('extension').get('serviceflag').value;
+  }
+
+  get newadmissionService() {
+    return this.preAuthForm.get('requestFor').get('newadmissionService').value;
+  }
+  /* Common getters for drop down values */
 
   ngOnInit() {
     this.commonMethods();
     console.log('Data via list page ', this.selectedPatientViaDialog);
-
 
     if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
       this.noActionTaken = true;
@@ -348,9 +390,11 @@ export class PreAuthFormComponent implements OnInit {
 
         if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === true) {
           this.isAddSerChecked = true;
+          this.isAdditional = true;
         }
         if (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === true) {
           this.isExtOnlyChecked = true;
+          this.isExtension = true;
         }
         /* For Cecking and unckecking radio buttons */
 
@@ -411,6 +455,7 @@ export class PreAuthFormComponent implements OnInit {
       },
 
       insuranceDetailPreAuth: {
+        id: patient.insuranceDetailPreAuth.id,
         mrnNumber: patient.insuranceDetailPreAuth.mrnNumber ?
           (patient.insuranceDetailPreAuth.mrnNumber) : null,
         insuranceTypeSelcted: patient.insuranceDetailPreAuth.insuranceTypeSelcted,
@@ -639,10 +684,12 @@ export class PreAuthFormComponent implements OnInit {
         id: patient.admissionDetail.id ? (patient.admissionDetail.id) : null,
         mrnNumber: patient.admissionDetail.mrnNumber ? (patient.admissionDetail.mrnNumber) : null,
         requestType: patient.admissionDetail.requestType ? (patient.admissionDetail.requestType) : null,
-        admissionDate: (new Date(patient.admissionDetail.admissionDate)).toISOString(),
+        admissionDate: (new Date(patient.admissionDetail.admissionDate)).toISOString() ?
+          (new Date(patient.admissionDetail.admissionDate)).toISOString() : new Date().toISOString(),
         // ? (patient.admissionDetail.admissionDate === '' ? '' :
         // this.datePipe.transform(patient.admissionDetail.admissionDate, 'yyyy-MM-dd')) : null,
-        dischargeDate: (new Date(patient.admissionDetail.dischargeDate)).toISOString(),
+        dischargeDate: (new Date(patient.admissionDetail.dischargeDate)).toISOString() ?
+          (new Date(patient.admissionDetail.dischargeDate)).toISOString() : new Date().toISOString(),
         referringPhysician: patient.admissionDetail.referringPhysician ?
           (patient.admissionDetail.referringPhysician) : null,
         primaryDiagnosis: patient.admissionDetail.primaryDiagnosis ? (patient.admissionDetail.primaryDiagnosis) : null,
@@ -663,8 +710,10 @@ export class PreAuthFormComponent implements OnInit {
             (patient.requestFor.additionalServices.numberOfServiceCompletedTillDate) : null,
           // fromDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.fromDate) : null,
           // toDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.toDate) : null,
-          fromDate: (new Date(patient.requestFor.additionalServices.fromDate)).toISOString(),
-          toDate: (new Date(patient.requestFor.additionalServices.toDate)).toISOString(),
+          fromDate: (new Date(patient.requestFor.additionalServices.fromDate)).toISOString() ?
+            (new Date(patient.requestFor.additionalServices.fromDate)).toISOString() : new Date().toISOString(),
+          toDate: (new Date(patient.requestFor.additionalServices.toDate)).toISOString() ?
+            (new Date(patient.requestFor.additionalServices.toDate)).toISOString() : new Date().toISOString(),
           serviceflag: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.serviceflag) : null,
         },
 
@@ -672,8 +721,10 @@ export class PreAuthFormComponent implements OnInit {
           id: patient.requestFor.extension ? (patient.requestFor.extension.id) : null,
           previousAuthorizationNumber: patient.requestFor.extension ?
             (patient.requestFor.extension.previousAuthorizationNumber) : null,
-          fromDate: (new Date(patient.requestFor.extension.fromDate)).toISOString(),
-          toDate: (new Date(patient.requestFor.extension.toDate)).toISOString(),
+          fromDate: (new Date(patient.requestFor.extension.fromDate)).toISOString() ?
+            (new Date(patient.requestFor.extension.fromDate)).toISOString() : new Date().toISOString(),
+          toDate: (new Date(patient.requestFor.extension.toDate)).toISOString() ?
+            (new Date(patient.requestFor.extension.toDate)).toISOString() : new Date().toISOString(),
           serviceflag: patient.requestFor.extension ? (patient.requestFor.extension.serviceflag) : null,
         }
       },
@@ -794,10 +845,7 @@ export class PreAuthFormComponent implements OnInit {
 
       this.isExtOnlySelected = true;
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-      // get('requestFor').get('extension').get('serviceflag') as FormContro.value = true;
-      // this.isNewServiceChecked = false;
-      // this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      // this.isAddSerChecked = false;
+
       this.isNewAdmissionSelected = false;
       this.isNewServiceChecked = false;
       this.newAdmissService.checked = false;
@@ -838,22 +886,16 @@ export class PreAuthFormComponent implements OnInit {
     // formcontrol =newadmissionService and template ref = newAdmissService
     if (this.isNewAdmissionSelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
     if (this.isAddiServSelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      this.preAuthForm.get('requestFor').get('additionalService').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
     }
 
     if (this.isExtOnlySelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
     const config = new MatDialogConfig();
@@ -882,26 +924,7 @@ export class PreAuthFormComponent implements OnInit {
   }
 
 
-  /* Common getters for drop down values */
-
-
-  get serviceflag() {
-    return this.preAuthForm.get('requestFor').get('extension').get('serviceflag').value;
-  }
-
-  get newadmissionService() {
-    return this.preAuthForm.get('requestFor').get('newadmissionService').value;
-  }
-  /* Common getters for drop down values */
-
   onClose() {
-    // setTimeout(() => {
-    // formcontrol =newadmissionService and template ref = newAdmissService
-    // if (this.isNewAdmissionSelected) {
-    //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-    //   // console.log('New Add selected after modific', this.newAdmissService.checked);
-    //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-    // }
 
     const config = new MatDialogConfig();
     config.disableClose = true;
@@ -934,9 +957,7 @@ export class PreAuthFormComponent implements OnInit {
       }
 
     });
-    //  });
-    //  this.preAuthForm.reset();
-    //  this.dialogRef.close();
+
   }
 
   onNoClick(): void {
@@ -944,12 +965,6 @@ export class PreAuthFormComponent implements OnInit {
     // console.log('Form data on save', selectedPatntData);
 
     setTimeout(() => {
-      // formcontrol =newadmissionService and template ref = newAdmissService
-      // if (this.isNewAdmissionSelected) {
-      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      //   // console.log('New Add selected after modific', this.newAdmissService.checked);
-      //   // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
-      // }
 
       const config = new MatDialogConfig();
       config.disableClose = true;
@@ -971,11 +986,7 @@ export class PreAuthFormComponent implements OnInit {
         console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
         // console.log(this.insuranceList);
         console.log('Data received from stacked model to patient component ends');
-        // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-        // if (this.insuranceList) {
-        //   this.ngOnInit();
-        //   console.log('ngOnInit() was executed for patient component');
-        // }
+
         if (result) {
           console.log('Confirm is clicked: ' + result);
           this.dialogRef.close(false);
@@ -1002,15 +1013,11 @@ export class PreAuthFormComponent implements OnInit {
     if (this.isAddiServSelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
     if (this.isExtOnlySelected) {
       this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
       this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
     }
 
 
@@ -1064,26 +1071,15 @@ export class PreAuthFormComponent implements OnInit {
     }
   }
   /* On Selection of Insurance Type Drop down */
-  /*
-    primarySelected(event) {
-      // event.stopPropagation();
-      // this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected =
-      //   !this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected;
-      // console.log(this.selectedPatientViaDialog.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected);
-    }
-
-  // get primaryInsuranceDetail() {
-  //   return this.preAuthForm.get('insuranceDetailPreAuth.primaryInsuranceDetail').value.eligibilityCheckSelected;
-  // }
-
-  */
 
   phyThepySelected(event) {
-    // event.stopPropagation();
-    // this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy =
-    //   !this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy;
-
-    // console.log(this.selectedPatientViaDialog.requestService.physicalTherapy.physicalTherapy);
+    //  const isSelected = this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapy').value;
+    // console.log('PT ', event.checked); // gices true when checked
+    // if (event.checked || this.physicalTherapyChk) {
+    //   this.isReadonlyPt = false;
+    // } else {
+    //   this.isReadonlyPt = true;
+    // }
   }
 
   compareFn = (val1: string, val2: string) => {

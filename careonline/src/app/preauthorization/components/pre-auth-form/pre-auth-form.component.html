@@ -67,7 +67,7 @@
                 <!-- <mat-error *ngIf="patientFormService.patientForm.controls['currenttimdate'].hasError('required')"date:'MMMM d, y'">
                               Date of birth is <strong>required</strong>
                             </mat-error> -->
-                <mat-datepicker-toggle matSuffix [for]="currenttimdate"></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="currenttimdate" disabled></mat-datepicker-toggle>
                 <mat-datepicker #currenttimdate></mat-datepicker>
               </mat-form-field>
 
@@ -107,7 +107,7 @@
                 <!-- <mat-error *ngIf="patientFormService.patientForm.controls['dob'].hasError('required')"date:'MMMM d, y'">
                         Date of birth is <strong>required</strong>
                       </mat-error> -->
-                <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="dob" disabled></mat-datepicker-toggle>
                 <mat-datepicker #dob></mat-datepicker>
               </mat-form-field>
 
@@ -178,8 +178,8 @@
                 <mat-select formControlName="insuranceTypeSelcted" focused [compareWith]="compareFn" required>
                   <!-- <mat-option>None</mat-option> -->
 
-                  <mat-option *ngFor="let insurance of insuranceTypes"
-                    (onChange)="selectedInsuranceType($event)" [value]="insurance.name">
+                  <mat-option *ngFor="let insurance of insuranceTypes" (onChange)="selectedInsuranceType($event)"
+                    [value]="insurance.name">
                     {{insurance.name}}
                   </mat-option>
                 </mat-select>
@@ -264,7 +264,7 @@
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('primaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                       [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
-                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob" disabled></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
                   </mat-form-field>
 
@@ -301,7 +301,7 @@
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
                     <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
-                    <mat-select formControlName="patientRelationInsured" required *ngIf="!editing">
+                    <mat-select formControlName="patientRelationInsured" required *ngIf="!editing" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -525,7 +525,7 @@
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('secondaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                       [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
-                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob" disabled></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
                   </mat-form-field>
 
@@ -562,7 +562,7 @@
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
                     <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
-                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" required>
+                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -759,7 +759,7 @@
                   <mat-form-field class="example-full-width">
                     <mat-label>Sex</mat-label>
                     <input *ngIf="editing" matInput formControlName="insuredsex" [readonly]="isReadonly">
-                    <mat-select *ngIf="!editing" formControlName="insuredsex" required>
+                    <mat-select *ngIf="!editing" formControlName="insuredsex" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let gender of genders" [value]="gender.name">
                         {{gender.name}}
@@ -786,7 +786,7 @@
                       [value]="preAuthForm.get('insuranceDetailPreAuth').get('tertiaryInsuranceDetail').get('insureddob').value | date:'yyyy-MM-dd'"
                       [errorStateMatcher]="matcher" required [readonly]="isReadonly">
                     <mat-label>Date Of Birth</mat-label>
-                    <mat-datepicker-toggle matSuffix [for]="insureddob"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="insureddob" disabled></mat-datepicker-toggle>
                     <mat-datepicker #insureddob></mat-datepicker>
                   </mat-form-field>
 
@@ -823,7 +823,7 @@
                   <mat-form-field>
                     <mat-label>Patient Relationship To Insured</mat-label>
                     <input *ngIf="editing" matInput formControlName="patientRelationInsured" [readonly]="isReadonly">
-                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" required>
+                    <mat-select *ngIf="!editing" formControlName="patientRelationInsured" [compareWith]="compareFn" required>
                       <mat-option>--</mat-option>
                       <mat-option *ngFor="let relation of relations" [value]="relation.name">
                         {{relation.name}}
@@ -1113,8 +1113,8 @@
 
               <mat-form-field class="no-padding">
                 <mat-label>Request Type</mat-label>
-                <mat-select formControlName="requestType">
-                  <mat-option>Select</mat-option>
+                <mat-select formControlName="requestType" [compareWith]="compareFn" required>
+                  <!-- <mat-option>Select</mat-option> -->
                   <mat-option *ngFor="let requestType of requestTypes; let i = index" [value]="requestType.name">
                     {{requestType.name}}
                   </mat-option>
@@ -1198,8 +1198,9 @@
         </mat-radio-group>
         <div>Your request option is: {{requestedFor}}</div> -->
         <!-- </div> -->
-
-        <div class="newService" *ngIf="!isNewServiceChecked || noActionTaken || savedAsDraft">
+        <!-- <div *ngIf="!isAddSerChecked && !isExtOnlyChecked">
+          <div class="newService" *ngIf="isNewAdmission || !isNewServiceChecked || noActionTaken || savedAsDraft"> -->
+        <div class="newService">
           <mat-grid-list cols="3" rowHeight="70px">
             <!-- New Admission Service Starts -->
             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -1230,8 +1231,9 @@
 
             <!-- New Admission Service Ends -->
           </mat-grid-list>
+          <!-- </div>
+        </div> -->
         </div>
-
         <div class="addService" formGroupName="additionalServices" class="normal-form">
           <!-- <div class="addService" formGroupName="additionalServices" class="normal-form"> -->
           <mat-grid-list cols="3" rowHeight="70px">
@@ -1240,7 +1242,7 @@
               <div class="controles-container">
 
                 <!-- <mat-form-field class="no-padding"> -->
-                <mat-radio-button [disableRipple]="true" name="serviceflag" ngDefaultControl
+                <mat-radio-button [disableRipple]="true" name="additionalService" ngDefaultControl
                   [(checked)]="isAddSerChecked" (change)="onAddServiceChange()" #additionalService
                   formControlName="serviceflag">Additional
                   Services
@@ -1266,7 +1268,7 @@
               <div class="controles-container">
                 <mat-form-field class="no-padding">
                   <input matInput #input formControlName="numberOfServiceCompletedTillDate"
-                    [errorStateMatcher]="matcher">
+                    [errorStateMatcher]="matcher" [readonly]="!additionalService.checked">
                   <mat-label>No. Of Service Completed Till Date</mat-label>
                 </mat-form-field>
               </div>
@@ -1277,11 +1279,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="fromDateAddService" formControlName="fromDate"
-                    [errorStateMatcher]="matcher"
+                    [readonly]="!additionalService.checked" [errorStateMatcher]="matcher"
                     [value]="preAuthForm?.get('requestFor')?.get('additionalServices')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>From Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="fromDateAddService"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="fromDateAddService" [disabled]="!additionalService.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #fromDateAddService></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1292,11 +1295,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="toDateAddService" formControlName="toDate"
-                    [errorStateMatcher]="matcher"
+                    [readonly]="!additionalService.checked" [errorStateMatcher]="matcher"
                     [value]="preAuthForm?.get('requestFor')?.get('additionalServices')?.get('toDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>To Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="toDateAddService"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="toDateAddService" [disabled]="!additionalService.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #toDateAddService></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1305,7 +1309,8 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher"
+                    [readonly]="!additionalService.checked">
                   <mat-label>Previous Authorization Number</mat-label>
                 </mat-form-field>
               </div>
@@ -1324,7 +1329,7 @@
               <div class="controles-container">
 
                 <mat-radio-button [disableRipple]="true" (change)="onExtensionChange()" #extensionOnly
-                  [(checked)]="isExtOnlyChecked" formControlName="serviceflag" name="serviceflag" ngDefaultControl>
+                  [(checked)]="isExtOnlyChecked" formControlName="serviceflag" name="extensionOnly" ngDefaultControl>
                   Extension Only
                 </mat-radio-button>
                 <!-- <input matInput formControlName="serviceflag"> -->
@@ -1349,11 +1354,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="fromDateExtOnly" formControlName="fromDate"
-                    [errorStateMatcher]="matcher"
+                    [readonly]="!extensionOnly.checked" [errorStateMatcher]="matcher"
                     [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('fromDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>From Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="fromDateExtOnly" [disabled]="!extensionOnly.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #fromDateExtOnly></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1364,10 +1370,12 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput [matDatepicker]="toDateExtOnly" formControlName="toDate" [errorStateMatcher]="matcher"
+                    [readonly]="!extensionOnly.checked"
                     [value]="preAuthForm?.get('requestFor')?.get('extension')?.get('toDate')?.value | date:'yyyy-MM-dd'">
                   <mat-label>To Date</mat-label>
 
-                  <mat-datepicker-toggle matSuffix [for]="toDateExtOnly"></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="toDateExtOnly" [disabled]="!extensionOnly.checked">
+                  </mat-datepicker-toggle>
                   <mat-datepicker #toDateExtOnly></mat-datepicker>
                 </mat-form-field>
               </div>
@@ -1376,7 +1384,8 @@
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="previousAuthorizationNumber" [errorStateMatcher]="matcher"
+                    [readonly]="!extensionOnly.checked">
                   <mat-label>Previous Authorization Number</mat-label>
                 </mat-form-field>
               </div>
@@ -1404,13 +1413,13 @@
         </mat-expansion-panel-header>
 
         <!-- Physical Therapy starts -->
-        <div class="extOnly" formGroupName="physicalTherapy" class="normal-form"
+        <div class="physicalTherapy" formGroupName="physicalTherapy" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.value != null">
-          <mat-grid-list cols="4" rowHeight="70px">
+          <mat-grid-list cols="4" rowHeight="72px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="physicalTherapy">
                   <!-- Physical Therapy -->
                   PHYSICAL THERAPY
@@ -1438,7 +1447,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 1</mat-label>
                 </mat-form-field>
 
@@ -1449,7 +1459,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1460,7 +1471,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1471,13 +1483,13 @@
         <!-- Physical Therapy ends -->
 
         <!-- Occupation Therapy starts -->
-        <div class="extOnly" formGroupName="occupationTherapy" class="normal-form"
+        <div class="occupationTherapy" formGroupName="occupationTherapy" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('occupationTherapy')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="occupationTherapy">
                   OCCUPATION THERAPY
                 </mat-checkbox>
@@ -1489,7 +1501,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 2</mat-label>
                 </mat-form-field>
 
@@ -1500,7 +1513,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1511,7 +1525,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1522,13 +1537,13 @@
         <!-- Occupation Therapy ends -->
 
         <!-- Speech Pathology starts -->
-        <div class="extOnly" formGroupName="speechPathology" class="normal-form"
+        <div class="speechPathology" formGroupName="speechPathology" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="speechPathology">
                   <!-- Physical Therapy -->
                   SPEECH PATHOLOGY
@@ -1541,7 +1556,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 3</mat-label>
                 </mat-form-field>
 
@@ -1552,7 +1568,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1563,7 +1580,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1574,13 +1592,13 @@
         <!-- Speech Pathology ends -->
 
         <!-- Skilled Nursing starts -->
-        <div class="extOnly" formGroupName="skilledNursing" class="normal-form"
+        <div class="skilledNursing" formGroupName="skilledNursing" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="skilledNursing">
                   <!-- Physical Therapy -->
                   SKILLED NURSING
@@ -1593,7 +1611,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 4</mat-label>
                 </mat-form-field>
 
@@ -1604,7 +1623,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1615,7 +1635,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1626,13 +1647,13 @@
         <!-- Skilled Nursing ends -->
 
         <!-- Medical Social Work starts -->
-        <div class="extOnly" formGroupName="medicalSocialWork" class="normal-form"
+        <div class="medicalSocialWork" formGroupName="medicalSocialWork" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('medicalSocialWork')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="medicalSocialWork">
                   <!-- Physical Therapy -->
                   MEDICAL SOCIAL WORK
@@ -1645,7 +1666,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 5</mat-label>
                 </mat-form-field>
 
@@ -1656,7 +1678,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1667,7 +1690,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 
@@ -1678,13 +1702,13 @@
         <!-- Medical Social Work ends -->
 
         <!-- Home Health Aid starts -->
-        <div class="extOnly" formGroupName="homeHealthAide" class="normal-form"
+        <div class="homeHealthAide" formGroupName="homeHealthAide" class="normal-form"
           *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.value != null">
           <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile [colspan]="1" [rowspan]="1">
               <div class="controles-container">
 
-                <mat-checkbox color="primary" (click)="phyThepySelected($event)" (keydown)="$event.stopPropagation()"
+                <mat-checkbox color="primary" name="isActive" #isActive (keydown)="$event.stopPropagation()"
                   formControlName="homeHealthAide">
                   <!-- Physical Therapy -->
                   HOME HEALTH AIDE
@@ -1697,7 +1721,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="revenueCode" [errorStateMatcher]="matcher"
+                    [readonly]="isReadonly">
                   <mat-label>Revenue Code 6</mat-label>
                 </mat-form-field>
 
@@ -1708,7 +1733,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="visits" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="visitsPattern" maxlength="3">
                   <mat-label>No of Visits</mat-label>
                 </mat-form-field>
 
@@ -1719,7 +1745,8 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher">
+                  <input matInput #input formControlName="units" [errorStateMatcher]="matcher"
+                    [readonly]="!isActive.checked" [pattern]="unitsPattern" maxlength="3">
                   <mat-label>No of Units</mat-label>
                 </mat-form-field>
 

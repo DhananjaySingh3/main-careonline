@@ -49,6 +49,11 @@ export class PreAuthService {
   refreshPage(): Observable<any> {
     return this.refreshPage$.asObservable();
   }
+
+    /*Sending Patient data on PreAuth Form Click onto the table for Denial Response*/
+    viewDenialResponseData(form): Observable<any> {
+      return this.httpClient.post(this.apiURL + '/preAuthResponse', { mrnNumber: form.mrnNumber });
+    }
   // filter(filterby: string) {
   //   return this.listeners$.next(filterby);
   // }

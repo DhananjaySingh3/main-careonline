@@ -110,7 +110,16 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
           Submission Status
         </th>
-        <td mat-cell *matCellDef="let row">{{row.episode.preAuthorisationStatus}}</td>
+        <td mat-cell *matCellDef="let row">{{row.episode.preAuthorisationStatus}}
+          <!-- <span *ngIf="row.episode.preAuthorisationStatus === 'Denied'"> -->
+          <button mat-icon-button color="primary" (click)="onViewErrorDetails(row)">
+            <mat-icon matTooltip="View Details">open_with</mat-icon>
+            <!-- <mat-icon>open_with</mat-icon> -->
+            <!-- <mat-icon>visibility</mat-icon> -->
+          </button>
+          <!-- </span> -->
+        </td>
+
       </ng-container>
 
 
