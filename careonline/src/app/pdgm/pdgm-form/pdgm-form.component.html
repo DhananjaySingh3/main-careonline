@@ -1,0 +1,246 @@
+<!-- <h2 mat-dialog-title>{{' Home Health PPS- Patient Driven Grouping Model (PDGM)'}}</h2> -->
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span class="fill-remaining-space"></span>
+        <span>
+            <h5 mat-dialog-title>{{'Home Health PPS - Patient Driven Grouping Model (PDGM)'}}</h5>
+        </span>
+        <span class="fill-remaining-space"></span>
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="closeModel()" tabindex="-1">
+            close
+        </mat-icon>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="pdgm-form">
+
+    <mat-accordion [multi]="true">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Episode Details
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <mat-form-field fxFlex="280">
+                    <mat-label>Patient Name</mat-label>
+                    <input matInput>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="280">
+                    <mat-label>Date Of Birth</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="280">
+                    <mat-label>Gender</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field fxFlex="280">
+                    <mat-label>MRN</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+                <mat-form-field fxFlex="280">
+                    <mat-label>Episode ID</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+                <mat-form-field fxFlex="280">
+                    <mat-label>Episode Type</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field fxFlex="280">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+                <mat-form-field fxFlex="280">
+                    <mat-label>End Date</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+                <mat-form-field fxFlex="280">
+                    <mat-label>No of Visits</mat-label>
+                    <input matInput type="number" min="1">
+                </mat-form-field>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    A. Timing and Source of Admission
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr>
+                        <th>Visit Timing</th>
+                        <th>Admission Source</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-radio-button value="1">Early Visits</mat-radio-button>
+                        </td>
+                        <td>Community</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-radio-button value="1">Late Visits</mat-radio-button>
+                        </td>
+                        <td>Institutional</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24">1 Position (Source & Timing) - HIPPS Code: </h4>
+                <button class="mat-raised-button f-r">HIPPS CODE</button>
+            </div>
+        </mat-expansion-panel>
+
+
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    B. Clinical Grouping - Pharmacy Diagnosis
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr>
+                        <th>Primary Diagnosis Code</th>
+                        <th>Description</th>
+                        <th>Clinical Grouping</th>
+                        <th>Comorbidity Subgroup</th>
+                    </tr>
+                    <tr>
+                        <td> G20 </td>
+                        <td>Parkinson's Disease</td>
+                        <td>NEURO_REHAB</td>
+                        <td>Neurological 5</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24">2 Position (Clinical Grouping) - HIPPS Code: </h4>
+                <button class="mat-raised-button f-r">HIPPS CODE</button>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    C. OASIS Items Contributed to functional level
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row">
+                <table style="width:100%" class="mt-14" *ngFor="let questionData of oasisDetails">
+                    <tr>
+                        <th class="w-15">
+                            {{questionData.oasisCode}}
+                        </th>
+                        <th class="w-75">
+                            {{questionData.oasisQuestion}}
+                        </th>
+                        <th class="w-20">{{questionData.functionalPoint}}</th>
+                    </tr>
+                    <tr *ngFor="let optionDetails of questionData.oasisOptions">
+                        <td>
+                            <mat-checkbox></mat-checkbox>
+                        </td>
+                        <td>
+                            {{optionDetails.optionDesc}}
+                        </td>
+                        <td>{{optionDetails.functionalValue}}</td>
+                    </tr>
+                  
+                </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24">3 Position (Functional Level) - HIPPS Code: </h4>
+                <button class="mat-raised-button f-r">HIPPS CODE</button>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    D. Comorbidity Adjustment (from Secondary Diagnosis)
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr>
+                        <th>Secondary Diagnosis Code</th>
+                        <th>Description</th>
+                        <th>Clinical Group</th>
+                        <th>Comorbidity Subgroup</th>
+                    </tr>
+                    <tr>
+                        <td> A04.71 </td>
+                        <td>Entercolitis due to clostridium difficile, recurrent</td>
+                        <td>MMTA_INFECT</td>
+                        <td>Infectious 1</td>
+                    </tr>
+                    <tr>
+                        <td> A00.1 </td>
+                        <td></td>
+                        <td>MMTA_INFECT</td>
+                        <td>Neurological 5</td>
+                    </tr>
+                    <tr>
+                        <td> 167.2 </td>
+                        <td>Celebral atherosclerosis</td>
+                        <td>NEURO_REHAB</td>
+                        <td>Celebral 5</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24">4 Position (omorbidity) - HIPPS Code: </h4>
+                <button class="mat-raised-button f-r">HIPPS CODE</button>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    E. Placeholder
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row">
+                <h4 class="mb-24">5 Position (Placeholder) - HIPPS Code: </h4>
+                <button class="mat-raised-button f-r">1</button>
+            </div>
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="f-r">
+    <button class="mat-raised-button" (click)="closeModel()">Close</button>
+    <button class="mat-raised-button mat-primary" (click)="insertPdgmForm()">Insert Code</button>
+</mat-dialog-actions>

@@ -20,7 +20,10 @@ const routes: Routes = [
     loadChildren: './preauthorization/preauthorization.module#PreauthorizationModule',
     pathMatch: 'full'
   },
-
+  {
+    path: 'pdgm',
+    loadChildren: './pdgm/pdgm.module#PdgmModule',
+  },
 
 ];
 
