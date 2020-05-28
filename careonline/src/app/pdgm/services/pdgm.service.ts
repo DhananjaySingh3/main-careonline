@@ -9,17 +9,15 @@ import { tap } from 'rxjs/operators';
 })
 export class PDGMService {
   formData: PatientFormDataRequest;
-  readonly apiURL = 'http://localhost:8080/checkEligibility';
+  readonly apiURL = 'http://localhost:8080/pdgm';
 
   constructor(
     private httpClient: HttpClient,
 
   ) { }
 
-  dataFromEligibilityCheck: ResponseReceivedForm;
-
-  getPatientList(): Observable<any> {
-    return this.httpClient.get(this.apiURL + '/read');
+  getPdgmList(): Observable<any> {
+    return this.httpClient.get(this.apiURL + '/rapList');
   }
 
   getOasisQuestionDetails() {

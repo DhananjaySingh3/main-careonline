@@ -31,7 +31,6 @@ export class PdgmFormComponent implements OnInit {
         this.dialogRef.close();
     }
     getOasisDetails() {
-        debugger
         this.oasisDetails = this._pdgmService.getOasisQuestionDetails()
     }
     insertPdgmForm() {

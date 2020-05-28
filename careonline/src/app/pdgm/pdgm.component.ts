@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
-
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-
 import { MatDialog, MatDialogConfig } from '@angular/material';
-
 import { PatientFormDataRequest } from '../pdgm/models/pdgm.model';
 import { PDGMService } from '../pdgm/services/pdgm.service';
 import { PdgmFormComponent } from '../pdgm/pdgm-form/pdgm-form.component';
@@ -24,7 +21,7 @@ export class PdgmComponent implements OnInit {
 
   displayedColumns: string[] = ['selectVal',
     'mrnNumber', 'patientName', 'oasisType', 'episodeDetails', 'aging', 'billableVisit', 'visitPdgm', 'hippsCode',
-     'oasisKey', 'claimType', 'actions'];
+    'oasisKey', 'claimType', 'actions'];
   resultsLength = 0;
   isLoadingResults = true;
 
@@ -33,13 +30,12 @@ export class PdgmComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  this.getPdgmlist();
-    //this.patientListForMatTable = new MatTableDataSource([]);
+    this.getPdgmlist();
   }
 
 
   getPdgmlist() {
-    this._pdgmService.getPatientList().subscribe((result) => {
+    this._pdgmService.getPdgmList().subscribe((result) => {
       this.patientListForMatTable = new MatTableDataSource(result);
       this.patientListForMatTable.sort = this.sort;
       this.patientListForMatTable.paginator = this.paginator;
@@ -49,7 +45,7 @@ export class PdgmComponent implements OnInit {
 
   openPdgmForm(dialogConfig) {
     this._pdgmDialogRef.open(PdgmFormComponent, {
-      width:'800px'
+      width: '800px'
     })
       .afterClosed().subscribe(result => {
 

@@ -35,9 +35,19 @@ th {
 th {
   background-color: lightgrey;
 }
-.mt-14{
+
+td {
+  text-align: left !important;
+}
+
+.text-center{
+  text-align: center!important
+}
+
+.mt-14 {
   margin-top: 14px;
 }
+
 .w-15 {
   width: 15%;
 }
