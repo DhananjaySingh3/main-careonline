@@ -117,23 +117,25 @@ export class PreauthListComponent implements OnInit {
   /* Fetching edited Patient's Form Data ends*/
 
   onViewErrorDetails(row: PreAuthReadResponse) {
-    /* To open the Modal to show Pre Auth Form Details starts*/
-    const config = new MatDialogConfig();
-    config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
-    config.autoFocus = false; // does not allow popup to focus on any field or icon
-    config.hasBackdrop = true;
-    config.width = '65%';
+    setTimeout(() => {
+      /* To open the Modal to show Pre Auth Form Details starts*/
+      const config = new MatDialogConfig();
+      config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
+      config.autoFocus = false; // does not allow popup to focus on any field or icon
+      config.hasBackdrop = true;
+      config.width = '65%';
 
-    config.data = { heading: 'Preauthorization Response Form', selectedPatientData: row };
+      config.data = { heading: 'Preauthorization Response Form', selectedPatientData: row };
 
-    this.dialog.open(DeniedDialogComponent, config).afterClosed().subscribe(result => {
-      console.log('Close or X button clicked so:  false will come: ' + result);
-      // this.toasterService.success(':: Submitted Successfully');
-      if (result) {
-        // [mat-dialog-close]="true" shuld be placed on eligibility button to get result=true
-        // else result=undefined will come
-        console.log('Denied View Details button is clicked so TRUE will come: ' + result);
-      }
+      this.dialog.open(DeniedDialogComponent, config).afterClosed().subscribe(result => {
+        console.log('Close or X button clicked so:  false will come: ' + result);
+        // this.toasterService.success(':: Submitted Successfully');
+        if (result) {
+          // [mat-dialog-close]="true" shuld be placed on eligibility button to get result=true
+          // else result=undefined will come
+          console.log('Denied View Details button is clicked so TRUE will come: ' + result);
+        }
+      });
     });
   }
 

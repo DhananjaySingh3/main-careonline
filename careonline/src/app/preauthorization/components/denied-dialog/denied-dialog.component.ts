@@ -15,7 +15,7 @@ import {
   Sex, Suffix, Genders, Plans, City, State, Relation, Prefixes,
   Payment, RequestTypes, InsuranceTypes, RequestFor, PreAuthStatus, RejectReasons, FollowUpActDesc,
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
-  RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes
+  RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes, PerUnitTypes
 } from '../../../preauthorization/models/preauth-common.model';
 
 
@@ -43,6 +43,7 @@ export class DeniedDialogComponent implements OnInit {
   isLoadingResults = true;
 
   /* Common Data Source from api*/
+  perUnitTypes: PerUnitTypes[];
   preAuthStatuses: PreAuthStatus[];
   prefixes: Prefixes[];
   rejectReasons: RejectReasons[];
@@ -86,6 +87,20 @@ export class DeniedDialogComponent implements OnInit {
   /* Building Form */
   preAuthReponseForm: FormGroup = new FormGroup({
     id: new FormControl({ value: '', disabled: false }),
+
+    /*Preauthorization Details*/
+    authorizationDetail: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
+      authorizationNo: new FormControl({ value: '', disabled: false }),
+      authStartDate: new FormControl({ value: '', disabled: false }),
+      authEndDate: new FormControl({ value: '', disabled: false }),
+      totalUnitsApproved: new FormControl({ value: '0', disabled: false }),
+      totalUnitsConsumed: new FormControl({ value: '0', disabled: false }),
+      remainingUnits: new FormControl({ value: '0', disabled: false }),
+      noOfUnitsTobeUsed: new FormControl({ value: '0', disabled: false }),
+      unitsForNoOfUnitsTobeUsed: new FormControl({ value: 'Select', disabled: false }),
+    }),
+    /*Preauthorization Details*/
 
     /*Enquiry Details*/
 
@@ -155,7 +170,7 @@ export class DeniedDialogComponent implements OnInit {
     dependentDob: new FormControl({ value: '', disabled: false }, []),
     dependentGender: new FormControl({ value: '', disabled: false }, []),
     dependentSuffix: new FormControl({ value: '', disabled: false }),
-    dependentPrefix: new FormControl({ value: '', disabled: false }),
+    // dependentPrefix: new FormControl({ value: '', disabled: false }),
     dependentReletionship: new FormControl({ value: '', disabled: false }),
 
     /*Requester Provider Information*/
@@ -423,6 +438,7 @@ export class DeniedDialogComponent implements OnInit {
 
   /* Common Methods */
   commonMethods() {
+    this.perUnitTypes = this.commonService.getPerUnitTypes();
     this.preAuthStatuses = this.commonService.getPreAuthStatus();
     this.prefixes = this.commonService.getPrefixes();
     this.rejectReasons = this.commonService.getRejectReasons();
@@ -454,6 +470,7 @@ export class DeniedDialogComponent implements OnInit {
   /* Common methods */
 
   ngOnInit() {
+    // setTimeout(() => {
     this.isLoadingResults = true;
     this.commonMethods();
     this.preAuthService.viewDenialResponseData(this.selectedPatientViaDialog).subscribe((response) => {
@@ -467,6 +484,7 @@ export class DeniedDialogComponent implements OnInit {
         console.log(error);
         this.isLoadingResults = false;
       });
+    // });
   }
 
   compareFn = (val1: string, val2: string) => {
@@ -487,6 +505,21 @@ export class DeniedDialogComponent implements OnInit {
 
     const formData: PreAuthResponse = {
       id: patient.id,
+
+      /*Preauthorization Details*/
+      authorizationDetail: {
+        id: patient.authorizationDetail.id,
+        authorizationNo: patient.authorizationDetail.authorizationNo,
+        authStartDate: patient.authorizationDetail.authStartDate,
+        authEndDate: patient.authorizationDetail.authEndDate,
+        totalUnitsApproved: patient.authorizationDetail.totalUnitsApproved,
+        totalUnitsConsumed: patient.authorizationDetail.totalUnitsConsumed,
+        remainingUnits: patient.authorizationDetail.remainingUnits,
+        noOfUnitsTobeUsed: patient.authorizationDetail.noOfUnitsTobeUsed,
+        unitsForNoOfUnitsTobeUsed: patient.authorizationDetail.unitsForNoOfUnitsTobeUsed,
+      },
+
+      /*Preauthorization Details*/
 
       /*Enquiry Details*/
       enquiryId: patient.enquiryId,
@@ -556,7 +589,7 @@ export class DeniedDialogComponent implements OnInit {
       dependentSuffix: patient.dependentSuffix,
       dependentGender: patient.dependentGender,
       dependentDob: patient.dependentDob,
-      dependentPrefix: patient.dependentPrefix,
+      // dependentPrefix: patient.dependentPrefix,
       dependentReletionship: patient.dependentReletionship,
 
       /*Servicing Provider Details*/

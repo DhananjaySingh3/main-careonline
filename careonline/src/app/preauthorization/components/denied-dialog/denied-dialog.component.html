@@ -27,6 +27,117 @@
   <div mat-dialog-content>
     <!-- <mat-accordion> -->
 
+    <!-- Preauthorization Details starts -->
+    <div formGroupName="authorizationDetail" class="preauthorizationDetails">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="disable_ripple">
+          <mat-panel-title>
+            Preauthorization Details
+          </mat-panel-title>
+          <mat-panel-description fxLayoutAlign="center" class="flex-end">
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-grid-list cols="3" rowHeight="70px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [readonly]="isReadonly" formControlName="authorizationNo"
+                  [value]="preAuthReponseForm?.get('authorizationDetail').get('authorizationNo').value"
+                  autocomplete="off">
+                <mat-label>Authorization No</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput [readonly]="isReadonly" formControlName="totalUnitsApproved"
+                  [value]="preAuthReponseForm?.get('authorizationDetail').get('totalUnitsApproved').value"
+                  autocomplete="off">
+                <mat-label>Total Units Approved</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="authStartDate" formControlName="authStartDate"
+                  [errorStateMatcher]="matcher"
+                  [value]="preAuthReponseForm?.get('authorizationDetail')?.get('authStartDate').value | date:'yyyy-MM-dd'"
+                  [readonly]="isReadonly">
+                <mat-label>Authorization Start Date</mat-label>
+                <mat-datepicker-toggle matSuffix [for]="authStartDate"></mat-datepicker-toggle>
+                <mat-datepicker #authStartDate></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput [readonly]="isReadonly" formControlName="totalUnitsConsumed"
+                  [value]="preAuthReponseForm?.get('authorizationDetail').get('totalUnitsConsumed').value"
+                  autocomplete="off">
+                <mat-label>Total Units Consumed</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="authEndDate" formControlName="authEndDate"
+                  [errorStateMatcher]="matcher"
+                  [value]="preAuthReponseForm?.get('authorizationDetail').get('authEndDate').value | date:'yyyy-MM-dd'"
+                  [readonly]="isReadonly">
+                <mat-label>Authorization End Date</mat-label>
+                <mat-datepicker-toggle matSuffix [for]="authEndDate"></mat-datepicker-toggle>
+                <mat-datepicker #authEndDate></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput [readonly]="isReadonly" formControlName="remainingUnits"
+                  [value]="preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits').value"
+                  autocomplete="off">
+                <mat-label>Total Units Remaining</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+
+        <mat-grid-list cols="2" rowHeight="70px">
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+              <mat-form-field class="no-padding">
+                <input matInput #input formControlName="noOfUnitsTobeUsed" [errorStateMatcher]="matcher"
+                  [readonly]="isReadonly">
+                <mat-label>Units Allowed</mat-label>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+              <mat-form-field class="no-padding">
+                <!-- <input #input matInput formControlName="unitsForNoOfUnitsTobeUsed" [readonly]="isReadonly"> -->
+                <mat-label>Per Unit Specification</mat-label>
+                <mat-select formControlName="unitsForNoOfUnitsTobeUsed" [compareWith]="compareFn" required>
+                  <mat-option value="Select">Select</mat-option>
+                  <mat-option *ngFor="let perUnitType of perUnitTypes; let i = index" [value]="perUnitType.name">
+                    {{perUnitType.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+      </mat-expansion-panel>
+    </div>
+    <!-- Preauthorization Details ends -->
+
     <!-- Enquiry Details starts -->
     <div class="enquiryDetails">
       <mat-expansion-panel [expanded]="preAuthReponseForm?.get('enquiryDetailStatus')?.value !== 'Approved'">
