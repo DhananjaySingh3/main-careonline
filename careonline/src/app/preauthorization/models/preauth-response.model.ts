@@ -2,18 +2,18 @@ export class PreAuthResponse {
     id?: number;
 
     /*Enquiry Details*/
-    enquiryId?: string;
-    processDateAndTime?: any;
-    serviceDateFrom?: any;
-    serviceDateTo?: any;
-    effectiveDateTo?: any;
-    effectiveDateFrom?: any;
-    expirationeDateTo?: any;
-    admitDate?: any;
-    dischargeDate?: any;
-    certificationIdentificationNumber?: string;
-    preAuthorizationStatus?: string;
-    enquiryDetailStatus?: string;
+    // enquiryId?: string;
+    // processDateAndTime?: any;
+    // serviceDateFrom?: any;
+    // serviceDateTo?: any;
+    // effectiveDateTo?: any;
+    // effectiveDateFrom?: any;
+    // expirationeDateTo?: any;
+    // admitDate?: any;
+    // dischargeDate?: any;
+    // certificationIdentificationNumber?: string;
+    // preAuthorizationStatus?: string;
+    // enquiryDetailStatus?: string;
 
     /*Member Details*/
     mrnNumber?: string;
@@ -281,14 +281,26 @@ export class SpeechPathologyResponse {
 export class AuthorizationDetail {
     /*Preauthorization Details*/
     id?: number;
-    authorizationNo?: number;
-    authStartDate?: any;
-    authEndDate?: any;
+    // authorizationNo?: number;
+    // authStartDate?: any;
+    // authEndDate?: any;
     totalUnitsApproved?: number;
     totalUnitsConsumed?: number;
     remainingUnits?: number;
     noOfUnitsTobeUsed?: number;
     unitsForNoOfUnitsTobeUsed?: string;
     /*Preauthorization Details*/
+    enquiryId?: string;
+    processDateAndTime?: any;
+    serviceDateFrom?: any;
+    serviceDateTo?: any;
+    effectiveDateTo?: any;
+    effectiveDateFrom?: any;
+    expirationeDateTo?: any;
+    admitDate?: any;
+    dischargeDate?: any;
+    certificationIdentificationNumber?: string;
+    preAuthorizationStatus?: string;
+    enquiryDetailStatus?: string;
 }
 
