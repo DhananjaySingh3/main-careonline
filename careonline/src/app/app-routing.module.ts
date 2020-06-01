@@ -4,12 +4,12 @@ import { HeaderComponent } from './shared/header/header.component';
 
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   // component: HeaderComponent,
-  //   redirectTo: 'HeaderComponent',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    // component: HeaderComponent,
+    redirectTo: 'HeaderComponent',
+    pathMatch: 'full'
+  },
   {
     path: 'eligibility-check',
     loadChildren: './eligibility-check/eligibility-check.module#EligibilityCheckModule',

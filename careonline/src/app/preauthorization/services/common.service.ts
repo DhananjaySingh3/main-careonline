@@ -6,7 +6,7 @@ import {
   Sex, Suffix, Genders, Plans, City, State, Relation,
   Payment, RequestTypes, InsuranceTypes, RequestFor, PreAuthStatus, RejectReasons, FollowUpActDesc,
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
-  RejectReasonsMsg, IdNoType, Prefixes, IdentificationCodeType, ProviderTypes
+  RejectReasonsMsg, IdNoType, Prefixes, IdentificationCodeType, ProviderTypes, PerUnitTypes
 } from '../../preauthorization/models/preauth-common.model';
 
 @Injectable({
@@ -681,6 +681,11 @@ export class CommonService {
     { code: 'RF', name: 'Referring' },
   ];
 
+  perUnitTypes: PerUnitTypes[] = [
+    { code: 'd', name: 'day' },
+    { code: 'm', name: 'month' },
+    { code: 'w', name: 'week' },
+  ];
 
   constructor(
     public httpClient: HttpClient,
@@ -804,5 +809,9 @@ export class CommonService {
     return this.providerTypes;
   }
 
+  /* PerUnitTypes Details*/
+  getPerUnitTypes() {
+    return this.perUnitTypes;
+  }
 
 }

@@ -15,7 +15,7 @@ import {
   Sex, Suffix, Genders, Plans, City, State, Relation, Prefixes,
   Payment, RequestTypes, InsuranceTypes, RequestFor, PreAuthStatus, RejectReasons, FollowUpActDesc,
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
-  RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes
+  RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes, PerUnitTypes
 } from '../../../preauthorization/models/preauth-common.model';
 
 
@@ -43,6 +43,7 @@ export class DeniedDialogComponent implements OnInit {
   isLoadingResults = true;
 
   /* Common Data Source from api*/
+  perUnitTypes: PerUnitTypes[];
   preAuthStatuses: PreAuthStatus[];
   prefixes: Prefixes[];
   rejectReasons: RejectReasons[];
@@ -87,22 +88,48 @@ export class DeniedDialogComponent implements OnInit {
   preAuthReponseForm: FormGroup = new FormGroup({
     id: new FormControl({ value: '', disabled: false }),
 
+    /*Preauthorization Details*/
+    authorizationDetail: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
+      // authorizationNo: new FormControl({ value: '', disabled: false }),
+      // authStartDate: new FormControl({ value: '', disabled: false }),
+      // authEndDate: new FormControl({ value: '', disabled: false }),
+      totalUnitsApproved: new FormControl({ value: '0', disabled: true }),
+      totalUnitsConsumed: new FormControl({ value: '0', disabled: true }),
+      remainingUnits: new FormControl({ value: '0', disabled: true }),
+      noOfUnitsTobeUsed: new FormControl({ value: '0', disabled: true }),
+      unitsForNoOfUnitsTobeUsed: new FormControl({ value: 'Select', disabled: true }),
+      enquiryDetailStatus: new FormControl({ value: '', disabled: true }),
+      enquiryId: new FormControl({ value: '', disabled: true }),
+      processDateAndTime: new FormControl({ value: '', disabled: true }),
+      serviceDateFrom: new FormControl({ value: '', disabled: true }),
+      serviceDateTo: new FormControl({ value: '', disabled: true }),
+      admitDate: new FormControl({ value: '', disabled: true }),
+      dischargeDate: new FormControl({ value: '', disabled: true }),
+      certificationIdentificationNumber: new FormControl({ value: '', disabled: true }),
+      effectiveDateFrom: new FormControl({ value: '', disabled: true }),
+      effectiveDateTo: new FormControl({ value: '', disabled: true }),
+      expirationeDateTo: new FormControl({ value: '', disabled: true }),
+      preAuthorizationStatus: new FormControl({ value: 'Select', disabled: true }),
+    }),
+    /*Preauthorization Details*/
+
     /*Enquiry Details*/
 
-    enquiryDetailStatus: new FormControl({ value: '', disabled: true }),
-    enquiryId: new FormControl({ value: '', disabled: true }),
+    // enquiryDetailStatus: new FormControl({ value: '', disabled: true }),
+    // enquiryId: new FormControl({ value: '', disabled: true }),
     // preAuthorizationNumber: new FormControl({ value: '', disabled: true }),
     // processDateAndTime: new FormControl({ value: (new Date()).toISOString(), disabled: true }),
-    processDateAndTime: new FormControl({ value: '', disabled: true }),
-    serviceDateFrom: new FormControl({ value: '', disabled: true }),
-    serviceDateTo: new FormControl({ value: '', disabled: true }),
-    admitDate: new FormControl({ value: '', disabled: true }),
-    dischargeDate: new FormControl({ value: '', disabled: true }),
-    certificationIdentificationNumber: new FormControl({ value: '', disabled: true }),
-    effectiveDateFrom: new FormControl({ value: '', disabled: true }),
-    effectiveDateTo: new FormControl({ value: '', disabled: true }),
-    expirationeDateTo: new FormControl({ value: '', disabled: true }),
-    preAuthorizationStatus: new FormControl({ value: 'Select', disabled: true }),
+    // processDateAndTime: new FormControl({ value: '', disabled: true }),
+    // serviceDateFrom: new FormControl({ value: '', disabled: true }),
+    // serviceDateTo: new FormControl({ value: '', disabled: true }),
+    // admitDate: new FormControl({ value: '', disabled: true }),
+    // dischargeDate: new FormControl({ value: '', disabled: true }),
+    // certificationIdentificationNumber: new FormControl({ value: '', disabled: true }),
+    // effectiveDateFrom: new FormControl({ value: '', disabled: true }),
+    // effectiveDateTo: new FormControl({ value: '', disabled: true }),
+    // expirationeDateTo: new FormControl({ value: '', disabled: true }),
+    // preAuthorizationStatus: new FormControl({ value: 'Select', disabled: true }),
 
     /*Member Demographic details*/
     memberDetailStatus: new FormControl({ value: '', disabled: true }),
@@ -155,7 +182,7 @@ export class DeniedDialogComponent implements OnInit {
     dependentDob: new FormControl({ value: '', disabled: false }, []),
     dependentGender: new FormControl({ value: '', disabled: false }, []),
     dependentSuffix: new FormControl({ value: '', disabled: false }),
-    dependentPrefix: new FormControl({ value: '', disabled: false }),
+    // dependentPrefix: new FormControl({ value: '', disabled: false }),
     dependentReletionship: new FormControl({ value: '', disabled: false }),
 
     /*Requester Provider Information*/
@@ -423,6 +450,7 @@ export class DeniedDialogComponent implements OnInit {
 
   /* Common Methods */
   commonMethods() {
+    this.perUnitTypes = this.commonService.getPerUnitTypes();
     this.preAuthStatuses = this.commonService.getPreAuthStatus();
     this.prefixes = this.commonService.getPrefixes();
     this.rejectReasons = this.commonService.getRejectReasons();
@@ -454,6 +482,7 @@ export class DeniedDialogComponent implements OnInit {
   /* Common methods */
 
   ngOnInit() {
+    // setTimeout(() => {
     this.isLoadingResults = true;
     this.commonMethods();
     this.preAuthService.viewDenialResponseData(this.selectedPatientViaDialog).subscribe((response) => {
@@ -467,6 +496,7 @@ export class DeniedDialogComponent implements OnInit {
         console.log(error);
         this.isLoadingResults = false;
       });
+    // });
   }
 
   compareFn = (val1: string, val2: string) => {
@@ -488,19 +518,46 @@ export class DeniedDialogComponent implements OnInit {
     const formData: PreAuthResponse = {
       id: patient.id,
 
+      /*Preauthorization Details*/
+      authorizationDetail: {
+        id: patient.authorizationDetail.id,
+        // authorizationNo: patient.authorizationDetail.authorizationNo,
+        // authStartDate: patient.authorizationDetail.authStartDate,
+        // authEndDate: patient.authorizationDetail.authEndDate,
+        totalUnitsApproved: patient.authorizationDetail.totalUnitsApproved,
+        totalUnitsConsumed: patient.authorizationDetail.totalUnitsConsumed,
+        remainingUnits: patient.authorizationDetail.remainingUnits,
+        noOfUnitsTobeUsed: patient.authorizationDetail.noOfUnitsTobeUsed,
+        unitsForNoOfUnitsTobeUsed: patient.authorizationDetail.unitsForNoOfUnitsTobeUsed,
+        enquiryId: patient.authorizationDetail.enquiryId,
+        processDateAndTime: patient.authorizationDetail.processDateAndTime,
+        serviceDateFrom: patient.authorizationDetail.serviceDateFrom,
+        serviceDateTo: patient.authorizationDetail.serviceDateTo,
+        effectiveDateTo: patient.authorizationDetail.effectiveDateTo,
+        effectiveDateFrom: patient.authorizationDetail.effectiveDateFrom,
+        expirationeDateTo: patient.authorizationDetail.expirationeDateTo,
+        admitDate: patient.authorizationDetail.admitDate,
+        dischargeDate: patient.authorizationDetail.dischargeDate,
+        certificationIdentificationNumber: patient.authorizationDetail.certificationIdentificationNumber,
+        preAuthorizationStatus: patient.authorizationDetail.preAuthorizationStatus,
+        enquiryDetailStatus: patient.authorizationDetail.enquiryDetailStatus,
+      },
+
+      /*Preauthorization Details*/
+
       /*Enquiry Details*/
-      enquiryId: patient.enquiryId,
-      processDateAndTime: patient.processDateAndTime,
-      serviceDateFrom: patient.serviceDateFrom,
-      serviceDateTo: patient.serviceDateTo,
-      effectiveDateTo: patient.effectiveDateTo,
-      effectiveDateFrom: patient.effectiveDateFrom,
-      expirationeDateTo: patient.expirationeDateTo,
-      admitDate: patient.admitDate,
-      dischargeDate: patient.dischargeDate,
-      certificationIdentificationNumber: patient.certificationIdentificationNumber,
-      preAuthorizationStatus: patient.preAuthorizationStatus,
-      enquiryDetailStatus: patient.enquiryDetailStatus,
+      // enquiryId: patient.enquiryId,
+      // processDateAndTime: patient.processDateAndTime,
+      // serviceDateFrom: patient.serviceDateFrom,
+      // serviceDateTo: patient.serviceDateTo,
+      // effectiveDateTo: patient.effectiveDateTo,
+      // effectiveDateFrom: patient.effectiveDateFrom,
+      // expirationeDateTo: patient.expirationeDateTo,
+      // admitDate: patient.admitDate,
+      // dischargeDate: patient.dischargeDate,
+      // certificationIdentificationNumber: patient.certificationIdentificationNumber,
+      // preAuthorizationStatus: patient.preAuthorizationStatus,
+      // enquiryDetailStatus: patient.enquiryDetailStatus,
 
       /*Member Details*/
       mrnNumber: patient.mrnNumber,
@@ -556,7 +613,7 @@ export class DeniedDialogComponent implements OnInit {
       dependentSuffix: patient.dependentSuffix,
       dependentGender: patient.dependentGender,
       dependentDob: patient.dependentDob,
-      dependentPrefix: patient.dependentPrefix,
+      // dependentPrefix: patient.dependentPrefix,
       dependentReletionship: patient.dependentReletionship,
 
       /*Servicing Provider Details*/

@@ -2,18 +2,18 @@ export class PreAuthResponse {
     id?: number;
 
     /*Enquiry Details*/
-    enquiryId?: string;
-    processDateAndTime?: any;
-    serviceDateFrom?: any;
-    serviceDateTo?: any;
-    effectiveDateTo?: any;
-    effectiveDateFrom?: any;
-    expirationeDateTo?: any;
-    admitDate?: any;
-    dischargeDate?: any;
-    certificationIdentificationNumber?: string;
-    preAuthorizationStatus?: string;
-    enquiryDetailStatus?: string;
+    // enquiryId?: string;
+    // processDateAndTime?: any;
+    // serviceDateFrom?: any;
+    // serviceDateTo?: any;
+    // effectiveDateTo?: any;
+    // effectiveDateFrom?: any;
+    // expirationeDateTo?: any;
+    // admitDate?: any;
+    // dischargeDate?: any;
+    // certificationIdentificationNumber?: string;
+    // preAuthorizationStatus?: string;
+    // enquiryDetailStatus?: string;
 
     /*Member Details*/
     mrnNumber?: string;
@@ -69,7 +69,7 @@ export class PreAuthResponse {
     dependentSuffix?: string;
     dependentGender?: string;
     dependentDob?: any;
-    dependentPrefix?: string;
+    // dependentPrefix?: string;
     dependentReletionship?: string;
 
     /*Servicing Provider Details*/
@@ -95,6 +95,7 @@ export class PreAuthResponse {
     physicalTherapyResponse?: PhysicalTherapyResponse;
     skilledNursingResponse?: SkilledNursingResponse;
     speechPathologyResponse?: SpeechPathologyResponse;
+    authorizationDetail?: AuthorizationDetail;
 }
 
 export class HomeHealthAideResponse {
@@ -276,3 +277,30 @@ export class SpeechPathologyResponse {
     speechPathologyProviderType?: string;
     speechPathologyLevelOfService?: string;
 }
+
+export class AuthorizationDetail {
+    /*Preauthorization Details*/
+    id?: number;
+    // authorizationNo?: number;
+    // authStartDate?: any;
+    // authEndDate?: any;
+    totalUnitsApproved?: number;
+    totalUnitsConsumed?: number;
+    remainingUnits?: number;
+    noOfUnitsTobeUsed?: number;
+    unitsForNoOfUnitsTobeUsed?: string;
+    /*Preauthorization Details*/
+    enquiryId?: string;
+    processDateAndTime?: any;
+    serviceDateFrom?: any;
+    serviceDateTo?: any;
+    effectiveDateTo?: any;
+    effectiveDateFrom?: any;
+    expirationeDateTo?: any;
+    admitDate?: any;
+    dischargeDate?: any;
+    certificationIdentificationNumber?: string;
+    preAuthorizationStatus?: string;
+    enquiryDetailStatus?: string;
+}
+

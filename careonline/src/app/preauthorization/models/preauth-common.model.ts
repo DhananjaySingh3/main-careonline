@@ -122,3 +122,8 @@ export class ProviderTypes {
     code: string;
     name: string;
 }
+
+export class PerUnitTypes {
+    code: string;
+    name: string;
+}
