@@ -1,4 +1,3 @@
-<!-- <h2 mat-dialog-title>{{' Home Health PPS- Patient Driven Grouping Model (PDGM)'}}</h2> -->
 <mat-toolbar>
     <mat-toolbar-row>
         <span class="fill-remaining-space"></span>
@@ -11,7 +10,8 @@
         </mat-icon>
     </mat-toolbar-row>
 </mat-toolbar>
-<mat-dialog-content class="pdgm-form">
+
+<mat-dialog-content class="pdgm-form" *ngIf="pdgmToolData">
 
     <mat-accordion [multi]="true">
         <mat-expansion-panel>
@@ -26,45 +26,49 @@
             <div class="row">
                 <mat-form-field fxFlex="280">
                     <mat-label>Patient Name</mat-label>
-                    <input matInput>
+                    <input matInput [(ngModel)]="pdgmToolData[0].firstName" ngDefaultControl readonly>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="280">
                     <mat-label>Date Of Birth</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput [(ngModel)]="pdgmToolData[0].dob" ngDefaultControl readonly>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="280">
                     <mat-label>Gender</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="text" [(ngModel)]="pdgmToolData[0].gender" ngDefaultControl readonly>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field fxFlex="280">
                     <mat-label>MRN</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="text" [(ngModel)]="pdgmToolData[0].mrnNumber" ngDefaultControl readonly>
                 </mat-form-field>
+
                 <mat-form-field fxFlex="280">
                     <mat-label>Episode ID</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="text" [(ngModel)]="pdgmToolData[0].episodeId" ngDefaultControl readonly>
                 </mat-form-field>
+
                 <mat-form-field fxFlex="280">
                     <mat-label>Episode Type</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="text" [(ngModel)]="pdgmToolData[0].episodeType" ngDefaultControl readonly>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field fxFlex="280">
                     <mat-label>Start Date</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="text" [(ngModel)]="pdgmToolData[0].episodeStartDate" ngDefaultControl readonly>
                 </mat-form-field>
+
                 <mat-form-field fxFlex="280">
                     <mat-label>End Date</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="text" [(ngModel)]="pdgmToolData[0].episodeEndDate" ngDefaultControl readonly>
                 </mat-form-field>
+
                 <mat-form-field fxFlex="280">
                     <mat-label>No of Visits</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="text" [(ngModel)]="pdgmToolData[0].numberOrVisits" ngDefaultControl readonly>
                 </mat-form-field>
             </div>
         </mat-expansion-panel>
@@ -86,25 +90,27 @@
                     </tr>
                     <tr>
                         <td class="text-center">
-                            <mat-radio-button value="1">Early Visits</mat-radio-button>
+                        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedTimings">                      
+                        <mat-radio-button class="example-radio-button" *ngFor="let visit of visitTimings" [value]="visit">
+                          {{visit}}
+                        </mat-radio-button>
+                      </mat-radio-group>
                         </td>
-                        <td class="text-center">Community</td>
-                    </tr>
-                    <tr class="text-center">
                         <td class="text-center">
-                            <mat-radio-button value="1">Late Visits</mat-radio-button>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedSource">                            
+                            <mat-radio-button class="example-radio-button" *ngFor="let admission of admissionSource" [value]="admission">
+                              {{admission}}
+                            </mat-radio-button>
+                          </mat-radio-group>
                         </td>
-                        <td class="text-center">Institutional</td>
                     </tr>
                 </table>
             </div>
             <div class="row">
                 <h4 class="mb-24">1 Position (Source & Timing) - HIPPS Code: </h4>
-                <button class="mat-raised-button f-r">HIPPS CODE</button>
+                <button class="mat-raised-button f-r">{{pdgmToolData[1].position1Code }}</button>
             </div>
         </mat-expansion-panel>
-
-
 
         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header>
@@ -125,7 +131,7 @@
                         <th>Comorbidity Subgroup</th>
                     </tr>
                     <tr>
-                        <td> G20 </td>
+                        <td class="text-center"> G20 </td>
                         <td>Parkinson's Disease</td>
                         <td>NEURO_REHAB</td>
                         <td>Neurological 5</td>
@@ -159,7 +165,7 @@
                         <th class="w-20">{{questionData.functionalPoint}}</th>
                     </tr>
                     <tr *ngFor="let optionDetails of questionData.oasisOptions">
-                        <td>
+                        <td class="text-center">
                             <mat-checkbox></mat-checkbox>
                         </td>
                         <td>
@@ -167,7 +173,6 @@
                         </td>
                         <td>{{optionDetails.functionalValue}}</td>
                     </tr>
-                  
                 </table>
             </div>
             <div class="row">
@@ -195,19 +200,19 @@
                         <th>Comorbidity Subgroup</th>
                     </tr>
                     <tr>
-                        <td> A04.71 </td>
+                        <td class="text-center"> A04.71 </td>
                         <td>Entercolitis due to clostridium difficile, recurrent</td>
                         <td>MMTA_INFECT</td>
                         <td>Infectious 1</td>
                     </tr>
                     <tr>
-                        <td> A00.1 </td>
+                        <td class="text-center"> A00.1 </td>
                         <td></td>
                         <td>MMTA_INFECT</td>
                         <td>Neurological 5</td>
                     </tr>
                     <tr>
-                        <td> 167.2 </td>
+                        <td class="text-center"> 167.2 </td>
                         <td>Celebral atherosclerosis</td>
                         <td>NEURO_REHAB</td>
                         <td>Celebral 5</td>

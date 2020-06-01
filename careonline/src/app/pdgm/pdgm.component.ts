@@ -45,7 +45,8 @@ export class PdgmComponent implements OnInit {
 
   openPdgmForm(dialogConfig) {
     this._pdgmDialogRef.open(PdgmFormComponent, {
-      width: '800px'
+      width: '800px',
+      data: dialogConfig
     })
       .afterClosed().subscribe(result => {
 

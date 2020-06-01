@@ -48,7 +48,7 @@
       <ng-container matColumnDef="visitPdgm">
         <th mat-header-cell *matHeaderCellDef>Visit PDGM</th>
         <td mat-cell *matCellDef="let row">
-          <button mat-raised-button color="primary" (click)="openPdgmForm('testData')">
+          <button mat-raised-button color="primary" (click)="openPdgmForm(row)">
             PDGM
           </button>
         </td>

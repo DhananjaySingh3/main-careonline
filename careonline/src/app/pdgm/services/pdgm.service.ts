@@ -20,6 +20,10 @@ export class PDGMService {
     return this.httpClient.get(this.apiURL + '/rapList');
   }
 
+  getPdgmToolData(request): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/pdgmTool', request);
+  }
+  
   getOasisQuestionDetails() {
     return [{
       oasisCode: "M1033",
