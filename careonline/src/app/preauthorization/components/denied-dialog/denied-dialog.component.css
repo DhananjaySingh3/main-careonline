@@ -161,8 +161,8 @@ mat-checkbox {
   position: relative;
   flex: none;
   min-width: 0;
-  width: 112px;
-  padding-right: 4px;
+  width: 82px;
+  padding-right: 6px;
   /* .mat-form-field-infix {
     display: block;
     position: relative;

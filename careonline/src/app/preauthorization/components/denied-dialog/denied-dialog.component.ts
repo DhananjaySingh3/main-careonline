@@ -17,6 +17,7 @@ import {
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
   RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes, PerUnitTypes
 } from '../../../preauthorization/models/preauth-common.model';
+// import {  } from '../../../preauthorization/components/denied-dialog/;
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -73,6 +74,7 @@ export class DeniedDialogComponent implements OnInit {
   /* Common Data Source from api*/
 
   isReadonly = true;
+  unitsPattern = '^[0-9]{1,3}$';
 
   constructor(
     public dialog: MatDialog,
@@ -822,7 +824,16 @@ export class DeniedDialogComponent implements OnInit {
   /* Populating ResponseForm Data */
 
   printPage() {
-    window.print();
+    // window.print();
+    const printContent = document.getElementById('formId');
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    // WindowPrt.document.write(`<link rel="stylesheet" type="text/css"
+    //   href = "../../../preauthorization/components/denied-dialog/denied-dialog.component.css" > `);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
   }
 
 }

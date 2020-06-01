@@ -1,3 +1,12 @@
 <app-header></app-header>
 <!-- <app-denied-dialog></app-denied-dialog> -->
 <router-outlet></router-outlet>
+
+<!-- Bind to showLoadingIndicator property in the component class -->
+<!-- <div *ngIf="showLoadingIndicator" class="spinner"></div> -->
+
+  <!-- Spinner starts -->
+  <div class="example-loading-shade" *ngIf="showLoadingIndicator">
+    <mat-spinner *ngIf="showLoadingIndicator"></mat-spinner>
+  </div>
+  <!-- Spinner ends -->
