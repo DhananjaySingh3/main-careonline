@@ -1,0 +1,44 @@
+table,
+th,
+td {
+  font-size: 13px;
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  text-align: center;
+  padding: 8px;
+}
+
+th {
+  background-color: lightgrey;
+}
+
+td {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important
+}
+
+.mt-14 {
+  margin-top: 14px;
+}
+
+.example-icon {
+  cursor: pointer;
+}
+.f-r {
+  float: right;
+}
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+mat-toolbar mat-toolbar-row {
+  background-color: white;
+  padding: 0px;
+}

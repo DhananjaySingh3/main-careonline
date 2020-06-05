@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PDGMService } from '../services/pdgm.service';
-import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel} from '../models/pdgm.model';
+import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel} from '../models/pdgm.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -16,6 +16,13 @@ export class PdgmFormComponent implements OnInit {
     oasisDetails = [];
     pdgmToolData: any = [];
     isLoadingResults = true;
+    oasisQuestion1Data:any;
+    m1800OasisData: any;
+    m1810OasisData: any;
+    m1820OasisData: any;
+    m1830OasisData: any;
+    m1840OasisData: any;
+    m1860OasisData: any;
 
     selectedTimings: string = "";
     selectedSource: string = "";
@@ -33,6 +40,7 @@ export class PdgmFormComponent implements OnInit {
     ngOnInit() {
         this.pdgmToolData[0] = new PdgmToolEpisodeDetailsModel;
         this.pdgmToolData[1] = new PdgmAdmissionSourceModel;
+        this.pdgmToolData[2] = new ClinicalGroupingModel;
         this.getOasisDetails();
         this.getPdgmToolData(this.modelData);
     }
@@ -64,7 +72,13 @@ export class PdgmFormComponent implements OnInit {
     }
 
     getOasisDetails() {
-        this.oasisDetails = this._pdgmService.getOasisQuestionDetails()
+        this.oasisQuestion1Data = this._pdgmService.getOasisDetailpart1();
+        this.m1800OasisData = this._pdgmService.getM1800OasisOptions();
+        this.m1810OasisData = this._pdgmService.getM1810OasisOptions();
+        this.m1820OasisData = this._pdgmService.getM1820OasisOptions();
+        this.m1830OasisData = this._pdgmService.getM1830OasisOptions();
+        this.m1840OasisData = this._pdgmService.getM1840OasisOptions();
+        this.m1860OasisData = this._pdgmService.getM1860OasisOptions();
     }
 
     insertPdgmForm() {

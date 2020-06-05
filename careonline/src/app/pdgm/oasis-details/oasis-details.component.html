@@ -1,0 +1,183 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span class="fill-remaining-space"></span>
+        <span>
+            <h5 mat-dialog-title>{{'OASIS'}}</h5>
+        </span>
+        <span class="fill-remaining-space"></span>
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="closeModel()" tabindex="-1">
+            close
+        </mat-icon>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="pdgm-form">
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{oasisQuestion1Data.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{oasisQuestion1Data.oasisQuestion}}
+                </th>
+                <th class="w-20">{{oasisQuestion1Data.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let optionDetails of oasisQuestion1Data.oasisOptions">
+                <td class="text-center">
+                    <mat-checkbox></mat-checkbox>
+
+                    <!-- <mat-radio-button value="{{optionDetails.flag}}" [(ngModel)]="optionDetails.flag" ngDefaultControl (ngModelChange)="selectionChangeEvent(optionDetails, questionData)"></mat-radio-button> -->
+                </td>
+                <td>
+                    {{optionDetails.description}}
+                </td>
+                <td>{{optionDetails.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{m1800OasisData.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{m1800OasisData.oasisQuestion}}
+                </th>
+                <th class="w-20">{{m1800OasisData.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let optionDetails of m1800OasisData.oasisOptions">
+                <td class="text-center">
+                    <mat-radio-button value="{{optionDetails.flag}}" name="{{optionDetails.flag+1}}" [(ngModel)]="optionDetails.flag" ngDefaultControl
+                        (ngModelChange)="selectionChangeEvent(optionDetails, m1810OasisData)"></mat-radio-button>
+                </td>
+                <td>
+                    {{optionDetails.description}}
+                </td>
+                <td>{{optionDetails.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{m1810OasisData.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{m1810OasisData.oasisQuestion}}
+                </th>
+                <th class="w-20">{{m1810OasisData.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let m1810 of m1810OasisData.oasisOptions">
+                <td class="text-center">
+                    <mat-radio-button value="{{m1810.flag}}" id="{{m1810.id}}" name="{{m1810.id+1}}"
+                        (change)="m1810ChangeEvent(m1810, m1810OasisData)"></mat-radio-button>
+                </td>
+                <td>
+                    {{m1810.description}}
+                </td>
+                <td>{{m1810.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{m1820OasisData.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{m1820OasisData.oasisQuestion}}
+                </th>
+                <th class="w-20">{{m1820OasisData.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let optionDetails of m1820OasisData.oasisOptions">
+                <td class="text-center">
+                    <mat-radio-button value="{{optionDetails.flag}}" name="{{optionDetails.id+1}}" [(ngModel)]="optionDetails.flag" ngDefaultControl
+                        (ngModelChange)="selectionChangeEvent(optionDetails, m1820OasisData)"></mat-radio-button>
+                </td>
+                <td>
+                    {{optionDetails.description}}
+                </td>
+                <td>{{optionDetails.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{m1830OasisData.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{m1830OasisData.oasisQuestion}}
+                </th>
+                <th class="w-20">{{m1830OasisData.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let optionDetails of m1830OasisData.oasisOptions">
+                <td class="text-center">
+                    <mat-radio-button value="{{optionDetails.flag}}" name="{{optionDetails.id+1}}" [(ngModel)]="optionDetails.flag" ngDefaultControl
+                        (ngModelChange)="selectionChangeEvent(optionDetails, m1830OasisData)"></mat-radio-button>
+                </td>
+                <td>
+                    {{optionDetails.description}}
+                </td>
+                <td>{{optionDetails.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{m1840OasisData.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{m1840OasisData.oasisQuestion}}
+                </th>
+                <th class="w-20">{{m1840OasisData.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let optionDetails of m1840OasisData.oasisOptions">
+                <td class="text-center">
+                    <mat-radio-button value="{{optionDetails.flag}}" name="{{optionDetails.id+1}}" [(ngModel)]="optionDetails.flag" ngDefaultControl
+                        (ngModelChange)="selectionChangeEvent(optionDetails, m1840OasisData)"></mat-radio-button>
+                </td>
+                <td>
+                    {{optionDetails.description}}
+                </td>
+                <td>{{optionDetails.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{m1860OasisData.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{m1860OasisData.oasisQuestion}}
+                </th>
+                <th class="w-20">{{m1860OasisData.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let optionDetails of m1860OasisData.oasisOptions">
+                <td class="text-center">
+                    <mat-radio-button value="{{optionDetails.flag}}" name="{{optionDetails.id+1}}" [(ngModel)]="optionDetails.flag" ngDefaultControl
+                        (ngModelChange)="selectionChangeEvent(optionDetails, m1860OasisData)"></mat-radio-button>
+                </td>
+                <td>
+                    {{optionDetails.description}}
+                </td>
+                <td>{{optionDetails.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions class="f-r">
+    <button class="mat-raised-button" (click)="closeModel()">Close</button>
+    <button class="mat-raised-button mat-primary" (click)="saveOasisData()">Save</button>
+</mat-dialog-actions>

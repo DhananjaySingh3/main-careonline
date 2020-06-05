@@ -11,10 +11,10 @@ import {
   MAT_DATE_LOCALE, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig,
 } from '@angular/material';
 import { PdgmFormComponent } from '../pdgm/pdgm-form/pdgm-form.component';
-
+import { OasisDetailsComponent } from '../pdgm/oasis-details/oasis-details.component';
 
 @NgModule({
-  declarations: [PdgmComponent, PdgmFormComponent],
+  declarations: [PdgmComponent, PdgmFormComponent, OasisDetailsComponent],
   imports: [
     CommonModule,
     PDGMRoutingModule,
@@ -24,6 +24,6 @@ import { PdgmFormComponent } from '../pdgm/pdgm-form/pdgm-form.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  entryComponents:[PdgmFormComponent]
+  entryComponents: [PdgmFormComponent, OasisDetailsComponent]
 })
 export class PdgmModule { }

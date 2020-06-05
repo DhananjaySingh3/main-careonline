@@ -7,6 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { PatientFormDataRequest } from '../pdgm/models/pdgm.model';
 import { PDGMService } from '../pdgm/services/pdgm.service';
 import { PdgmFormComponent } from '../pdgm/pdgm-form/pdgm-form.component';
+import { OasisDetailsComponent } from '../pdgm/oasis-details/oasis-details.component';
 
 @Component({
   selector: 'app-pdgm',
@@ -53,6 +54,12 @@ export class PdgmComponent implements OnInit {
       })
   }
 
+  openOasisDetailsModel(modelData) {
+    this._pdgmDialogRef.open(OasisDetailsComponent, {
+      width: '800px',
+      data: modelData
+    })
+  }
 
 
 }
