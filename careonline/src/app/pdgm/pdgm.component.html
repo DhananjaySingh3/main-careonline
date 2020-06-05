@@ -74,9 +74,8 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let row">
-          <!-- <button mat-icon-button color="primary" (click)="onEditPatient(row)">
-            <mat-icon>launch</mat-icon>
-          </button> -->
+          <button mat-raised-button color="primary" (click)="openOasisDetailsModel(row)">OASIS
+          </button>
         </td>
       </ng-container>
 
