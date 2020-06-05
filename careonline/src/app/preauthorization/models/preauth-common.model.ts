@@ -127,3 +127,8 @@ export class PerUnitTypes {
     code: string;
     name: string;
 }
+
+export class CommunicationTypes {
+    code: string;
+    name: string;
+}

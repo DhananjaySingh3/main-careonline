@@ -6,7 +6,7 @@ import {
   Sex, Suffix, Genders, Plans, City, State, Relation,
   Payment, RequestTypes, InsuranceTypes, RequestFor, PreAuthStatus, RejectReasons, FollowUpActDesc,
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
-  RejectReasonsMsg, IdNoType, Prefixes, IdentificationCodeType, ProviderTypes, PerUnitTypes
+  RejectReasonsMsg, IdNoType, Prefixes, IdentificationCodeType, ProviderTypes, PerUnitTypes, CommunicationTypes
 } from '../../preauthorization/models/preauth-common.model';
 
 @Injectable({
@@ -507,153 +507,285 @@ export class CommonService {
       name: 'CMWC/DME Therapist\'s Phone No. is missing or invalid.'
     },
     {
-      code: 'T5',
-      name: 'Certification Information Missing'
+      code: 'Bx27808053',
+      name: 'CMWC/DME Therapist’s FAX No. is missing or invalid.'
     },
     {
-      code: 'E8',
-      name: 'Requires Medical Review'
+      code: 'Bx27808063',
+      name: 'CMWC/DME Referring Physician Last Name is missing or invalid.'
     },
     {
-      code: '56',
-      name: 'Inappropriate Date'
+      code: 'Bx27808065',
+      name: 'CMWC/DME Referring Physician License State is missing or invalid.'
     },
     {
-      code: '42',
-      name: 'Unable to Respond at Current Time'
+      code: 'Bx27808067',
+      name: 'CMWC/DME Referring Physician Military Spec Code or Referring Physician License Number is missing or invalid.'
     },
     {
-      code: '97',
-      name: 'Invalid or Missing Provider Address'
+      code: 'Bx27808071',
+      name: 'CMWC/DME Out of State Referring Physician\'s First Name is missing or invalid.'
     },
     {
-      code: '98',
-      name: 'Experimental Service or Procedure'
+      code: 'Bx27808073',
+      name: 'CMWC/DME Out of State Referring Physician’s Street Address is missing or invalid.'
     },
     {
-      code: '15',
-      name: 'Required application data missing'
+      code: 'Bx27808075',
+      name: 'CMWC/DME Out of State Referring Physician\'s City is missing or invalid.'
     },
     {
-      code: '33',
-      name: 'Input Errors'
+      code: 'Bx27808077',
+      name: 'CMWC/DME Out of State Referring Physician\'s State is missing or invalid.'
     },
     {
-      code: '35',
-      name: 'Out of Network'
+      code: 'Bx27808079',
+      name: 'CMWC/DME Out of State Referring Physician\'s Zip Code is missing or invalid.'
     },
     {
-      code: '36',
-      name: 'Testing not Included'
+      code: 'Bx27808081',
+      name: 'CMWC/DME Out of State Referring Physician\'s Phone Number is missing or invalid.'
     },
     {
-      code: '37',
-      name: 'Request Forwarded To and Decision Response Forthcoming From an External Review Organization'
+      code: 'Bx27808099',
+      name: 'A previously approved Assessment has been identified for the same Vendor No., Individual and Date.'
     },
     {
-      code: '43',
-      name: 'Invalid/Missing Provider Identification'
+      code: 'Bx27808016',
+      name: 'Missing or Invalid form name in 2000E.MSG01. Expected value is H1700 or SKISP or NFSS in (2nd to 6th Positions).'
     },
     {
-      code: '44',
-      name: 'Invalid/Missing Provider Name'
+      code: 'Bx27808134',
+      name: 'NF Contract No. is not valid for the Date of Assessment.'
     },
     {
-      code: '45',
-      name: 'Invalid/Missing Provider Specialty'
+      code: 'Bx27808135',
+      name: 'An X12 278 request must have all LAR fields populated if any one field is sent in LAR information.'
     },
     {
-      code: '46',
-      name: 'Invalid/Missing Provider Phone Number'
+      code: 'Bx27808136',
+      name: 'Referring Physician\'s Signature Date is a required field if Authorization Type is not Assessment Only.'
     },
     {
-      code: '47',
-      name: 'Invalid/Missing Provider State'
+      code: 'Bx27808138',
+      name: 'Referring Physician\'s Signature Date cannot be more than 29 calendar days prior to the current date.'
     },
     {
-      code: '49',
-      name: 'Provider is Not Primary Care Physician'
+      code: 'Bx27808140',
+      name: 'Referring Physician\'s Signature Date cannot be greater than the current date.'
     },
     {
-      code: '50',
-      name: 'Provider Ineligible for Inquiries 1000084 Use if the provider is not authorized for requests.'
+      code: 'Bx27808142',
+      name: 'Resident\'s LAR First Name must be up to 12 alphanumeric characters.'
     },
     {
-      code: '51',
-      name: 'Provider Not on File'
+      code: 'Bx27808143',
+      name: 'Resident\'s LAR Last Name must be up to 18 alphanumeric characters.'
     },
     {
-      code: '52',
-      name: 'Service Dates Not Within Provider Plan Enrollment'
+      code: 'Bx27808144',
+      name: 'Resident\'s LAR Street Address must be up to 30 alphanumeric characters.'
     },
     {
-      code: '53',
-      name: 'Inquired Benefit Inconsistent with Provider Type'
+      code: 'Bx27808145',
+      name: 'Resident\'s LAR City must be up to 30 alphanumeric characters.'
     },
     {
-      code: '57',
-      name: 'Invalid/Missing Date(s) of Service'
+      code: 'Bx27808146',
+      name: 'Resident\'s LAR State must be present and valid.'
     },
     {
-      code: '60',
-      name: 'Date of Birth Follows Date(s) of Service'
+      code: 'Bx27808147',
+      name: 'Resident\'s LAR Zip Code must be 5 or 9 numeric characters.'
     },
     {
-      code: '61',
-      name: 'Experimental Service or Procedure'
+      code: 'Bx27808148',
+      name: 'Resident\'s LAR Phone Number must be exactly 10 numeric characters.'
     },
     {
-      code: '69',
-      name: 'Inconsistent with Patient’s Age'
+      code: 'Bx27809103',
+      name: 'Segment PWK (Additional Patient Information) must exist only once at Loop 2000E.'
     },
     {
-      code: '70',
-      name: 'Inconsistent with Patient’s Gender'
+      code: 'Bx27809104',
+      name: 'Request Type (Loop 2000E.UM03) does not have one of these valid values- "A9" (Therapy), “56” (CMWC), “12” (DME).'
     },
     {
-      code: '79',
-      name: 'Invalid Participant Identification'
+      code: 'Bx27809105',
+      name: 'Type of Service Requested (Loop 2000F) is missing for a Therapy Request Type.'
     },
     {
-      code: '82',
-      name: 'Not Medically Necessary'
+      code: 'Bx27809110',
+      name: `Only one occurrence of TRN is allowed
+       at Loop 2000E AND Submitter Control Number in Loop 2000E TRN segment is a required field.`
     },
     {
-      code: '83',
-      name: 'Level of Care Not Appropriate'
+      code: 'Bx27809111',
+      name: `Duplicate combination of Submitter ID,
+      Submitter Control Number and Attachment Control Number(s) submitted in the 278 X12 authorization request or exists in EDI.`
     },
     {
-      code: '84',
-      name: 'Certification Not Required for this Service'
+      code: 'Bx27809112',
+      name: 'An X12 278 request must have a value of "AR" (Admission Review) in Loop 2000E.UM01 for CMWC and DME.'
     },
     {
-      code: '85',
-      name: 'Certification Responsibility of External Review Organization'
+      code: 'Bx27809113',
+      name: 'An X12 278 request must have a value of “HS" (Health Services Review) in Loop 2000E.UM01 for Therapy.'
     },
     {
-      code: '86',
-      name: 'Primary Care Service'
+      code: 'Bx27809115',
+      name: 'An X12 278 request must have the value "I" in Loop 2000E.UM02 (Certification Type Code).'
     },
     {
-      code: '87',
-      name: 'Exceeds Plan Maximums'
+      code: 'Bx27809117',
+      name: 'An X12 278 request must have the below values in Loop 2000E PWK segment:PWK01=M1, PWK02=EL, PWK05=AC'
     },
     {
-      code: '88',
-      name: 'Non-covered Service 1409 Use for services not covered by the patient’s plan such as Worker’s Compensation or Auto Accident.'
+      code: 'Bx27809119',
+      name: 'EDI must reject (R) a 5010 X12 278 transaction when an invalid edit code is received from Careforms service.'
     },
     {
-      code: '89',
-      name: 'No Prior Approval'
+      code: 'Bx27809120',
+      name: `EDI must reject (R) a 5010 X12 278 transaction when an edit is received without
+       a service line reference from Careforms service.`
     },
     {
-      code: '90',
-      name: 'Requested Information Not Received'
+      code: 'Bx27809121',
+      name: `This CMWC/DME request cannot be processed because the person does not have a Daily Care Service Authorization for
+       the submitted Provider No. as of the Date of Assessment. Correct the CMWC/DME Date of Assessment or
+       submit the necessary paperwork to establish the Daily Care Service Authorization before resubmitting the NFSS form.`
     },
     {
-      code: '91',
-      name: 'Duplicate Request'
+      code: 'Bx27809122',
+      name: `The CMWC/DME request cannot be processed because the person does not have a Daily Care Service Authorization for
+       the submitted Provider No. as of the date that submission of the NFSS form was attempted. 
+       Submit the necessary paperwork to establish the Daily Care Service Authorization before resubmitting the NFSS form.`
     },
+    {
+      code: 'Bx27808042',
+      name: 'Therapist\'s First Name is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808044',
+      name: 'Therapist\'s Last Name is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808046',
+      name: 'Therapist\'s License Type is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808048',
+      name: 'Therapist\'s License No. is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808050',
+      name: 'Therapist\'s License State is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808052',
+      name: 'Therapist\'s Phone No. is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808054',
+      name: 'Therapist’s FAX No. is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808064',
+      name: 'Referring Physician Last Name is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808066',
+      name: 'Referring Physician License State is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808068',
+      name: 'Referring Physician Military Spec Code or Referring Physician License Number is missing or invalid on a Therapy request type.'
+    },
+    {
+      code: 'Bx27808072',
+      name: 'Out of State Referring Physician\'s First Name is missing or invalid on a Therapy request.'
+    },
+    {
+      code: 'Bx27808074',
+      name: 'Out of State Referring Physician\'s Street Address is missing or invalid on a Therapy request.'
+    },
+    {
+      code: 'Bx27808076',
+      name: 'Out of State Referring Physician\'s City is missing or invalid on a Therapy request.'
+    },
+    {
+      code: 'Bx27808078',
+      name: 'Out of State Referring Physician\'s State is missing or invalid on a Therapy request.'
+    },
+    {
+      code: 'Bx27808080',
+      name: 'Out of State Referring Physician\'s Zip Code is missing or invalid on a Therapy request.'
+    },
+    {
+      code: 'Bx27808082',
+      name: 'Out of State Referring Physician\'s Phone Number is missing or invalid on a Therapy request.'
+    },
+    {
+      code: 'Bx27808083',
+      name: 'Supplier\'s Business Name is missing or invalid.'
+    },
+    {
+      code: 'Bx27808084',
+      name: 'Supplier\'s Representative First Name is missing or invalid.'
+    },
+    {
+      code: 'Bx27808085',
+      name: 'Supplier\'s Representative Last Name is missing or invalid.'
+    },
+    {
+      code: 'Bx27808086',
+      name: 'Supplier\'s Street Address is missing or invalid.'
+    },
+    {
+      code: 'Bx27808087',
+      name: 'Supplier\'s City is missing or invalid.'
+    },
+    {
+      code: 'Bx27808088',
+      name: 'Supplier\'s State is missing or invalid.'
+    },
+    {
+      code: 'Bx27808089',
+      name: 'Supplier\'s Zip Code is missing or invalid.'
+    },
+    {
+      code: 'Bx27808090',
+      name: 'Supplier\'s Phone No. is missing or invalid.'
+    },
+    {
+      code: 'Bx27808091',
+      name: 'Supplier\'s Fax No. is missing or invalid.'
+    },
+    {
+      code: 'Bx27808092',
+      name: 'Therapy Frequency: No. of times per week is missing or invalid.'
+    },
+    {
+      code: 'Bx27808093',
+      name: 'Therapy Length of Treatment is missing or invalid.'
+    },
+    {
+      code: 'Bx27808094',
+      name: 'No. of times per day the therapist provides treatment is missing or invalid on a Therapy request.'
+    },
+    {
+      code: 'Bx27808137',
+      name: 'Referring Physician\'s Signature Date is a required field if Authorization Type is New or Restart.'
+    },
+    {
+      code: 'Bx27808139',
+      name: 'Referring Physician\'s Signature Date cannot be more than 29 calendar days prior to the current date.'
+    },
+    {
+      code: 'Bx27808141',
+      name: 'Referring Physician\'s Signature Date cannot be greater than the current date.'
+    },
+
   ];
 
   idNoType: IdNoType[] = [
@@ -687,10 +819,22 @@ export class CommonService {
     { code: 'w', name: 'week' },
   ];
 
+  communicationTypes: CommunicationTypes[] = [
+    { code: '1', name: 'email' },
+    { code: '2', name: 'telephone' },
+    { code: '3', name: 'fax' },
+  ];
+
   constructor(
     public httpClient: HttpClient,
     public datePipe: DatePipe
   ) { }
+
+
+  /* CommunicationTypes Details*/
+  getCommunicationTypes() {
+    return this.communicationTypes;
+  }
 
   /* Gender Details*/
   getGenders() {

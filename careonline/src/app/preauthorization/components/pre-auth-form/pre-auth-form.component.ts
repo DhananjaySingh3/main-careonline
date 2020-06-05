@@ -14,7 +14,7 @@ import { PreAuthFormModelResponse } from '../../../preauthorization/models/pre-a
 import { StackedModalComponent } from '../../../preauthorization/components/stacked-modal/stacked-modal.component';
 import {
   Sex, Suffix, Genders, Plans, City, State, Relation,
-  Payment, RequestTypes, InsuranceTypes, RequestFor
+  Payment, RequestTypes, InsuranceTypes, RequestFor, CommunicationTypes
 } from '../../../preauthorization/models/preauth-common.model';
 
 
@@ -75,6 +75,7 @@ export class PreAuthFormComponent implements OnInit {
   requestTypes: RequestTypes[];
   requestFor: RequestFor[];
   insuranceTypes: InsuranceTypes[];
+  communicationTypes: CommunicationTypes[];
 
   /* Common Data Source from api*/
 
@@ -131,8 +132,8 @@ export class PreAuthFormComponent implements OnInit {
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }),
       requestType: new FormControl({ value: '', disabled: false }),
-      admissionDate: new FormControl({ value: '', disabled: false }),
-      dischargeDate: new FormControl({ value: '', disabled: false }),
+      admissionDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      dischargeDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
       referringPhysician: new FormControl({ value: '', disabled: false }),
       primaryDiagnosis: new FormControl({ value: '', disabled: false }),
       primaryDiagnosisDescription: new FormControl({ value: '', disabled: false }),
@@ -299,7 +300,7 @@ export class PreAuthFormComponent implements OnInit {
     this.requestFor = this.commonService.getRequestFor();
     this.insuranceTypes = this.commonService.getInsuranceTypes();
     console.log(this.insuranceTypes);
-
+    this.communicationTypes = this.commonService.getCommunicationTypes();
   }
   /* Common methods */
 
