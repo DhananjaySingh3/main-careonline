@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { PreAuthFormModelResponse } from '../../preauthorization/models/pre-auth-form.model';
+import { PreAuthFormModelResponse, PreAuthFormModelRequest } from '../../preauthorization/models/pre-auth-form.model';
 
 
 @Injectable({
@@ -24,6 +24,7 @@ export class PreAuthFormService {
   }
 
   /*Populate Pre Authorization Data*/
+/*
   populatePreAuthFormData(patient: PreAuthFormModelResponse) {
     const selectedPatData: PreAuthFormModelResponse = {
       id: patient.id,
@@ -407,7 +408,7 @@ export class PreAuthFormService {
     };
    // this.preAuthForm.setValue(selectedPatData);
   }
-
+*/
 
 
 }

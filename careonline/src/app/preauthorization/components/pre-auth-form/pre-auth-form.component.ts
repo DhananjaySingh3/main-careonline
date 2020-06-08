@@ -10,10 +10,11 @@ import { CommonService } from '../../../preauthorization/services/common.service
 import { PreAuthFormService } from '../../../preauthorization/services/pre-auth-form.service';
 import { PreAuthService } from '../../../preauthorization/services/pre-auth.service';
 import { DialogData } from '../../../preauthorization/models/preauth-dialog-data.model';
-import { PreAuthFormModelResponse } from '../../../preauthorization/models/pre-auth-form.model';
+import { PreAuthFormModelRequest } from '../../../preauthorization/models/pre-auth-form.model';
+import { PreAuthReadResponse } from '../../../preauthorization/models/read-pre-auth.model';
 import { StackedModalComponent } from '../../../preauthorization/components/stacked-modal/stacked-modal.component';
 import {
-  Sex, Suffix, Genders, Plans, City, State, Relation,
+  Suffix, Genders, Plans, City, State, Relation,
   Payment, RequestTypes, InsuranceTypes, RequestFor, CommunicationTypes
 } from '../../../preauthorization/models/preauth-common.model';
 
@@ -58,7 +59,7 @@ export class PreAuthFormComponent implements OnInit {
   savedAsDraft = false;
   isFormUpdated = false;
   isReadonly = true;
-  editing = true;
+  editing = false;
 
   visitsPattern = '^[0-9]{1,3}$';
   unitsPattern = '^[0-9]{1,3}$';
@@ -94,10 +95,13 @@ export class PreAuthFormComponent implements OnInit {
   preAuthForm: FormGroup = new FormGroup({
     id: new FormControl({ value: '', disabled: false }),
     mrnNumber: new FormControl({ value: '', disabled: false }),
-    currenttimdate: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+
+    enquiryDetails: new FormGroup({
+      enquiryId: new FormControl({ value: '1234', disabled: false }),
+      preauthReqSentDate: new FormControl({ value: (new Date('2020-06-04')).toISOString(), disabled: false }),
+    }),
 
     preAuthDemographics: new FormGroup({
-      // id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }),
       lastName: new FormControl({ value: '', disabled: false }, []),
       firstName: new FormControl({ value: '', disabled: false }, []),
@@ -105,185 +109,245 @@ export class PreAuthFormComponent implements OnInit {
       dob: new FormControl({ value: '', disabled: false }, []),
       gender: new FormControl({ value: '', disabled: false }, []),
       suffix: new FormControl({ value: '', disabled: false }),
-      ssn: new FormControl({ value: '', disabled: false }),
+      prefix: new FormControl({ value: '', disabled: false }),
+
     }),
 
-    insuranceDetailPreAuth: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      insuranceTypeSelcted: new FormControl({ value: '', disabled: false }),
-      primaryInsuranceDetail: this.createInsuranceFormGroup(),
-      secondaryInsuranceDetail: this.createInsuranceFormGroup(),
-      tertiaryInsuranceDetail: this.createInsuranceFormGroup(),
+    organizationDetails: new FormGroup({
+      organizationName: new FormControl({ value: '', disabled: true }),
+      orgIdentificationCode: new FormControl({ value: '', disabled: true }),
+      orgIdentificationCodeType: new FormControl({ value: '', disabled: true }),
+      orgCommunicationNo: new FormControl({ value: '', disabled: false }),
+      orgCommunicationExt: new FormControl({ value: '', disabled: false }),
+      orgCommunicationType: new FormControl({ value: 'Select', disabled: false }),
     }),
 
-    providerDetail: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      requestingProviderIDNumber: new FormControl({ value: '', disabled: false }),
-      requestingAgency: new FormControl({ value: '', disabled: false }),
-      providerName: new FormControl({ value: '', disabled: false }),
-      providerTaxIDNumber: new FormControl({ value: '', disabled: false }),
-      phoneNumber: new FormControl({ value: '', disabled: false }),
-      extension: new FormControl({ value: '', disabled: false }),
-      faxNumber: new FormControl({ value: '', disabled: false }),
+    subscriberDetails: new FormGroup({
+      subscriberLastName: new FormControl({ value: '', disabled: false }, []),
+      subscriberFirstName: new FormControl({ value: '', disabled: false }, []),
+      subscriberMiddleName: new FormControl({ value: '', disabled: false }, []),
+      subscriberDob: new FormControl({ value: '', disabled: false }, []),
+      subscriberGender: new FormControl({ value: '', disabled: false }, []),
+      subscriberSuffix: new FormControl({ value: '', disabled: false }),
+      subscriberPrefix: new FormControl({ value: '', disabled: false }),
+      subscriberRelToPatient: new FormControl({ value: 'Select', disabled: false }),
+      subscriberIdentificationCode: new FormControl({ value: '', disabled: false }),
+      subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      subscriberSupplementalId: new FormControl({ value: '', disabled: false }),
+      subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }),
     }),
 
-    admissionDetail: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      requestType: new FormControl({ value: '', disabled: false }),
-      admissionDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      dischargeDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      referringPhysician: new FormControl({ value: '', disabled: false }),
-      primaryDiagnosis: new FormControl({ value: '', disabled: false }),
-      primaryDiagnosisDescription: new FormControl({ value: '', disabled: false }),
+    dependentDetails: new FormGroup({
+      dependentLastName: new FormControl({ value: '', disabled: false }, []),
+      dependentFirstName: new FormControl({ value: '', disabled: false }, []),
+      dependentMiddleName: new FormControl({ value: '', disabled: false }, []),
+      dependentDob: new FormControl({ value: '', disabled: false }, []),
+      dependentGender: new FormControl({ value: '', disabled: false }, []),
+      dependentSuffix: new FormControl({ value: '', disabled: false }),
+      dependentPrefix: new FormControl({ value: '', disabled: false }),
+      dependentRelToSubscriber: new FormControl({ value: 'Select', disabled: false }),
+      dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false }),
+      dependentSubscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      dependentSubscriberSupplementalId: new FormControl({ value: '', disabled: false }),
+      dependentSubscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+    }),
+    requesterDetails: new FormGroup({
+      reqProviderFullName: new FormControl({ value: '', disabled: false }, []),
+      reqProviderType: new FormControl({ value: 'Select', disabled: false }),
+      reqProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      reqProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      reqProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      reqProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      serviceDateFrom: new FormControl({ value: '', disabled: false }),
+      serviceDateTo: new FormControl({ value: '', disabled: false }),
+      admitDate: new FormControl({ value: '', disabled: false }),
+      dischargeDate: new FormControl({ value: '', disabled: false }),
+      requestCategory: new FormControl({ value: 'Select', disabled: false }),
+      certificationType: new FormControl({ value: 'Select', disabled: false }),
+      serviceType: new FormControl({ value: 'Select', disabled: false }),
+      levelOfService: new FormControl({ value: 'Select', disabled: false }),
     }),
 
-    requestFor: new FormGroup({
+    homeHealthAideRequest: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      newadmissionService: new FormControl({ value: '', disabled: false }),
-      additionalServices: new FormGroup({
-        // this.createAdditionalServicesFormGroup(),
+      // mrnNumber?: string;
+      // revenueCode?: number;
+      // visits?: number;
+      // units?: number;
+      // homeHealthAide?: boolean;
 
-        id: new FormControl({ value: '', disabled: false }),
-        previousAuthorizationNumber: new FormControl({ value: '', disabled: false }),
-        numberOfServiceCompletedTillDate: new FormControl({ value: '', disabled: false }),
-        fromDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        toDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-        serviceflag: new FormControl({ value: false, disabled: false }),
-      }),
-
-      extension: this.createExtensionFormGroup(),
+      homeHealthAideRequestServiceDateFrom: new FormControl({ value: '', disabled: false }),
+      homeHealthAideRequestServiceDateTo: new FormControl({ value: '', disabled: false }),
+      homeHealthAideVisit: new FormControl({ value: '', disabled: false }),
+      homeHealthAideUnit: new FormControl({ value: '', disabled: false }),
+      homeHealthAideCategory: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideServiceType: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideProviderFullName: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderType: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideProviderAddress: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderCity: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderState: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderPostalCode: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderCountryCode: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideSelected: new FormControl({ value: '', disabled: false }),
     }),
 
-    requestService: new FormGroup({
+    medicalSocialWorkRequest: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      medicalSocialWork: this.createMedicalSocialWorkFormGroup(),
-      occupationTherapy: this.createOccupationTherapyFormGroup(),
-      skilledNursing: this.createSkilledNursingFormGroup(),
-      physicalTherapy: this.createPhysicalTherapyFormGroup(),
-      speechPathology: this.createSpeechPathologyFormGroup(),
-      homeHealthAide: this.createHomeHealthAideFormGroup(),
+      // mrnNumber?: string;
+      // revenueCode?: number;
+      // visits?: number;
+      // units?: number;
+      // medicalSocialWork?: boolean;
+
+      medicalSocialWorkRequestServiceDateFrom: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkRequestServiceDateTo: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkVisit: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkUnit: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkCategory: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkServiceType: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkProviderFullName: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderType: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkProviderAddress: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderCity: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderState: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderPostalCode: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderCountryCode: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkSelected: new FormControl({ value: '', disabled: false }),
+    }),
+
+    occupationalTherapyRequest: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
+      // mrnNumber?: string;
+      // revenueCode?: number;
+      // visits?: number;
+      // units?: number;
+      // occupationTherapy?: boolean;
+
+      occupationalTherapyRequestServiceDateFrom: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyRequestServiceDateTo: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyVisit: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyUnit: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderCity: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderState: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapySelected: new FormControl({ value: '', disabled: false }),
+    }),
+
+    skilledNursingRequest: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
+      // mrnNumber?: string;
+      // revenueCode?: number;
+      // visits?: number;
+      // units?: number;
+      // skilledNursing?: boolean;
+      skilledNursingRequestServiceDateFrom: new FormControl({ value: '', disabled: false }),
+      skilledNursingRequestServiceDateTo: new FormControl({ value: '', disabled: false }),
+      skilledNursingVisit: new FormControl({ value: '', disabled: false }),
+      skilledNursingUnit: new FormControl({ value: '', disabled: false }),
+      skilledNursingCategory: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingServiceType: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingProviderFullName: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderType: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingProviderAddress: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderCity: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderState: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderPostalCode: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderCountryCode: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingSelected: new FormControl({ value: '', disabled: false }),
+    }),
+
+    physicalTherapyRequest: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
+      // mrnNumber?: string;
+      // revenueCode?: number;
+      // visits?: number;
+      // units?: number;
+      // physicalTherapy?: boolean;
+
+      physicalTherapyRequestServiceDateFrom: new FormControl({ value: '', disabled: false }),
+      physicalTherapyRequestServiceDateTo: new FormControl({ value: '', disabled: false }),
+      physicalTherapyVisit: new FormControl({ value: '', disabled: false }),
+      physicalTherapyUnit: new FormControl({ value: '', disabled: false }),
+      physicalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderCity: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderState: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapySelected: new FormControl({ value: '', disabled: false }),
+    }),
+
+    speechPathologyRequest: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
+      // mrnNumber?: string;
+      // revenueCode?: number;
+      // visits?: number;
+      // units?: number;
+      // speechPathology?: boolean;
+
+      speechPathologyRequestServiceDateFrom: new FormControl({ value: '', disabled: false }),
+      speechPathologyRequestServiceDateTo: new FormControl({ value: '', disabled: false }),
+      speechPathologyVisit: new FormControl({ value: '', disabled: false }),
+      speechPathologyUnit: new FormControl({ value: '', disabled: false }),
+      speechPathologyCategory: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologyCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologyServiceType: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologyProviderFullName: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderType: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologyProviderAddress: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderCity: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderState: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderPostalCode: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderCountryCode: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologySelected: new FormControl({ value: '', disabled: false }),
     }),
 
   });
-
-  createInsuranceFormGroup() {
-    return new FormGroup({
-      ssn: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      mop: new FormControl({ value: '', disabled: false }),
-      patientRelationInsured: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      insuredlastName: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      insuredfirstName: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      insuredmiddleName: new FormControl({ value: '', disabled: false }),
-      insureddob: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      insuredsex: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      eligibility: new FormControl({ value: '', disabled: false }),
-      eligibilityCheckSelected: new FormControl({ value: '', disabled: false }),
-      id: new FormControl({ value: '', disabled: false }),
-      statusVerifiedDate: new FormControl({ value: '', disabled: false }),
-      policyNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      group_name: new FormControl({ value: '', disabled: false }),
-      insurancePlanName: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      insurancePlanType: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      insuranceAddress: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      city: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      state: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      zipcode: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      endDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      startDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-    });
-  }
-
-  // createAdditionalServicesFormGroup() {
-  //   return new FormGroup({
-  //     id: new FormControl({ value: '', disabled: true }),
-  //     previousAuthorizationNumber: new FormControl({ value: '', disabled: true }),
-  //     numberOfServiceCompletedTillDate: new FormControl({ value: '', disabled: true }),
-  //     fromDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-  //     toDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-  //     serviceflag: new FormControl({ value: '', disabled: false }),
-  //   });
-  // }
-
-  createExtensionFormGroup() {
-    return new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      previousAuthorizationNumber: new FormControl({ value: '', disabled: false }),
-      fromDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      toDate: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      serviceflag: new FormControl({ value: '', disabled: false }),
-    });
-  }
-
-  createMedicalSocialWorkFormGroup() {
-    return new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      revenueCode: new FormControl({ value: '', disabled: false }),
-      visits: new FormControl({ value: '', disabled: false }),
-      units: new FormControl({ value: '', disabled: false }),
-      medicalSocialWork: new FormControl({ value: '', disabled: false }),
-    });
-  }
-
-  createOccupationTherapyFormGroup() {
-    return new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      revenueCode: new FormControl({ value: '', disabled: false }),
-      visits: new FormControl({ value: '', disabled: false }),
-      units: new FormControl({ value: '', disabled: false }),
-      occupationTherapy: new FormControl({ value: '', disabled: false }),
-    });
-  }
-
-  createSkilledNursingFormGroup() {
-    return new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      revenueCode: new FormControl({ value: '', disabled: false }),
-      visits: new FormControl({ value: '', disabled: false }),
-      units: new FormControl({ value: '', disabled: false }),
-      skilledNursing: new FormControl({ value: '', disabled: false }),
-    });
-  }
-
-  createPhysicalTherapyFormGroup() {
-    return new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      revenueCode: new FormControl({ value: '', disabled: false }),
-      visits: new FormControl({ value: '', disabled: false }),
-      units: new FormControl({ value: '', disabled: false }),
-      physicalTherapy: new FormControl({ value: '', disabled: false }),
-    });
-  }
-
-  createSpeechPathologyFormGroup() {
-    return new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      revenueCode: new FormControl({ value: '', disabled: false }),
-      visits: new FormControl({ value: '', disabled: false }),
-      units: new FormControl({ value: '', disabled: false }),
-      speechPathology: new FormControl({ value: '', disabled: false }),
-    });
-  }
-
-  createHomeHealthAideFormGroup() {
-    return new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }),
-      revenueCode: new FormControl({ value: '', disabled: false }),
-      visits: new FormControl({ value: '', disabled: false }),
-      units: new FormControl({ value: '', disabled: false }),
-      homeHealthAide: new FormControl({ value: '', disabled: false }),
-    });
-  }
 
   /* Building Form */
 
@@ -311,27 +375,22 @@ export class PreAuthFormComponent implements OnInit {
 
   get occupationTherapy() {
     return this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapy').value;
-    console.log('occupationTherapy', this.occupationTherapy);
   }
 
   get speechPathology() {
     return this.preAuthForm.get('requestService').get('speechPathology').get('speechPathology').value;
-    console.log('speechPathology', this.speechPathology);
   }
 
   get skilledNursing() {
     return this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursing').value;
-    console.log('skilledNursing', this.skilledNursing);
   }
 
   get medicalSocialWork() {
     return this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWork').value;
-    console.log('medicalSocialWork', this.medicalSocialWork);
   }
 
   get homeHealthAide() {
     return this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAide').value;
-    console.log('homeHealthAide', this.homeHealthAide);
   }
 
   get serviceflag() {
@@ -433,381 +492,274 @@ export class PreAuthFormComponent implements OnInit {
   }
 
   /* Populating Form Data */
-  populatePatientFormData(patient: PreAuthFormModelResponse) {
+  populatePatientFormData(patient: PreAuthFormModelRequest) {
     console.log('Pat data ', patient);
 
-    const formData: PreAuthFormModelResponse = {
+    const formData: PreAuthFormModelRequest = {
       id: patient.id,
       mrnNumber: patient.mrnNumber,
-      // currenttimdate: patient.currenttimdate === '' ? '' : this.datePipe.transform(patient.currenttimdate, 'M/d/yyyy'),
-      currenttimdate: (new Date()).toISOString(),
-      // === '' ? '' : this.datePipe.transform(patient.currenttimdate, 'yyyy-MM-dd'),
+
+      enquiryDetails: {
+        enquiryId: patient.enquiryDetails.enquiryId ? patient.enquiryDetails.enquiryId : null,
+        preauthReqSentDate: patient.enquiryDetails.preauthReqSentDate ?
+          (new Date(patient.enquiryDetails.preauthReqSentDate)).toISOString() :
+          (new Date()).toISOString(),
+      },
+
       preAuthDemographics: {
-        mrnNumber: patient.preAuthDemographics.mrnNumber ? (patient.preAuthDemographics.mrnNumber) : null,
-        firstName: patient.preAuthDemographics.firstName ? (patient.preAuthDemographics.firstName) : null,
-        lastName: patient.preAuthDemographics.lastName ? (patient.preAuthDemographics.lastName) : null,
-        middleName: patient.preAuthDemographics.middleName ? (patient.preAuthDemographics.middleName) : null,
-        suffix: patient.preAuthDemographics.suffix ? (patient.preAuthDemographics.suffix) : null,
-        gender: patient.preAuthDemographics.gender ? (patient.preAuthDemographics.gender) : null,
-        // dob: patient.preAuthDemographics ? (patient.preAuthDemographics.dob === '' ? '' :
-        //   this.datePipe.transform(patient.preAuthDemographics.dob, 'yyyy-MM-dd')) : null,
+        mrnNumber: patient.preAuthDemographics.mrnNumber,
+        lastName: patient.preAuthDemographics.lastName,
+        firstName: patient.preAuthDemographics.firstName,
+        middleName: patient.preAuthDemographics.middleName,
         dob: (new Date(patient.preAuthDemographics.dob)).toISOString(),
-        ssn: patient.preAuthDemographics.ssn ? (patient.preAuthDemographics.ssn) : null,
-      },
-
-      insuranceDetailPreAuth: {
-        id: patient.insuranceDetailPreAuth.id,
-        mrnNumber: patient.insuranceDetailPreAuth.mrnNumber ?
-          (patient.insuranceDetailPreAuth.mrnNumber) : null,
-        insuranceTypeSelcted: patient.insuranceDetailPreAuth.insuranceTypeSelcted,
-        primaryInsuranceDetail: {
-          ssn: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.ssn)
-            : null,
-          mop: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.mop)
-            : null,
-          patientRelationInsured: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.patientRelationInsured)
-            : null,
-          id: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.id)
-            : null,
-          insuredlastName: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insuredlastName)
-            : null,
-          insuredfirstName: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insuredfirstName)
-            : null,
-          insuredmiddleName: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insuredmiddleName)
-            : null,
-          insureddob: (new Date(patient.insuranceDetailPreAuth.primaryInsuranceDetail.insureddob)).toISOString(),
-          // patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-          //   (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insureddob) : null,
-          insuredsex: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insuredsex)
-            : null,
-          eligibility: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.eligibility)
-            : null,
-          eligibilityCheckSelected: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.eligibilityCheckSelected)
-            : null,
-          policyNumber: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.policyNumber)
-            : null,
-          statusVerifiedDate: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.statusVerifiedDate)
-            : null,
-          group_name: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.group_name)
-            : null,
-          insurancePlanName: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insurancePlanName)
-            : null,
-          insurancePlanType: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insurancePlanType)
-            : null,
-          insuranceAddress: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.insuranceAddress)
-            : null,
-          city: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.city)
-            : null,
-          state: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.state)
-            : null,
-          zipcode: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.zipcode)
-            : null,
-          endDate: (new Date(patient.insuranceDetailPreAuth.primaryInsuranceDetail.endDate)).toISOString(),
-          startDate: (new Date(patient.insuranceDetailPreAuth.primaryInsuranceDetail.startDate)).toISOString(),
-          mrnNumber: patient.insuranceDetailPreAuth.primaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.primaryInsuranceDetail.mrnNumber)
-            : null,
-        },
-        secondaryInsuranceDetail: {
-          ssn: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.ssn)
-            : null,
-          mop: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.mop)
-            : null,
-          patientRelationInsured: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.patientRelationInsured)
-            : null,
-          id: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.id)
-            : null,
-          insuredlastName: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insuredlastName)
-            : null,
-          insuredfirstName: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insuredfirstName)
-            : null,
-          insuredmiddleName: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insuredmiddleName)
-            : null,
-          insureddob: (new Date(patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insureddob)).toISOString(),
-          insuredsex: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insuredsex)
-            : null,
-          eligibility: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibility)
-            : null,
-          eligibilityCheckSelected: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.eligibilityCheckSelected)
-            : null,
-          policyNumber: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.policyNumber)
-            : null,
-          statusVerifiedDate: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.statusVerifiedDate)
-            : null,
-          group_name: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.group_name)
-            : null,
-          insurancePlanName: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insurancePlanName)
-            : null,
-          insurancePlanType: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insurancePlanType)
-            : null,
-          insuranceAddress: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.insuranceAddress)
-            : null,
-          city: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.city)
-            : null,
-          state: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.state)
-            : null,
-          zipcode: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.zipcode)
-            : null,
-          // endDate: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-          //   (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.endDate)
-          //   : null,
-          // startDate: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-          //   (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.startDate)
-          //   : null,
-          endDate: (new Date(patient.insuranceDetailPreAuth.secondaryInsuranceDetail.endDate)).toISOString(),
-          startDate: (new Date(patient.insuranceDetailPreAuth.secondaryInsuranceDetail.startDate)).toISOString(),
-          mrnNumber: patient.insuranceDetailPreAuth.secondaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.secondaryInsuranceDetail.mrnNumber)
-            : null,
-        },
-        tertiaryInsuranceDetail: {
-          ssn: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.ssn)
-            : null,
-          mop: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.mop)
-            : null,
-          patientRelationInsured: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.patientRelationInsured)
-            : null,
-          id: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.id)
-            : null,
-          insuredlastName: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insuredlastName)
-            : null,
-          insuredfirstName: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insuredfirstName)
-            : null,
-          insuredmiddleName: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insuredmiddleName)
-            : null,
-          // insureddob: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-          //   (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insureddob)
-          //   : null,
-          insureddob: (new Date(patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insureddob)).toISOString(),
-          insuredsex: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insuredsex)
-            : null,
-          eligibility: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibility)
-            : null,
-          eligibilityCheckSelected: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.eligibilityCheckSelected)
-            : null,
-          policyNumber: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.policyNumber)
-            : null,
-          statusVerifiedDate: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.statusVerifiedDate)
-            : null,
-          group_name: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.group_name)
-            : null,
-          insurancePlanName: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insurancePlanName)
-            : null,
-          insurancePlanType: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insurancePlanType)
-            : null,
-          insuranceAddress: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.insuranceAddress)
-            : null,
-          city: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.city)
-            : null,
-          state: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.state)
-            : null,
-          zipcode: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.zipcode)
-            : null,
-          endDate: (new Date(patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.endDate)).toISOString(),
-          startDate: (new Date(patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.startDate)).toISOString(),
-          mrnNumber: patient.insuranceDetailPreAuth.tertiaryInsuranceDetail ?
-            (patient.insuranceDetailPreAuth.tertiaryInsuranceDetail.mrnNumber)
-            : null,
-        },
-      },
-
-      providerDetail: {
-        id: patient.providerDetail.id ? (patient.providerDetail.id) : null,
-        requestingProviderIDNumber: patient.providerDetail.requestingProviderIDNumber ?
-          (patient.providerDetail.requestingProviderIDNumber) : null,
-        requestingAgency: patient.providerDetail.requestingAgency ? (patient.providerDetail.requestingAgency) : null,
-        providerName: patient.providerDetail.providerName ? (patient.providerDetail.providerName) : null,
-        providerTaxIDNumber: patient.providerDetail.providerTaxIDNumber ?
-          (patient.providerDetail.providerTaxIDNumber) : null,
-        phoneNumber: patient.providerDetail.phoneNumber ? (patient.providerDetail.phoneNumber) : null,
-        extension: patient.providerDetail.extension ? (patient.providerDetail.extension) : null,
-        faxNumber: patient.providerDetail.faxNumber ? (patient.providerDetail.faxNumber) : null,
-      },
-
-      admissionDetail: {
-        id: patient.admissionDetail.id ? (patient.admissionDetail.id) : null,
-        mrnNumber: patient.admissionDetail.mrnNumber ? (patient.admissionDetail.mrnNumber) : null,
-        requestType: patient.admissionDetail.requestType ? (patient.admissionDetail.requestType) : null,
-        admissionDate: (new Date(patient.admissionDetail.admissionDate)).toISOString() ?
-          (new Date(patient.admissionDetail.admissionDate)).toISOString() : new Date().toISOString(),
-        // ? (patient.admissionDetail.admissionDate === '' ? '' :
-        // this.datePipe.transform(patient.admissionDetail.admissionDate, 'yyyy-MM-dd')) : null,
-        dischargeDate: (new Date(patient.admissionDetail.dischargeDate)).toISOString() ?
-          (new Date(patient.admissionDetail.dischargeDate)).toISOString() : new Date().toISOString(),
-        referringPhysician: patient.admissionDetail.referringPhysician ?
-          (patient.admissionDetail.referringPhysician) : null,
-        primaryDiagnosis: patient.admissionDetail.primaryDiagnosis ? (patient.admissionDetail.primaryDiagnosis) : null,
-        primaryDiagnosisDescription: patient.admissionDetail.primaryDiagnosisDescription ?
-          (patient.admissionDetail.primaryDiagnosisDescription) : null,
-      },
-
-      requestFor: {
-        id: patient.requestFor.id ? (patient.requestFor.id) : null,
-        mrnNumber: patient.requestFor.mrnNumber ? (patient.requestFor.mrnNumber) : null,
-        newadmissionService: patient.requestFor.newadmissionService ? (patient.requestFor.newadmissionService) : null,
-
-        additionalServices: {
-          id: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.id) : null,
-          previousAuthorizationNumber: patient.requestFor.additionalServices ?
-            (patient.requestFor.additionalServices.previousAuthorizationNumber) : null,
-          numberOfServiceCompletedTillDate: patient.requestFor.additionalServices ?
-            (patient.requestFor.additionalServices.numberOfServiceCompletedTillDate) : null,
-          // fromDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.fromDate) : null,
-          // toDate: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.toDate) : null,
-          fromDate: (new Date(patient.requestFor.additionalServices.fromDate)).toISOString() ?
-            (new Date(patient.requestFor.additionalServices.fromDate)).toISOString() : new Date().toISOString(),
-          toDate: (new Date(patient.requestFor.additionalServices.toDate)).toISOString() ?
-            (new Date(patient.requestFor.additionalServices.toDate)).toISOString() : new Date().toISOString(),
-          serviceflag: patient.requestFor.additionalServices ? (patient.requestFor.additionalServices.serviceflag) : null,
-        },
-
-        extension: {
-          id: patient.requestFor.extension ? (patient.requestFor.extension.id) : null,
-          previousAuthorizationNumber: patient.requestFor.extension ?
-            (patient.requestFor.extension.previousAuthorizationNumber) : null,
-          fromDate: (new Date(patient.requestFor.extension.fromDate)).toISOString() ?
-            (new Date(patient.requestFor.extension.fromDate)).toISOString() : new Date().toISOString(),
-          toDate: (new Date(patient.requestFor.extension.toDate)).toISOString() ?
-            (new Date(patient.requestFor.extension.toDate)).toISOString() : new Date().toISOString(),
-          serviceflag: patient.requestFor.extension ? (patient.requestFor.extension.serviceflag) : null,
-        }
-      },
-
-      requestService: {
-        id: patient.requestService.id ? (patient.requestService.id) : null,
-        mrnNumber: patient.requestService.mrnNumber ? (patient.requestService.mrnNumber) : null,
-
-        homeHealthAide: {
-          id: patient.requestService.homeHealthAide ? (patient.requestService.homeHealthAide.id) : null,
-          mrnNumber: patient.requestService.homeHealthAide ? (patient.requestService.homeHealthAide.mrnNumber) : null,
-          revenueCode: patient.requestService.homeHealthAide ? (patient.requestService.homeHealthAide.revenueCode)
-            : null,
-          visits: patient.requestService.homeHealthAide ? (patient.requestService.homeHealthAide.visits) : null,
-          units: patient.requestService.homeHealthAide ? (patient.requestService.homeHealthAide.units) : null,
-          homeHealthAide: patient.requestService.homeHealthAide ? (patient.requestService.homeHealthAide.homeHealthAide)
-            : null,
-        },
-
-        medicalSocialWork: {
-          id: patient.requestService.medicalSocialWork ? (patient.requestService.medicalSocialWork.id) : null,
-          mrnNumber: patient.requestService.medicalSocialWork ? (patient.requestService.medicalSocialWork.mrnNumber) : null,
-          revenueCode: patient.requestService.medicalSocialWork ? (patient.requestService.medicalSocialWork.revenueCode)
-            : null,
-          visits: patient.requestService.medicalSocialWork ? (patient.requestService.medicalSocialWork.visits) : null,
-          units: patient.requestService.medicalSocialWork ? (patient.requestService.medicalSocialWork.units) : null,
-          medicalSocialWork: patient.requestService.medicalSocialWork ? (patient.requestService.medicalSocialWork.medicalSocialWork)
-            : null,
-        },
-
-        occupationTherapy: {
-          id: patient.requestService.occupationTherapy ? (patient.requestService.occupationTherapy.id) : null,
-          mrnNumber: patient.requestService.occupationTherapy ? (patient.requestService.occupationTherapy.mrnNumber) : null,
-          revenueCode: patient.requestService.occupationTherapy ? (patient.requestService.occupationTherapy.revenueCode)
-            : null,
-          visits: patient.requestService.occupationTherapy ? (patient.requestService.occupationTherapy.visits) : null,
-          units: patient.requestService.occupationTherapy ? (patient.requestService.occupationTherapy.units) : null,
-          occupationTherapy: patient.requestService.occupationTherapy ? (patient.requestService.occupationTherapy.occupationTherapy)
-            : null,
-        },
-
-        skilledNursing: {
-          id: patient.requestService.skilledNursing ? (patient.requestService.skilledNursing.id) : null,
-          mrnNumber: patient.requestService.skilledNursing ? (patient.requestService.skilledNursing.mrnNumber) : null,
-          revenueCode: patient.requestService.skilledNursing ? (patient.requestService.skilledNursing.revenueCode)
-            : null,
-          visits: patient.requestService.skilledNursing ? (patient.requestService.skilledNursing.visits) : null,
-          units: patient.requestService.skilledNursing ? (patient.requestService.skilledNursing.units) : null,
-          skilledNursing: patient.requestService.skilledNursing ? (patient.requestService.skilledNursing.skilledNursing)
-            : null,
-        },
-
-        physicalTherapy: {
-          id: patient.requestService.physicalTherapy ? (patient.requestService.physicalTherapy.id) : null,
-          mrnNumber: patient.requestService.physicalTherapy ? (patient.requestService.physicalTherapy.mrnNumber) : null,
-          revenueCode: patient.requestService.physicalTherapy ? (patient.requestService.physicalTherapy.revenueCode)
-            : null,
-          visits: patient.requestService.physicalTherapy ? (patient.requestService.physicalTherapy.visits) : null,
-          units: patient.requestService.physicalTherapy ? (patient.requestService.physicalTherapy.units) : null,
-          physicalTherapy: patient.requestService.physicalTherapy ? (patient.requestService.physicalTherapy.physicalTherapy)
-            : null,
-        },
-
-        speechPathology: {
-          id: patient.requestService.speechPathology ? (patient.requestService.speechPathology.id) : null,
-          mrnNumber: patient.requestService.speechPathology ? (patient.requestService.speechPathology.mrnNumber) : null,
-          revenueCode: patient.requestService.speechPathology ? (patient.requestService.speechPathology.revenueCode)
-            : null,
-          visits: patient.requestService.speechPathology ? (patient.requestService.speechPathology.visits) : null,
-          units: patient.requestService.speechPathology ? (patient.requestService.speechPathology.units) : null,
-          speechPathology: patient.requestService.speechPathology ? (patient.requestService.speechPathology.speechPathology)
-            : null,
-        }
+        gender: patient.preAuthDemographics.gender,
+        suffix: patient.preAuthDemographics.suffix,
+        prefix: patient.preAuthDemographics.prefix,
 
       },
 
+      organizationDetails: {
+        organizationName: patient.organizationDetails.organizationName,
+        orgIdentificationCode: patient.organizationDetails.orgIdentificationCode,
+        orgIdentificationCodeType: patient.organizationDetails.orgIdentificationCodeType,
+        orgCommunicationNo: patient.organizationDetails.orgCommunicationNo,
+        orgCommunicationExt: patient.organizationDetails.orgCommunicationExt,
+        orgCommunicationType: patient.organizationDetails.orgCommunicationType,
+      },
+
+      subscriberDetails: {
+        subscriberLastName: patient.subscriberDetails.subscriberLastName,
+        subscriberFirstName: patient.subscriberDetails.subscriberFirstName,
+        subscriberMiddleName: patient.subscriberDetails.subscriberMiddleName,
+        subscriberDob: (new Date(patient.subscriberDetails.subscriberDob)).toISOString(),
+        subscriberGender: patient.subscriberDetails.subscriberGender,
+        subscriberSuffix: patient.subscriberDetails.subscriberSuffix,
+        subscriberPrefix: patient.subscriberDetails.subscriberPrefix,
+        subscriberRelToPatient: patient.subscriberDetails.subscriberRelToPatient,
+        subscriberIdentificationCode: patient.subscriberDetails.subscriberIdentificationCode,
+        subscriberIdentificationNumberType: patient.subscriberDetails.subscriberIdentificationNumberType,
+        subscriberSupplementalId: patient.subscriberDetails.subscriberSupplementalId,
+        subscriberIdNumberType: patient.subscriberDetails.subscriberIdNumberType,
+      },
+
+      dependentDetails: {
+        dependentLastName: patient.dependentDetails.dependentLastName,
+        dependentFirstName: patient.dependentDetails.dependentFirstName,
+        dependentMiddleName: patient.dependentDetails.dependentMiddleName,
+        dependentDob: (new Date(patient.dependentDetails.dependentDob)).toISOString(),
+        dependentGender: patient.dependentDetails.dependentGender,
+        dependentSuffix: patient.dependentDetails.dependentSuffix,
+        dependentPrefix: patient.dependentDetails.dependentPrefix,
+        dependentRelToSubscriber: patient.dependentDetails.dependentRelToSubscriber,
+        dependentSubscriberIdentificationCode: patient.dependentDetails.dependentSubscriberIdentificationCode,
+        dependentSubscriberIdentificationNumberType: patient.dependentDetails.dependentSubscriberIdentificationNumberType,
+        dependentSubscriberSupplementalId: patient.dependentDetails.dependentSubscriberSupplementalId,
+        dependentSubscriberIdNumberType: patient.dependentDetails.dependentSubscriberIdNumberType,
+      },
+
+      requesterDetails: {
+        reqProviderFullName: patient.requesterDetails.reqProviderFullName,
+        reqProviderType: patient.requesterDetails.reqProviderType,
+        reqProviderIdentificationNumber: patient.requesterDetails.reqProviderIdentificationNumber,
+        reqProviderIdentificationNumberType: patient.requesterDetails.reqProviderIdentificationNumberType,
+        reqProviderSupplimentalId: patient.requesterDetails.reqProviderSupplimentalId,
+        reqProviderIdNumberType: patient.requesterDetails.reqProviderIdNumberType,
+        serviceDateFrom: (new Date(patient.requesterDetails.serviceDateFrom)).toISOString(),
+        serviceDateTo: (new Date(patient.requesterDetails.serviceDateTo)).toISOString(),
+        admitDate: (new Date(patient.requesterDetails.admitDate)).toISOString(),
+        dischargeDate: (new Date(patient.requesterDetails.dischargeDate)).toISOString(),
+        requestCategory: patient.requesterDetails.requestCategory,
+        certificationType: patient.requesterDetails.certificationType,
+        serviceType: patient.requesterDetails.serviceType,
+        levelOfService: patient.requesterDetails.levelOfService,
+      },
+
+      homeHealthAideRequest: {
+        id: patient.homeHealthAideRequest.id,
+        // mrnNumber?: string;
+        // revenueCode?: number;
+        // visits?: number;
+        // units?: number;
+        // homeHealthAide?: boolean;
+
+        homeHealthAideRequestServiceDateFrom: (new Date(patient.homeHealthAideRequest.homeHealthAideRequestServiceDateFrom)).toISOString(),
+        homeHealthAideRequestServiceDateTo: (new Date(patient.homeHealthAideRequest.homeHealthAideRequestServiceDateTo)).toISOString(),
+        homeHealthAideVisit: patient.homeHealthAideRequest.homeHealthAideVisit,
+        homeHealthAideUnit: patient.homeHealthAideRequest.homeHealthAideUnit,
+        homeHealthAideCategory: patient.homeHealthAideRequest.homeHealthAideCategory,
+        homeHealthAideCertificationType: patient.homeHealthAideRequest.homeHealthAideCertificationType,
+        homeHealthAideServiceType: patient.homeHealthAideRequest.homeHealthAideServiceType,
+        homeHealthAideLevelOfService: patient.homeHealthAideRequest.homeHealthAideLevelOfService,
+        homeHealthAideProviderFullName: patient.homeHealthAideRequest.homeHealthAideProviderFullName,
+        homeHealthAideProviderType: patient.homeHealthAideRequest.homeHealthAideProviderType,
+        homeHealthAideProviderAddress: patient.homeHealthAideRequest.homeHealthAideProviderAddress,
+        homeHealthAideProviderCity: patient.homeHealthAideRequest.homeHealthAideProviderCity,
+        homeHealthAideProviderState: patient.homeHealthAideRequest.homeHealthAideProviderState,
+        homeHealthAideProviderPostalCode: patient.homeHealthAideRequest.homeHealthAideProviderPostalCode,
+        homeHealthAideProviderCountryCode: patient.homeHealthAideRequest.homeHealthAideProviderCountryCode,
+        homeHealthAideProviderIdentificationNumber: patient.homeHealthAideRequest.homeHealthAideProviderIdentificationNumber,
+        homeHealthAideProviderIdentificationNumberType: patient.homeHealthAideRequest.homeHealthAideProviderIdentificationNumberType,
+        homeHealthAideProviderSupplimentalId: patient.homeHealthAideRequest.homeHealthAideProviderSupplimentalId,
+        homeHealthAideProviderIdNumberType: patient.homeHealthAideRequest.homeHealthAideProviderIdNumberType,
+        homeHealthAideSelected: patient.homeHealthAideRequest.homeHealthAideSelected,
+      },
+
+      medicalSocialWorkRequest: {
+        id: patient.medicalSocialWorkRequest.id,
+        // mrnNumber?: string;
+        // revenueCode?: number;
+        // visits?: number;
+        // units?: number;
+        // medicalSocialWork?: boolean;
+
+        medicalSocialWorkRequestServiceDateFrom: patient.medicalSocialWorkRequest.medicalSocialWorkRequestServiceDateFrom,
+        medicalSocialWorkRequestServiceDateTo: patient.medicalSocialWorkRequest.medicalSocialWorkRequestServiceDateTo,
+        medicalSocialWorkVisit: patient.medicalSocialWorkRequest.medicalSocialWorkVisit,
+        medicalSocialWorkUnit: patient.medicalSocialWorkRequest.medicalSocialWorkUnit,
+        medicalSocialWorkCategory: patient.medicalSocialWorkRequest.medicalSocialWorkCategory,
+        medicalSocialWorkCertificationType: patient.medicalSocialWorkRequest.medicalSocialWorkCertificationType,
+        medicalSocialWorkServiceType: patient.medicalSocialWorkRequest.medicalSocialWorkServiceType,
+        medicalSocialWorkLevelOfService: patient.medicalSocialWorkRequest.medicalSocialWorkLevelOfService,
+        medicalSocialWorkProviderFullName: patient.medicalSocialWorkRequest.medicalSocialWorkProviderFullName,
+        medicalSocialWorkProviderType: patient.medicalSocialWorkRequest.medicalSocialWorkProviderType,
+        medicalSocialWorkProviderAddress: patient.medicalSocialWorkRequest.medicalSocialWorkProviderAddress,
+        medicalSocialWorkProviderCity: patient.medicalSocialWorkRequest.medicalSocialWorkProviderCity,
+        medicalSocialWorkProviderState: patient.medicalSocialWorkRequest.medicalSocialWorkProviderState,
+        medicalSocialWorkProviderPostalCode: patient.medicalSocialWorkRequest.medicalSocialWorkProviderPostalCode,
+        medicalSocialWorkProviderCountryCode: patient.medicalSocialWorkRequest.medicalSocialWorkProviderCountryCode,
+        medicalSocialWorkProviderIdentificationNumber: patient.medicalSocialWorkRequest.medicalSocialWorkProviderIdentificationNumber,
+        medicalSocialWorkProviderIdentificationNumberType:
+          patient.medicalSocialWorkRequest.medicalSocialWorkProviderIdentificationNumberType,
+        medicalSocialWorkProviderSupplimentalId: patient.medicalSocialWorkRequest.medicalSocialWorkProviderSupplimentalId,
+        medicalSocialWorkProviderIdNumberType: patient.medicalSocialWorkRequest.medicalSocialWorkProviderIdNumberType,
+        medicalSocialWorkSelected: patient.medicalSocialWorkRequest.medicalSocialWorkSelected,
+      },
+
+      occupationalTherapyRequest: {
+        id: patient.occupationalTherapyRequest.id,
+        // mrnNumber?: string;
+        // revenueCode?: number;
+        // visits?: number;
+        // units?: number;
+        // occupationTherapy?: boolean;
+
+        occupationalTherapyRequestServiceDateFrom: patient.occupationalTherapyRequest.occupationalTherapyRequestServiceDateFrom,
+        occupationalTherapyRequestServiceDateTo: patient.occupationalTherapyRequest.occupationalTherapyRequestServiceDateTo,
+        occupationalTherapyVisit: patient.occupationalTherapyRequest.occupationalTherapyVisit,
+        occupationalTherapyUnit: patient.occupationalTherapyRequest.occupationalTherapyUnit,
+        occupationalTherapyRequestCategory: patient.occupationalTherapyRequest.occupationalTherapyRequestCategory,
+        occupationalTherapyCertificationType: patient.occupationalTherapyRequest.occupationalTherapyCertificationType,
+        occupationalTherapyServiceType: patient.occupationalTherapyRequest.occupationalTherapyServiceType,
+        occupationalTherapyLevelOfService: patient.occupationalTherapyRequest.occupationalTherapyLevelOfService,
+        occupationalTherapyProviderFullName: patient.occupationalTherapyRequest.occupationalTherapyProviderFullName,
+        occupationalTherapyProviderType: patient.occupationalTherapyRequest.occupationalTherapyProviderType,
+        occupationalTherapyProviderAddress: patient.occupationalTherapyRequest.occupationalTherapyProviderAddress,
+        occupationalTherapyProviderCity: patient.occupationalTherapyRequest.occupationalTherapyProviderCity,
+        occupationalTherapyProviderState: patient.occupationalTherapyRequest.occupationalTherapyProviderState,
+        occupationalTherapyProviderPostalCode: patient.occupationalTherapyRequest.occupationalTherapyProviderPostalCode,
+        occupationalTherapyProviderCountryCode: patient.occupationalTherapyRequest.occupationalTherapyProviderCountryCode,
+        occupationalTherapyProviderIdentificationNumber: patient.occupationalTherapyRequest.occupationalTherapyProviderIdentificationNumber,
+        occupationalTherapyProviderIdentificationNumberType:
+          patient.occupationalTherapyRequest.occupationalTherapyProviderIdentificationNumberType,
+        occupationalTherapyProviderSupplimentalId: patient.occupationalTherapyRequest.occupationalTherapyProviderSupplimentalId,
+        occupationalTherapyProviderIdNumberType: patient.occupationalTherapyRequest.occupationalTherapyProviderIdNumberType,
+        occupationalTherapySelected: patient.occupationalTherapyRequest.occupationalTherapySelected,
+      },
+
+      skilledNursingRequest: {
+        id: patient.skilledNursingRequest.id,
+        // mrnNumber?: string;
+        // revenueCode?: number;
+        // visits?: number;
+        // units?: number;
+        // skilledNursing?: boolean;
+        skilledNursingRequestServiceDateFrom: patient.skilledNursingRequest.skilledNursingRequestServiceDateFrom,
+        skilledNursingRequestServiceDateTo: patient.skilledNursingRequest.skilledNursingRequestServiceDateTo,
+        skilledNursingVisit: patient.skilledNursingRequest.skilledNursingVisit,
+        skilledNursingUnit: patient.skilledNursingRequest.skilledNursingUnit,
+        skilledNursingCategory: patient.skilledNursingRequest.skilledNursingCategory,
+        skilledNursingCertificationType: patient.skilledNursingRequest.skilledNursingCertificationType,
+        skilledNursingServiceType: patient.skilledNursingRequest.skilledNursingServiceType,
+        skilledNursingLevelOfService: patient.skilledNursingRequest.skilledNursingLevelOfService,
+        skilledNursingProviderFullName: patient.skilledNursingRequest.skilledNursingProviderFullName,
+        skilledNursingProviderType: patient.skilledNursingRequest.skilledNursingProviderType,
+        skilledNursingProviderAddress: patient.skilledNursingRequest.skilledNursingProviderAddress,
+        skilledNursingProviderCity: patient.skilledNursingRequest.skilledNursingProviderCity,
+        skilledNursingProviderState: patient.skilledNursingRequest.skilledNursingProviderState,
+        skilledNursingProviderPostalCode: patient.skilledNursingRequest.skilledNursingProviderPostalCode,
+        skilledNursingProviderCountryCode: patient.skilledNursingRequest.skilledNursingProviderCountryCode,
+        skilledNursingProviderIdentificationNumber: patient.skilledNursingRequest.skilledNursingProviderIdentificationNumber,
+        skilledNursingProviderIdentificationNumberType: patient.skilledNursingRequest.skilledNursingProviderIdentificationNumberType,
+        skilledNursingProviderSupplimentalId: patient.skilledNursingRequest.skilledNursingProviderSupplimentalId,
+        skilledNursingProviderIdNumberType: patient.skilledNursingRequest.skilledNursingProviderIdNumberType,
+        skilledNursingSelected: patient.skilledNursingRequest.skilledNursingSelected,
+      },
+
+      physicalTherapyRequest: {
+        id: patient.physicalTherapyRequest.id,
+        // mrnNumber?: string;
+        // revenueCode?: number;
+        // visits?: number;
+        // units?: number;
+        // physicalTherapy?: boolean;
+
+        physicalTherapyRequestServiceDateFrom: patient.physicalTherapyRequest.physicalTherapyRequestServiceDateFrom,
+        physicalTherapyRequestServiceDateTo: patient.physicalTherapyRequest.physicalTherapyRequestServiceDateTo,
+        physicalTherapyVisit: patient.physicalTherapyRequest.physicalTherapyVisit,
+        physicalTherapyUnit: patient.physicalTherapyRequest.physicalTherapyUnit,
+        physicalTherapyRequestCategory: patient.physicalTherapyRequest.physicalTherapyRequestCategory,
+        physicalTherapyCertificationType: patient.physicalTherapyRequest.physicalTherapyCertificationType,
+        physicalTherapyServiceType: patient.physicalTherapyRequest.physicalTherapyServiceType,
+        physicalTherapyLevelOfService: patient.physicalTherapyRequest.physicalTherapyLevelOfService,
+        physicalTherapyProviderFullName: patient.physicalTherapyRequest.physicalTherapyProviderFullName,
+        physicalTherapyProviderType: patient.physicalTherapyRequest.physicalTherapyProviderType,
+        physicalTherapyProviderAddress: patient.physicalTherapyRequest.physicalTherapyProviderAddress,
+        physicalTherapyProviderCity: patient.physicalTherapyRequest.physicalTherapyProviderCity,
+        physicalTherapyProviderState: patient.physicalTherapyRequest.physicalTherapyProviderState,
+        physicalTherapyProviderPostalCode: patient.physicalTherapyRequest.physicalTherapyProviderPostalCode,
+        physicalTherapyProviderCountryCode: patient.physicalTherapyRequest.physicalTherapyProviderCountryCode,
+        physicalTherapyProviderIdentificationNumber: patient.physicalTherapyRequest.physicalTherapyProviderIdentificationNumber,
+        physicalTherapyProviderIdentificationNumberType: patient.physicalTherapyRequest.physicalTherapyProviderIdentificationNumberType,
+        physicalTherapyProviderSupplimentalId: patient.physicalTherapyRequest.physicalTherapyProviderSupplimentalId,
+        physicalTherapyProviderIdNumberType: patient.physicalTherapyRequest.physicalTherapyProviderIdNumberType,
+        physicalTherapySelected: patient.physicalTherapyRequest.physicalTherapySelected,
+      },
+
+      speechPathologyRequest: {
+        id: patient.speechPathologyRequest.id,
+        // mrnNumber?: string;
+        // revenueCode?: number;
+        // visits?: number;
+        // units?: number;
+        // speechPathology?: boolean;
+
+        speechPathologyRequestServiceDateFrom: patient.speechPathologyRequest.speechPathologyRequestServiceDateFrom,
+        speechPathologyRequestServiceDateTo: patient.speechPathologyRequest.speechPathologyRequestServiceDateTo,
+        speechPathologyVisit: patient.speechPathologyRequest.speechPathologyVisit,
+        speechPathologyUnit: patient.speechPathologyRequest.speechPathologyUnit,
+        speechPathologyCategory: patient.speechPathologyRequest.speechPathologyCategory,
+        speechPathologyCertificationType: patient.speechPathologyRequest.speechPathologyCertificationType,
+        speechPathologyServiceType: patient.speechPathologyRequest.speechPathologyServiceType,
+        speechPathologyLevelOfService: patient.speechPathologyRequest.speechPathologyLevelOfService,
+        speechPathologyProviderFullName: patient.speechPathologyRequest.speechPathologyProviderFullName,
+        speechPathologyProviderType: patient.speechPathologyRequest.speechPathologyProviderType,
+        speechPathologyProviderAddress: patient.speechPathologyRequest.speechPathologyProviderAddress,
+        speechPathologyProviderCity: patient.speechPathologyRequest.speechPathologyProviderCity,
+        speechPathologyProviderState: patient.speechPathologyRequest.speechPathologyProviderState,
+        speechPathologyProviderPostalCode: patient.speechPathologyRequest.speechPathologyProviderPostalCode,
+        speechPathologyProviderCountryCode: patient.speechPathologyRequest.speechPathologyProviderCountryCode,
+        speechPathologyProviderIdentificationNumber: patient.speechPathologyRequest.speechPathologyProviderIdentificationNumber,
+        speechPathologyProviderIdentificationNumberType: patient.speechPathologyRequest.speechPathologyProviderIdentificationNumberType,
+        speechPathologyProviderSupplimentalId: patient.speechPathologyRequest.speechPathologyProviderSupplimentalId,
+        speechPathologyProviderIdNumberType: patient.speechPathologyRequest.speechPathologyProviderIdNumberType,
+        speechPathologySelected: patient.speechPathologyRequest.speechPathologySelected,
+      },
     };
     // formData.insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
     this.preAuthForm.setValue(formData);
-    if (this.preAuthForm.get('requestFor').get('newadmissionService').value === true) {
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: this.newAdmissService.checked = true });
-    }
+    // if (this.preAuthForm.get('requestFor').get('newadmissionService').value === true) {
+    //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: this.newAdmissService.checked = true });
+    // }
 
     //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
     console.log('Form Populated Data ', formData);
@@ -878,7 +830,7 @@ export class PreAuthFormComponent implements OnInit {
   /*Save as Draft */
 
   /*On Send Request for PreAutorization*/
-  onSendRequest(selectedPatntData: PreAuthFormModelResponse) {
+  onSendRequest(selectedPatntData: PreAuthFormModelRequest) {
     // selectedPatientData.currenttimdate = new Date().toISOString();
     // console.log('Date after change ', selectedPatientData);
     console.log('Form data on send request', selectedPatntData);
@@ -998,7 +950,7 @@ export class PreAuthFormComponent implements OnInit {
     });
   }
 
-  onSave(selectedPatntData: PreAuthFormModelResponse) {
+  onSave(selectedPatntData: PreAuthFormModelRequest) {
     // selectedPatientData.currenttimdate = new Date().toISOString();
     // console.log('Date after change ', selectedPatientData);
     console.log('Form data on save', selectedPatntData);
@@ -1081,6 +1033,16 @@ export class PreAuthFormComponent implements OnInit {
     // } else {
     //   this.isReadonlyPt = true;
     // }
+  }
+
+  onEdit(selectedPatntData: PreAuthFormModelRequest) {
+    console.log('on edit ', selectedPatntData);
+    this.editing = true;
+    if (this.selectedPatientViaDialog.episode.preauthFormStatus !== 'Sent For Approval') { // 'Saved As Draft'
+      this.preAuthForm.get('enquiryDetails').patchValue({ preauthReqSentDate: (new Date()).toISOString() });
+    }
+
+    console.log('on edit after date change', this.preAuthForm);
   }
 
   compareFn = (val1: string, val2: string) => {

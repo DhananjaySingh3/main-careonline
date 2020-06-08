@@ -25,7 +25,8 @@ export class PreauthListComponent implements OnInit {
 
   displayedColumns: string[] = [
     'mrnNumber', 'patientName', 'admissionDate', 'admissionStatus', 'episodeType',
-    'payorType', 'preAuthForm', 'preauthFormStatus', 'formSentDate', 'formStatus'];
+    'payorType', 'preAuthRequestForm', 'preauthFormStatus', 'formSentDate', 'formStatus', 'preAuthResponseForm',
+    'formReceivedDate', 'actions'];
   resultsLength = 0;
   isLoadingResults = true;
 
@@ -95,7 +96,7 @@ export class PreauthListComponent implements OnInit {
     config.hasBackdrop = true;
     config.width = '65%';
 
-    config.data = { heading: 'Home Health Preauthorization Form', selectedPatientData: selectedPatData };
+    config.data = { heading: 'Preauthorization Request Form', selectedPatientData: selectedPatData };
 
     this.dialog.open(PreAuthFormComponent, config).afterClosed().subscribe(result => {
       console.log('Close or X button clicked so:  false will come: ' + result);

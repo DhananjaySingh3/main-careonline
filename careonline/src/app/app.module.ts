@@ -24,13 +24,14 @@ import 'hammerjs';
 import { DatePipe } from '@angular/common';
 import { HeaderComponent } from './shared/header/header.component';
 // import { DeniedDialogComponent } from './preauthorization/components/denied-dialog/denied-dialog.component';
-
+// import { PreauthListComponent } from './preauthorization/components/preauth-list/preauth-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-   // DeniedDialogComponent
+    // DeniedDialogComponent,
+    // PreauthListComponent
   ],
   imports: [
     BrowserModule,

@@ -122,8 +122,8 @@ export class CommonService {
     { code: 111, name: 'Approved' },
     { code: 222, name: 'Pending' },
     { code: 333, name: 'Denied' },
-    { code: 444, name: 'Rejected' },
-    { code: 555, name: 'Success' },
+    { code: 444, name: 'Re-Appeal' },
+    { code: 555, name: 'Re-Appeal Denied' },
   ];
 
   rejectReasons: RejectReasons[] = [
@@ -820,9 +820,9 @@ export class CommonService {
   ];
 
   communicationTypes: CommunicationTypes[] = [
-    { code: '1', name: 'email' },
-    { code: '2', name: 'telephone' },
-    { code: '3', name: 'fax' },
+    { code: '1', name: 'Email' },
+    { code: '2', name: 'Telephone' },
+    { code: '3', name: 'Fax' },
   ];
 
   constructor(
