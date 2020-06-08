@@ -658,7 +658,7 @@ export class CommonService {
     {
       code: 'Bx27809122',
       name: `The CMWC/DME request cannot be processed because the person does not have a Daily Care Service Authorization for
-       the submitted Provider No. as of the date that submission of the NFSS form was attempted. 
+       the submitted Provider No. as of the date that submission of the NFSS form was attempted.
        Submit the necessary paperwork to establish the Daily Care Service Authorization before resubmitting the NFSS form.`
     },
     {
@@ -834,6 +834,11 @@ export class CommonService {
   /* CommunicationTypes Details*/
   getCommunicationTypes() {
     return this.communicationTypes;
+  }
+
+  /* IdentificationCodeType Details*/
+  getIdentificationCodeType() {
+    return this.identificationCodeType;
   }
 
   /* Gender Details*/

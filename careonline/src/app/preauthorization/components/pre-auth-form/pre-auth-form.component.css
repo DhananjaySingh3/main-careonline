@@ -134,7 +134,8 @@ mat-checkbox {
 .example-radio-group {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+  /* margin: 15px 0; spacing between fields */
+  margin: 8px 0;
 }
 
 .example-radio-button {
@@ -152,10 +153,12 @@ mat-checkbox {
 } */
 /* disable select fields */
 
-.mat-form-field, .mat-form-field-infix {
+.mat-form-field,
+.mat-form-field-infix {
   display: block;
   position: relative;
-  flex: none;
+  /* flex: none; reduces the size of the field*/
+  flex: auto;
   min-width: 0;
-  width: 160px;
+  width: 200px; /* reduces the size of the field i.e space*/
 }
