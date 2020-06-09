@@ -40,14 +40,13 @@ export class OasisDetailsComponent implements OnInit {
         this.m1820OasisData = this._pdgmService.getM1820OasisOptions();
         this.m1830OasisData = this._pdgmService.getM1830OasisOptions();
         this.m1840OasisData = this._pdgmService.getM1840OasisOptions();
-
         this.m1860OasisData = this._pdgmService.getM1860OasisOptions();
     }
 
     closeModel() {
         this.dialogRef.close();
     }
-    m1810ChangeEvent(event, headerDetails){
+    m1800ChangeEvent(event, headerDetails){
        // let selectedQuestionId = headerDetails.oasisCode;
         if (headerDetails.oasisCode == 'M1800') {
             for (let i = 0; i <= headerDetails.oasisOptions.length - 1; i++) {
