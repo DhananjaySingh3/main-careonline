@@ -201,9 +201,10 @@ export class OrganizationDetails {
     organizationName?: string;
     orgIdentificationCode?: string;
     orgIdentificationCodeType?: string;
-    orgCommunicationNo?: number;
+    orgCommunicationTypeTelephone?: string;
+    orgCommunicationTypeFacsimile?: string;
+    orgCommunicationTypeEMail?: string;
     orgCommunicationExt?: number;
-    orgCommunicationType?: string;
 }
 
 export class SubscriberDetails {
@@ -244,6 +245,13 @@ export class RequesterDetails {
     id?: number;
     mrnNumber?: string;
     reqProviderFullName?: string;
+
+    reqProviderFirstName?: string;
+    reqProviderLastName?: string;
+    reqProviderMiddleName?: string;
+    reqProviderSuffix?: string;
+    reqProviderPrefix?: string;
+
     reqProviderType?: string;
     reqProviderIdentificationNumber?: string;
     reqProviderIdentificationNumberType?: string;
@@ -290,8 +298,8 @@ export class HomeHealthAideRequest {
     homeHealthAidePoviderLastName?: string;
     homeHealthAideProviderFirstName?: string;
     // visits?: number;
-    // units?: number;
-    // homeHealthAide?: boolean;
+    homeHealthAideProviderSuffix?: string;
+    homeHealthAideProviderPrefix?: string;
 
     homeHealthAideRequestServiceDateFrom?: any;
     homeHealthAideRequestServiceDateTo?: any;
@@ -323,6 +331,9 @@ export class MedicalSocialWorkRequest {
     medicalSocialWorkPoviderLastName?: string;
     medicalSocialWorkProviderFirstName?: string;
 
+    medicalSocialWorkProviderSuffix?: string;
+    medicalSocialWorkProviderPrefix?: string;
+
     medicalSocialWorkRequestServiceDateFrom?: any;
     medicalSocialWorkRequestServiceDateTo?: any;
     medicalSocialWorkVisit?: number;
@@ -353,6 +364,9 @@ export class OccupationalTherapyRequest {
     occupationTherapyPoviderLastName?: string;
     occupationTherapyProviderFirstName?: string;
 
+    occupationTherapyProviderSuffix?: string;
+    occupationTherapyProviderPrefix?: string;
+
     occupationalTherapyRequestServiceDateFrom?: any;
     occupationalTherapyRequestServiceDateTo?: any;
     occupationalTherapyVisit?: number;
@@ -382,6 +396,10 @@ export class SkilledNursingRequest {
     skilledNursingProviderMiddleName?: string;
     skilledNursingPoviderLastName?: string;
     skilledNursingProviderFirstName?: string;
+
+    skilledNursingProviderSuffix?: string;
+    skilledNursingProviderPrefix?: string;
+
     skilledNursingRequestServiceDateFrom?: any;
     skilledNursingRequestServiceDateTo?: any;
     skilledNursingVisit?: number;
@@ -411,6 +429,9 @@ export class PhysicalTherapyRequest {
     physicalTherapyPoviderLastName?: string;
     physicalTherapyProviderFirstName?: string;
 
+    physicalTherapyProviderSuffix?: string;
+    physicalTherapyProviderPrefix?: string;
+
     physicalTherapyRequestServiceDateFrom?: any;
     physicalTherapyRequestServiceDateTo?: any;
     physicalTherapyVisit?: number;
@@ -439,6 +460,9 @@ export class SpeechPathologyRequest {
     speechPathologyProviderMiddleName?: string;
     speechPathologyPoviderLastName?: string;
     speechPathologyProviderFirstName?: string;
+
+    speechPathologyProviderSuffix?: string;
+    speechPathologyProviderPrefix?: string;
 
     speechPathologyRequestServiceDateFrom?: any;
     speechPathologyRequestServiceDateTo?: any;

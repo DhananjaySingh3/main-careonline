@@ -820,9 +820,9 @@ export class CommonService {
   ];
 
   communicationTypes: CommunicationTypes[] = [
-    { code: '1', name: 'Email' },
-    { code: '2', name: 'Telephone' },
-    { code: '3', name: 'Fax' },
+    { code: 'EM', name: 'Electronic Mail' },
+    { code: 'TE', name: 'Telephone' },
+    { code: 'FX', name: 'Facsimile' },
   ];
 
   constructor(
