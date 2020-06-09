@@ -13,14 +13,14 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 export class OasisDetailsComponent implements OnInit {
 
     oasisDetails = [];
-    oasisQuestion1Data :any;
+    oasisQuestion1Data: any;
     m1800OasisData: any;
     m1810OasisData: any;
     m1820OasisData: any;
     m1830OasisData: any;
     m1840OasisData: any;
     m1860OasisData: any;
-    saveOasisDetailsData: any ={};
+    saveOasisDetailsData: any = {};
 
     constructor(public dialog: MatDialog,
         public dialogRef: MatDialogRef<OasisDetailsComponent>,
@@ -46,8 +46,14 @@ export class OasisDetailsComponent implements OnInit {
     closeModel() {
         this.dialogRef.close();
     }
-    m1800ChangeEvent(event, headerDetails){
-       // let selectedQuestionId = headerDetails.oasisCode;
+
+    m1033ChangeEvent(event, headerDetails) {
+        debugger
+        this.saveOasisDetailsData.OASISItemContributed.m1033 = headerDetails.oasisOptions;
+    }
+
+    m1800ChangeEvent(event, headerDetails) {
+        // let selectedQuestionId = headerDetails.oasisCode;
         if (headerDetails.oasisCode == 'M1800') {
             for (let i = 0; i <= headerDetails.oasisOptions.length - 1; i++) {
                 if (headerDetails.oasisOptions[i].id == event.id) {
@@ -61,7 +67,7 @@ export class OasisDetailsComponent implements OnInit {
     }
 
     selectionChangeEvent(event, headerDetails) {
-       
+
         if (headerDetails.oasisCode == 'M1810') {
             for (let i = 0; i <= headerDetails.oasisOptions.length - 1; i++) {
                 if (headerDetails.oasisOptions[i].id == event.id) {
@@ -129,11 +135,11 @@ export class OasisDetailsComponent implements OnInit {
 
 
     saveOasisData() {
-       // this.saveOasisDetailsData
-       this.saveOasisDetailsData.OASISItemContributed.mrnNumber = this.modelData.mrnNumber;
-       this._pdgmService.saveOasisDetailsData(this.saveOasisDetailsData).subscribe((result) => {
-           debugger
-       })
+        // this.saveOasisDetailsData
+        this.saveOasisDetailsData.OASISItemContributed.mrnNumber = this.modelData.mrnNumber;
+        this._pdgmService.saveOasisDetailsData(this.saveOasisDetailsData).subscribe((result) => {
+            debugger
+        })
 
     }
 

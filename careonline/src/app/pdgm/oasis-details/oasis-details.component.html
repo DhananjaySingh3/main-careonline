@@ -25,9 +25,10 @@
             </tr>
             <tr *ngFor="let optionDetails of oasisQuestion1Data.oasisOptions">
                 <td class="text-center">
-                    <mat-checkbox></mat-checkbox>
-
-                    <!-- <mat-radio-button value="{{optionDetails.flag}}" [(ngModel)]="optionDetails.flag" ngDefaultControl (ngModelChange)="selectionChangeEvent(optionDetails, questionData)"></mat-radio-button> -->
+                    <!-- <mat-checkbox></mat-checkbox> -->
+                    <mat-checkbox [checked]="optionDetails.flag" [(ngModel)]="optionDetails.flag" ngDefaultControl
+                    (ngModelChange)="m1033ChangeEvent(optionDetails, oasisQuestion1Data)">
+                    </mat-checkbox>  
                 </td>
                 <td>
                     {{optionDetails.description}}
