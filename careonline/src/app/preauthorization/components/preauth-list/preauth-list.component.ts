@@ -94,7 +94,7 @@ export class PreauthListComponent implements OnInit {
     config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
     config.autoFocus = false; // does not allow popup to focus on any field or icon
     config.hasBackdrop = true;
-    config.width = '65%';
+    config.width = '75%';
 
     config.data = { heading: 'Preauthorization Request Form', selectedPatientData: selectedPatData };
 

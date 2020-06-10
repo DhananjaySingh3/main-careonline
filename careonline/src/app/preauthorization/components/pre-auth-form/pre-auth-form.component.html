@@ -243,11 +243,11 @@
                   [readonly]="editing? false: true" required autocomplete="off" [pattern]="orgNamePattern">
                 <mat-label>Organization Name</mat-label>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('organizationName').hasError('pattern')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('organizationName')?.hasError('pattern')">
                   Please enter a valid organization name.
                 </mat-error>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('organizationName').hasError('required')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('organizationName')?.hasError('required')">
                   Organization name is required.
                 </mat-error>
               </mat-form-field>
@@ -258,7 +258,7 @@
                   [pattern]="communPatrn">
                 <mat-label>Communication-Telephone</mat-label>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('orgCommunicationTypeTelephone').hasError('pattern')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgCommunicationTypeTelephone')?.hasError('pattern')">
                   Please enter a valid communication type.
                 </mat-error>
               </mat-form-field>
@@ -269,7 +269,7 @@
                   [pattern]="communPatrn">
                 <mat-label>Communication-Email</mat-label>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('orgCommunicationTypeEMail').hasError('pattern')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgCommunicationTypeEMail')?.hasError('pattern')">
                   Please enter a valid communication type.
                 </mat-error>
 
@@ -286,21 +286,21 @@
                   [pattern]="orgIdCodePatrn">
                 <mat-label>Identification Code</mat-label>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('orgIdentificationCode').hasError('pattern')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.hasError('pattern')">
                   Please enter a valid identification code.
                 </mat-error>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('orgIdentificationCode').hasError('required')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.hasError('required')">
                   Organization identification code is required.
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="5" formControlName="orgCommunicationExt" [errorStateMatcher]="matcher"
-                  [readonly]="editing? false: true" required autocomplete="off" [pattern]="extPattern">
+                  [readonly]="editing? false: true" autocomplete="off" [pattern]="extPattern">
                 <mat-label>Extension No</mat-label>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('orgCommunicationExt').hasError('pattern')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgCommunicationExt')?.hasError('pattern')">
                   Please enter a valid extension no.
                 </mat-error>
               </mat-form-field>
@@ -311,7 +311,7 @@
                   [pattern]="communPatrn">
                 <mat-label>Communication-Facsimile</mat-label>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('orgCommunicationTypeFacsimile').hasError('pattern')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgCommunicationTypeFacsimile')?.hasError('pattern')">
                   Please enter a valid communication type.
                 </mat-error>
               </mat-form-field>
@@ -335,7 +335,7 @@
                   </mat-option>
                 </mat-select>
                 <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation').get('orgIdentificationCodeType').hasError('required')">
+                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCodeType')?.hasError('required')">
                   Please select Identification Code Type.
                 </mat-error>
               </mat-form-field>
@@ -1115,7 +1115,7 @@
       <div formGroupName="homeHealthAide" class="homeHealthAide"
         *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.value !== null">
 
-        <mat-expansion-panel [expanded]="homeHealthAide.checked === true ? true : false">
+        <mat-expansion-panel>
           <mat-expansion-panel-header class="disable_ripple">
             <mat-panel-title>
               <mat-checkbox color="primary" (click)="homeHealthAideSelected($event)" [disabled]="editing? false: true"
@@ -1136,17 +1136,17 @@
                   <!-- <input *ngIf="!editing" #input matInput formControlName="homeHealthAideRequestServiceDateFrom" [readonly]="true"> -->
                   <input matInput [matDatepicker]="homeHealthAideRequestServiceDateFrom"
                     formControlName="homeHealthAideRequestServiceDateFrom" [errorStateMatcher]="matcher"
-                    [readonly]="homeHealthAide.checked === true ? false : true"
+                    [readonly]="(editing && homeHealthAide.checked === true)? false : true"
                     [max]="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
                     [value]="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                     required>
                   <!-- [max]="preAuthForm?.get('requestService')?.get('serviceDateTo')?.value" -->
                   <mat-label>Service Date From</mat-label>
                   <mat-error
-                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateFrom')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateFrom')?.hasError('required')">
                     Service Date From is required.
                   </mat-error>
-                  <mat-datepicker-toggle *ngIf="homeHealthAide.checked === true" matSuffix
+                  <mat-datepicker-toggle *ngIf="(editing && homeHealthAide.checked === true)" matSuffix
                     [for]="homeHealthAideRequestServiceDateFrom">
                   </mat-datepicker-toggle>
                   <mat-datepicker #homeHealthAideRequestServiceDateFrom></mat-datepicker>
@@ -1154,26 +1154,26 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input maxlength="3" formControlName="homeHealthAideUnit"
-                    [errorStateMatcher]="matcher" [readonly]="homeHealthAide.checked === true? false: true" required
-                    autocomplete="off" [pattern]="unitsPattern">
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="unitsPattern">
                   <mat-label>Units Requested Per Day</mat-label>
                   <mat-error
-                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideUnit')?.hasError('pattern')">
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideUnit')?.hasError('pattern')">
                     Please enter a valid value for unit.
                   </mat-error>
                   <mat-error
-                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideUnit')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideUnit')?.hasError('required')">
                     Unit is required.
                   </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!homeHealthAide.checked === true" #input matInput
+                  <input *ngIf="!(editing && homeHealthAide.checked === true)" #input matInput
                     formControlName="homeHealthAideRequestCategory"
-                    [readonly]="!homeHealthAide.checked === true? true: false" required>
+                    [readonly]="!(editing && homeHealthAide.checked === true)? true: false" required>
                   <mat-label>Request Category</mat-label>
-                  <mat-select *ngIf="homeHealthAide.checked === true" formControlName="homeHealthAideRequestCategory"
-                    required [compareWith]="compareFn">
+                  <mat-select *ngIf="(editing && homeHealthAide.checked === true)"
+                    formControlName="homeHealthAideRequestCategory" required [compareWith]="compareFn">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
                       [value]="requestCatego.name">
@@ -1181,7 +1181,7 @@
                     </mat-option>
                   </mat-select>
                   <mat-error
-                    *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestCategory')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestCategory')?.hasError('required')">
                     Please select request category.
                   </mat-error>
                 </mat-form-field>
@@ -1196,16 +1196,16 @@
                   <!-- <input *ngIf="!editing" #input matInput formControlName="homeHealthAideRequestServiceDateTo" [readonly]="true"> -->
                   <input matInput [matDatepicker]="homeHealthAideRequestServiceDateTo"
                     formControlName="homeHealthAideRequestServiceDateTo" [errorStateMatcher]="matcher"
-                    [readonly]="homeHealthAide.checked === true? false: true"
+                    [readonly]="(editing && homeHealthAide.checked === true)? false: true"
                     [min]="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                     [value]="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
                     required>
                   <mat-label>Service Date To</mat-label>
                   <mat-error
-                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateTo')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideRequestServiceDateTo')?.hasError('required')">
                     Service Date To is required.
                   </mat-error>
-                  <mat-datepicker-toggle *ngIf="homeHealthAide.checked === true" matSuffix
+                  <mat-datepicker-toggle *ngIf="(editing && homeHealthAide.checked === true)" matSuffix
                     [for]="homeHealthAideRequestServiceDateTo">
                   </mat-datepicker-toggle>
                   <mat-datepicker #homeHealthAideRequestServiceDateTo></mat-datepicker>
@@ -1213,26 +1213,26 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input maxlength="3" formControlName="homeHealthAideVisit"
-                    [errorStateMatcher]="matcher" [readonly]="homeHealthAide.checked === true? false: true" required
-                    autocomplete="off" [pattern]="unitsPattern">
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="unitsPattern">
                   <mat-label>Total Visits Requested</mat-label>
                   <mat-error
-                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideVisit')?.hasError('pattern')">
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideVisit')?.hasError('pattern')">
                     Please enter a valid value for visits.
                   </mat-error>
                   <mat-error
-                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideVisit')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideVisit')?.hasError('required')">
                     Visit is required.
                   </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!homeHealthAide.checked === true" #input matInput
+                  <input *ngIf="!(editing && homeHealthAide.checked === true)" #input matInput
                     formControlName="homeHealthAideCertificationType"
-                    [readonly]="!homeHealthAide.checked === true? true: false" required>
+                    [readonly]="!(editing && homeHealthAide.checked === true)? true: false" required>
                   <mat-label>Certification Type</mat-label>
-                  <mat-select *ngIf="homeHealthAide.checked === true" formControlName="homeHealthAideCertificationType"
-                    required [compareWith]="compareFn">
+                  <mat-select *ngIf="(editing && homeHealthAide.checked === true)"
+                    formControlName="homeHealthAideCertificationType" required [compareWith]="compareFn">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
                       [value]="certificationTyp.name">
@@ -1240,7 +1240,7 @@
                     </mat-option>
                   </mat-select>
                   <mat-error
-                    *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideCertificationType')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideCertificationType')?.hasError('required')">
                     Please select certification type.
                   </mat-error>
                 </mat-form-field>
@@ -1252,37 +1252,37 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!homeHealthAide.checked === true" #input matInput
+                  <input *ngIf="!(editing && homeHealthAide.checked === true)" #input matInput
                     formControlName="homeHealthAideServiceType"
-                    [readonly]="!homeHealthAide.checked === true? true: false" required>
+                    [readonly]="!(editing && homeHealthAide.checked === true)? true: false" required>
                   <mat-label>Service Type</mat-label>
-                  <mat-select *ngIf="homeHealthAide.checked === true" formControlName="homeHealthAideServiceType"
-                    required [compareWith]="compareFn">
+                  <mat-select *ngIf="(editing && homeHealthAide.checked === true)"
+                    formControlName="homeHealthAideServiceType" required [compareWith]="compareFn">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
                       {{serviceTyp.name}}
                     </mat-option>
                   </mat-select>
                   <mat-error
-                    *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideServiceType')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideServiceType')?.hasError('required')">
                     Please select service type.
                   </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!homeHealthAide.checked === true" #input matInput
+                  <input *ngIf="!(editing && homeHealthAide.checked === true)" #input matInput
                     formControlName="homeHealthAideLevelOfService"
-                    [readonly]="!homeHealthAide.checked === true? true: false" required>
+                    [readonly]="!(editing && homeHealthAide.checked === true)? true: false" required>
                   <mat-label>Level Of Service</mat-label>
-                  <mat-select *ngIf="homeHealthAide.checked === true" formControlName="homeHealthAideLevelOfService"
-                    required>
+                  <mat-select *ngIf="(editing && homeHealthAide.checked === true)"
+                    formControlName="homeHealthAideLevelOfService" required>
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
                       {{levelOfServi.name}}
                     </mat-option>
                   </mat-select>
                   <mat-error
-                    *ngIf="preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideLevelOfService')?.hasError('required')">
+                    *ngIf="homeHealthAide.checked && preAuthForm.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideLevelOfService')?.hasError('required')">
                     Please select level of service.
                   </mat-error>
                 </mat-form-field>
@@ -1291,6 +1291,291 @@
             </mat-grid-tile>
 
           </mat-grid-list>
+
+          <mat-grid-list cols="3" rowHeight="40px">
+
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Home Health Aide Provider Certification</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <!-- Provider name, type and other details starts -->
+          <mat-grid-list cols="3" rowHeight="68px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="4">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="homeHealthAidePoviderLastName"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>Last Name</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAidePoviderLastName')?.hasError('pattern')">
+                    Please enter a valid last name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAidePoviderLastName')?.hasError('required')">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3"
+                    [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    formControlName="homeHealthAideProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="prefixPattern">
+                  <mat-label>Prefix</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderPrefix')?.hasError('pattern')">
+                    Please enter a valid prefix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="20" formControlName="homeHealthAideProviderIdentificationNumber"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="orgIdCodePatrn">
+                  <mat-label>Provider Identification No</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderIdentificationNumber')?.hasError('pattern')">
+                    Please enter a valid identification no.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderIdentificationNumber')?.hasError('required')">
+                    Identification number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && homeHealthAide.checked === true)" #input matInput
+                    formControlName="homeHealthAideProviderIdNumberType"
+                    [readonly]="!(editing && homeHealthAide.checked === true)? true: false" required>
+                  <mat-label>Supplement Id No Type</mat-label>
+                  <mat-select *ngIf="(editing && homeHealthAide.checked === true)"
+                    formControlName="homeHealthAideProviderIdNumberType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderIdNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="homeHealthAideProviderFirstName"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>First Name</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderFirstName')?.hasError('pattern')">
+                    Please enter a valid first name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderFirstName')?.hasError('required')">
+                    First name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="5" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    formControlName="homeHealthAideProviderSuffix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="suffixPattern">
+                  <mat-label>Suffix</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderSuffix')?.hasError('pattern')">
+                    Please enter a valid suffix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && homeHealthAide.checked === true)" #input matInput
+                    formControlName="homeHealthAideProviderIdentificationNumberType"
+                    [readonly]="!(editing && homeHealthAide.checked === true)? true: false" required>
+                  <mat-label>Provider Identification No Type</mat-label>
+                  <mat-select *ngIf="(editing && homeHealthAide.checked === true)"
+                    formControlName="homeHealthAideProviderIdentificationNumberType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderIdentificationNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="homeHealthAideProviderMiddleName"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>Middle Name</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderMiddleName')?.hasError('pattern')">
+                    Please enter a valid middleName.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && homeHealthAide.checked === true)" #input matInput
+                    formControlName="homeHealthAideProviderType"
+                    [readonly]="!(editing && homeHealthAide.checked === true)? true: false" required>
+                  <mat-label>Provider Type</mat-label>
+                  <mat-select *ngIf="(editing && homeHealthAide.checked === true)"
+                    formControlName="homeHealthAideProviderType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
+                      {{providerType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderType')?.hasError('required')">
+                    Please select provider type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="20" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    formControlName="homeHealthAideProviderSupplimentalId" [errorStateMatcher]="matcher" required
+                    autocomplete="off" [pattern]="supplIdPattern">
+                  <mat-label>Provider Supplement Id</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderSupplimentalId')?.hasError('pattern')">
+                    Please enter a valid Supplement Id.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderSupplimentalId')?.hasError('required')">
+                    Supplement Id is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider name, type and other details ends -->
+
+          <!-- Provider address details starts -->
+          <mat-grid-list cols="3" rowHeight="70px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="25" formControlName="homeHealthAideProviderAddress"
+                    [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    [required]="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderAddress')?.touched && (editing && homeHealthAide.checked === true)? true: false"
+                    autocomplete="off">
+                  <mat-label>Address</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderAddress')?.touched && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderAddress')?.hasError('pattern')">
+                    Please enter a valid address pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderAddress')?.touched && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderAddress')?.hasError('required')">
+                    Address is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="2" formControlName="homeHealthAideProviderState"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="statePattern">
+                  <mat-label>State</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderState')?.hasError('pattern')">
+                    Please enter a valid state pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderState')?.hasError('required')">
+                    State is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="4" formControlName="homeHealthAideProviderCity"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="cityPattern">
+                  <mat-label>City</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderCity')?.hasError('pattern')">
+                    Please enter a valid city pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderCity')?.hasError('required')">
+                    City is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="5" minlength="2" formControlName="homeHealthAideProviderCountryCode"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="countryCodePattern">
+                  <mat-label>Country Code</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderCountryCode')?.hasError('pattern')">
+                    Please enter a valid country code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderCountryCode')?.hasError('required')">
+                    Country Code is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="7" minlength="5" formControlName="homeHealthAideProviderPostalCode"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="zipPattern">
+                  <mat-label>Postal Code</mat-label>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderPostalCode')?.hasError('pattern')">
+                    Please enter a valid postal code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="homeHealthAide.checked && preAuthForm?.get('requestService')?.get('homeHealthAide')?.get('homeHealthAideProviderPostalCode')?.hasError('required')">
+                    Postal is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider address details ends -->
 
         </mat-expansion-panel>
 
@@ -1301,10 +1586,10 @@
       <div formGroupName="medicalSocialWork" class="medicalSocialWork"
         *ngIf="preAuthForm.get('requestService')?.get('medicalSocialWork')?.value !== null">
 
-        <mat-expansion-panel [expanded]="medicalSocialWork.checked === true ? true : false">
+        <mat-expansion-panel>
           <mat-expansion-panel-header class="disable_ripple">
             <mat-panel-title>
-              <mat-checkbox color="primary" [disabled]="editing? false: true" (keydown)="$event.stopPropagation()"
+              <mat-checkbox color="primary" (keydown)="$event.stopPropagation()" [disabled]="editing? false: true"
                 formControlName="medicalSocialWorkSelected" #medicalSocialWork>
                 Medical Social Work Service
               </mat-checkbox>
@@ -1322,7 +1607,7 @@
                   <!-- <input *ngIf="!editing" #input matInput formControlName="medicalSocialWorkRequestServiceDateFrom" [readonly]="true"> -->
                   <input matInput [matDatepicker]="medicalSocialWorkRequestServiceDateFrom"
                     formControlName="medicalSocialWorkRequestServiceDateFrom" [errorStateMatcher]="matcher"
-                    [readonly]="medicalSocialWork.checked === true ? false : true"
+                    [readonly]="(editing && medicalSocialWork.checked === true) ? false : true"
                     [max]="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
                     [value]="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                     required>
@@ -1332,7 +1617,7 @@
                     *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateFrom')?.hasError('required')">
                     Service Date From is required.
                   </mat-error>
-                  <mat-datepicker-toggle *ngIf="medicalSocialWork.checked === true" matSuffix
+                  <mat-datepicker-toggle *ngIf="(editing && medicalSocialWork.checked === true)" matSuffix
                     [for]="medicalSocialWorkRequestServiceDateFrom">
                   </mat-datepicker-toggle>
                   <mat-datepicker #medicalSocialWorkRequestServiceDateFrom></mat-datepicker>
@@ -1340,7 +1625,8 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input maxlength="3" formControlName="medicalSocialWorkUnit"
-                    [errorStateMatcher]="matcher" [readonly]="medicalSocialWork.checked === true? false: true" required
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
                     autocomplete="off" [pattern]="unitsPattern">
                   <mat-label>Units Requested Per Day</mat-label>
                   <mat-error
@@ -1354,11 +1640,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!medicalSocialWork.checked === true" #input matInput
+                  <input *ngIf="!(editing && medicalSocialWork.checked === true)" #input matInput
                     formControlName="medicalSocialWorkRequestCategory"
-                    [readonly]="!medicalSocialWork.checked === true? true: false" required>
+                    [readonly]="!(editing && medicalSocialWork.checked === true)? true: false" required>
                   <mat-label>Request Category</mat-label>
-                  <mat-select *ngIf="medicalSocialWork.checked === true"
+                  <mat-select *ngIf="(editing && medicalSocialWork.checked === true)"
                     formControlName="medicalSocialWorkRequestCategory" required [compareWith]="compareFn">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
@@ -1382,7 +1668,7 @@
                   <!-- <input *ngIf="!editing" #input matInput formControlName="medicalSocialWorkRequestServiceDateTo" [readonly]="true"> -->
                   <input matInput [matDatepicker]="medicalSocialWorkRequestServiceDateTo"
                     formControlName="medicalSocialWorkRequestServiceDateTo" [errorStateMatcher]="matcher"
-                    [readonly]="medicalSocialWork.checked === true? false: true"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true"
                     [min]="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                     [value]="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
                     required>
@@ -1391,7 +1677,7 @@
                     *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateTo')?.hasError('required')">
                     Service Date To is required.
                   </mat-error>
-                  <mat-datepicker-toggle *ngIf="medicalSocialWork.checked === true" matSuffix
+                  <mat-datepicker-toggle *ngIf="(editing && medicalSocialWork.checked === true)" matSuffix
                     [for]="medicalSocialWorkRequestServiceDateTo">
                   </mat-datepicker-toggle>
                   <mat-datepicker #medicalSocialWorkRequestServiceDateTo></mat-datepicker>
@@ -1399,7 +1685,8 @@
 
                 <mat-form-field class="no-padding">
                   <input matInput #input maxlength="3" formControlName="medicalSocialWorkVisit"
-                    [errorStateMatcher]="matcher" [readonly]="medicalSocialWork.checked === true? false: true" required
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
                     autocomplete="off" [pattern]="unitsPattern">
                   <mat-label>Total Visits Requested</mat-label>
                   <mat-error
@@ -1413,11 +1700,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!medicalSocialWork.checked === true" #input matInput
+                  <input *ngIf="!(editing && medicalSocialWork.checked === true)" #input matInput
                     formControlName="medicalSocialWorkCertificationType"
-                    [readonly]="!medicalSocialWork.checked === true? true: false" required>
+                    [readonly]="!(editing && medicalSocialWork.checked === true)? true: false" required>
                   <mat-label>Certification Type</mat-label>
-                  <mat-select *ngIf="medicalSocialWork.checked === true"
+                  <mat-select *ngIf="(editing && medicalSocialWork.checked === true)"
                     formControlName="medicalSocialWorkCertificationType" required [compareWith]="compareFn">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
@@ -1438,12 +1725,12 @@
               <div class="controles-container">
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!medicalSocialWork.checked === true" #input matInput
+                  <input *ngIf="!(editing && medicalSocialWork.checked === true)" #input matInput
                     formControlName="medicalSocialWorkServiceType"
-                    [readonly]="!medicalSocialWork.checked === true? true: false" required>
+                    [readonly]="!(editing && medicalSocialWork.checked === true)? true: false" required>
                   <mat-label>Service Type</mat-label>
-                  <mat-select *ngIf="medicalSocialWork.checked === true" formControlName="medicalSocialWorkServiceType"
-                    required [compareWith]="compareFn">
+                  <mat-select *ngIf="(editing && medicalSocialWork.checked === true)"
+                    formControlName="medicalSocialWorkServiceType" required [compareWith]="compareFn">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
                       {{serviceTyp.name}}
@@ -1456,11 +1743,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">
-                  <input *ngIf="!medicalSocialWork.checked === true" #input matInput
+                  <input *ngIf="!(editing && medicalSocialWork.checked === true)" #input matInput
                     formControlName="medicalSocialWorkLevelOfService"
-                    [readonly]="!medicalSocialWork.checked === true? true: false" required>
+                    [readonly]="!(editing && medicalSocialWork.checked === true)? true: false" required>
                   <mat-label>Level Of Service</mat-label>
-                  <mat-select *ngIf="medicalSocialWork.checked === true"
+                  <mat-select *ngIf="(editing && medicalSocialWork.checked === true)"
                     formControlName="medicalSocialWorkLevelOfService" required>
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
@@ -1478,6 +1765,302 @@
 
           </mat-grid-list>
 
+          <mat-grid-list cols="3" rowHeight="40px">
+
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Medical Social Work Provider Certification</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <!-- Provider name, type and other details starts -->
+          <mat-grid-list cols="3" rowHeight="68px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="4">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="medicalSocialWorkPoviderLastName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>Last Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkPoviderLastName')?.hasError('pattern')">
+                    Please enter a valid last name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkPoviderLastName')?.hasError('required')">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true"
+                    formControlName="medicalSocialWorkProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="prefixPattern">
+                  <mat-label>Prefix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderPrefix')?.hasError('pattern')">
+                    Please enter a valid prefix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="20" formControlName="medicalSocialWorkProviderIdentificationNumber"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off" [pattern]="orgIdCodePatrn">
+                  <mat-label>Provider Identification No</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderIdentificationNumber')?.hasError('pattern')">
+                    Please enter a valid identification no.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderIdentificationNumber')?.hasError('required')">
+                    Identification number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && medicalSocialWork.checked === true)" #input matInput
+                    formControlName="medicalSocialWorkProviderIdNumberType"
+                    [readonly]="!(editing && medicalSocialWork.checked === true)? true: false" required>
+                  <mat-label>Supplement Id No Type</mat-label>
+                  <mat-select *ngIf="(editing && medicalSocialWork.checked === true)"
+                    formControlName="medicalSocialWorkProviderIdNumberType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderIdNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="medicalSocialWorkProviderFirstName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>First Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderFirstName')?.hasError('pattern')">
+                    Please enter a valid first name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderFirstName')?.hasError('required')">
+                    First name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="5"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true"
+                    formControlName="medicalSocialWorkProviderSuffix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="suffixPattern">
+                  <mat-label>Suffix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderSuffix')?.hasError('pattern')">
+                    Please enter a valid suffix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && medicalSocialWork.checked === true)" #input matInput
+                    formControlName="medicalSocialWorkProviderIdentificationNumberType"
+                    [readonly]="!(editing && medicalSocialWork.checked === true)? true: false" required>
+                  <mat-label>Provider Identification No Type</mat-label>
+                  <mat-select *ngIf="(editing && medicalSocialWork.checked === true)"
+                    formControlName="medicalSocialWorkProviderIdentificationNumberType" required
+                    [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderIdentificationNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="medicalSocialWorkProviderMiddleName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>Middle Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderMiddleName')?.hasError('pattern')">
+                    Please enter a valid middleName.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && medicalSocialWork.checked === true)" #input matInput
+                    formControlName="medicalSocialWorkProviderType"
+                    [readonly]="!(editing && medicalSocialWork.checked === true)? true: false" required>
+                  <mat-label>Provider Type</mat-label>
+                  <mat-select *ngIf="(editing && medicalSocialWork.checked === true)"
+                    formControlName="medicalSocialWorkProviderType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
+                      {{providerType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderType')?.hasError('required')">
+                    Please select provider type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="20"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true"
+                    formControlName="medicalSocialWorkProviderSupplimentalId" [errorStateMatcher]="matcher" required
+                    autocomplete="off" [pattern]="supplIdPattern">
+                  <mat-label>Provider Supplement Id</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderSupplimentalId')?.hasError('pattern')">
+                    Please enter a valid Supplement Id.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderSupplimentalId')?.hasError('required')">
+                    Supplement Id is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider name, type and other details ends -->
+
+          <!-- Provider address details starts -->
+          <mat-grid-list cols="3" rowHeight="70px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="25" formControlName="medicalSocialWorkProviderAddress"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off">
+                  <mat-label>Address</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderAddress')?.hasError('pattern')">
+                    Please enter a valid address pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderAddress')?.hasError('required')">
+                    Address is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="2" formControlName="medicalSocialWorkProviderState"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off" [pattern]="statePattern">
+                  <mat-label>State</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderState')?.hasError('pattern')">
+                    Please enter a valid state pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderState')?.hasError('required')">
+                    State is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="4" formControlName="medicalSocialWorkProviderCity"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off" [pattern]="cityPattern">
+                  <mat-label>City</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderCity')?.hasError('pattern')">
+                    Please enter a valid city pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderCity')?.hasError('required')">
+                    City is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="5" minlength="2"
+                    formControlName="medicalSocialWorkProviderCountryCode" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off" [pattern]="countryCodePattern">
+                  <mat-label>Country Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderCountryCode')?.hasError('pattern')">
+                    Please enter a valid country code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderCountryCode')?.hasError('required')">
+                    Country Code is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="7" minlength="5"
+                    formControlName="medicalSocialWorkProviderPostalCode" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && medicalSocialWork.checked === true)? false: true" required
+                    autocomplete="off" [pattern]="zipPattern">
+                  <mat-label>Postal Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderPostalCode')?.hasError('pattern')">
+                    Please enter a valid postal code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkProviderPostalCode')?.hasError('required')">
+                    Postal is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider address details ends -->
+
         </mat-expansion-panel>
 
       </div>
@@ -1487,7 +2070,531 @@
       <div formGroupName="occupationTherapy" class="occupationTherapy"
         *ngIf="preAuthForm.get('requestService')?.get('occupationTherapy')?.value !== null">
 
+        <mat-expansion-panel>
+          <mat-expansion-panel-header class="disable_ripple">
+            <mat-panel-title>
+              <mat-checkbox color="primary" (keydown)="$event.stopPropagation()" [disabled]="editing? false: true"
+                formControlName="occupationTherapySelected" #occupationTherapy>
+                Occupation Therapy Service
+              </mat-checkbox>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
+          <mat-grid-list cols="3" rowHeight="66px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="occupationTherapyRequestServiceDateFrom" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="occupationTherapyRequestServiceDateFrom"
+                    formControlName="occupationTherapyRequestServiceDateFrom" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateFrom')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true) ? false : true"
+                    [max]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'">
+                  <!-- [max]="preAuthForm?.get('requestService')?.get('serviceDateTo')?.value" -->
+                  <mat-label>Service Date From</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateFrom')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateFrom')?.hasError('required')">
+                    Service Date From is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && occupationTherapy.checked === true)" matSuffix
+                    [for]="occupationTherapyRequestServiceDateFrom">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #occupationTherapyRequestServiceDateFrom></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="occupationTherapyUnit" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyUnit')?.touched &&
+                  (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="unitsPattern">
+                  <mat-label>Units Requested Per Day</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyUnit')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyUnit')?.hasError('pattern')">
+                    Please enter a valid value for unit.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyUnit')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyUnit')?.hasError('required')">
+                    Unit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && occupationTherapy.checked === true)" #input matInput
+                    formControlName="occupationTherapyRequestCategory"
+                    [readonly]="!(editing && occupationTherapy.checked === true)? true: false" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestCategory')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                  <mat-label>Request Category</mat-label>
+                  <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
+                    formControlName="occupationTherapyRequestCategory" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestCategory')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
+                      [value]="requestCatego.name">
+                      {{requestCatego.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestCategory')?.touched && 
+                    preAuthForm.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestCategory')?.hasError('required')">
+                    Please select request category.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="occupationTherapyRequestServiceDateTo" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="occupationTherapyRequestServiceDateTo"
+                    formControlName="occupationTherapyRequestServiceDateTo" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateTo')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true"
+                    [min]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateTo')?.value | date:'yyyy-MM-dd'">
+                  <mat-label>Service Date To</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateTo')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyRequestServiceDateTo')?.hasError('required')">
+                    Service Date To is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && occupationTherapy.checked === true)" matSuffix
+                    [for]="occupationTherapyRequestServiceDateTo">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #occupationTherapyRequestServiceDateTo></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="occupationTherapyVisit" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyVisit')?.touched &&
+                  (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="unitsPattern">
+                  <mat-label>Total Visits Requested</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyVisit')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyVisit')?.hasError('pattern')">
+                    Please enter a valid value for visits.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyVisit')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyVisit')?.hasError('required')">
+                    Visit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && occupationTherapy.checked === true)" #input matInput
+                    formControlName="occupationTherapyCertificationType"
+                    [readonly]="!(editing && occupationTherapy.checked === true)? true: false" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyCertificationType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                  <mat-label>Certification Type</mat-label>
+                  <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
+                    formControlName="occupationTherapyCertificationType" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyCertificationType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
+                      [value]="certificationTyp.name">
+                      {{certificationTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyCertificationType')?.touched && 
+                    preAuthForm.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyCertificationType')?.hasError('required')">
+                    Please select certification type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && occupationTherapy.checked === true)" #input matInput
+                    formControlName="occupationTherapyServiceType"
+                    [readonly]="!(editing && occupationTherapy.checked === true)? true: false" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                  <mat-label>Service Type</mat-label>
+                  <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
+                    formControlName="occupationTherapyServiceType" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
+                      {{serviceTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.touched && 
+                    preAuthForm.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.hasError('required')">
+                    Please select service type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && occupationTherapy.checked === true)" #input matInput
+                    formControlName="occupationTherapyLevelOfService"
+                    [readonly]="!(editing && occupationTherapy.checked === true)? true: false" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyLevelOfService')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                  <mat-label>Level Of Service</mat-label>
+                  <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
+                    formControlName="occupationTherapyLevelOfService" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyLevelOfService')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
+                      {{levelOfServi.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyLevelOfService')?.touched && 
+                    preAuthForm.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyLevelOfService')?.hasError('required')">
+                    Please select level of service.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <mat-grid-list cols="3" rowHeight="40px">
+
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Occupation Therapy Provider Certification</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <!-- Provider name, type and other details starts -->
+          <mat-grid-list cols="3" rowHeight="68px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="4">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="occupationTherapyPoviderLastName" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyPoviderLastName')?.touched &&
+                  (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>Last Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyPoviderLastName')?.touched &&
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyPoviderLastName')?.hasError('pattern')">
+                    Please enter a valid last name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyPoviderLastName')?.touched &&
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyPoviderLastName')?.hasError('required')">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true"
+                    formControlName="occupationTherapyProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="prefixPattern">
+                  <mat-label>Prefix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderPrefix')?.hasError('pattern')">
+                    Please enter a valid prefix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="20" formControlName="occupationTherapyProviderIdentificationNumber"
+                    [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumber')?.touched &&
+                  (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="orgIdCodePatrn">
+                  <mat-label>Provider Identification No</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumber')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumber')?.hasError('pattern')">
+                    Please enter a valid identification no.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumber')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumber')?.hasError('required')">
+                    Identification number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && occupationTherapy.checked === true)" #input matInput
+                    formControlName="occupationTherapyProviderIdNumberType"
+                    [readonly]="!(editing && occupationTherapy.checked === true)? true: false" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdNumberType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                  <mat-label>Supplement Id No Type</mat-label>
+                  <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
+                    formControlName="occupationTherapyProviderIdNumberType" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdNumberType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdNumberType')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="occupationTherapyProviderFirstName" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderFirstName')?.touched &&
+                  (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>First Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderFirstName')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderFirstName')?.hasError('pattern')">
+                    Please enter a valid first name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderFirstName')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderFirstName')?.hasError('required')">
+                    First name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="5"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true"
+                    formControlName="occupationTherapyProviderSuffix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="suffixPattern">
+                  <mat-label>Suffix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderSuffix')?.hasError('pattern')">
+                    Please enter a valid suffix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && occupationTherapy.checked === true)" #input matInput
+                    formControlName="occupationTherapyProviderIdentificationNumberType"
+                    [readonly]="!(editing && occupationTherapy.checked === true)? true: false" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumberType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                  <mat-label>Provider Identification No Type</mat-label>
+                  <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
+                    formControlName="occupationTherapyProviderIdentificationNumberType" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumberType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumberType')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderIdentificationNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="occupationTherapyProviderMiddleName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>Middle Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderMiddleName')?.hasError('pattern')">
+                    Please enter a valid middleName.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && occupationTherapy.checked === true)" #input matInput
+                    formControlName="occupationTherapyProviderType"
+                    [readonly]="!(editing && occupationTherapy.checked === true)? true: false" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false">
+                  <mat-label>Provider Type</mat-label>
+                  <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
+                    formControlName="occupationTherapyProviderType" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderType')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
+                      {{providerType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderType')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderType')?.hasError('required')">
+                    Please select provider type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="20"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true"
+                    formControlName="occupationTherapyProviderSupplimentalId" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderSupplimentalId')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false" autocomplete="off"
+                    [pattern]="supplIdPattern">
+                  <mat-label>Provider Supplement Id</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderSupplimentalId')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderSupplimentalId')?.hasError('pattern')">
+                    Please enter a valid Supplement Id.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderSupplimentalId')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderSupplimentalId')?.hasError('required')">
+                    Supplement Id is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider name, type and other details ends -->
+
+          <!-- Provider address details starts -->
+          <mat-grid-list cols="3" rowHeight="70px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="25" formControlName="occupationTherapyProviderAddress"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderAddress')?.touched &&
+                     (editing && occupationTherapy.checked === true)? true: false" autocomplete="off">
+                  <mat-label>Address</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderAddress')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderAddress')?.hasError('pattern')">
+                    Please enter a valid address pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderAddress')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderAddress')?.hasError('required')">
+                    Address is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="2" formControlName="occupationTherapyProviderState"
+                    [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderState')?.touched &&
+                  (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="statePattern">
+                  <mat-label>State</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderState')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderState')?.hasError('pattern')">
+                    Please enter a valid state pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderState')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderState')?.hasError('required')">
+                    State is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="4" formControlName="occupationTherapyProviderCity"
+                    [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCity')?.touched &&
+                  (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="cityPattern">
+                  <mat-label>City</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCity')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCity')?.hasError('pattern')">
+                    Please enter a valid city pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCity')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCity')?.hasError('required')">
+                    City is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="5" minlength="2"
+                    formControlName="occupationTherapyProviderCountryCode" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCountryCode')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="countryCodePattern">
+                  <mat-label>Country Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCountryCode')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCountryCode')?.hasError('pattern')">
+                    Please enter a valid country code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCountryCode')?.touched && 
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderCountryCode')?.hasError('required')">
+                    Country Code is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="7" minlength="5"
+                    formControlName="occupationTherapyProviderPostalCode" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderPostalCode')?.touched &&
+                    (editing && occupationTherapy.checked === true)? true: false"
+                    [readonly]="(editing && occupationTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="zipPattern">
+                  <mat-label>Postal Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderPostalCode')?.touched &&
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderPostalCode')?.hasError('pattern')">
+                    Please enter a valid postal code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderPostalCode')?.touched &&
+                    preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyProviderPostalCode')?.hasError('required')">
+                    Postal is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider address details ends -->
+
+        </mat-expansion-panel>
 
       </div>
       <!-- occupationTherapy Service ends-->
@@ -1496,7 +2603,468 @@
       <div formGroupName="skilledNursing" class="skilledNursing"
         *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.value !== null">
 
+        <mat-expansion-panel>
+          <mat-expansion-panel-header class="disable_ripple">
+            <mat-panel-title>
+              <mat-checkbox color="primary" (keydown)="$event.stopPropagation()" [disabled]="editing? false: true"
+                formControlName="skilledNursingSelected" #skilledNursing>
+                Skilled Nursing Service
+              </mat-checkbox>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
+          <mat-grid-list cols="3" rowHeight="66px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="skilledNursingRequestServiceDateFrom" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="skilledNursingRequestServiceDateFrom"
+                    formControlName="skilledNursingRequestServiceDateFrom" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && skilledNursing.checked === true) ? false : true"
+                    [max]="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                    required>
+                  <!-- [max]="preAuthForm?.get('requestService')?.get('serviceDateTo')?.value" -->
+                  <mat-label>Service Date From</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingRequestServiceDateFrom')?.hasError('required')">
+                    Service Date From is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && skilledNursing.checked === true)" matSuffix
+                    [for]="skilledNursingRequestServiceDateFrom">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #skilledNursingRequestServiceDateFrom></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="skilledNursingUnit"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="unitsPattern">
+                  <mat-label>Units Requested Per Day</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingUnit')?.hasError('pattern')">
+                    Please enter a valid value for unit.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingUnit')?.hasError('required')">
+                    Unit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && skilledNursing.checked === true)" #input matInput
+                    formControlName="skilledNursingRequestCategory"
+                    [readonly]="!(editing && skilledNursing.checked === true)? true: false" required>
+                  <mat-label>Request Category</mat-label>
+                  <mat-select *ngIf="(editing && skilledNursing.checked === true)"
+                    formControlName="skilledNursingRequestCategory" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
+                      [value]="requestCatego.name">
+                      {{requestCatego.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.get('skilledNursingRequestCategory')?.hasError('required')">
+                    Please select request category.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="skilledNursingRequestServiceDateTo" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="skilledNursingRequestServiceDateTo"
+                    formControlName="skilledNursingRequestServiceDateTo" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    [min]="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                    required>
+                  <mat-label>Service Date To</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingRequestServiceDateTo')?.hasError('required')">
+                    Service Date To is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && skilledNursing.checked === true)" matSuffix
+                    [for]="skilledNursingRequestServiceDateTo">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #skilledNursingRequestServiceDateTo></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="skilledNursingVisit"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="unitsPattern">
+                  <mat-label>Total Visits Requested</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingVisit')?.hasError('pattern')">
+                    Please enter a valid value for visits.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingVisit')?.hasError('required')">
+                    Visit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && skilledNursing.checked === true)" #input matInput
+                    formControlName="skilledNursingCertificationType"
+                    [readonly]="!(editing && skilledNursing.checked === true)? true: false" required>
+                  <mat-label>Certification Type</mat-label>
+                  <mat-select *ngIf="(editing && skilledNursing.checked === true)"
+                    formControlName="skilledNursingCertificationType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
+                      [value]="certificationTyp.name">
+                      {{certificationTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.get('skilledNursingCertificationType')?.hasError('required')">
+                    Please select certification type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && skilledNursing.checked === true)" #input matInput
+                    formControlName="skilledNursingServiceType"
+                    [readonly]="!(editing && skilledNursing.checked === true)? true: false" required>
+                  <mat-label>Service Type</mat-label>
+                  <mat-select *ngIf="(editing && skilledNursing.checked === true)"
+                    formControlName="skilledNursingServiceType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
+                      {{serviceTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.get('skilledNursingServiceType')?.hasError('required')">
+                    Please select service type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && skilledNursing.checked === true)" #input matInput
+                    formControlName="skilledNursingLevelOfService"
+                    [readonly]="!(editing && skilledNursing.checked === true)? true: false" required>
+                  <mat-label>Level Of Service</mat-label>
+                  <mat-select *ngIf="(editing && skilledNursing.checked === true)"
+                    formControlName="skilledNursingLevelOfService" required>
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
+                      {{levelOfServi.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('skilledNursing')?.get('skilledNursingLevelOfService')?.hasError('required')">
+                    Please select level of service.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <mat-grid-list cols="3" rowHeight="40px">
+
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Skilled Nursing Provider Certification</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <!-- Provider name, type and other details starts -->
+          <mat-grid-list cols="3" rowHeight="68px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="4">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="skilledNursingPoviderLastName"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>Last Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingPoviderLastName')?.hasError('pattern')">
+                    Please enter a valid last name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingPoviderLastName')?.hasError('required')">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3"
+                    [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    formControlName="skilledNursingProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="prefixPattern">
+                  <mat-label>Prefix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderPrefix')?.hasError('pattern')">
+                    Please enter a valid prefix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="20" formControlName="skilledNursingProviderIdentificationNumber"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="orgIdCodePatrn">
+                  <mat-label>Provider Identification No</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderIdentificationNumber')?.hasError('pattern')">
+                    Please enter a valid identification no.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderIdentificationNumber')?.hasError('required')">
+                    Identification number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && skilledNursing.checked === true)" #input matInput
+                    formControlName="skilledNursingProviderIdNumberType"
+                    [readonly]="!(editing && skilledNursing.checked === true)? true: false" required>
+                  <mat-label>Supplement Id No Type</mat-label>
+                  <mat-select *ngIf="(editing && skilledNursing.checked === true)"
+                    formControlName="skilledNursingProviderIdNumberType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderIdNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="skilledNursingProviderFirstName"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>First Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderFirstName')?.hasError('pattern')">
+                    Please enter a valid first name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderFirstName')?.hasError('required')">
+                    First name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="5" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    formControlName="skilledNursingProviderSuffix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="suffixPattern">
+                  <mat-label>Suffix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderSuffix')?.hasError('pattern')">
+                    Please enter a valid suffix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && skilledNursing.checked === true)" #input matInput
+                    formControlName="skilledNursingProviderIdentificationNumberType"
+                    [readonly]="!(editing && skilledNursing.checked === true)? true: false" required>
+                  <mat-label>Provider Identification No Type</mat-label>
+                  <mat-select *ngIf="(editing && skilledNursing.checked === true)"
+                    formControlName="skilledNursingProviderIdentificationNumberType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderIdentificationNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="skilledNursingProviderMiddleName"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    autocomplete="off" [pattern]="userNamePattern">
+                  <mat-label>Middle Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderMiddleName')?.hasError('pattern')">
+                    Please enter a valid middleName.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && skilledNursing.checked === true)" #input matInput
+                    formControlName="skilledNursingProviderType"
+                    [readonly]="!(editing && skilledNursing.checked === true)? true: false" required>
+                  <mat-label>Provider Type</mat-label>
+                  <mat-select *ngIf="(editing && skilledNursing.checked === true)"
+                    formControlName="skilledNursingProviderType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
+                      {{providerType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderType')?.hasError('required')">
+                    Please select provider type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="20" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    formControlName="skilledNursingProviderSupplimentalId" [errorStateMatcher]="matcher" required
+                    autocomplete="off" [pattern]="supplIdPattern">
+                  <mat-label>Provider Supplement Id</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderSupplimentalId')?.hasError('pattern')">
+                    Please enter a valid Supplement Id.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderSupplimentalId')?.hasError('required')">
+                    Supplement Id is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider name, type and other details ends -->
+
+          <!-- Provider address details starts -->
+          <mat-grid-list cols="3" rowHeight="70px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="25" formControlName="skilledNursingProviderAddress"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off">
+                  <mat-label>Address</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderAddress')?.hasError('pattern')">
+                    Please enter a valid address pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderAddress')?.hasError('required')">
+                    Address is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="2" formControlName="skilledNursingProviderState"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="statePattern">
+                  <mat-label>State</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderState')?.hasError('pattern')">
+                    Please enter a valid state pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderState')?.hasError('required')">
+                    State is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="4" formControlName="skilledNursingProviderCity"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="cityPattern">
+                  <mat-label>City</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderCity')?.hasError('pattern')">
+                    Please enter a valid city pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderCity')?.hasError('required')">
+                    City is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="5" minlength="2" formControlName="skilledNursingProviderCountryCode"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="countryCodePattern">
+                  <mat-label>Country Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderCountryCode')?.hasError('pattern')">
+                    Please enter a valid country code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderCountryCode')?.hasError('required')">
+                    Country Code is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="7" minlength="5" formControlName="skilledNursingProviderPostalCode"
+                    [errorStateMatcher]="matcher" [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                    required autocomplete="off" [pattern]="zipPattern">
+                  <mat-label>Postal Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderPostalCode')?.hasError('pattern')">
+                    Please enter a valid postal code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('skilledNursing')?.get('skilledNursingProviderPostalCode')?.hasError('required')">
+                    Postal is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider address details ends -->
+
+        </mat-expansion-panel>
 
       </div>
       <!-- skilledNursing Service ends-->
@@ -1505,7 +3073,479 @@
       <div formGroupName="physicalTherapy" class="physicalTherapy"
         *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.value !== null">
 
+        <mat-expansion-panel>
+          <mat-expansion-panel-header class="disable_ripple">
+            <mat-panel-title>
+              <mat-checkbox color="primary" (keydown)="$event.stopPropagation()" [disabled]="editing? false: true"
+                formControlName="physicalTherapySelected" #physicalTherapy>
+                Physical Therapy Service
+              </mat-checkbox>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
+          <mat-grid-list cols="3" rowHeight="66px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="physicalTherapyRequestServiceDateFrom" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="physicalTherapyRequestServiceDateFrom"
+                    formControlName="physicalTherapyRequestServiceDateFrom" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true) ? false : true"
+                    [max]="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                    required>
+                  <!-- [max]="preAuthForm?.get('requestService')?.get('serviceDateTo')?.value" -->
+                  <mat-label>Service Date From</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyRequestServiceDateFrom')?.hasError('required')">
+                    Service Date From is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && physicalTherapy.checked === true)" matSuffix
+                    [for]="physicalTherapyRequestServiceDateFrom">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #physicalTherapyRequestServiceDateFrom></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="physicalTherapyUnit"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="unitsPattern">
+                  <mat-label>Units Requested Per Day</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyUnit')?.hasError('pattern')">
+                    Please enter a valid value for unit.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyUnit')?.hasError('required')">
+                    Unit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && physicalTherapy.checked === true)" #input matInput
+                    formControlName="physicalTherapyRequestCategory"
+                    [readonly]="!(editing && physicalTherapy.checked === true)? true: false" required>
+                  <mat-label>Request Category</mat-label>
+                  <mat-select *ngIf="(editing && physicalTherapy.checked === true)"
+                    formControlName="physicalTherapyRequestCategory" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
+                      [value]="requestCatego.name">
+                      {{requestCatego.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyRequestCategory')?.hasError('required')">
+                    Please select request category.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="physicalTherapyRequestServiceDateTo" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="physicalTherapyRequestServiceDateTo"
+                    formControlName="physicalTherapyRequestServiceDateTo" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true"
+                    [min]="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                    required>
+                  <mat-label>Service Date To</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyRequestServiceDateTo')?.hasError('required')">
+                    Service Date To is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && physicalTherapy.checked === true)" matSuffix
+                    [for]="physicalTherapyRequestServiceDateTo">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #physicalTherapyRequestServiceDateTo></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="physicalTherapyVisit"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="unitsPattern">
+                  <mat-label>Total Visits Requested</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyVisit')?.hasError('pattern')">
+                    Please enter a valid value for visits.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyVisit')?.hasError('required')">
+                    Visit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && physicalTherapy.checked === true)" #input matInput
+                    formControlName="physicalTherapyCertificationType"
+                    [readonly]="!(editing && physicalTherapy.checked === true)? true: false" required>
+                  <mat-label>Certification Type</mat-label>
+                  <mat-select *ngIf="(editing && physicalTherapy.checked === true)"
+                    formControlName="physicalTherapyCertificationType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
+                      [value]="certificationTyp.name">
+                      {{certificationTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyCertificationType')?.hasError('required')">
+                    Please select certification type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && physicalTherapy.checked === true)" #input matInput
+                    formControlName="physicalTherapyServiceType"
+                    [readonly]="!(editing && physicalTherapy.checked === true)? true: false" required>
+                  <mat-label>Service Type</mat-label>
+                  <mat-select *ngIf="(editing && physicalTherapy.checked === true)"
+                    formControlName="physicalTherapyServiceType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
+                      {{serviceTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyServiceType')?.hasError('required')">
+                    Please select service type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && physicalTherapy.checked === true)" #input matInput
+                    formControlName="physicalTherapyLevelOfService"
+                    [readonly]="!(editing && physicalTherapy.checked === true)? true: false" required>
+                  <mat-label>Level Of Service</mat-label>
+                  <mat-select *ngIf="(editing && physicalTherapy.checked === true)"
+                    formControlName="physicalTherapyLevelOfService" required>
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
+                      {{levelOfServi.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyLevelOfService')?.hasError('required')">
+                    Please select level of service.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <mat-grid-list cols="3" rowHeight="40px">
+
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Physical Therapy Provider Certification</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <!-- Provider name, type and other details starts -->
+          <mat-grid-list cols="3" rowHeight="68px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="4">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="physicalTherapyPoviderLastName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>Last Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyPoviderLastName')?.hasError('pattern')">
+                    Please enter a valid last name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyPoviderLastName')?.hasError('required')">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true"
+                    formControlName="physicalTherapyProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="prefixPattern">
+                  <mat-label>Prefix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderPrefix')?.hasError('pattern')">
+                    Please enter a valid prefix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="20" formControlName="physicalTherapyProviderIdentificationNumber"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="orgIdCodePatrn">
+                  <mat-label>Provider Identification No</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderIdentificationNumber')?.hasError('pattern')">
+                    Please enter a valid identification no.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderIdentificationNumber')?.hasError('required')">
+                    Identification number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && physicalTherapy.checked === true)" #input matInput
+                    formControlName="physicalTherapyProviderIdNumberType"
+                    [readonly]="!(editing && physicalTherapy.checked === true)? true: false" required>
+                  <mat-label>Supplement Id No Type</mat-label>
+                  <mat-select *ngIf="(editing && physicalTherapy.checked === true)"
+                    formControlName="physicalTherapyProviderIdNumberType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderIdNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="physicalTherapyProviderFirstName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>First Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderFirstName')?.hasError('pattern')">
+                    Please enter a valid first name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderFirstName')?.hasError('required')">
+                    First name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="5" [readonly]="(editing && physicalTherapy.checked === true)? false: true"
+                    formControlName="physicalTherapyProviderSuffix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="suffixPattern">
+                  <mat-label>Suffix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderSuffix')?.hasError('pattern')">
+                    Please enter a valid suffix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && physicalTherapy.checked === true)" #input matInput
+                    formControlName="physicalTherapyProviderIdentificationNumberType"
+                    [readonly]="!(editing && physicalTherapy.checked === true)? true: false" required>
+                  <mat-label>Provider Identification No Type</mat-label>
+                  <mat-select *ngIf="(editing && physicalTherapy.checked === true)"
+                    formControlName="physicalTherapyProviderIdentificationNumberType" required
+                    [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderIdentificationNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="physicalTherapyProviderMiddleName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>Middle Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderMiddleName')?.hasError('pattern')">
+                    Please enter a valid middleName.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && physicalTherapy.checked === true)" #input matInput
+                    formControlName="physicalTherapyProviderType"
+                    [readonly]="!(editing && physicalTherapy.checked === true)? true: false" required>
+                  <mat-label>Provider Type</mat-label>
+                  <mat-select *ngIf="(editing && physicalTherapy.checked === true)"
+                    formControlName="physicalTherapyProviderType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
+                      {{providerType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderType')?.hasError('required')">
+                    Please select provider type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="20" [readonly]="(editing && physicalTherapy.checked === true)? false: true"
+                    formControlName="physicalTherapyProviderSupplimentalId" [errorStateMatcher]="matcher" required
+                    autocomplete="off" [pattern]="supplIdPattern">
+                  <mat-label>Provider Supplement Id</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderSupplimentalId')?.hasError('pattern')">
+                    Please enter a valid Supplement Id.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderSupplimentalId')?.hasError('required')">
+                    Supplement Id is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider name, type and other details ends -->
+
+          <!-- Provider address details starts -->
+          <mat-grid-list cols="3" rowHeight="70px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="25" formControlName="physicalTherapyProviderAddress"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off">
+                  <mat-label>Address</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderAddress')?.hasError('pattern')">
+                    Please enter a valid address pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderAddress')?.hasError('required')">
+                    Address is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="2" formControlName="physicalTherapyProviderState"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="statePattern">
+                  <mat-label>State</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderState')?.hasError('pattern')">
+                    Please enter a valid state pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderState')?.hasError('required')">
+                    State is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="4" formControlName="physicalTherapyProviderCity"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="cityPattern">
+                  <mat-label>City</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderCity')?.hasError('pattern')">
+                    Please enter a valid city pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderCity')?.hasError('required')">
+                    City is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="5" minlength="2"
+                    formControlName="physicalTherapyProviderCountryCode" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="countryCodePattern">
+                  <mat-label>Country Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderCountryCode')?.hasError('pattern')">
+                    Please enter a valid country code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderCountryCode')?.hasError('required')">
+                    Country Code is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="7" minlength="5" formControlName="physicalTherapyProviderPostalCode"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && physicalTherapy.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="zipPattern">
+                  <mat-label>Postal Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderPostalCode')?.hasError('pattern')">
+                    Please enter a valid postal code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyProviderPostalCode')?.hasError('required')">
+                    Postal is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider address details ends -->
+
+        </mat-expansion-panel>
 
       </div>
       <!-- physicalTherapy Service ends-->
@@ -1514,7 +3554,479 @@
       <div formGroupName="speechPathology" class="speechPathology"
         *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.value !== null">
 
+        <mat-expansion-panel>
+          <mat-expansion-panel-header class="disable_ripple">
+            <mat-panel-title>
+              <mat-checkbox color="primary" (keydown)="$event.stopPropagation()" [disabled]="editing? false: true"
+                formControlName="speechPathologySelected" #speechPathology>
+                Speech Pathology Service
+              </mat-checkbox>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
+          <mat-grid-list cols="3" rowHeight="66px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="speechPathologyRequestServiceDateFrom" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="speechPathologyRequestServiceDateFrom"
+                    formControlName="speechPathologyRequestServiceDateFrom" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true) ? false : true"
+                    [max]="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                    required>
+                  <!-- [max]="preAuthForm?.get('requestService')?.get('serviceDateTo')?.value" -->
+                  <mat-label>Service Date From</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyRequestServiceDateFrom')?.hasError('required')">
+                    Service Date From is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && speechPathology.checked === true)" matSuffix
+                    [for]="speechPathologyRequestServiceDateFrom">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #speechPathologyRequestServiceDateFrom></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="speechPathologyUnit"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="unitsPattern">
+                  <mat-label>Units Requested Per Day</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyUnit')?.hasError('pattern')">
+                    Please enter a valid value for unit.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyUnit')?.hasError('required')">
+                    Unit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && speechPathology.checked === true)" #input matInput
+                    formControlName="speechPathologyRequestCategory"
+                    [readonly]="!(editing && speechPathology.checked === true)? true: false" required>
+                  <mat-label>Request Category</mat-label>
+                  <mat-select *ngIf="(editing && speechPathology.checked === true)"
+                    formControlName="speechPathologyRequestCategory" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
+                      [value]="requestCatego.name">
+                      {{requestCatego.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.get('speechPathologyRequestCategory')?.hasError('required')">
+                    Please select request category.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <!-- <input *ngIf="!editing" #input matInput formControlName="speechPathologyRequestServiceDateTo" [readonly]="true"> -->
+                  <input matInput [matDatepicker]="speechPathologyRequestServiceDateTo"
+                    formControlName="speechPathologyRequestServiceDateTo" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true"
+                    [min]="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                    [value]="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyRequestServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                    required>
+                  <mat-label>Service Date To</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyRequestServiceDateTo')?.hasError('required')">
+                    Service Date To is required.
+                  </mat-error>
+                  <mat-datepicker-toggle *ngIf="(editing && speechPathology.checked === true)" matSuffix
+                    [for]="speechPathologyRequestServiceDateTo">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #speechPathologyRequestServiceDateTo></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3" formControlName="speechPathologyVisit"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="unitsPattern">
+                  <mat-label>Total Visits Requested</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyVisit')?.hasError('pattern')">
+                    Please enter a valid value for visits.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyVisit')?.hasError('required')">
+                    Visit is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && speechPathology.checked === true)" #input matInput
+                    formControlName="speechPathologyCertificationType"
+                    [readonly]="!(editing && speechPathology.checked === true)? true: false" required>
+                  <mat-label>Certification Type</mat-label>
+                  <mat-select *ngIf="(editing && speechPathology.checked === true)"
+                    formControlName="speechPathologyCertificationType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
+                      [value]="certificationTyp.name">
+                      {{certificationTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.get('speechPathologyCertificationType')?.hasError('required')">
+                    Please select certification type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && speechPathology.checked === true)" #input matInput
+                    formControlName="speechPathologyServiceType"
+                    [readonly]="!(editing && speechPathology.checked === true)? true: false" required>
+                  <mat-label>Service Type</mat-label>
+                  <mat-select *ngIf="(editing && speechPathology.checked === true)"
+                    formControlName="speechPathologyServiceType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
+                      {{serviceTyp.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.get('speechPathologyServiceType')?.hasError('required')">
+                    Please select service type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && speechPathology.checked === true)" #input matInput
+                    formControlName="speechPathologyLevelOfService"
+                    [readonly]="!(editing && speechPathology.checked === true)? true: false" required>
+                  <mat-label>Level Of Service</mat-label>
+                  <mat-select *ngIf="(editing && speechPathology.checked === true)"
+                    formControlName="speechPathologyLevelOfService" required>
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
+                      {{levelOfServi.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm.get('requestService')?.get('speechPathology')?.get('speechPathologyLevelOfService')?.hasError('required')">
+                    Please select level of service.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <mat-grid-list cols="3" rowHeight="40px">
+
+            <mat-grid-tile [colspan]="3" [rowspan]="1">
+              <div class="controles-container">
+                <p>Speech Pathology Provider Certification</p>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+          <!-- Provider name, type and other details starts -->
+          <mat-grid-list cols="3" rowHeight="68px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="4">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="speechPathologyPoviderLastName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>Last Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyPoviderLastName')?.hasError('pattern')">
+                    Please enter a valid last name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyPoviderLastName')?.hasError('required')">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="3"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true"
+                    formControlName="speechPathologyProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="prefixPattern">
+                  <mat-label>Prefix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderPrefix')?.hasError('pattern')">
+                    Please enter a valid prefix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="20" formControlName="speechPathologyProviderIdentificationNumber"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="orgIdCodePatrn">
+                  <mat-label>Provider Identification No</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderIdentificationNumber')?.hasError('pattern')">
+                    Please enter a valid identification no.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderIdentificationNumber')?.hasError('required')">
+                    Identification number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && speechPathology.checked === true)" #input matInput
+                    formControlName="speechPathologyProviderIdNumberType"
+                    [readonly]="!(editing && speechPathology.checked === true)? true: false" required>
+                  <mat-label>Supplement Id No Type</mat-label>
+                  <mat-select *ngIf="(editing && speechPathology.checked === true)"
+                    formControlName="speechPathologyProviderIdNumberType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderIdNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="speechPathologyProviderFirstName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>First Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderFirstName')?.hasError('pattern')">
+                    Please enter a valid first name.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderFirstName')?.hasError('required')">
+                    First name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="5" [readonly]="(editing && speechPathology.checked === true)? false: true"
+                    formControlName="speechPathologyProviderSuffix" [errorStateMatcher]="matcher" autocomplete="off"
+                    [pattern]="suffixPattern">
+                  <mat-label>Suffix</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderSuffix')?.hasError('pattern')">
+                    Please enter a valid suffix.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && speechPathology.checked === true)" #input matInput
+                    formControlName="speechPathologyProviderIdentificationNumberType"
+                    [readonly]="!(editing && speechPathology.checked === true)? true: false" required>
+                  <mat-label>Provider Identification No Type</mat-label>
+                  <mat-select *ngIf="(editing && speechPathology.checked === true)"
+                    formControlName="speechPathologyProviderIdentificationNumberType" required
+                    [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
+                      [value]="identificationCodeType.name">
+                      {{identificationCodeType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderIdentificationNumberType')?.hasError('required')">
+                    Please select Identification No Type.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="3">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" formControlName="speechPathologyProviderMiddleName"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" autocomplete="off"
+                    [pattern]="userNamePattern">
+                  <mat-label>Middle Name</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderMiddleName')?.hasError('pattern')">
+                    Please enter a valid middleName.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input *ngIf="!(editing && speechPathology.checked === true)" #input matInput
+                    formControlName="speechPathologyProviderType"
+                    [readonly]="!(editing && speechPathology.checked === true)? true: false" required>
+                  <mat-label>Provider Type</mat-label>
+                  <mat-select *ngIf="(editing && speechPathology.checked === true)"
+                    formControlName="speechPathologyProviderType" required [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
+                      {{providerType.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderType')?.hasError('required')">
+                    Please select provider type.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput maxlength="20" [readonly]="(editing && speechPathology.checked === true)? false: true"
+                    formControlName="speechPathologyProviderSupplimentalId" [errorStateMatcher]="matcher" required
+                    autocomplete="off" [pattern]="supplIdPattern">
+                  <mat-label>Provider Supplement Id</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderSupplimentalId')?.hasError('pattern')">
+                    Please enter a valid Supplement Id.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderSupplimentalId')?.hasError('required')">
+                    Supplement Id is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider name, type and other details ends -->
+
+          <!-- Provider address details starts -->
+          <mat-grid-list cols="3" rowHeight="70px">
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="25" formControlName="speechPathologyProviderAddress"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off">
+                  <mat-label>Address</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderAddress')?.hasError('pattern')">
+                    Please enter a valid address pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderAddress')?.hasError('required')">
+                    Address is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="2" formControlName="speechPathologyProviderState"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="statePattern">
+                  <mat-label>State</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderState')?.hasError('pattern')">
+                    Please enter a valid state pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderState')?.hasError('required')">
+                    State is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="2">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="15" minlength="4" formControlName="speechPathologyProviderCity"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="cityPattern">
+                  <mat-label>City</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderCity')?.hasError('pattern')">
+                    Please enter a valid city pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderCity')?.hasError('required')">
+                    City is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="5" minlength="2"
+                    formControlName="speechPathologyProviderCountryCode" [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="countryCodePattern">
+                  <mat-label>Country Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderCountryCode')?.hasError('pattern')">
+                    Please enter a valid country code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderCountryCode')?.hasError('required')">
+                    Country Code is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              <div class="controles-container">
+
+                <mat-form-field class="no-padding">
+                  <input matInput #input maxlength="7" minlength="5" formControlName="speechPathologyProviderPostalCode"
+                    [errorStateMatcher]="matcher"
+                    [readonly]="(editing && speechPathology.checked === true)? false: true" required autocomplete="off"
+                    [pattern]="zipPattern">
+                  <mat-label>Postal Code</mat-label>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderPostalCode')?.hasError('pattern')">
+                    Please enter a valid postal code pattern.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="preAuthForm?.get('requestService')?.get('speechPathology')?.get('speechPathologyProviderPostalCode')?.hasError('required')">
+                    Postal is required.
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <!-- Provider address details ends -->
+
+        </mat-expansion-panel>
 
       </div>
       <!-- speechPathology Service ends-->
@@ -1532,7 +4044,7 @@
   <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> -->
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
     <button mat-button mat-raised-button color="primary" type="submit" (click)="onEdit(preAuthForm.value)">Edit</button>
-    <button mat-button mat-raised-button color="primary" type="submit" (click)="onSave(preAuthForm.value)">Save as
+    <button mat-button mat-raised-button color="primary" type="submit" (click)="onSave(preAuthForm)">Save as
       Draft</button>
     <button class="button-green" mat-button mat-raised-button color="primary" (click)="onSendRequest(preAuthForm.value)"
       type="submit">Send Request</button>

@@ -367,26 +367,26 @@ export class OccupationalTherapyRequest {
     occupationTherapyProviderSuffix?: string;
     occupationTherapyProviderPrefix?: string;
 
-    occupationalTherapyRequestServiceDateFrom?: any;
-    occupationalTherapyRequestServiceDateTo?: any;
-    occupationalTherapyVisit?: number;
-    occupationalTherapyUnit?: number;
+    occupationTherapyRequestServiceDateFrom?: any;
+    occupationTherapyRequestServiceDateTo?: any;
+    occupationTherapyVisit?: number;
+    occupationTherapyUnit?: number;
     occupationTherapyRequestCategory?: string;
-    occupationalTherapyCertificationType?: string;
-    occupationalTherapyServiceType?: string;
-    occupationalTherapyLevelOfService?: string;
-    occupationalTherapyProviderFullName?: string;
-    occupationalTherapyProviderType?: string;
-    occupationalTherapyProviderAddress?: string;
-    occupationalTherapyProviderCity?: string;
-    occupationalTherapyProviderState?: string;
-    occupationalTherapyProviderPostalCode?: string;
-    occupationalTherapyProviderCountryCode?: string;
-    occupationalTherapyProviderIdentificationNumber?: string;
-    occupationalTherapyProviderIdentificationNumberType?: string;
-    occupationalTherapyProviderSupplimentalId?: string;
-    occupationalTherapyProviderIdNumberType?: string;
-    occupationalTherapySelected?: boolean;
+    occupationTherapyCertificationType?: string;
+    occupationTherapyServiceType?: string;
+    occupationTherapyLevelOfService?: string;
+    occupationTherapyProviderFullName?: string;
+    occupationTherapyProviderType?: string;
+    occupationTherapyProviderAddress?: string;
+    occupationTherapyProviderCity?: string;
+    occupationTherapyProviderState?: string;
+    occupationTherapyProviderPostalCode?: string;
+    occupationTherapyProviderCountryCode?: string;
+    occupationTherapyProviderIdentificationNumber?: string;
+    occupationTherapyProviderIdentificationNumberType?: string;
+    occupationTherapyProviderSupplimentalId?: string;
+    occupationTherapyProviderIdNumberType?: string;
+    occupationTherapySelected?: boolean;
 }
 
 export class SkilledNursingRequest {
