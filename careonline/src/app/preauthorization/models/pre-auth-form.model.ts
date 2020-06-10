@@ -1,5 +1,13 @@
 export class PreAuthFormModelRequest {
-
+    id?: number;
+    mrnNumber?: string;
+    enquiryDeatils?: EnquiryDetails;
+    preAuthDemographics?: PreAuthDemographics;
+    organizationInformation?: OrganizationDetails;
+    subscriberDetails?: SubscriberDetails;
+    dependentDetails?: DependentDetails;
+    providerDetail?: RequesterDetails;
+    requestService?: RequestService;
 }
 
 export class PreAuthFormModelResponse {
@@ -12,18 +20,6 @@ export class PreAuthFormModelResponse {
     admissionDetail?: AdmissionDetail;
     requestFor?: RequestFor;
     requestService?: RequestService;
-}
-
-export class PreAuthDemographics {
-   // id?: number;
-    mrnNumber?: string;
-    firstName?: string;
-    lastName?: string;
-    middleName?: string;
-    suffix?: string;
-    gender?: string;
-    dob?: any;
-    ssn?: string;
 }
 
 export class InsuranceDetailPreAuth {
@@ -161,65 +157,331 @@ export class Extension {
     serviceflag?: boolean;
 }
 
+// export class RequestService {
+//     id?: number;
+//     mrnNumber?: string;
+//     // homeHealthAide?: HomeHealthAide;
+//     // medicalSocialWork?: MedicalSocialWork;
+//     // occupationTherapy?: OccupationTherapy;
+//     // skilledNursing?: SkilledNursing;
+//     // physicalTherapy?: PhysicalTherapy;
+//     // speechPathology?: SpeechPathology;
+//     homeHealthAideRequest?: HomeHealthAideRequest;
+//     medicalSocialWorkRequest?: MedicalSocialWorkRequest;
+//     occupationalTherapyRequest?: OccupationalTherapyRequest;
+//     skilledNursingRequest?: SkilledNursingRequest;
+//     physicalTherapyRequest: PhysicalTherapyRequest;
+//     speechPathologyRequest?: SpeechPathologyRequest;
+// }
+
+export class EnquiryDetails {
+    id?: number;
+    mrnNumber?: string;
+    enquiryId?: string;
+    preauthReqSentDate?: any;
+}
+
+export class PreAuthDemographics {
+    id?: number;
+    mrnNumber?: string;
+    firstName?: string;
+    lastName?: string;
+    middleName?: string;
+    suffix?: string;
+    gender?: string;
+    dob?: any;
+    ssn?: string;
+    prefix?: string;
+    relationshipToSubscriber?: string;
+}
+
+export class OrganizationDetails {
+    id?: number;
+    mrnNumber?: string;
+    organizationName?: string;
+    orgIdentificationCode?: string;
+    orgIdentificationCodeType?: string;
+    orgCommunicationTypeTelephone?: string;
+    orgCommunicationTypeFacsimile?: string;
+    orgCommunicationTypeEMail?: string;
+    orgCommunicationExt?: number;
+}
+
+export class SubscriberDetails {
+    id?: number;
+    mrnNumber?: string;
+    subscriberFirstName?: string;
+    subscriberLastName?: string;
+    subscriberMiddleName?: string;
+    subscriberSuffix?: string;
+    subscriberGender?: string;
+    subscriberDob?: any;
+    subscriberPrefix?: string;
+    subscriberRelToInsured?: string;
+    subscriberIdentificationCode?: string;
+    subscriberIdentificationNumberType?: string;
+    subscriberSupplementalId?: string;
+    subscriberIdNumberType?: string;
+}
+
+export class DependentDetails {
+    id?: number;
+    mrnNumber?: string;
+    dependentFirstName?: string;
+    dependentLastName?: string;
+    dependentMiddleName?: string;
+    dependentSuffix?: string;
+    dependentGender?: string;
+    dependentDob?: any;
+    dependentPrefix?: string;
+    dependentRelToSubscriber?: string;
+    dependentSubscriberIdentificationCode?: string;
+    dependentSubscriberIdentificationNumberType?: string;
+    dependentSubscriberSupplementalId?: string;
+    dependentSubscriberIdNumberType?: string;
+}
+
+export class RequesterDetails {
+    id?: number;
+    mrnNumber?: string;
+    reqProviderFullName?: string;
+
+    reqProviderFirstName?: string;
+    reqProviderLastName?: string;
+    reqProviderMiddleName?: string;
+    reqProviderSuffix?: string;
+    reqProviderPrefix?: string;
+
+    reqProviderType?: string;
+    reqProviderIdentificationNumber?: string;
+    reqProviderIdentificationNumberType?: string;
+    reqProviderSupplimentalId?: string;
+    reqProviderIdNumberType?: string;
+    serviceDateFrom?: any;
+    serviceDateTo?: any;
+    admitDate?: any;
+    dischargeDate?: any;
+    requestCategory?: string;
+    certificationType?: string;
+    serviceType?: string;
+    levelOfService?: string;
+}
+
 export class RequestService {
     id?: number;
     mrnNumber?: string;
-    homeHealthAide?: HomeHealthAide;
-    medicalSocialWork?: MedicalSocialWork;
-    occupationTherapy?: OccupationTherapy;
-    skilledNursing?: SkilledNursing;
-    physicalTherapy?: PhysicalTherapy;
-    speechPathology?: SpeechPathology;
+    // homeHealthAide?: HomeHealthAide;
+    // medicalSocialWork?: MedicalSocialWork;
+    // occupationTherapy?: OccupationTherapy;
+    // skilledNursing?: SkilledNursing;
+    // physicalTherapy?: PhysicalTherapy;
+    // speechPathology?: SpeechPathology;
+    // homeHealthAideRequest?: HomeHealthAideRequest;
+    // medicalSocialWorkRequest?: MedicalSocialWorkRequest;
+    // occupationalTherapyRequest?: OccupationalTherapyRequest;
+    // skilledNursingRequest?: SkilledNursingRequest;
+    // physicalTherapyRequest: PhysicalTherapyRequest;
+    // speechPathologyRequest?: SpeechPathologyRequest;
+    homeHealthAide?: HomeHealthAideRequest;
+    medicalSocialWork?: MedicalSocialWorkRequest;
+    occupationTherapy?: OccupationalTherapyRequest;
+    skilledNursing?: SkilledNursingRequest;
+    physicalTherapy: PhysicalTherapyRequest;
+    speechPathology?: SpeechPathologyRequest;
 }
 
-export class HomeHealthAide {
+export class HomeHealthAideRequest {
     id?: number;
     mrnNumber?: string;
-    revenueCode?: number;
-    visits?: number;
-    units?: number;
-    homeHealthAide?: boolean;
+    homeHealthAideRevenueCode?: number;
+    homeHealthAideProviderMiddleName?: string;
+    homeHealthAidePoviderLastName?: string;
+    homeHealthAideProviderFirstName?: string;
+    // visits?: number;
+    homeHealthAideProviderSuffix?: string;
+    homeHealthAideProviderPrefix?: string;
+
+    homeHealthAideRequestServiceDateFrom?: any;
+    homeHealthAideRequestServiceDateTo?: any;
+    homeHealthAideVisit?: number;
+    homeHealthAideUnit?: number;
+    homeHealthAideRequestCategory?: string;
+    homeHealthAideCertificationType?: string;
+    homeHealthAideServiceType?: string;
+    homeHealthAideLevelOfService?: string;
+    homeHealthAideProviderFullName?: string;
+    homeHealthAideProviderType?: string;
+    homeHealthAideProviderAddress?: string;
+    homeHealthAideProviderCity?: string;
+    homeHealthAideProviderState?: string;
+    homeHealthAideProviderPostalCode?: string;
+    homeHealthAideProviderCountryCode?: string;
+    homeHealthAideProviderIdentificationNumber?: string;
+    homeHealthAideProviderIdentificationNumberType?: string;
+    homeHealthAideProviderSupplimentalId?: string;
+    homeHealthAideProviderIdNumberType?: string;
+    homeHealthAideSelected?: boolean;
 }
 
-export class MedicalSocialWork {
+export class MedicalSocialWorkRequest {
     id?: number;
     mrnNumber?: string;
-    revenueCode?: number;
-    visits?: number;
-    units?: number;
-    medicalSocialWork?: boolean;
+    medicalSocialWorkRevenueCode?: number;
+    medicalSocialWorkProviderMiddleName?: string;
+    medicalSocialWorkPoviderLastName?: string;
+    medicalSocialWorkProviderFirstName?: string;
+
+    medicalSocialWorkProviderSuffix?: string;
+    medicalSocialWorkProviderPrefix?: string;
+
+    medicalSocialWorkRequestServiceDateFrom?: any;
+    medicalSocialWorkRequestServiceDateTo?: any;
+    medicalSocialWorkVisit?: number;
+    medicalSocialWorkUnit?: number;
+    medicalSocialWorkRequestCategory?: string;
+    medicalSocialWorkCertificationType?: string;
+    medicalSocialWorkServiceType?: string;
+    medicalSocialWorkLevelOfService?: string;
+    medicalSocialWorkProviderFullName?: string;
+    medicalSocialWorkProviderType?: string;
+    medicalSocialWorkProviderAddress?: string;
+    medicalSocialWorkProviderCity?: string;
+    medicalSocialWorkProviderState?: string;
+    medicalSocialWorkProviderPostalCode?: string;
+    medicalSocialWorkProviderCountryCode?: string;
+    medicalSocialWorkProviderIdentificationNumber?: string;
+    medicalSocialWorkProviderIdentificationNumberType?: string;
+    medicalSocialWorkProviderSupplimentalId?: string;
+    medicalSocialWorkProviderIdNumberType?: string;
+    medicalSocialWorkSelected?: boolean;
 }
 
-export class OccupationTherapy {
+export class OccupationalTherapyRequest {
     id?: number;
     mrnNumber?: string;
-    revenueCode?: number;
-    visits?: number;
-    units?: number;
-    occupationTherapy?: boolean;
+    occupationTherapyRevenueCode?: number;
+    occupationTherapyProviderMiddleName?: string;
+    occupationTherapyPoviderLastName?: string;
+    occupationTherapyProviderFirstName?: string;
+
+    occupationTherapyProviderSuffix?: string;
+    occupationTherapyProviderPrefix?: string;
+
+    occupationTherapyRequestServiceDateFrom?: any;
+    occupationTherapyRequestServiceDateTo?: any;
+    occupationTherapyVisit?: number;
+    occupationTherapyUnit?: number;
+    occupationTherapyRequestCategory?: string;
+    occupationTherapyCertificationType?: string;
+    occupationTherapyServiceType?: string;
+    occupationTherapyLevelOfService?: string;
+    occupationTherapyProviderFullName?: string;
+    occupationTherapyProviderType?: string;
+    occupationTherapyProviderAddress?: string;
+    occupationTherapyProviderCity?: string;
+    occupationTherapyProviderState?: string;
+    occupationTherapyProviderPostalCode?: string;
+    occupationTherapyProviderCountryCode?: string;
+    occupationTherapyProviderIdentificationNumber?: string;
+    occupationTherapyProviderIdentificationNumberType?: string;
+    occupationTherapyProviderSupplimentalId?: string;
+    occupationTherapyProviderIdNumberType?: string;
+    occupationTherapySelected?: boolean;
 }
 
-export class SkilledNursing {
+export class SkilledNursingRequest {
     id?: number;
     mrnNumber?: string;
-    revenueCode?: number;
-    visits?: number;
-    units?: number;
-    skilledNursing?: boolean;
+    skilledNursingRevenueCode?: number;
+    skilledNursingProviderMiddleName?: string;
+    skilledNursingPoviderLastName?: string;
+    skilledNursingProviderFirstName?: string;
+
+    skilledNursingProviderSuffix?: string;
+    skilledNursingProviderPrefix?: string;
+
+    skilledNursingRequestServiceDateFrom?: any;
+    skilledNursingRequestServiceDateTo?: any;
+    skilledNursingVisit?: number;
+    skilledNursingUnit?: number;
+    skilledNursingRequestCategory?: string;
+    skilledNursingCertificationType?: string;
+    skilledNursingServiceType?: string;
+    skilledNursingLevelOfService?: string;
+    skilledNursingProviderFullName?: string;
+    skilledNursingProviderType?: string;
+    skilledNursingProviderAddress?: string;
+    skilledNursingProviderCity?: string;
+    skilledNursingProviderState?: string;
+    skilledNursingProviderPostalCode?: string;
+    skilledNursingProviderCountryCode?: string;
+    skilledNursingProviderIdentificationNumber?: string;
+    skilledNursingProviderIdentificationNumberType?: string;
+    skilledNursingProviderSupplimentalId?: string;
+    skilledNursingProviderIdNumberType?: string;
+    skilledNursingSelected?: boolean;
 }
-export class PhysicalTherapy {
+export class PhysicalTherapyRequest {
     id?: number;
     mrnNumber?: string;
-    revenueCode?: number;
-    visits?: number;
-    units?: number;
-    physicalTherapy?: boolean;
+    physicalTherapyrevenueCode?: number;
+    physicalTherapyProviderMiddleName?: string;
+    physicalTherapyPoviderLastName?: string;
+    physicalTherapyProviderFirstName?: string;
+
+    physicalTherapyProviderSuffix?: string;
+    physicalTherapyProviderPrefix?: string;
+
+    physicalTherapyRequestServiceDateFrom?: any;
+    physicalTherapyRequestServiceDateTo?: any;
+    physicalTherapyVisit?: number;
+    physicalTherapyUnit?: number;
+    physicalTherapyRequestCategory?: string;
+    physicalTherapyCertificationType?: string;
+    physicalTherapyServiceType?: string;
+    physicalTherapyLevelOfService?: string;
+    physicalTherapyProviderFullName?: string;
+    physicalTherapyProviderType?: string;
+    physicalTherapyProviderAddress?: string;
+    physicalTherapyProviderCity?: string;
+    physicalTherapyProviderState?: string;
+    physicalTherapyProviderPostalCode?: string;
+    physicalTherapyProviderCountryCode?: string;
+    physicalTherapyProviderIdentificationNumber?: string;
+    physicalTherapyProviderIdentificationNumberType?: string;
+    physicalTherapyProviderSupplimentalId?: string;
+    physicalTherapyProviderIdNumberType?: string;
+    physicalTherapySelected?: boolean;
 }
-export class SpeechPathology {
+export class SpeechPathologyRequest {
     id?: number;
     mrnNumber?: string;
-    revenueCode?: number;
-    visits?: number;
-    units?: number;
-    speechPathology?: boolean;
+    speechPathologyRevenueCode?: number;
+    speechPathologyProviderMiddleName?: string;
+    speechPathologyPoviderLastName?: string;
+    speechPathologyProviderFirstName?: string;
+
+    speechPathologyProviderSuffix?: string;
+    speechPathologyProviderPrefix?: string;
+
+    speechPathologyRequestServiceDateFrom?: any;
+    speechPathologyRequestServiceDateTo?: any;
+    speechPathologyVisit?: number;
+    speechPathologyUnit?: number;
+    speechPathologyRequestCategory?: string;
+    speechPathologyCertificationType?: string;
+    speechPathologyServiceType?: string;
+    speechPathologyLevelOfService?: string;
+    speechPathologyProviderFullName?: string;
+    speechPathologyProviderType?: string;
+    speechPathologyProviderAddress?: string;
+    speechPathologyProviderCity?: string;
+    speechPathologyProviderState?: string;
+    speechPathologyProviderPostalCode?: string;
+    speechPathologyProviderCountryCode?: string;
+    speechPathologyProviderIdentificationNumber?: string;
+    speechPathologyProviderIdentificationNumberType?: string;
+    speechPathologyProviderSupplimentalId?: string;
+    speechPathologyProviderIdNumberType?: string;
+    speechPathologySelected?: boolean;
 }

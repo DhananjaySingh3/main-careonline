@@ -122,8 +122,8 @@ export class CommonService {
     { code: 111, name: 'Approved' },
     { code: 222, name: 'Pending' },
     { code: 333, name: 'Denied' },
-    { code: 444, name: 'Rejected' },
-    { code: 555, name: 'Success' },
+    { code: 444, name: 'Re-Appeal' },
+    { code: 555, name: 'Re-Appeal Denied' },
   ];
 
   rejectReasons: RejectReasons[] = [
@@ -658,7 +658,7 @@ export class CommonService {
     {
       code: 'Bx27809122',
       name: `The CMWC/DME request cannot be processed because the person does not have a Daily Care Service Authorization for
-       the submitted Provider No. as of the date that submission of the NFSS form was attempted. 
+       the submitted Provider No. as of the date that submission of the NFSS form was attempted.
        Submit the necessary paperwork to establish the Daily Care Service Authorization before resubmitting the NFSS form.`
     },
     {
@@ -820,9 +820,9 @@ export class CommonService {
   ];
 
   communicationTypes: CommunicationTypes[] = [
-    { code: '1', name: 'email' },
-    { code: '2', name: 'telephone' },
-    { code: '3', name: 'fax' },
+    { code: 'EM', name: 'Electronic Mail' },
+    { code: 'TE', name: 'Telephone' },
+    { code: 'FX', name: 'Facsimile' },
   ];
 
   constructor(
@@ -834,6 +834,11 @@ export class CommonService {
   /* CommunicationTypes Details*/
   getCommunicationTypes() {
     return this.communicationTypes;
+  }
+
+  /* IdentificationCodeType Details*/
+  getIdentificationCodeType() {
+    return this.identificationCodeType;
   }
 
   /* Gender Details*/

@@ -15,11 +15,12 @@ export class Episode {
     preAuthorisationStatus: string; // added after the mail next day and it was not informed to me
     admissionStatus: string;
     admissionDate: any;
-    formStatus: string;
+   // formStatus: string;
+    formReceivedDate: string;
 }
 
 export class PreAuthDemographics {
-    // id: number;
+    id: number;
     mrnNumber: string;
     firstName: string;
     lastName: string;

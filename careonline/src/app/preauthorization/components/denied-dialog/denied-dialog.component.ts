@@ -422,7 +422,7 @@ export class DeniedDialogComponent implements OnInit {
       homeHealthAideProviderFirstName: new FormControl({ value: '', disabled: true }),
       homeHealthAidePoviderLastName: new FormControl({ value: '', disabled: true }),
       homeHealthAideProviderMiddleName: new FormControl({ value: '', disabled: true }),
-      homeHealthAideProviderType: new FormControl({ value: '', disabled: true }),
+      homeHealthAideProviderType: new FormControl({ value: 'Select', disabled: true }),
 
       homeHealthAideProviderAddress: new FormControl({ value: '', disabled: true }),
       homeHealthAideProviderCity: new FormControl({ value: '', disabled: true }),
@@ -431,9 +431,9 @@ export class DeniedDialogComponent implements OnInit {
       homeHealthAideProviderCountryCode: new FormControl({ value: '', disabled: true }),
 
       homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: true }),
-      homeHealthAideProviderIdentificationNumberType: new FormControl({ value: '', disabled: true }),
+      homeHealthAideProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: true }),
       homeHealthAideProviderSupplimentalId: new FormControl({ value: '', disabled: true }),
-      homeHealthAideProviderIdNumberType: new FormControl({ value: '', disabled: true }),
+      homeHealthAideProviderIdNumberType: new FormControl({ value: 'Select', disabled: true }),
       homeHealthAideProviderRejectionReason: new FormControl({ value: '', disabled: true }),
       homeHealthAideProviderFollowUpActionDescription: new FormControl({ value: '', disabled: true }),
     }),
@@ -488,7 +488,8 @@ export class DeniedDialogComponent implements OnInit {
     this.isLoadingResults = true;
     this.commonMethods();
     this.preAuthService.viewDenialResponseData(this.selectedPatientViaDialog).subscribe((response) => {
-      console.log(response);
+      this.isLoadingResults = true;
+      console.log('Denial data response ', response);
       if (response) {
         this.populateResponseFormData(response[0]);
         this.isLoadingResults = false;

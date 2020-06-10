@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PreAuthReadResponse } from '../../preauthorization/models/read-pre-auth.model';
-import { PreAuthFormModelResponse } from '../../preauthorization/models/pre-auth-form.model';
+import { PreAuthFormModelRequest, PreAuthFormModelResponse } from '../../preauthorization/models/pre-auth-form.model';
 import { tap } from 'rxjs/operators';
 
 
@@ -25,13 +25,19 @@ export class PreAuthService {
   getPreAuthorizationtList(): Observable<any> {
     return this.httpClient.get(this.apiURL + '/preAuthList');
   }
+
+  /*Sending Patient data on Click of edit btn inside Preauth request form*/
+  onEditPatientData(fullFormData: PreAuthFormModelRequest): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preAuthRequestEdit', { mrnNumber: fullFormData.mrnNumber });
+  }
+
   /*Sending Patient data on PreAuth Form Click onto the table*/
   viewEditPatientData(form: PreAuthReadResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preauthview', { mrnNumber: form.preAuthDemographics.mrnNumber });
   }
 
   /*Drafting Edited Patient data*/
-  saveAsDraftPatientData(form: PreAuthFormModelResponse): Observable<any> {
+  saveAsDraftPatientData(form: PreAuthReadResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preauthSave', form).pipe(tap(() => {
       this.refreshPage$.next();
     })
@@ -39,7 +45,7 @@ export class PreAuthService {
   }
 
   /*Preauth Send Request Patient data*/
-  sendRequestPatientData(form: PreAuthFormModelResponse): Observable<any> {
+  sendRequestPatientData(form: PreAuthReadResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preauthSendRequest', form).pipe(tap(() => {
       this.refreshPage$.next();
     })
@@ -50,10 +56,10 @@ export class PreAuthService {
     return this.refreshPage$.asObservable();
   }
 
-    /*Sending Patient data on PreAuth Form Click onto the table for Denial Response*/
-    viewDenialResponseData(form): Observable<any> {
-      return this.httpClient.post(this.apiURL + '/preAuthResponse', { mrnNumber: form.mrnNumber });
-    }
+  /*Sending Patient data on PreAuth Form Click onto the table for Denial Response*/
+  viewDenialResponseData(form: PreAuthReadResponse): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preAuthResponse', { mrnNumber: form.mrnNumber });
+  }
   // filter(filterby: string) {
   //   return this.listeners$.next(filterby);
   // }
