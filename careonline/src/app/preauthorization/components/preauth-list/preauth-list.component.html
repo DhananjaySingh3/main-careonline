@@ -126,14 +126,19 @@
       <ng-container matColumnDef="preAuthResponseForm">
         <th mat-header-cell *matHeaderCellDef>Preauth Response Form</th>
         <td mat-cell *matCellDef="let row">
-          <button mat-button mat-raised-button (click)="onViewErrorDetails(row)">Received Form</button>
+          <!-- <button mat-button mat-raised-button (click)="onViewErrorDetails(row)"
+            [disabled]="row.episode.formReceivedDate === null">Received
+            Form</button> -->
+          <button mat-button mat-raised-button (click)="onViewErrorDetails(row)">Received
+            Form</button>
         </td>
       </ng-container>
 
       <!-- formReceiveDate Date Column M/d/yyyy-->
       <ng-container matColumnDef="formReceivedDate">
         <th mat-header-cell *matHeaderCellDef>Form Received Date</th>
-        <td mat-cell *matCellDef="let row">{{row.episode.formReceivedDate? (row.episode.formReceivedDate | date:'M/d/yyyy') : 'N/A'}}</td>
+        <td mat-cell *matCellDef="let row">
+          {{row.episode.formReceivedDate? (row.episode.formReceivedDate | date:'M/d/yyyy') : 'No Value'}}</td>
       </ng-container>
 
       <!-- Actions Column -->

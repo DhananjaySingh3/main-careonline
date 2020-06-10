@@ -488,7 +488,8 @@ export class DeniedDialogComponent implements OnInit {
     this.isLoadingResults = true;
     this.commonMethods();
     this.preAuthService.viewDenialResponseData(this.selectedPatientViaDialog).subscribe((response) => {
-      console.log(response);
+      this.isLoadingResults = true;
+      console.log('Denial data response ', response);
       if (response) {
         this.populateResponseFormData(response[0]);
         this.isLoadingResults = false;

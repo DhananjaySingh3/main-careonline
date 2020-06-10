@@ -160,7 +160,7 @@
         [expanded]="preAuthReponseForm?.get('authorizationDetail')?.get('enquiryDetailStatus')?.value !== 'Approved'">
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
-            Preauthorization Details
+            Enquiry Details
           </mat-panel-title>
           <mat-panel-description fxLayoutAlign="center" class="flex-end"
             [ngStyle]="{'color': preAuthReponseForm?.get('authorizationDetail')?.get('enquiryDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
@@ -469,7 +469,7 @@
       <mat-expansion-panel [expanded]="preAuthReponseForm?.get('memberDetailStatus')?.value !== 'Approved'">
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
-            Member Details
+            Patient Demographic Details
           </mat-panel-title>
           <mat-panel-description fxLayoutAlign="center" class="flex-end"
             [ngStyle]="{'color': preAuthReponseForm?.get('memberDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
@@ -571,7 +571,7 @@
       <mat-expansion-panel [expanded]="preAuthReponseForm?.get('orgDetailStatus')?.value !== 'Approved'">
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
-            Organization Details
+            Organization Information
           </mat-panel-title>
           <mat-panel-description [ngStyle]="{'color': preAuthReponseForm?.get('orgDetailStatus')?.value === 'Approved' ? 'green' :
                   'red'}" fxLayoutAlign="center" class="flex-end">
@@ -691,7 +691,7 @@
       <mat-expansion-panel [expanded]="preAuthReponseForm?.get('subscriberDetailStatus')?.value !== 'Approved'">
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
-            Subscriber Details
+            Subscriber Information
           </mat-panel-title>
           <mat-panel-description [ngStyle]="{'color': preAuthReponseForm?.get('subscriberDetailStatus')?.value === 'Approved' ? 'green' :
               'red'}" fxLayoutAlign="center" class="flex-end">
@@ -854,12 +854,16 @@
     </div>
     <!-- Subscriber details ends -->
 
+    <!-- Dependent Information details starts -->
+
+    <!-- Dependent Information details starts -->
+
     <!-- Requester Provider details starts -->
     <div class="requesterProviderDetails">
       <mat-expansion-panel [expanded]="preAuthReponseForm?.get('reqProviderDetailStatus')?.value !== 'Approved'">
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
-            Requester Provider Details
+            Requester Information
           </mat-panel-title>
           <mat-panel-description [ngStyle]="{'color': preAuthReponseForm?.get('reqProviderDetailStatus')?.value === 'Approved' ? 'green' :
                     'red'}" fxLayoutAlign="center" class="flex-end">

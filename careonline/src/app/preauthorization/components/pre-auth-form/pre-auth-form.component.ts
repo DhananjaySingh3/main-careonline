@@ -242,8 +242,7 @@ export class PreAuthFormComponent implements OnInit {
         homeHealthAideProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         homeHealthAideProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        homeHealthAideRequestServiceDateFrom:
-          new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        homeHealthAideRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
         homeHealthAideRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
         homeHealthAideVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         homeHealthAideUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
@@ -276,10 +275,8 @@ export class PreAuthFormComponent implements OnInit {
         medicalSocialWorkProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         medicalSocialWorkProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        medicalSocialWorkRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
-        medicalSocialWorkRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
+        medicalSocialWorkRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        medicalSocialWorkRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
         medicalSocialWorkVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         medicalSocialWorkUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         medicalSocialWorkRequestCategory: new FormControl({ value: 'Select', disabled: false }),
@@ -349,10 +346,8 @@ export class PreAuthFormComponent implements OnInit {
         skilledNursingProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         skilledNursingProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        skilledNursingRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
-        skilledNursingRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
+        skilledNursingRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        skilledNursingRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
         skilledNursingVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         skilledNursingUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         skilledNursingRequestCategory: new FormControl({ value: 'Select', disabled: false }),
@@ -361,7 +356,7 @@ export class PreAuthFormComponent implements OnInit {
         skilledNursingLevelOfService: new FormControl({ value: 'Select', disabled: false }),
         skilledNursingProviderFullName: new FormControl({ value: '', disabled: false }),
         skilledNursingProviderType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingProviderAddress: new FormControl({ value: '', disabled: false }, [Validators.required]),
+        skilledNursingProviderAddress: new FormControl({ value: '', disabled: false }),
         skilledNursingProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
         skilledNursingProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
         skilledNursingProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
@@ -384,10 +379,8 @@ export class PreAuthFormComponent implements OnInit {
         physicalTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         physicalTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        physicalTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
-        physicalTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
+        physicalTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        physicalTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
         physicalTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         physicalTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         physicalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
@@ -396,8 +389,7 @@ export class PreAuthFormComponent implements OnInit {
         physicalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
         physicalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
         physicalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyProviderAddress: new FormControl({ value: '', disabled: false },
-          [Validators.required]),
+        physicalTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
         physicalTherapyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
         physicalTherapyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
         physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
@@ -420,10 +412,8 @@ export class PreAuthFormComponent implements OnInit {
         speechPathologyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         speechPathologyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        speechPathologyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
-        speechPathologyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false },
-          [Validators.required]),
+        speechPathologyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        speechPathologyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
         speechPathologyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         speechPathologyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         speechPathologyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
@@ -983,50 +973,55 @@ export class PreAuthFormComponent implements OnInit {
   /*Save as Draft */
 
   /*On Send Request for PreAutorization*/
-  onSendRequest(selectedPatntData: PreAuthFormModelRequest) {
-    // selectedPatientData.currenttimdate = new Date().toISOString();
-    // console.log('Date after change ', selectedPatientData);
-    console.log('Form data on send request', selectedPatntData);
+  onSendRequest(formDataOnSend) {
 
-    //  setTimeout(() => {
-    // formcontrol =newadmissionService and template ref = newAdmissService
-    if (this.isNewAdmissionSelected) {
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-    }
+    if (formDataOnSend.valid) {
+      let selectedPatntData: PreAuthFormModelRequest;
+      selectedPatntData = formDataOnSend.value;
+      // selectedPatientData.currenttimdate = new Date().toISOString();
+      // console.log('Date after change ', selectedPatientData);
+      console.log('Form data on send request', selectedPatntData);
 
-    if (this.isAddiServSelected) {
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
-    }
-
-    if (this.isExtOnlySelected) {
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-    }
-
-    const config = new MatDialogConfig();
-    config.disableClose = true;
-    config.autoFocus = false;
-    config.hasBackdrop = true;
-    config.width = '40%';
-    config.data = {
-      heading: '"Send Request" Confirmation Alert',
-      messageContent: 'Do you want to "Send" the Preauthorization form?',
-      selectedPatientData: selectedPatntData,
-      actionType: 'sendRequest'
-    };
-    const dialogRef = this.dialog.open(StackedModalComponent, config);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Stacked Dialog Closed: true / false will come ' + result);
-      if (result) {
-        console.log('Confirm is clicked: ' + result);
-        this.isFormUpdated = result;
-        this.dialogRef.close(false);
+      //  setTimeout(() => {
+      // formcontrol =newadmissionService and template ref = newAdmissService
+      if (this.isNewAdmissionSelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
       }
 
-    });
-    // });
+      if (this.isAddiServSelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+        this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
+      }
+
+      if (this.isExtOnlySelected) {
+        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+        this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
+      }
+
+      const config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = false;
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = {
+        heading: '"Send Request" Confirmation Alert',
+        messageContent: 'Do you want to "Send" the Preauthorization form?',
+        selectedPatientData: selectedPatntData,
+        actionType: 'sendRequest'
+      };
+      const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+          this.isFormUpdated = result;
+          this.dialogRef.close(false);
+        }
+
+      });
+      // });
+    }
   }
 
 
@@ -1103,99 +1098,69 @@ export class PreAuthFormComponent implements OnInit {
     });
   }
 
-  onSave(selectedPatntData: PreAuthFormModelRequest) {
-    // selectedPatientData.currenttimdate = new Date().toISOString();
-    // console.log('Date after change ', selectedPatientData);
-    console.log('Form data on save', selectedPatntData);
+  onSave(formDataOnSave) {
 
-    // setTimeout(() => {
-    // formcontrol =newadmissionService and template ref = newAdmissService
-    if (this.isNewAdmissionSelected) {
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      // console.log('New Add selected after modific', this.newAdmissService.checked);
-      // console.log('New Add selected after modific', this.newAdmissService.checked.valueOf());
+    if (formDataOnSave.valid) {
+      let selectedPatntData: PreAuthFormModelRequest;
+      selectedPatntData = formDataOnSave.value;
+
+      // selectedPatientData.currenttimdate = new Date().toISOString();
+      // console.log('Date after change ', selectedPatientData);
+      console.log('Form data on save', selectedPatntData);
+
+      const config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = false;
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = {
+        heading: '"Save" Confirmation Alert',
+        messageContent: 'Do you want to "Save" the content?',
+        selectedPatientData: selectedPatntData,
+        actionType: 'saveRequest'
+      };
+      const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
+
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+          this.isFormUpdated = result;
+          this.dialogRef.close(false);
+          // this.preAuthService.filter('Refresh Initiated');
+        }
+
+      });
+
     }
-
-    if (this.isAddiServSelected) {
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
-    }
-
-    if (this.isExtOnlySelected) {
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-    }
-
-
-    const config = new MatDialogConfig();
-    config.disableClose = true;
-    config.autoFocus = false;
-    config.hasBackdrop = true;
-    config.width = '40%';
-    config.data = {
-      heading: '"Save" Confirmation Alert',
-      messageContent: 'Do you want to "Save" the content?',
-      selectedPatientData: selectedPatntData,
-      actionType: 'saveRequest'
-    };
-    const dialogRef = this.dialog.open(StackedModalComponent, config);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Stacked Dialog Closed: true / false will come ' + result);
-      // this.toasterService.success(':: Submitted Successfully');
-      // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
-      console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
-      // console.log(this.insuranceList);
-      console.log('Data received from stacked model to patient component ends');
-      // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-      // if (this.insuranceList) {
-      //   this.ngOnInit();
-      //   console.log('ngOnInit() was executed for patient component');
-      // }
-      if (result) {
-        console.log('Confirm is clicked: ' + result);
-        this.isFormUpdated = result;
-        this.dialogRef.close(false);
-        // this.preAuthService.filter('Refresh Initiated');
-      }
-
-    });
-    // });
-  }
-
-  /* On Selection of Insurance Type Drop down */
-  selectedInsuranceType(event) {
-    // console.log(event.source.value);
-    //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: event.source.value });
-    if (event.source.value === 'Primary Insurance') {
-      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Primary Insurance' });
-      // return true;
-    } else if (event.source.value === 'Secondary Insurance') {
-      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Secondary Insurance' });
-    } else if (event.source.value === 'Tertiary Insurance') {
-      this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'Tertiary Insurance' });
-    }
-  }
-  /* On Selection of Insurance Type Drop down */
-
-  phyThepySelected(event) {
-    //  const isSelected = this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapy').value;
-    // console.log('PT ', event.checked); // gices true when checked
-    // if (event.checked || this.physicalTherapyChk) {
-    //   this.isReadonlyPt = false;
-    // } else {
-    //   this.isReadonlyPt = true;
-    // }
   }
 
   onEdit(selectedPatntData: PreAuthFormModelRequest) {
+    this.isLoadingResults = true;
     console.log('on edit ', selectedPatntData);
-    this.editing = true;
-    if (this.selectedPatientViaDialog.episode.preauthFormStatus !== 'Sent For Approval') { // 'Saved As Draft'
-      this.preAuthForm.get('enquiryDeatils').patchValue({ preauthReqSentDate: (new Date()).toISOString() });
-    }
 
-    console.log('on edit after date change', this.preAuthForm);
+    console.log('on edit after reset', this.preAuthForm);
+    // if (this.selectedPatientViaDialog.episode.preauthFormStatus !== 'Sent For Approval') { // 'Saved As Draft'
+    //   this.preAuthForm.get('enquiryDeatils').patchValue({ preauthReqSentDate: (new Date()).toISOString() });
+    // }
+
+    this.preAuthService.onEditPatientData(selectedPatntData).subscribe((dataForSelectedPat) => {
+      this.isLoadingResults = true;
+      if (dataForSelectedPat) {
+        this.preAuthForm.reset();
+        this.populatePatientFormData(dataForSelectedPat[0]);
+        console.log('Data received for edit btn', dataForSelectedPat[0]);
+        this.editing = true;
+        this.isLoadingResults = false;
+      }
+    },
+      (error) => {
+        this.isLoadingResults = false;
+        console.log(error);
+      }
+    );
+
   }
 
   compareFn = (val1: string, val2: string) => {

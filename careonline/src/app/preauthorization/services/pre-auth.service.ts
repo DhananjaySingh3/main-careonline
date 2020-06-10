@@ -25,6 +25,12 @@ export class PreAuthService {
   getPreAuthorizationtList(): Observable<any> {
     return this.httpClient.get(this.apiURL + '/preAuthList');
   }
+
+  /*Sending Patient data on Click of edit btn inside Preauth request form*/
+  onEditPatientData(fullFormData: PreAuthFormModelRequest): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preAuthRequestEdit', { mrnNumber: fullFormData.mrnNumber });
+  }
+
   /*Sending Patient data on PreAuth Form Click onto the table*/
   viewEditPatientData(form: PreAuthReadResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preauthview', { mrnNumber: form.preAuthDemographics.mrnNumber });
@@ -50,10 +56,10 @@ export class PreAuthService {
     return this.refreshPage$.asObservable();
   }
 
-    /*Sending Patient data on PreAuth Form Click onto the table for Denial Response*/
-    viewDenialResponseData(form: PreAuthReadResponse): Observable<any> {
-      return this.httpClient.post(this.apiURL + '/preAuthResponse', { mrnNumber: form.mrnNumber });
-    }
+  /*Sending Patient data on PreAuth Form Click onto the table for Denial Response*/
+  viewDenialResponseData(form: PreAuthReadResponse): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preAuthResponse', { mrnNumber: form.mrnNumber });
+  }
   // filter(filterby: string) {
   //   return this.listeners$.next(filterby);
   // }
