@@ -153,6 +153,30 @@
             </tr>
         </table>
     </div>
+    
+    <div class="row">
+        <table style="width:100%" class="mt-14">
+            <tr>
+                <th class="w-15">
+                    {{m1850OasisData.oasisCode}}
+                </th>
+                <th class="w-75">
+                    {{m1850OasisData.oasisQuestion}}
+                </th>
+                <th class="w-20">{{m1850OasisData.functionalPoint}}</th>
+            </tr>
+            <tr *ngFor="let m1850 of m1850OasisData.oasisOptions">
+                <td class="text-center">
+                    <mat-radio-button value="{{m1850.flag}}" name="table5" [(ngModel)]="m1850.flag" ngDefaultControl
+                        (ngModelChange)="selectionChangeEvent(m1850, m1850OasisData)"></mat-radio-button>
+                </td>
+                <td>
+                    {{m1850.description}}
+                </td>
+                <td>{{m1850.functionalPoint}}</td>
+            </tr>
+        </table>
+    </div>
     <div class="row">
         <table style="width:100%" class="mt-14">
             <tr>

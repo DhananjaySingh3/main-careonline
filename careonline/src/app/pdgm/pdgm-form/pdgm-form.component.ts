@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PDGMService } from '../services/pdgm.service';
-import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel} from '../models/pdgm.model';
+import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel } from '../models/pdgm.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -16,14 +16,14 @@ export class PdgmFormComponent implements OnInit {
     oasisDetails = [];
     pdgmToolData: any = [];
     isLoadingResults = true;
-    oasisQuestion1Data:any;
+    oasisQuestion1Data: any;
     m1800OasisData: any;
     m1810OasisData: any;
     m1820OasisData: any;
     m1830OasisData: any;
     m1840OasisData: any;
     m1860OasisData: any;
-
+    pdgmToolPosition3Data: any =[];
     selectedTimings: string = "";
     selectedSource: string = "";
     visitTimings: string[] = ['Early Visits', 'Late Visits'];
@@ -43,14 +43,15 @@ export class PdgmFormComponent implements OnInit {
         this.pdgmToolData[2] = new ClinicalGroupingModel;
         this.getOasisDetails();
         this.getPdgmToolData(this.modelData);
+        this.getpdgmToolPosition3OasisData(this.modelData);
     }
 
     getPdgmToolData(request) {
         this._pdgmService.getPdgmToolData(request).subscribe(result => {
             this.pdgmToolData = result;
-            this.pdgmToolData[0].dob = this._datePipe.transform(this.pdgmToolData[0].dob, 'dd/MM/yyyy') 
+            this.pdgmToolData[0].dob = this._datePipe.transform(this.pdgmToolData[0].dob, 'dd/MM/yyyy')
             this.pdgmToolData[0].episodeStartDate = this._datePipe.transform(this.pdgmToolData[0].episodeStartDate, 'dd/MM/yyyy')
-            this.pdgmToolData[0].episodeEndDate = this._datePipe.transform(this.pdgmToolData[0].episodeEndDate, 'dd/MM/yyyy') 
+            this.pdgmToolData[0].episodeEndDate = this._datePipe.transform(this.pdgmToolData[0].episodeEndDate, 'dd/MM/yyyy')
             if (this.pdgmToolData[1].earlyVisits == true) {
                 this.selectedTimings = "Early Visits"
             }
@@ -64,6 +65,14 @@ export class PdgmFormComponent implements OnInit {
                 this.selectedSource = "Institutional"
             }
             this.isLoadingResults = false;
+        })
+    }
+
+    getpdgmToolPosition3OasisData(request) {
+        this._pdgmService.getpdgmToolPosition3OasisData(request).subscribe(result => {
+            this.pdgmToolPosition3Data = result;
+            console.log(this.pdgmToolPosition3Data);
+            debugger
         })
     }
 
