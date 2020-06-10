@@ -22,8 +22,10 @@ export class PdgmFormComponent implements OnInit {
     m1820OasisData: any;
     m1830OasisData: any;
     m1840OasisData: any;
+    m1850OasisData: any;
     m1860OasisData: any;
-    pdgmToolPosition3Data: any =[];
+    pdgmToolPosition3Data: any = [];
+    position3HippsCode: string;
     selectedTimings: string = "";
     selectedSource: string = "";
     visitTimings: string[] = ['Early Visits', 'Late Visits'];
@@ -41,7 +43,6 @@ export class PdgmFormComponent implements OnInit {
         this.pdgmToolData[0] = new PdgmToolEpisodeDetailsModel;
         this.pdgmToolData[1] = new PdgmAdmissionSourceModel;
         this.pdgmToolData[2] = new ClinicalGroupingModel;
-        this.getOasisDetails();
         this.getPdgmToolData(this.modelData);
         this.getpdgmToolPosition3OasisData(this.modelData);
     }
@@ -71,8 +72,20 @@ export class PdgmFormComponent implements OnInit {
     getpdgmToolPosition3OasisData(request) {
         this._pdgmService.getpdgmToolPosition3OasisData(request).subscribe(result => {
             this.pdgmToolPosition3Data = result;
-            console.log(this.pdgmToolPosition3Data);
-            debugger
+            this.oasisQuestion1Data = this.pdgmToolPosition3Data[0].m1033List;
+            this.m1800OasisData = this.pdgmToolPosition3Data[0].m1800List;
+            this.m1810OasisData = this.pdgmToolPosition3Data[0].m1810List;
+            this.m1820OasisData = this.pdgmToolPosition3Data[0].m1820List;
+            this.m1830OasisData = this.pdgmToolPosition3Data[0].m1830List;
+            this.m1840OasisData = this.pdgmToolPosition3Data[0].m1840List;
+            this.m1850OasisData = this.pdgmToolPosition3Data[0].m1850List;
+            this.m1860OasisData = this.pdgmToolPosition3Data[0].m1860List;
+            if (this.pdgmToolPosition3Data.length == 2) {
+                this.position3HippsCode = this.pdgmToolPosition3Data[1].hippscode;
+            } else {
+                this.position3HippsCode = 'HIPPS CODE';
+            }
+
         })
     }
 
@@ -80,15 +93,6 @@ export class PdgmFormComponent implements OnInit {
         this.dialogRef.close();
     }
 
-    getOasisDetails() {
-        this.oasisQuestion1Data = this._pdgmService.getOasisDetailpart1();
-        this.m1800OasisData = this._pdgmService.getM1800OasisOptions();
-        this.m1810OasisData = this._pdgmService.getM1810OasisOptions();
-        this.m1820OasisData = this._pdgmService.getM1820OasisOptions();
-        this.m1830OasisData = this._pdgmService.getM1830OasisOptions();
-        this.m1840OasisData = this._pdgmService.getM1840OasisOptions();
-        this.m1860OasisData = this._pdgmService.getM1860OasisOptions();
-    }
 
     insertPdgmForm() {
 
