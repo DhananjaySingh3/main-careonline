@@ -85,7 +85,6 @@ export class PdgmFormComponent implements OnInit {
             } else {
                 this.position3HippsCode = 'HIPPS CODE';
             }
-
         })
     }
 

@@ -134,17 +134,14 @@ export class OasisDetailsComponent implements OnInit {
             }
             this.saveOasisDetailsData.m1860List = headerDetails.oasisOptions;
         }
-
-
-        console.log(this.saveOasisDetailsData);
     }
 
 
     saveOasisData() {
-        // this.saveOasisDetailsData
-       this.saveOasisDetailsData.mrnNumber = this.modelData.mrnNumber;
+        this.saveOasisDetailsData.mrnNumber = this.modelData.mrnNumber;
         this._pdgmService.saveOasisDetailsData(this.saveOasisDetailsData).subscribe((result) => {
-            debugger
+            //  this.toaster
+            this.dialogRef.close();
         })
 
     }
