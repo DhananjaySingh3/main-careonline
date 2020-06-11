@@ -94,3 +94,15 @@ table.center {
   margin-right: auto;
 }
 
+.fun-score{
+  background: lightgray;
+  text-align: end;
+  width: 85%;
+  margin-bottom: 24px;
+  padding: 6px;
+}
+
+.fun-btn{
+  width: 12%;
+  margin-top: -58px;
+}

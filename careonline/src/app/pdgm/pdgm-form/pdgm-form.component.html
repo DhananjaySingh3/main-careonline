@@ -347,13 +347,16 @@
                             <mat-radio-button value="{{m1860.flag}}" [checked]="m1860.flag" name="table6"
                                 [(ngModel)]="m1860.flag" ngDefaultControl></mat-radio-button>
                         </td>
-                        <td>
-                            {{m1860.discription}}
-                        </td>
+                        <td> {{m1860.discription}} </td>                         
                         <td>{{m1860.functionalPoint}}</td>
                     </tr>
                 </table>
+                <div class="row">
+                    <h4 class="mb-24 fun-score">Functional Score :</h4>
+                    <button class="mat-raised-button f-r fun-btn" disabled>{{functionScore}}</button>
+                </div>
             </div>
+
             <div class="row">
                 <h4 class="mb-24">3 Position (Functional Level) - HIPPS Code: </h4>
                 <button class="mat-raised-button f-r">{{position3HippsCode}}</button>

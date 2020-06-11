@@ -17,6 +17,7 @@ export class PdgmFormComponent implements OnInit {
     pdgmToolData: any = [];
     isLoadingResults = true;
     oasisQuestion1Data: any;
+    functionScore: string;
     m1800OasisData: any;
     m1810OasisData: any;
     m1820OasisData: any;
@@ -72,6 +73,42 @@ export class PdgmFormComponent implements OnInit {
     getpdgmToolPosition3OasisData(request) {
         this._pdgmService.getpdgmToolPosition3OasisData(request).subscribe(result => {
             this.pdgmToolPosition3Data = result;
+            for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1033List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1033List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1033List[i].functionalPoint = '';
+                }
+            } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1810List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1810List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1810List[i].functionalPoint = '';
+                }
+            } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1800List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1800List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1800List[i].functionalPoint = '';
+                }
+            } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1820List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1820List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1820List[i].functionalPoint = '';
+                }
+            } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1830List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1830List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1830List[i].functionalPoint = '';
+                }
+            }
+            for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1840List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1840List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1840List[i].functionalPoint = '';
+                }
+            }
+            for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1850List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1850List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1850List[i].functionalPoint = '';
+                }
+            }
+            for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1860List.length - 1; i++) {
+                if(this.pdgmToolPosition3Data[0].m1860List[i].flag != true){
+                    this.pdgmToolPosition3Data[0].m1860List[i].functionalPoint = '';
+                }
+            }
             this.oasisQuestion1Data = this.pdgmToolPosition3Data[0].m1033List;
             this.m1800OasisData = this.pdgmToolPosition3Data[0].m1800List;
             this.m1810OasisData = this.pdgmToolPosition3Data[0].m1810List;
@@ -82,7 +119,9 @@ export class PdgmFormComponent implements OnInit {
             this.m1860OasisData = this.pdgmToolPosition3Data[0].m1860List;
             if (this.pdgmToolPosition3Data.length == 2) {
                 this.position3HippsCode = this.pdgmToolPosition3Data[1].hippscode;
+                this.functionScore = this.pdgmToolPosition3Data[1].functionScore;
             } else {
+                this.functionScore = '';
                 this.position3HippsCode = 'HIPPS CODE';
             }
         })
