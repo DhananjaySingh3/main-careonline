@@ -12,21 +12,21 @@ import { DatePipe } from '@angular/common';
 
 export class PdgmFormComponent implements OnInit {
 
-    panelOpenState = false;
-    oasisDetails = [];
+    panelOpenState: boolean = false;
+    oasisDetails:any = [];
     pdgmToolData: any = [];
-    isLoadingResults = true;
-    oasisQuestion1Data: any;
+    isLoadingResults : boolean = true;
+    oasisQuestion1Data: any = [];
     functionScore: string;
-    m1800OasisData: any;
-    m1810OasisData: any;
-    m1820OasisData: any;
-    m1830OasisData: any;
-    m1840OasisData: any;
-    m1850OasisData: any;
-    m1860OasisData: any;
+    m1800OasisData: any = [];
+    m1810OasisData: any = [];
+    m1820OasisData: any = [];
+    m1830OasisData: any = [];
+    m1840OasisData: any = [];
+    m1850OasisData: any = [];
+    m1860OasisData: any = [];
     pdgmToolPosition3Data: any = [];
-    position3HippsCode: string;
+    position3HippsCode: string = '';
     selectedTimings: string = "";
     selectedSource: string = "";
     visitTimings: string[] = ['Early Visits', 'Late Visits'];

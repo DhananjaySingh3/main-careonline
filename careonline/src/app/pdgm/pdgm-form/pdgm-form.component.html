@@ -174,7 +174,7 @@
                     <tr *ngFor="let optionDetails of oasisQuestion1Data">
                         <td class="text-center">
                             <mat-checkbox [checked]="optionDetails.flag" [(ngModel)]="optionDetails.flag"
-                                ngDefaultControl>
+                                ngDefaultControl disabled>
                             </mat-checkbox>
                         </td>
                         <td>
@@ -199,7 +199,7 @@
                     </tr>
                     <tr *ngFor="let m1800 of m1800OasisData">
                         <td class="text-center">
-                            <mat-radio-button value="{{m1800.flag}}" [checked]="m1800.flag" name="table"
+                            <mat-radio-button value="{{m1800.flag}}" [checked]="m1800.flag" name="table" disabled
                                 [(ngModel)]="m1800.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td>
@@ -224,7 +224,7 @@
                     </tr>
                     <tr *ngFor="let m1810 of m1810OasisData">
                         <td class="text-center">
-                            <mat-radio-button value="{{m1810.flag}}" [checked]="m1810.flag" name="table1"
+                            <mat-radio-button value="{{m1810.flag}}" [checked]="m1810.flag" name="table1" disabled
                                 [(ngModel)]="m1810.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td>
@@ -248,7 +248,7 @@
                     </tr>
                     <tr *ngFor="let m1820 of m1820OasisData">
                         <td class="text-center">
-                            <mat-radio-button value="{{m1820.flag}}" [checked]="m1820.flag" name="table2"
+                            <mat-radio-button value="{{m1820.flag}}" [checked]="m1820.flag" name="table2" disabled
                                 [(ngModel)]="m1820.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td>
@@ -272,7 +272,7 @@
                     </tr>
                     <tr *ngFor="let m1830 of m1830OasisData">
                         <td class="text-center">
-                            <mat-radio-button value="{{m1830.flag}}" [checked]="m1830.flag" name="table3"
+                            <mat-radio-button value="{{m1830.flag}}" [checked]="m1830.flag" name="table3" disabled
                                 [(ngModel)]="m1830.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td>
@@ -296,7 +296,7 @@
                     </tr>
                     <tr *ngFor="let m1840 of m1840OasisData">
                         <td class="text-center">
-                            <mat-radio-button value="{{m1840.flag}}" [checked]="m1840.flag" name="table4"
+                            <mat-radio-button value="{{m1840.flag}}" [checked]="m1840.flag" name="table4" disabled
                                 [(ngModel)]="m1840.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td>
@@ -320,7 +320,7 @@
                     </tr>
                     <tr *ngFor="let m1850 of m1850OasisData">
                         <td class="text-center">
-                            <mat-radio-button value="{{m1850.flag}}" [checked]="m1850.flag" name="table5"
+                            <mat-radio-button value="{{m1850.flag}}" [checked]="m1850.flag" name="table5" disabled
                                 [(ngModel)]="m1850.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td>
@@ -344,7 +344,7 @@
                     </tr>
                     <tr *ngFor="let m1860 of m1860OasisData">
                         <td class="text-center">
-                            <mat-radio-button value="{{m1860.flag}}" [checked]="m1860.flag" name="table6"
+                            <mat-radio-button value="{{m1860.flag}}" [checked]="m1860.flag" name="table6" disabled
                                 [(ngModel)]="m1860.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td> {{m1860.discription}} </td>                         
