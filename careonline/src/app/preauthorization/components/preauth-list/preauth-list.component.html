@@ -126,11 +126,11 @@
       <ng-container matColumnDef="preAuthResponseForm">
         <th mat-header-cell *matHeaderCellDef>Preauth Response Form</th>
         <td mat-cell *matCellDef="let row">
-          <!-- <button mat-button mat-raised-button (click)="onViewErrorDetails(row)"
+          <button mat-button mat-raised-button (click)="onViewErrorDetails(row)"
             [disabled]="row.episode.formReceivedDate === null">Received
-            Form</button> -->
-          <button mat-button mat-raised-button (click)="onViewErrorDetails(row)">Received
             Form</button>
+          <!-- <button mat-button mat-raised-button (click)="onViewErrorDetails(row)">Received
+            Form</button> -->
         </td>
       </ng-container>
 

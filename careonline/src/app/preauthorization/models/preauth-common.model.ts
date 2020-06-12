@@ -132,3 +132,8 @@ export class CommunicationTypes {
     code: string;
     name: string;
 }
+
+export class PreAuthResponseStatus {
+    code: string;
+    name: string;
+}

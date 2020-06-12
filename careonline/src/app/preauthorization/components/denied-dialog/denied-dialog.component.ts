@@ -15,7 +15,7 @@ import {
   Sex, Suffix, Genders, Plans, City, State, Relation, Prefixes,
   Payment, RequestTypes, InsuranceTypes, RequestFor, PreAuthStatus, RejectReasons, FollowUpActDesc,
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
-  RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes, PerUnitTypes
+  RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes, PerUnitTypes, PreAuthResponseStatus
 } from '../../../preauthorization/models/preauth-common.model';
 // import {  } from '../../../preauthorization/components/denied-dialog/;
 
@@ -42,10 +42,12 @@ export class DeniedDialogComponent implements OnInit {
   /* Selected Patient's Data received via Dialog while opening from preauthList Component ends*/
 
   isLoadingResults = true;
+  select;
 
   /* Common Data Source from api*/
   perUnitTypes: PerUnitTypes[];
   preAuthStatuses: PreAuthStatus[];
+  preAuthResponseStatuses: PreAuthResponseStatus[];
   prefixes: Prefixes[];
   rejectReasons: RejectReasons[];
   followUpActDesc: FollowUpActDesc[];
@@ -59,6 +61,7 @@ export class DeniedDialogComponent implements OnInit {
   rejectReasonsMsg: RejectReasonsMsg[];
   idNoType: IdNoType[];
   providerTypes: ProviderTypes[];
+
   // ............
   genders: Genders[];
   relations: Relation[];
@@ -72,9 +75,31 @@ export class DeniedDialogComponent implements OnInit {
   insuranceTypes: InsuranceTypes[];
 
   /* Common Data Source from api*/
-
+  editing = false;
   isReadonly = true;
-  unitsPattern = '^[0-9]{1,3}$';
+  unitsPattern = '^[0-9]{1,4}$';
+
+  visitsPattern = '^[0-9]{1,3}$';
+  // usernamePattern = '^[a-z0-9_-]{1,15}$';
+  userNamePattern = '^[a-zA-Z.-]{1,15}$';
+  mrnNumberPattern = '^[a-zA-Z0-9-]{4,15}$';
+  prefixPattern = '^[a-zA-Z.]{1,15}$';
+  suffixPattern = '^[a-zA-Z.-]{1,15}$';
+
+  orgNamePattern = '^[a-zA-Z]{1,20}$';
+  orgIdCodePatrn = '^[a-zA-Z0-9]{1,20}$';
+  communPatrn = '^[a-zA-Z0-9.@_-]{1,25}$';
+  extPattern = '^[0-9]{0,5}$';
+
+  supplIdPattern = '^[a-zA-Z0-9-]{1,20}$';
+  // addPattern = '^[#.0-9a-zA-Z/(),-]+$';
+  statePattern = '^[a-zA-Z ]{2,15}$';
+  cityPattern = '^[a-zA-Z ]{4,15}$';
+  zipPattern = '^[0-9]{5}(-[0-9]{2})?$';
+  countryCodePattern = '^[A-Z0-9+]{2,5}$';
+
+  ssnPattern = '^[0-9]{3}\-?[0-9]{2}\-?[0-9]{4}$'; // '^\d{3}-\d{2}-\d{4}$';
+  policyPattern = '^[0-9_]{5,15}$';
 
   constructor(
     public dialog: MatDialog,
@@ -93,91 +118,81 @@ export class DeniedDialogComponent implements OnInit {
     /*Preauthorization Details*/
     authorizationDetail: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
-      // authorizationNo: new FormControl({ value: '', disabled: false }),
-      // authStartDate: new FormControl({ value: '', disabled: false }),
-      // authEndDate: new FormControl({ value: '', disabled: false }),
-      totalUnitsApproved: new FormControl({ value: '0', disabled: true }),
-      totalUnitsConsumed: new FormControl({ value: '0', disabled: true }),
-      remainingUnits: new FormControl({ value: '0', disabled: true }),
-      noOfUnitsTobeUsed: new FormControl({ value: '0', disabled: true }),
-      unitsForNoOfUnitsTobeUsed: new FormControl({ value: 'Select', disabled: true }),
-      enquiryDetailStatus: new FormControl({ value: '', disabled: true }),
-      enquiryId: new FormControl({ value: '', disabled: true }),
-      processDateAndTime: new FormControl({ value: '', disabled: true }),
-      serviceDateFrom: new FormControl({ value: '', disabled: true }),
-      serviceDateTo: new FormControl({ value: '', disabled: true }),
-      admitDate: new FormControl({ value: '', disabled: true }),
-      dischargeDate: new FormControl({ value: '', disabled: true }),
-      certificationIdentificationNumber: new FormControl({ value: '', disabled: true }),
-      effectiveDateFrom: new FormControl({ value: '', disabled: true }),
-      effectiveDateTo: new FormControl({ value: '', disabled: true }),
-      expirationeDateTo: new FormControl({ value: '', disabled: true }),
-      preAuthorizationStatus: new FormControl({ value: 'Select', disabled: true }),
+
+      totalUnitsApproved: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      totalUnitsConsumed: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      remainingUnits: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      noOfUnitsTobeUsed: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      unitsForNoOfUnitsTobeUsed: new FormControl({ value: 'Select', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      enquiryDetailStatus: new FormControl({ value: '', disabled: false }),
+      enquiryId: new FormControl({ value: '', disabled: false }),
+      processDateAndTime: new FormControl({ value: '', disabled: false }),
+      serviceDateFrom: new FormControl({ value: '', disabled: false }),
+      serviceDateTo: new FormControl({ value: '', disabled: false }),
+      admitDate: new FormControl({ value: '', disabled: false }),
+      dischargeDate: new FormControl({ value: '', disabled: false }),
+      certificationIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      effectiveDateFrom: new FormControl({ value: '', disabled: false }),
+      effectiveDateTo: new FormControl({ value: '', disabled: false }),
+      expirationeDateTo: new FormControl({ value: '', disabled: false }),
+      preAuthorizationStatus: new FormControl({ value: 'Select', disabled: false }),
     }),
     /*Preauthorization Details*/
 
-    /*Enquiry Details*/
-
-    // enquiryDetailStatus: new FormControl({ value: '', disabled: true }),
-    // enquiryId: new FormControl({ value: '', disabled: true }),
-    // preAuthorizationNumber: new FormControl({ value: '', disabled: true }),
-    // processDateAndTime: new FormControl({ value: (new Date()).toISOString(), disabled: true }),
-    // processDateAndTime: new FormControl({ value: '', disabled: true }),
-    // serviceDateFrom: new FormControl({ value: '', disabled: true }),
-    // serviceDateTo: new FormControl({ value: '', disabled: true }),
-    // admitDate: new FormControl({ value: '', disabled: true }),
-    // dischargeDate: new FormControl({ value: '', disabled: true }),
-    // certificationIdentificationNumber: new FormControl({ value: '', disabled: true }),
-    // effectiveDateFrom: new FormControl({ value: '', disabled: true }),
-    // effectiveDateTo: new FormControl({ value: '', disabled: true }),
-    // expirationeDateTo: new FormControl({ value: '', disabled: true }),
-    // preAuthorizationStatus: new FormControl({ value: 'Select', disabled: true }),
-
     /*Member Demographic details*/
-    memberDetailStatus: new FormControl({ value: '', disabled: true }),
-    mrnNumber: new FormControl({ value: '', disabled: true }),
-    memberlastName: new FormControl({ value: '', disabled: true }, []),
-    memberfirstName: new FormControl({ value: '', disabled: true }, []),
-    membermiddleName: new FormControl({ value: '', disabled: true }, []),
-    memberdob: new FormControl({ value: '', disabled: true }, []),
-    membergender: new FormControl({ value: '', disabled: true }, []),
-    membersuffix: new FormControl({ value: '', disabled: true }),
-    memberPrefix: new FormControl({ value: '', disabled: true }),
-    // ssn: new FormControl({ value: '', disabled: true }),
-    memberRelationshipToSubscriber: new FormControl({ value: 'Select', disabled: true }),
+    memberDetailStatus: new FormControl({ value: '', disabled: false }),
+    mrnNumber: new FormControl({ value: '', disabled: false }),
+    memberlastName: new FormControl({ value: '', disabled: false }, []),
+    memberfirstName: new FormControl({ value: '', disabled: false }, []),
+    membermiddleName: new FormControl({ value: '', disabled: false }, []),
+    memberdob: new FormControl({ value: '', disabled: false }, []),
+    membergender: new FormControl({ value: '', disabled: false }, []),
+    membersuffix: new FormControl({ value: '', disabled: false }),
+    memberPrefix: new FormControl({ value: '', disabled: false }),
+    // ssn: new FormControl({ value: '', disabled: false }),
+    memberRelationshipToSubscriber: new FormControl({ value: 'Select', disabled: false }),
 
     /*Organization Information*/
-    orgDetailStatus: new FormControl({ value: '', disabled: true }),
-    organizationName: new FormControl({ value: '', disabled: true }),
-    orgIdentificationCode: new FormControl({ value: '', disabled: true }),
-    orgIdentificationCodeType: new FormControl({ value: '', disabled: true }),
-    orgRejectionReason: new FormControl({ value: 'Select', disabled: true }),
-    orgFollowUpActionDescription: new FormControl({ value: 'Select', disabled: true }),
+    orgCommunicationTypeTelephone: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
+    orgCommunicationTypeFacsimile: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
+    orgCommunicationTypeEMail: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
+    orgCommunicationExt: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.extPattern)]),
+
+    orgDetailStatus: new FormControl({ value: '', disabled: false }),
+    organizationName: new FormControl({ value: '', disabled: false }),
+    orgIdentificationCode: new FormControl({ value: '', disabled: false }),
+    orgIdentificationCodeType: new FormControl({ value: '', disabled: false }),
+    orgRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+    orgFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
 
     // orgFollowUpActionRequired: new FormControl({ value: 'true', disabled: true }),
     // orgRequestValidationAccepted: new FormControl({ value: 'true', disabled: true }),
     // orgTransactionRejected: new FormControl({ value: 'true', disabled: true }),
 
     /*Subscriber Details*/
-    subscriberDetailStatus: new FormControl({ value: '', disabled: true }),
-    subscriberLastName: new FormControl({ value: '', disabled: true }, []),
-    subscriberFirstName: new FormControl({ value: '', disabled: true }, []),
-    subscriberMiddleName: new FormControl({ value: '', disabled: true }, []),
-    subscriberDob: new FormControl({ value: '', disabled: true }, []),
-    subscriberGender: new FormControl({ value: '', disabled: true }, []),
-    subscriberSuffix: new FormControl({ value: '', disabled: true }),
-    subscriberPrefix: new FormControl({ value: '', disabled: true }),
-    // subscSsn: new FormControl({ value: '', disabled: true }),
-    subscriberSupplementalId: new FormControl({ value: '', disabled: true }),
-    subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: true }),
-    subscriberRejectionReason: new FormControl({ value: 'Select', disabled: true }),
-    subscriberFollowUpActionDescription: new FormControl({ value: 'Select', disabled: true }),
+    subscriberRelToInsured: new FormControl({ value: 'Unknown', disabled: false }),
+    subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+    subscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
 
-    // subscriberRequestValidationAccepted: new FormControl({ value: '', disabled: true }),
-    // subscriberTransactionRejected: new FormControl({ value: '', disabled: true }),
-    // subscriberFollowUpActionRequired: new FormControl({ value: '', disabled: true }),
+    subscriberDetailStatus: new FormControl({ value: '', disabled: false }),
+    subscriberLastName: new FormControl({ value: '', disabled: false }, []),
+    subscriberFirstName: new FormControl({ value: '', disabled: false }, []),
+    subscriberMiddleName: new FormControl({ value: '', disabled: false }, []),
+    subscriberDob: new FormControl({ value: '', disabled: false }, []),
+    subscriberGender: new FormControl({ value: '', disabled: false }, []),
+    subscriberSuffix: new FormControl({ value: '', disabled: false }),
+    subscriberPrefix: new FormControl({ value: '', disabled: false }),
+    // subscSsn: new FormControl({ value: '', disabled: false }),
+    subscriberSupplementalId: new FormControl({ value: '', disabled: false }),
+    subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+    subscriberRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+    subscriberFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
 
     /*Dependent Information*/
+    dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
+    dependentSubscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+    dependentPrefix: new FormControl({ value: '', disabled: false }),
+
     dependentLastName: new FormControl({ value: '', disabled: false }, []),
     dependentFirstName: new FormControl({ value: '', disabled: false }, []),
     dependentMiddleName: new FormControl({ value: '', disabled: false }, []),
@@ -190,22 +205,32 @@ export class DeniedDialogComponent implements OnInit {
     /*Requester Provider Information*/
 
     /*Note: Requester Provider Full Name is missing*/
-    reqProviderDetailStatus: new FormControl({ value: '', disabled: true }),
-    reqProviderFullName: new FormControl({ value: '', disabled: true }, []),
-    reqProviderFirstName: new FormControl({ value: '', disabled: true }, []),
-    reqProviderLastName: new FormControl({ value: '', disabled: true }, []),
-    // providerMiddleName: new FormControl({ value: '', disabled: true }, []),
-    reqProviderType: new FormControl({ value: 'Select', disabled: true }, []),
-    reqProviderIdentificationNumber: new FormControl({ value: '', disabled: true }),
-    reqProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: true }),
-    reqProviderSupplimentalId: new FormControl({ value: '', disabled: true }),
-    reqProviderIdNumberType: new FormControl({ value: 'Select', disabled: true }),
-    reqProviderRejectionReason: new FormControl({ value: 'Select', disabled: true }),
-    reqProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: true }),
+    requesterResponseInformation: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
+      reqProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      reqProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      serviceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      serviceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      admitDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      dischargeDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      requestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]), // Admission Review
+      certificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      serviceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      levelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
-    // providerRequestValidationAccepted: new FormControl({ value: '', disabled: true }),
-    // providerTransactionRejected: new FormControl({ value: '', disabled: true }),
-    // providerFollowUpActionRequired: new FormControl({ value: '', disabled: true }),
+      reqProviderDetailStatus: new FormControl({ value: '', disabled: true }),
+      reqProviderFullName: new FormControl({ value: '', disabled: true }, []),
+      reqProviderFirstName: new FormControl({ value: '', disabled: true }, []),
+      reqProviderLastName: new FormControl({ value: '', disabled: true }, []),
+      reqProviderMiddleName: new FormControl({ value: '', disabled: true }, []),
+      reqProviderType: new FormControl({ value: 'Select', disabled: true }, []),
+      reqProviderIdentificationNumber: new FormControl({ value: '', disabled: true }),
+      reqProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: true }),
+      reqProviderSupplimentalId: new FormControl({ value: '', disabled: true }),
+      reqProviderIdNumberType: new FormControl({ value: 'Select', disabled: true }),
+      reqProviderRejectionReason: new FormControl({ value: 'Select', disabled: true }),
+      reqProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: true }),
+    }),
 
     /*Servicing Provider Information*/
 
@@ -213,7 +238,7 @@ export class DeniedDialogComponent implements OnInit {
     servicingProviderFullName: new FormControl({ value: '', disabled: true }, []),
     servicingProviderFirstName: new FormControl({ value: '', disabled: true }, []),
     servicingProviderLastName: new FormControl({ value: '', disabled: true }, []),
-    // servicingProviderMiddleName: new FormControl({ value: '', disabled: true }, []),
+    servicingProviderMiddleName: new FormControl({ value: '', disabled: true }, []),
     servicingProviderType: new FormControl({ value: 'Select', disabled: true }, []),
     servicingProviderAddress: new FormControl({ value: '', disabled: true }, []),
     servicingProviderCity: new FormControl({ value: '', disabled: true }, []),
@@ -230,6 +255,13 @@ export class DeniedDialogComponent implements OnInit {
 
     /*Physical Therapy Information*/
     physicalTherapyResponse: new FormGroup({
+      physicalTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      physicalTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      physicalTherapyResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      physicalTherapyResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      physicalTherapyRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
       id: new FormControl({ value: '', disabled: true }),
       physicalTherapyDetailStatus: new FormControl({ value: '', disabled: true }),
 
@@ -265,6 +297,13 @@ export class DeniedDialogComponent implements OnInit {
     }),
     /*Occupational Therapy Information*/
     occupationalTherapyResponse: new FormGroup({
+      occupationalTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      occupationalTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      occupationalTherapyResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      occupationalTherapyResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      occupationalTherapyRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
       id: new FormControl({ value: '', disabled: true }),
       occupationalTherapyDetailStatus: new FormControl({ value: '', disabled: true }),
 
@@ -299,6 +338,13 @@ export class DeniedDialogComponent implements OnInit {
     }),
     /*Medical Social Work Information*/
     medicalSocialWorkResponse: new FormGroup({
+      medicalSocialWorkProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      medicalSocialWorkProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      medicalSocialWorkResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      medicalSocialWorkResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      medicalSocialWorkRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
       id: new FormControl({ value: '', disabled: true }),
       medicalSocialWorkDetailStatus: new FormControl({ value: '', disabled: true }),
 
@@ -334,6 +380,13 @@ export class DeniedDialogComponent implements OnInit {
 
     /*Skilled Nursing Information*/
     skilledNursingResponse: new FormGroup({
+      skilledNursingProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      skilledNursingProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      skilledNursingResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      skilledNursingResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      skilledNursingRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
       id: new FormControl({ value: '', disabled: true }),
       skilledNursingDetailStatus: new FormControl({ value: '', disabled: true }),
 
@@ -370,6 +423,13 @@ export class DeniedDialogComponent implements OnInit {
     /*speech Pathology Information*/
 
     speechPathologyResponse: new FormGroup({
+      speechPathologyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      speechPathologyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      speechPathologyResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      speechPathologyResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      speechPathologyRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
       id: new FormControl({ value: '', disabled: true }),
       speechPathologyDetailStatus: new FormControl({ value: '', disabled: true }),
 
@@ -405,6 +465,13 @@ export class DeniedDialogComponent implements OnInit {
 
     /*Home health aide Information*/
     homeHealthAideResponse: new FormGroup({
+      homeHealthAideProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      homeHealthAideProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      homeHealthAideResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      homeHealthAideResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      homeHealthAideRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
       id: new FormControl({ value: '', disabled: true }),
       homeHealthAideDetailStatus: new FormControl({ value: '', disabled: true }),
 
@@ -479,7 +546,7 @@ export class DeniedDialogComponent implements OnInit {
     this.requestFor = this.commonService.getRequestFor();
     this.insuranceTypes = this.commonService.getInsuranceTypes();
     console.log(this.insuranceTypes);
-
+    this.preAuthResponseStatuses = this.commonService.getPreAuthResponseStatus();
   }
   /* Common methods */
 
@@ -524,9 +591,6 @@ export class DeniedDialogComponent implements OnInit {
       /*Preauthorization Details*/
       authorizationDetail: {
         id: patient.authorizationDetail.id,
-        // authorizationNo: patient.authorizationDetail.authorizationNo,
-        // authStartDate: patient.authorizationDetail.authStartDate,
-        // authEndDate: patient.authorizationDetail.authEndDate,
         totalUnitsApproved: patient.authorizationDetail.totalUnitsApproved,
         totalUnitsConsumed: patient.authorizationDetail.totalUnitsConsumed,
         remainingUnits: patient.authorizationDetail.remainingUnits,
@@ -546,22 +610,6 @@ export class DeniedDialogComponent implements OnInit {
         enquiryDetailStatus: patient.authorizationDetail.enquiryDetailStatus,
       },
 
-      /*Preauthorization Details*/
-
-      /*Enquiry Details*/
-      // enquiryId: patient.enquiryId,
-      // processDateAndTime: patient.processDateAndTime,
-      // serviceDateFrom: patient.serviceDateFrom,
-      // serviceDateTo: patient.serviceDateTo,
-      // effectiveDateTo: patient.effectiveDateTo,
-      // effectiveDateFrom: patient.effectiveDateFrom,
-      // expirationeDateTo: patient.expirationeDateTo,
-      // admitDate: patient.admitDate,
-      // dischargeDate: patient.dischargeDate,
-      // certificationIdentificationNumber: patient.certificationIdentificationNumber,
-      // preAuthorizationStatus: patient.preAuthorizationStatus,
-      // enquiryDetailStatus: patient.enquiryDetailStatus,
-
       /*Member Details*/
       mrnNumber: patient.mrnNumber,
       memberfirstName: patient.memberfirstName,
@@ -575,6 +623,11 @@ export class DeniedDialogComponent implements OnInit {
       memberDetailStatus: patient.memberDetailStatus,
 
       /*Organization Details*/
+      orgCommunicationTypeTelephone: patient.orgCommunicationTypeTelephone,
+      orgCommunicationTypeFacsimile: patient.orgCommunicationTypeFacsimile,
+      orgCommunicationTypeEMail: patient.orgCommunicationTypeEMail,
+      orgCommunicationExt: patient.orgCommunicationExt,
+
       organizationName: patient.organizationName,
       orgIdentificationCode: patient.orgIdentificationCode,
       orgIdentificationCodeType: patient.orgIdentificationCodeType,
@@ -583,19 +636,38 @@ export class DeniedDialogComponent implements OnInit {
       orgDetailStatus: patient.orgDetailStatus,
 
       /*Requester Provider Details*/
-      reqProviderFullName: patient.reqProviderFullName,
-      reqProviderFirstName: patient.reqProviderFirstName,
-      reqProviderLastName: patient.reqProviderLastName,
-      reqProviderType: patient.reqProviderType,
-      reqProviderIdentificationNumber: patient.reqProviderIdentificationNumber,
-      reqProviderIdentificationNumberType: patient.reqProviderIdentificationNumberType,
-      reqProviderSupplimentalId: patient.reqProviderSupplimentalId,
-      reqProviderIdNumberType: patient.reqProviderIdNumberType,
-      reqProviderRejectionReason: patient.reqProviderRejectionReason,
-      reqProviderFollowUpActionDescription: patient.reqProviderFollowUpActionDescription,
-      reqProviderDetailStatus: patient.reqProviderDetailStatus,
+      requesterResponseInformation: {
+        id: patient.requesterResponseInformation.id,
+        reqProviderSuffix: patient.requesterResponseInformation.reqProviderSuffix,
+        reqProviderPrefix: patient.requesterResponseInformation.reqProviderPrefix,
+        serviceDateFrom: patient.requesterResponseInformation.serviceDateFrom,
+        serviceDateTo: patient.requesterResponseInformation.serviceDateTo,
+        admitDate: patient.requesterResponseInformation.admitDate,
+        dischargeDate: patient.requesterResponseInformation.dischargeDate,
+        requestCategory: patient.requesterResponseInformation.requestCategory,
+        certificationType: patient.requesterResponseInformation.certificationType,
+        serviceType: patient.requesterResponseInformation.serviceType,
+        levelOfService: patient.requesterResponseInformation.levelOfService,
+
+        reqProviderFullName: patient.requesterResponseInformation.reqProviderFullName,
+        reqProviderFirstName: patient.requesterResponseInformation.reqProviderFirstName,
+        reqProviderLastName: patient.requesterResponseInformation.reqProviderLastName,
+        reqProviderMiddleName: patient.requesterResponseInformation.reqProviderMiddleName,
+        reqProviderType: patient.requesterResponseInformation.reqProviderType,
+        reqProviderIdentificationNumber: patient.requesterResponseInformation.reqProviderIdentificationNumber,
+        reqProviderIdentificationNumberType: patient.requesterResponseInformation.reqProviderIdentificationNumberType,
+        reqProviderSupplimentalId: patient.requesterResponseInformation.reqProviderSupplimentalId,
+        reqProviderIdNumberType: patient.requesterResponseInformation.reqProviderIdNumberType,
+        reqProviderRejectionReason: patient.requesterResponseInformation.reqProviderRejectionReason,
+        reqProviderFollowUpActionDescription: patient.requesterResponseInformation.reqProviderFollowUpActionDescription,
+        reqProviderDetailStatus: patient.requesterResponseInformation.reqProviderDetailStatus,
+      },
 
       /*Subscriber Details*/
+      subscriberRelToInsured: patient.subscriberRelToInsured,
+      subscriberIdentificationCode: patient.subscriberIdentificationCode,
+      subscriberIdNumberType: patient.subscriberIdNumberType,
+
       subscriberFirstName: patient.subscriberFirstName,
       subscriberLastName: patient.subscriberLastName,
       subscriberMiddleName: patient.subscriberMiddleName,
@@ -610,6 +682,10 @@ export class DeniedDialogComponent implements OnInit {
       subscriberDetailStatus: patient.subscriberDetailStatus,
 
       /*Dependent Details*/
+      dependentSubscriberIdentificationCode: patient.dependentSubscriberIdentificationCode,
+      dependentSubscriberIdNumberType: patient.dependentSubscriberIdNumberType,
+      dependentPrefix: patient.dependentPrefix,
+
       dependentFirstName: patient.dependentFirstName,
       dependentLastName: patient.dependentLastName,
       dependentMiddleName: patient.dependentMiddleName,
@@ -623,6 +699,7 @@ export class DeniedDialogComponent implements OnInit {
       servicingProviderFullName: patient.servicingProviderFullName,
       servicingProviderFirstName: patient.servicingProviderFirstName,
       servicingProviderLastName: patient.servicingProviderLastName,
+      servicingProviderMiddleName: patient.servicingProviderMiddleName,
       servicingProviderType: patient.servicingProviderType,
       servicingProviderAddress: patient.servicingProviderAddress,
       servicingProviderCity: patient.servicingProviderCity,
@@ -637,6 +714,15 @@ export class DeniedDialogComponent implements OnInit {
       servicingProviderFollowUpActionDescription: patient.servicingProviderFollowUpActionDescription,
       servicingProviderDetailStatus: patient.servicingProviderDetailStatus,
       homeHealthAideResponse: {
+        mrnNumber: patient.homeHealthAideResponse.mrnNumber,
+        homeHealthAideRevenueCode: patient.homeHealthAideResponse.homeHealthAideRevenueCode,
+        homeHealthAideProviderSuffix: patient.homeHealthAideResponse.homeHealthAideProviderSuffix,
+        homeHealthAideProviderPrefix: patient.homeHealthAideResponse.homeHealthAideProviderPrefix,
+        homeHealthAideResponseServiceDateFrom:
+          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateFrom)).toISOString(),
+        homeHealthAideResponseServiceDateTo:
+          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateTo)).toISOString(),
+
         id: patient.homeHealthAideResponse.id,
         homeHealthAideProviderIdentificationNumberType: patient.homeHealthAideResponse.homeHealthAideProviderIdentificationNumberType,
         homeHealthAideProviderFollowUpActionDescription: patient.homeHealthAideResponse.homeHealthAideProviderFollowUpActionDescription,
@@ -666,6 +752,15 @@ export class DeniedDialogComponent implements OnInit {
         homeHealthAideRequestCategory: patient.homeHealthAideResponse.homeHealthAideRequestCategory,
       },
       occupationalTherapyResponse: {
+        mrnNumber: patient.occupationalTherapyResponse.mrnNumber,
+        occupationalTherapyRevenueCode: patient.occupationalTherapyResponse.occupationalTherapyRevenueCode,
+        occupationalTherapyProviderSuffix: patient.occupationalTherapyResponse.occupationalTherapyProviderSuffix,
+        occupationalTherapyProviderPrefix: patient.occupationalTherapyResponse.occupationalTherapyProviderPrefix,
+        occupationalTherapyResponseServiceDateFrom:
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateFrom)).toISOString(),
+        occupationalTherapyResponseServiceDateTo:
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateTo)).toISOString(),
+
         id: patient.occupationalTherapyResponse.id,
         occupationalTherapyProviderIdentificationNumber:
           patient.occupationalTherapyResponse.occupationalTherapyProviderIdentificationNumber,
@@ -697,6 +792,16 @@ export class DeniedDialogComponent implements OnInit {
         occupationalTherapyUnit: patient.occupationalTherapyResponse.occupationalTherapyUnit,
       },
       medicalSocialWorkResponse: {
+        mrnNumber: patient.medicalSocialWorkResponse.mrnNumber,
+        medicalSocialWorkRevenueCode: patient.medicalSocialWorkResponse.medicalSocialWorkRevenueCode,
+        medicalSocialWorkProviderSuffix: patient.medicalSocialWorkResponse.medicalSocialWorkProviderSuffix,
+        medicalSocialWorkProviderPrefix: patient.medicalSocialWorkResponse.medicalSocialWorkProviderPrefix,
+        medicalSocialWorkResponseServiceDateFrom:
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateFrom)).toISOString(),
+        medicalSocialWorkResponseServiceDateTo:
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateTo)).toISOString(),
+
+
         id: patient.medicalSocialWorkResponse.id,
         medicalSocialWorkProviderFollowUpActionDescription:
           patient.medicalSocialWorkResponse.medicalSocialWorkProviderFollowUpActionDescription,
@@ -728,6 +833,16 @@ export class DeniedDialogComponent implements OnInit {
         medicalSocialWorkProviderCity: patient.medicalSocialWorkResponse.medicalSocialWorkProviderCity,
       },
       physicalTherapyResponse: {
+        mrnNumber: patient.physicalTherapyResponse.mrnNumber,
+        physicalTherapyRevenueCode: patient.physicalTherapyResponse.physicalTherapyRevenueCode,
+        physicalTherapyProviderSuffix: patient.physicalTherapyResponse.physicalTherapyProviderSuffix,
+        physicalTherapyProviderPrefix: patient.physicalTherapyResponse.physicalTherapyProviderPrefix,
+        physicalTherapyResponseServiceDateFrom:
+          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateFrom)).toISOString(),
+        physicalTherapyResponseServiceDateTo:
+          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateTo)).toISOString(),
+
+
         id: patient.physicalTherapyResponse.id,
         physicalTherapyRequestCategory: patient.physicalTherapyResponse.physicalTherapyRequestCategory,
         physicalTherapyCertificationType: patient.physicalTherapyResponse.physicalTherapyCertificationType,
@@ -757,6 +872,16 @@ export class DeniedDialogComponent implements OnInit {
         physicalTherapyDetailStatus: patient.physicalTherapyResponse.physicalTherapyDetailStatus,
       },
       skilledNursingResponse: {
+        mrnNumber: patient.skilledNursingResponse.mrnNumber,
+        skilledNursingRevenueCode: patient.skilledNursingResponse.skilledNursingRevenueCode,
+        skilledNursingProviderSuffix: patient.skilledNursingResponse.skilledNursingProviderSuffix,
+        skilledNursingProviderPrefix: patient.skilledNursingResponse.skilledNursingProviderPrefix,
+        skilledNursingResponseServiceDateFrom:
+          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateFrom)).toISOString(),
+        skilledNursingResponseServiceDateTo:
+          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateTo)).toISOString(),
+
+
         id: patient.skilledNursingResponse.id,
         skilledNursingProviderIdentificationNumberType: patient.skilledNursingResponse.skilledNursingProviderIdentificationNumberType,
         skilledNursingProviderFollowUpActionDescription: patient.skilledNursingResponse.skilledNursingProviderFollowUpActionDescription,
@@ -786,6 +911,16 @@ export class DeniedDialogComponent implements OnInit {
         skilledNursingProviderCity: patient.skilledNursingResponse.skilledNursingProviderCity,
       },
       speechPathologyResponse: {
+        mrnNumber: patient.speechPathologyResponse.mrnNumber,
+        speechPathologyRevenueCode: patient.speechPathologyResponse.speechPathologyRevenueCode,
+        speechPathologyProviderSuffix: patient.speechPathologyResponse.speechPathologyProviderSuffix,
+        speechPathologyProviderPrefix: patient.speechPathologyResponse.speechPathologyProviderPrefix,
+        speechPathologyResponseServiceDateFrom:
+          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateFrom)).toISOString(),
+        speechPathologyResponseServiceDateTo:
+          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateTo)).toISOString(),
+
+
         id: patient.speechPathologyResponse.id,
         speechPathologyProviderIdentificationNumberType: patient.speechPathologyResponse.speechPathologyProviderIdentificationNumberType,
         speechPathologyProviderFollowUpActionDescription: patient.speechPathologyResponse.speechPathologyProviderFollowUpActionDescription,
@@ -823,6 +958,74 @@ export class DeniedDialogComponent implements OnInit {
 
   }
   /* Populating ResponseForm Data */
+
+  onSave(formDataOnSave) {
+
+    /*
+    if (formDataOnSave.valid) {
+      let selectedPatntData: PreAuthResponse;
+      selectedPatntData = formDataOnSave.value;
+
+      // selectedPatientData.currenttimdate = new Date().toISOString();
+      // console.log('Date after change ', selectedPatientData);
+      console.log('Form data on save', selectedPatntData);
+
+      const config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = false;
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = {
+        heading: '"Save" Confirmation Alert',
+        messageContent: 'Do you want to "Save" the content?',
+        selectedPatientData: selectedPatntData,
+        actionType: 'saveRequest'
+      };
+      const dialogRef = this.dialog.open(StackedModalComponent, config);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
+
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+          this.isFormUpdated = result;
+          this.dialogRef.close(false);
+          // this.preAuthService.filter('Refresh Initiated');
+        }
+
+      });
+
+    }
+     */
+  }
+
+  onEdit(selectedPatntData: PreAuthResponse) {
+    this.editing = true;
+    console.log('on edit ', selectedPatntData);
+
+
+    // if (this.selectedPatientViaDialog.episode.preauthFormStatus !== 'Sent For Approval') { // 'Saved As Draft'
+    //   this.preAuthReponseForm.get('enquiryDeatils').patchValue({ preauthReqSentDate: (new Date()).toISOString() });
+    // }
+
+    // this.preAuthService.onEditPatientData(selectedPatntData).subscribe((dataForSelectedPat) => {
+    //   this.isLoadingResults = true;
+    //   if (dataForSelectedPat) {
+    //     this.preAuthReponseForm.reset();
+    //     this.populatePatientFormData(dataForSelectedPat[0]);
+    //     console.log('Data received for edit btn', dataForSelectedPat[0]);
+    //     this.editing = true;
+    //     this.isLoadingResults = false;
+    //   }
+    // },
+    //   (error) => {
+    //     this.isLoadingResults = false;
+    //     console.log(error);
+    //   }
+    // );
+
+  }
+
 
   printPage() {
     // window.print();
