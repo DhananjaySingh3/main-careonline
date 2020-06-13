@@ -60,6 +60,8 @@ export class PreAuthFormComponent implements OnInit {
   isFormUpdated = false;
   isReadonly = true;
   editing = false;
+  select;
+  select1;
 
   visitsPattern = '^[0-9]{1,3}$';
   unitsPattern = '^[0-9]{1,3}$';
@@ -131,24 +133,24 @@ export class PreAuthFormComponent implements OnInit {
 
     preAuthDemographics: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.mrnNumberPattern)]),
-      lastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
-      firstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      mrnNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.mrnNumberPattern)]),
+      lastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      firstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
       middleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
       dob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
       gender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
       suffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       prefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
       ssn: new FormControl({ value: '', disabled: false }),
-      relationshipToSubscriber: new FormControl({ value: 'Select', disabled: false }),
+      relationshipToSubscriber: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
     }),
 
     organizationInformation: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      organizationName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.orgNamePattern)]),
+      organizationName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgNamePattern)]),
       orgIdentificationCode: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+        [Validators.pattern(this.orgIdCodePatrn)]),
       orgIdentificationCodeType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
       orgCommunicationTypeTelephone: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
@@ -160,71 +162,67 @@ export class PreAuthFormComponent implements OnInit {
     subscriberDetails: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      subscriberLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
-      subscriberFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      subscriberLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      subscriberFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
       subscriberMiddleName: new FormControl({ value: '', disabled: false },
         [Validators.pattern(this.userNamePattern)]),
       subscriberDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      subscriberGender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+      subscriberGender: new FormControl({ value: 'Unknown', disabled: false }),
       subscriberSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       subscriberPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
-      subscriberRelToInsured: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
-      subscriberIdentificationCode: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
-      subscriberIdentificationNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
-      subscriberSupplementalId: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.supplIdPattern)]),
-      subscriberIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
+      subscriberRelToInsured: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      subscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
+      subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      subscriberSupplementalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
     }),
 
     dependentDetails: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      dependentLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
-      dependentFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      dependentLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      dependentFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
       dependentMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dependentDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      dependentGender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+      dependentDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      dependentGender: new FormControl({ value: 'Unknown', disabled: false }),
       dependentSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       dependentPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
-      dependentRelToSubscriber: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
-      dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+      dependentRelToSubscriber: new FormControl({ value: 'Unknown', disabled: false }),
+      dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
       dependentSubscriberIdentificationNumberType: new FormControl({ value: 'Payor Identification', disabled: false },
         [Validators.required]),
-      dependentSubscriberSupplementalId: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.supplIdPattern)]),
-      dependentSubscriberIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
+      dependentSubscriberSupplementalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      dependentSubscriberIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }),
     }),
     providerDetail: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
 
       reqProviderFirstName: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.userNamePattern)]),
+        [Validators.pattern(this.userNamePattern)]),
       reqProviderLastName: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.userNamePattern)]),
+        [Validators.pattern(this.userNamePattern)]),
       reqProviderMiddleName: new FormControl({ value: '', disabled: false },
         [Validators.pattern(this.userNamePattern)]),
       reqProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       reqProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
       reqProviderFullName: new FormControl({ value: '', disabled: false }, []),
-      reqProviderType: new FormControl({ value: 'Referring', disabled: false }, [Validators.required]),
+      reqProviderType: new FormControl({ value: 'Referring', disabled: false }),
       reqProviderIdentificationNumber: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+        [Validators.pattern(this.orgIdCodePatrn)]),
       reqProviderIdentificationNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
       reqProviderSupplimentalId: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.supplIdPattern)]),
-      reqProviderIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
-      serviceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      serviceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      admitDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      dischargeDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      requestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]), // Admission Review
-      certificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      serviceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      levelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+        [Validators.pattern(this.supplIdPattern)]),
+      reqProviderIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }),
+      serviceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      serviceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      admitDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      dischargeDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+      requestCategory: new FormControl({ value: 'Select', disabled: false }), // Admission Review
+      certificationType: new FormControl({ value: 'Select', disabled: false }),
+      serviceType: new FormControl({ value: 'Select', disabled: false }),
+      levelOfService: new FormControl({ value: 'Select', disabled: false }),
     }),
 
     requestService: new FormGroup({
@@ -739,8 +737,10 @@ export class PreAuthFormComponent implements OnInit {
           medicalSocialWorkProviderSuffix: patient.requestService.medicalSocialWork.medicalSocialWorkProviderSuffix,
           medicalSocialWorkProviderPrefix: patient.requestService.medicalSocialWork.medicalSocialWorkProviderPrefix,
 
-          medicalSocialWorkRequestServiceDateFrom: patient.requestService.medicalSocialWork.medicalSocialWorkRequestServiceDateFrom,
-          medicalSocialWorkRequestServiceDateTo: patient.requestService.medicalSocialWork.medicalSocialWorkRequestServiceDateTo,
+          medicalSocialWorkRequestServiceDateFrom:
+            (new Date(patient.requestService.medicalSocialWork.medicalSocialWorkRequestServiceDateFrom)).toISOString(),
+          medicalSocialWorkRequestServiceDateTo:
+            (new Date(patient.requestService.medicalSocialWork.medicalSocialWorkRequestServiceDateTo)).toISOString(),
           medicalSocialWorkVisit: patient.requestService.medicalSocialWork.medicalSocialWorkVisit,
           medicalSocialWorkUnit: patient.requestService.medicalSocialWork.medicalSocialWorkUnit,
           medicalSocialWorkRequestCategory: patient.requestService.medicalSocialWork.medicalSocialWorkRequestCategory,
@@ -773,8 +773,10 @@ export class PreAuthFormComponent implements OnInit {
           occupationTherapyProviderSuffix: patient.requestService.occupationTherapy.occupationTherapyProviderSuffix,
           occupationTherapyProviderPrefix: patient.requestService.occupationTherapy.occupationTherapyProviderPrefix,
 
-          occupationTherapyRequestServiceDateFrom: patient.requestService.occupationTherapy.occupationTherapyRequestServiceDateFrom,
-          occupationTherapyRequestServiceDateTo: patient.requestService.occupationTherapy.occupationTherapyRequestServiceDateTo,
+          occupationTherapyRequestServiceDateFrom:
+            (new Date(patient.requestService.occupationTherapy.occupationTherapyRequestServiceDateFrom)).toISOString(),
+          occupationTherapyRequestServiceDateTo:
+            (new Date(patient.requestService.occupationTherapy.occupationTherapyRequestServiceDateTo)).toISOString(),
           occupationTherapyVisit: patient.requestService.occupationTherapy.occupationTherapyVisit,
           occupationTherapyUnit: patient.requestService.occupationTherapy.occupationTherapyUnit,
           occupationTherapyRequestCategory: patient.requestService.occupationTherapy.occupationTherapyRequestCategory,
@@ -807,8 +809,10 @@ export class PreAuthFormComponent implements OnInit {
           skilledNursingProviderSuffix: patient.requestService.skilledNursing.skilledNursingProviderSuffix,
           skilledNursingProviderPrefix: patient.requestService.skilledNursing.skilledNursingProviderPrefix,
 
-          skilledNursingRequestServiceDateFrom: patient.requestService.skilledNursing.skilledNursingRequestServiceDateFrom,
-          skilledNursingRequestServiceDateTo: patient.requestService.skilledNursing.skilledNursingRequestServiceDateTo,
+          skilledNursingRequestServiceDateFrom:
+            (new Date(patient.requestService.skilledNursing.skilledNursingRequestServiceDateFrom)).toISOString(),
+          skilledNursingRequestServiceDateTo:
+            (new Date(patient.requestService.skilledNursing.skilledNursingRequestServiceDateTo)).toISOString(),
           skilledNursingVisit: patient.requestService.skilledNursing.skilledNursingVisit,
           skilledNursingUnit: patient.requestService.skilledNursing.skilledNursingUnit,
           skilledNursingRequestCategory: patient.requestService.skilledNursing.skilledNursingRequestCategory,
@@ -840,8 +844,10 @@ export class PreAuthFormComponent implements OnInit {
           physicalTherapyProviderSuffix: patient.requestService.physicalTherapy.physicalTherapyProviderSuffix,
           physicalTherapyProviderPrefix: patient.requestService.physicalTherapy.physicalTherapyProviderPrefix,
 
-          physicalTherapyRequestServiceDateFrom: patient.requestService.physicalTherapy.physicalTherapyRequestServiceDateFrom,
-          physicalTherapyRequestServiceDateTo: patient.requestService.physicalTherapy.physicalTherapyRequestServiceDateTo,
+          physicalTherapyRequestServiceDateFrom:
+            (new Date(patient.requestService.physicalTherapy.physicalTherapyRequestServiceDateFrom)).toISOString(),
+          physicalTherapyRequestServiceDateTo:
+            (new Date(patient.requestService.physicalTherapy.physicalTherapyRequestServiceDateTo)).toISOString(),
           physicalTherapyVisit: patient.requestService.physicalTherapy.physicalTherapyVisit,
           physicalTherapyUnit: patient.requestService.physicalTherapy.physicalTherapyUnit,
           physicalTherapyRequestCategory: patient.requestService.physicalTherapy.physicalTherapyRequestCategory,
@@ -873,8 +879,10 @@ export class PreAuthFormComponent implements OnInit {
           speechPathologyProviderSuffix: patient.requestService.speechPathology.speechPathologyProviderSuffix,
           speechPathologyProviderPrefix: patient.requestService.speechPathology.speechPathologyProviderPrefix,
 
-          speechPathologyRequestServiceDateFrom: patient.requestService.speechPathology.speechPathologyRequestServiceDateFrom,
-          speechPathologyRequestServiceDateTo: patient.requestService.speechPathology.speechPathologyRequestServiceDateTo,
+          speechPathologyRequestServiceDateFrom:
+            (new Date(patient.requestService.speechPathology.speechPathologyRequestServiceDateFrom)).toISOString(),
+          speechPathologyRequestServiceDateTo:
+            (new Date(patient.requestService.speechPathology.speechPathologyRequestServiceDateTo)).toISOString(),
           speechPathologyVisit: patient.requestService.speechPathology.speechPathologyVisit,
           speechPathologyUnit: patient.requestService.speechPathology.speechPathologyUnit,
           speechPathologyRequestCategory: patient.requestService.speechPathology.speechPathologyRequestCategory,

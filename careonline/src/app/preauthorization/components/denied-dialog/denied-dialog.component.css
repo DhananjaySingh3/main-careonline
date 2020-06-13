@@ -162,7 +162,7 @@ mat-checkbox {
   flex: none;
   min-width: 0;
   width: 82px;
-  padding-right: 6px;
+  padding-right: 4px;
   /* .mat-form-field-infix {
     display: block;
     position: relative;
@@ -170,4 +170,24 @@ mat-checkbox {
     min-width: 0;
     width: 60px;
   } */
+}
+
+.mat-form-field,
+.mat-form-field-infix {
+  display: block;
+  position: relative;
+  /* flex: none; reduces the size of the field*/
+  flex: auto;
+  min-width: 0;
+  width: 182px; /* reduces the size of the field i.e space*/
+}
+
+.mat-grid-tile .fieldWith{
+  display: block;
+  position: absolute;
+  overflow: hidden;
+  width: 164px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }

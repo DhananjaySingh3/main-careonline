@@ -6,7 +6,8 @@ import {
   Sex, Suffix, Genders, Plans, City, State, Relation,
   Payment, RequestTypes, InsuranceTypes, RequestFor, PreAuthStatus, RejectReasons, FollowUpActDesc,
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
-  RejectReasonsMsg, IdNoType, Prefixes, IdentificationCodeType, ProviderTypes, PerUnitTypes, CommunicationTypes
+  RejectReasonsMsg, IdNoType, Prefixes, IdentificationCodeType, ProviderTypes, PerUnitTypes, CommunicationTypes,
+  PreAuthResponseStatus
 } from '../../preauthorization/models/preauth-common.model';
 
 @Injectable({
@@ -124,6 +125,16 @@ export class CommonService {
     { code: 333, name: 'Denied' },
     { code: 444, name: 'Re-Appeal' },
     { code: 555, name: 'Re-Appeal Denied' },
+  ];
+
+  preAuthResponseStatus: PreAuthResponseStatus[] = [
+    { code: '1', name: 'Certified In Total' },
+    { code: '2', name: 'Pending' },
+    { code: '3', name: 'Not Certified' },
+    { code: '4', name: 'Modified' },
+    { code: '5', name: 'Contact Payer' },
+    { code: '6', name: 'No Action Required' },
+    { code: '7', name: 'Partial Certified (Not in EDI)' },
   ];
 
   rejectReasons: RejectReasons[] = [
@@ -830,6 +841,11 @@ export class CommonService {
     public datePipe: DatePipe
   ) { }
 
+
+  /* PreAuthResponseStatus Details*/
+  getPreAuthResponseStatus() {
+    return this.preAuthResponseStatus;
+  }
 
   /* CommunicationTypes Details*/
   getCommunicationTypes() {

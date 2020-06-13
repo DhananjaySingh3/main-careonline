@@ -1,0 +1,33 @@
+/* For hiding no data found or loading in Table starts*/
+.hide {
+  display: none;
+}
+/* For hiding no data found or loading in Table ends*/
+
+/* Defining the color and place of the loading spinner in Table starts*/
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Defining the color and place of the loading spinner in Table ends*/
+
+/* Defining the Table width (it shows the data equaly spaced and justified) starts*/
+table {
+  width: 100%;
+}
+
+.mat-raised-button {
+  background-color: lightgreen;
+  color: blue;
+  text-align: center;
+  min-width: 56px;
+  padding: 0 8px;
+}

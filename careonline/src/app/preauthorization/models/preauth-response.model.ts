@@ -28,6 +28,11 @@ export class PreAuthResponse {
     memberDetailStatus?: string;
 
     /*Organization Details*/
+    orgCommunicationTypeTelephone?: string;
+    orgCommunicationTypeFacsimile?: string;
+    orgCommunicationTypeEMail?: string;
+    orgCommunicationExt?: string;
+
     organizationName?: string;
     orgIdentificationCode?: string;
     orgIdentificationCodeType?: string;
@@ -35,20 +40,11 @@ export class PreAuthResponse {
     orgFollowUpActionDescription?: string;
     orgDetailStatus?: string;
 
-    /*Requester Provider Details*/
-    reqProviderFullName?: string;
-    reqProviderFirstName?: string;
-    reqProviderLastName?: string;
-    reqProviderType?: string;
-    reqProviderIdentificationNumber?: string;
-    reqProviderIdentificationNumberType?: string;
-    reqProviderSupplimentalId?: string;
-    reqProviderIdNumberType?: string;
-    reqProviderRejectionReason?: string;
-    reqProviderFollowUpActionDescription?: string;
-    reqProviderDetailStatus?: string;
-
     /*Subscriber Details*/
+    subscriberRelToInsured?: string;
+    subscriberIdentificationCode?: string;
+    subscriberIdNumberType?: string;
+
     subscriberFirstName?: string;
     subscriberLastName?: string;
     subscriberMiddleName?: string;
@@ -63,19 +59,24 @@ export class PreAuthResponse {
     subscriberDetailStatus?: string;
 
     /*Dependent Details*/
+    // dependentRelToSubscriber?: string;
+    dependentSubscriberIdentificationCode?: string;
+    dependentSubscriberIdNumberType?: string;
+    dependentPrefix?: string;
+
     dependentFirstName?: string;
     dependentLastName?: string;
     dependentMiddleName?: string;
     dependentSuffix?: string;
     dependentGender?: string;
     dependentDob?: any;
-    // dependentPrefix?: string;
     dependentReletionship?: string;
 
     /*Servicing Provider Details*/
     servicingProviderFullName?: string;
     servicingProviderFirstName?: string;
     servicingProviderLastName?: string;
+    servicingProviderMiddleName?: string;
     servicingProviderType?: string;
     servicingProviderAddress?: string;
     servicingProviderCity?: string;
@@ -89,6 +90,7 @@ export class PreAuthResponse {
     servicingProviderRejectionReason?: string;
     servicingProviderFollowUpActionDescription?: string;
     servicingProviderDetailStatus?: string;
+
     homeHealthAideResponse?: HomeHealthAideResponse;
     occupationalTherapyResponse?: OccupationalTherapyResponse;
     medicalSocialWorkResponse?: MedicalSocialWorkResponse;
@@ -96,9 +98,17 @@ export class PreAuthResponse {
     skilledNursingResponse?: SkilledNursingResponse;
     speechPathologyResponse?: SpeechPathologyResponse;
     authorizationDetail?: AuthorizationDetail;
+    requesterResponseInformation?: RequesterResponseInformation;
 }
 
 export class HomeHealthAideResponse {
+    homeHealthAideProviderSuffix?: string;
+    homeHealthAideProviderPrefix?: string;
+    homeHealthAideResponseServiceDateFrom?: any;
+    homeHealthAideResponseServiceDateTo?: any;
+    mrnNumber?: string;
+    homeHealthAideRevenueCode?: number;
+
     id?: number;
     homeHealthAideProviderIdentificationNumberType?: string;
     homeHealthAideProviderFollowUpActionDescription?: string;
@@ -129,6 +139,13 @@ export class HomeHealthAideResponse {
 }
 
 export class OccupationalTherapyResponse {
+    occupationalTherapyProviderSuffix?: string;
+    occupationalTherapyProviderPrefix?: string;
+    occupationalTherapyResponseServiceDateFrom?: any;
+    occupationalTherapyResponseServiceDateTo?: any;
+    mrnNumber?: string;
+    occupationalTherapyRevenueCode?: number;
+
     id?: number;
     occupationalTherapyProviderIdentificationNumber?: string;
     occupationalTherapyProviderFollowUpActionDescription?: string;
@@ -159,6 +176,13 @@ export class OccupationalTherapyResponse {
 }
 
 export class MedicalSocialWorkResponse {
+    medicalSocialWorkProviderSuffix?: string;
+    medicalSocialWorkProviderPrefix?: string;
+    medicalSocialWorkResponseServiceDateFrom?: any;
+    medicalSocialWorkResponseServiceDateTo?: any;
+    mrnNumber?: string;
+    medicalSocialWorkRevenueCode?: number;
+
     id?: number;
     medicalSocialWorkProviderFollowUpActionDescription?: string;
     medicalSocialWorkProviderIdentificationNumberType?: string;
@@ -189,6 +213,13 @@ export class MedicalSocialWorkResponse {
 }
 
 export class PhysicalTherapyResponse {
+    physicalTherapyProviderSuffix?: string;
+    physicalTherapyProviderPrefix?: string;
+    physicalTherapyResponseServiceDateFrom?: any;
+    physicalTherapyResponseServiceDateTo?: any;
+    mrnNumber?: string;
+    physicalTherapyRevenueCode?: number;
+
     id?: number;
     physicalTherapyRequestCategory?: string;
     physicalTherapyCertificationType?: string;
@@ -219,6 +250,13 @@ export class PhysicalTherapyResponse {
 }
 
 export class SkilledNursingResponse {
+    skilledNursingProviderSuffix?: string;
+    skilledNursingProviderPrefix?: string;
+    skilledNursingResponseServiceDateFrom?: any;
+    skilledNursingResponseServiceDateTo?: any;
+    mrnNumber?: string;
+    skilledNursingRevenueCode?: number;
+
     id?: number;
     skilledNursingProviderIdentificationNumberType?: string;
     skilledNursingProviderFollowUpActionDescription?: string;
@@ -249,6 +287,13 @@ export class SkilledNursingResponse {
 }
 
 export class SpeechPathologyResponse {
+    speechPathologyProviderSuffix?: string;
+    speechPathologyProviderPrefix?: string;
+    speechPathologyResponseServiceDateFrom?: any;
+    speechPathologyResponseServiceDateTo?: any;
+    mrnNumber?: string;
+    speechPathologyRevenueCode?: number;
+
     id?: number;
     speechPathologyProviderIdentificationNumberType?: string;
     speechPathologyProviderFollowUpActionDescription?: string;
@@ -302,5 +347,33 @@ export class AuthorizationDetail {
     certificationIdentificationNumber?: string;
     preAuthorizationStatus?: string;
     enquiryDetailStatus?: string;
+}
+
+export class RequesterResponseInformation {
+    /*Requester Provider Details*/
+    id?: number;
+    reqProviderSuffix?: string;
+    reqProviderPrefix?: string;
+    serviceDateFrom?: any;
+    serviceDateTo?: any;
+    admitDate?: any;
+    dischargeDate?: any;
+    requestCategory?: string;
+    certificationType?: string;
+    serviceType?: string;
+    levelOfService?: string;
+
+    reqProviderFullName?: string;
+    reqProviderFirstName?: string;
+    reqProviderLastName?: string;
+    reqProviderMiddleName?: string;
+    reqProviderType?: string;
+    reqProviderIdentificationNumber?: string;
+    reqProviderIdentificationNumberType?: string;
+    reqProviderSupplimentalId?: string;
+    reqProviderIdNumberType?: string;
+    reqProviderRejectionReason?: string;
+    reqProviderFollowUpActionDescription?: string;
+    reqProviderDetailStatus?: string;
 }
 
