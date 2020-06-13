@@ -1,20 +1,5 @@
 export class PreAuthResponse {
     id?: number;
-
-    /*Enquiry Details*/
-    // enquiryId?: string;
-    // processDateAndTime?: any;
-    // serviceDateFrom?: any;
-    // serviceDateTo?: any;
-    // effectiveDateTo?: any;
-    // effectiveDateFrom?: any;
-    // expirationeDateTo?: any;
-    // admitDate?: any;
-    // dischargeDate?: any;
-    // certificationIdentificationNumber?: string;
-    // preAuthorizationStatus?: string;
-    // enquiryDetailStatus?: string;
-
     /*Member Details*/
     mrnNumber?: string;
     memberfirstName?: string;

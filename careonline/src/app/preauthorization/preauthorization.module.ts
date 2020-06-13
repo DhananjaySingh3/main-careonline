@@ -60,7 +60,8 @@ import { PreauthHistoryformComponent } from './components/preauth-historyform/pr
     SnackbarToasterService,
 
   ],
-  entryComponents: [PreAuthFormComponent, StackedModalComponent, DeniedDialogComponent, PreauthHistorylistComponent]
+  entryComponents: [PreAuthFormComponent, StackedModalComponent, DeniedDialogComponent,
+    PreauthHistorylistComponent, PreauthHistoryformComponent],
 })
 export class PreauthorizationModule {
   constructor() {

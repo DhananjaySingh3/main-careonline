@@ -1,3 +1,36 @@
-<p>
-  preauth-historyform works!
-</p>
+<!-- Spinner starts -->
+<div align="center" class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<!-- Spinner ends -->
+
+<!-- Main Mat-Dialog Hearder Start -->
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span class="fill-remaining-space"></span>
+    <span>
+      <h5 mat-dialog-title>{{heading}}</h5>
+    </span>
+    <span class="fill-remaining-space"></span>
+    <mat-icon class="example-icon" aria-hidden="false" aria-label="Close icon" (click)="onNoClick()" tabindex="-1">
+      close
+    </mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
+<!-- Main Mat-Dialog Hearder Ends -->
+
+<!-- Main Mat-Dialog Body/Content Start -->
+<div mat-dialog-content>
+
+
+
+</div>
+<!-- Main Mat-Dialog Body/Content End -->
+
+<!-- Main Mat-Dialog Action Start -->
+
+<div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
+  <button mat-button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
+</div>
+
+<!-- Main Mat-Dialog Action Ends [mat-dialog-close]="false"-->

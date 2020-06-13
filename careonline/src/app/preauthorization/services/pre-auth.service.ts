@@ -37,6 +37,11 @@ export class PreAuthService {
     return this.httpClient.post(this.apiURL + '/preauthview', { mrnNumber: form.preAuthDemographics.mrnNumber });
   }
 
+  /*Sending Patient data on click of View in History list*/
+  preauthResponseHistoryFormView(form: PreauthHistoryList): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preAuthResponseHistoryView', form);
+  }
+
   /*Drafting Edited Patient data*/
   saveAsDraftPatientData(form: PreAuthReadResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preauthSave', form).pipe(tap(() => {
