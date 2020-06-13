@@ -19,6 +19,8 @@ import { PreAuthService } from '../preauthorization/services/pre-auth.service';
 import { SnackbarToasterService } from '../preauthorization/services/snackbar-toaster.service';
 import { StackedModalComponent } from './components/stacked-modal/stacked-modal.component';
 import { DeniedDialogComponent } from './components/denied-dialog/denied-dialog.component';
+import { PreauthHistorylistComponent } from './components/preauth-historylist/preauth-historylist.component';
+import { PreauthHistoryformComponent } from './components/preauth-historyform/preauth-historyform.component';
 
 
 
@@ -29,6 +31,8 @@ import { DeniedDialogComponent } from './components/denied-dialog/denied-dialog.
     PreAuthFormComponent,
     StackedModalComponent,
     DeniedDialogComponent,
+    PreauthHistorylistComponent,
+    PreauthHistoryformComponent,
 
   ],
   imports: [
@@ -56,7 +60,7 @@ import { DeniedDialogComponent } from './components/denied-dialog/denied-dialog.
     SnackbarToasterService,
 
   ],
-  entryComponents: [PreAuthFormComponent, StackedModalComponent, DeniedDialogComponent]
+  entryComponents: [PreAuthFormComponent, StackedModalComponent, DeniedDialogComponent, PreauthHistorylistComponent]
 })
 export class PreauthorizationModule {
   constructor() {
