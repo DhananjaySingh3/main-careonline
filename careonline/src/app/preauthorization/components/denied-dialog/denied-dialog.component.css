@@ -179,10 +179,10 @@ mat-checkbox {
   /* flex: none; reduces the size of the field*/
   flex: auto;
   min-width: 0;
-  width: 182px; /* reduces the size of the field i.e space*/
+  width: 200px; /* reduces the size of the field i.e space*/
 }
 
-.mat-grid-tile .fieldWith{
+/* .mat-grid-tile .fieldWith{
   display: block;
   position: absolute;
   overflow: hidden;
@@ -190,4 +190,10 @@ mat-checkbox {
   display: flex;
   align-items: center;
   justify-content: left;
-}
+} */
+
+/* .mat-select {
+  display: block;
+  width: 100%;
+  outline: 0;
+} */

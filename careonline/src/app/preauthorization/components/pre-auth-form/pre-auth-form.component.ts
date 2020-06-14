@@ -127,15 +127,15 @@ export class PreAuthFormComponent implements OnInit {
     enquiryDeatils: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      enquiryId: new FormControl({ value: '1234', disabled: false }, [Validators.required]),
+      enquiryId: new FormControl({ value: '', disabled: false }, [Validators.required]),
       preauthReqSentDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
     }),
 
     preAuthDemographics: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.mrnNumberPattern)]),
-      lastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      firstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      mrnNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.mrnNumberPattern)]),
+      lastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      firstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
       middleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
       dob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
       gender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
@@ -148,9 +148,9 @@ export class PreAuthFormComponent implements OnInit {
     organizationInformation: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      organizationName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgNamePattern)]),
+      organizationName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.orgNamePattern)]),
       orgIdentificationCode: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.orgIdCodePatrn)]),
+        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
       orgIdentificationCodeType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
       orgCommunicationTypeTelephone: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
@@ -162,67 +162,71 @@ export class PreAuthFormComponent implements OnInit {
     subscriberDetails: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      subscriberLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      subscriberFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      subscriberLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      subscriberFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
       subscriberMiddleName: new FormControl({ value: '', disabled: false },
         [Validators.pattern(this.userNamePattern)]),
       subscriberDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      subscriberGender: new FormControl({ value: 'Unknown', disabled: false }),
+      subscriberGender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
       subscriberSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       subscriberPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
-      subscriberRelToInsured: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      subscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
+      subscriberRelToInsured: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+      subscriberIdentificationCode: new FormControl({ value: '', disabled: false },
+        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
       subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      subscriberSupplementalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      subscriberSupplementalId: new FormControl({ value: '', disabled: false },
+        [Validators.required, Validators.pattern(this.supplIdPattern)]),
       subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
     }),
 
     dependentDetails: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      dependentLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dependentFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dependentMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dependentDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      dependentGender: new FormControl({ value: 'Unknown', disabled: false }),
+      dependentLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      dependentFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      dependentMiddleName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      dependentDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      dependentGender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
       dependentSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       dependentPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
-      dependentRelToSubscriber: new FormControl({ value: 'Unknown', disabled: false }),
-      dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
-      dependentSubscriberIdentificationNumberType: new FormControl({ value: 'Payor Identification', disabled: false },
+      dependentRelToSubscriber: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+      dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false },
+        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+      dependentSubscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false },
         [Validators.required]),
-      dependentSubscriberSupplementalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
-      dependentSubscriberIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }),
+      dependentSubscriberSupplementalId: new FormControl({ value: '', disabled: false },
+        [Validators.required, Validators.pattern(this.supplIdPattern)]),
+      dependentSubscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
     }),
     providerDetail: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
 
       reqProviderFirstName: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.userNamePattern)]),
+        [Validators.required, Validators.pattern(this.userNamePattern)]),
       reqProviderLastName: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.userNamePattern)]),
+        [Validators.required, Validators.pattern(this.userNamePattern)]),
       reqProviderMiddleName: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.userNamePattern)]),
+        [Validators.required, Validators.pattern(this.userNamePattern)]),
       reqProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       reqProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
       reqProviderFullName: new FormControl({ value: '', disabled: false }, []),
-      reqProviderType: new FormControl({ value: 'Referring', disabled: false }),
+      reqProviderType: new FormControl({ value: 'Referring', disabled: false }, [Validators.required]),
       reqProviderIdentificationNumber: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.orgIdCodePatrn)]),
+        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
       reqProviderIdentificationNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
       reqProviderSupplimentalId: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.supplIdPattern)]),
-      reqProviderIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }),
-      serviceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      serviceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      admitDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      dischargeDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      requestCategory: new FormControl({ value: 'Select', disabled: false }), // Admission Review
-      certificationType: new FormControl({ value: 'Select', disabled: false }),
-      serviceType: new FormControl({ value: 'Select', disabled: false }),
-      levelOfService: new FormControl({ value: 'Select', disabled: false }),
+        [Validators.required, Validators.pattern(this.supplIdPattern)]),
+      reqProviderIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
+      serviceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      serviceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      admitDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      dischargeDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      requestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]), // Admission Review
+      certificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      serviceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      levelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
     }),
 
     requestService: new FormGroup({
@@ -233,32 +237,41 @@ export class PreAuthFormComponent implements OnInit {
         id: new FormControl({ value: '', disabled: false }),
         mrnNumber: new FormControl({ value: '', disabled: false }, []),
         homeHealthAideRevenueCode: new FormControl({ value: '', disabled: false }, []),
-        homeHealthAideProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        homeHealthAidePoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        homeHealthAideProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+        homeHealthAideProviderMiddleName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        homeHealthAidePoviderLastName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        homeHealthAideProviderFirstName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
 
         homeHealthAideProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         homeHealthAideProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        homeHealthAideRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        homeHealthAideRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        homeHealthAideRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+          []),
+        homeHealthAideRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, []),
         homeHealthAideVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         homeHealthAideUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        homeHealthAideRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideServiceType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+        homeHealthAideRequestCategory: new FormControl({ value: 'Select', disabled: false }, []),
+        homeHealthAideCertificationType: new FormControl({ value: 'Select', disabled: false }, []),
+        homeHealthAideServiceType: new FormControl({ value: 'Select', disabled: false }, []),
+        homeHealthAideLevelOfService: new FormControl({ value: 'Select', disabled: false }, []),
         homeHealthAideProviderFullName: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideProviderAddress: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        homeHealthAideProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        homeHealthAideProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        homeHealthAideProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
-        homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+        homeHealthAideProviderType: new FormControl({ value: 'Select', disabled: false }, []),
+        homeHealthAideProviderAddress: new FormControl({ value: '', disabled: false }, []),
+        homeHealthAideProviderCity: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.cityPattern)]),
+        homeHealthAideProviderState: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.statePattern)]),
+        homeHealthAideProviderPostalCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.zipPattern)]),
+        homeHealthAideProviderCountryCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.countryCodePattern)]),
+        homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, []),
+        homeHealthAideProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, []),
+        homeHealthAideProviderSupplimentalId: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.supplIdPattern)]),
+        homeHealthAideProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, []),
         homeHealthAideSelected: new FormControl({ value: '', disabled: false }),
       }),
 
@@ -266,33 +279,44 @@ export class PreAuthFormComponent implements OnInit {
         id: new FormControl({ value: '', disabled: false }),
         mrnNumber: new FormControl({ value: '', disabled: false }),
         medicalSocialWorkRevenueCode: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        medicalSocialWorkPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        medicalSocialWorkProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+        medicalSocialWorkProviderMiddleName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        medicalSocialWorkPoviderLastName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        medicalSocialWorkProviderFirstName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
 
         medicalSocialWorkProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         medicalSocialWorkProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        medicalSocialWorkRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        medicalSocialWorkRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        medicalSocialWorkVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        medicalSocialWorkUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        medicalSocialWorkRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkServiceType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+        medicalSocialWorkRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }
+          , []),
+        medicalSocialWorkRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }
+          , []),
+        medicalSocialWorkVisit: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.unitsPattern)]),
+        medicalSocialWorkUnit: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.unitsPattern)]),
+        medicalSocialWorkRequestCategory: new FormControl({ value: 'Select', disabled: false }, []),
+        medicalSocialWorkCertificationType: new FormControl({ value: 'Select', disabled: false }, []),
+        medicalSocialWorkServiceType: new FormControl({ value: 'Select', disabled: false }, []),
+        medicalSocialWorkLevelOfService: new FormControl({ value: 'Select', disabled: false }, []),
         medicalSocialWorkProviderFullName: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkProviderAddress: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        medicalSocialWorkProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        medicalSocialWorkProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+        medicalSocialWorkProviderType: new FormControl({ value: 'Select', disabled: false }, []),
+        medicalSocialWorkProviderAddress: new FormControl({ value: '', disabled: false }, []),
+        medicalSocialWorkProviderCity: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.cityPattern)]),
+        medicalSocialWorkProviderState: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.statePattern)]),
+        medicalSocialWorkProviderPostalCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.zipPattern)]),
         medicalSocialWorkProviderCountryCode: new FormControl({ value: '', disabled: false },
           [Validators.pattern(this.countryCodePattern)]),
-        medicalSocialWorkProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+        medicalSocialWorkProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, []),
+        medicalSocialWorkProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, []),
+        medicalSocialWorkProviderSupplimentalId: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.supplIdPattern)]),
+        medicalSocialWorkProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, []),
         medicalSocialWorkSelected: new FormControl({ value: '', disabled: false }),
       }),
 
@@ -301,35 +325,46 @@ export class PreAuthFormComponent implements OnInit {
         mrnNumber: new FormControl({ value: '', disabled: false }),
         occupationTherapyRevenueCode: new FormControl({ value: '', disabled: false }),
 
-        occupationTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        occupationTherapyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        occupationTherapyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+        occupationTherapyProviderMiddleName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        occupationTherapyPoviderLastName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        occupationTherapyProviderFirstName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
         occupationTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         occupationTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        occupationTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        occupationTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        occupationTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        occupationTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        occupationTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyServiceType: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+        occupationTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+          []),
+        occupationTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+          []),
+        occupationTherapyVisit: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.unitsPattern)]),
+        occupationTherapyUnit: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.unitsPattern)]),
+        occupationTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }, []),
+        occupationTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }, []),
+        occupationTherapyServiceType: new FormControl({ value: 'Select', disabled: false }, []),
+        occupationTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }, []),
 
         occupationTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
+        occupationTherapyProviderType: new FormControl({ value: 'Select', disabled: false }, []),
 
-        occupationTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        occupationTherapyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        occupationTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+        occupationTherapyProviderAddress: new FormControl({ value: '', disabled: false }, []),
+        occupationTherapyProviderCity: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.cityPattern)]),
+        occupationTherapyProviderState: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.statePattern)]),
+        occupationTherapyProviderPostalCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.zipPattern)]),
         occupationTherapyProviderCountryCode: new FormControl({ value: '', disabled: false },
           [Validators.pattern(this.countryCodePattern)]),
 
-        occupationTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+        occupationTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, []),
+        occupationTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, []),
+        occupationTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }, []),
+        occupationTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false },
+          [Validators.pattern(this.supplIdPattern)]),
         occupationTherapySelected: new FormControl({ value: '', disabled: false }),
       }),
 
@@ -337,32 +372,41 @@ export class PreAuthFormComponent implements OnInit {
         id: new FormControl({ value: '', disabled: false }),
         mrnNumber: new FormControl({ value: '', disabled: false }),
         skilledNursingRevenueCode: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        skilledNursingPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        skilledNursingProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+        skilledNursingProviderMiddleName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        skilledNursingPoviderLastName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        skilledNursingProviderFirstName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
 
         skilledNursingProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         skilledNursingProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        skilledNursingRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        skilledNursingRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        skilledNursingRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+          []),
+        skilledNursingRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, []),
         skilledNursingVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         skilledNursingUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        skilledNursingRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingServiceType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+        skilledNursingRequestCategory: new FormControl({ value: 'Select', disabled: false }, []),
+        skilledNursingCertificationType: new FormControl({ value: 'Select', disabled: false }, []),
+        skilledNursingServiceType: new FormControl({ value: 'Select', disabled: false }, []),
+        skilledNursingLevelOfService: new FormControl({ value: 'Select', disabled: false }, []),
         skilledNursingProviderFullName: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingProviderAddress: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        skilledNursingProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        skilledNursingProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        skilledNursingProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
-        skilledNursingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+        skilledNursingProviderType: new FormControl({ value: 'Select', disabled: false }, []),
+        skilledNursingProviderAddress: new FormControl({ value: '', disabled: false }, []),
+        skilledNursingProviderCity: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.cityPattern)]),
+        skilledNursingProviderState: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.statePattern)]),
+        skilledNursingProviderPostalCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.zipPattern)]),
+        skilledNursingProviderCountryCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.countryCodePattern)]),
+        skilledNursingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, []),
+        skilledNursingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, []),
+        skilledNursingProviderSupplimentalId: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.supplIdPattern)]),
+        skilledNursingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, []),
         skilledNursingSelected: new FormControl({ value: '', disabled: false }),
       }),
 
@@ -370,15 +414,18 @@ export class PreAuthFormComponent implements OnInit {
         id: new FormControl({ value: '', disabled: false }),
         mrnNumber: new FormControl({ value: '', disabled: false }),
         physicalTherapyrevenueCode: new FormControl({ value: '', disabled: false }),
-        physicalTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        physicalTherapyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        physicalTherapyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+        physicalTherapyProviderMiddleName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        physicalTherapyPoviderLastName: new FormControl({ value: '', disabled: false }),
+        physicalTherapyProviderFirstName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
 
         physicalTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         physicalTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        physicalTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        physicalTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        physicalTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+          []),
+        physicalTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, []),
         physicalTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         physicalTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         physicalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
@@ -388,13 +435,18 @@ export class PreAuthFormComponent implements OnInit {
         physicalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
         physicalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
         physicalTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
-        physicalTherapyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        physicalTherapyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
+        physicalTherapyProviderCity: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.cityPattern)]),
+        physicalTherapyProviderState: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.statePattern)]),
+        physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.zipPattern)]),
+        physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.countryCodePattern)]),
         physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
         physicalTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+        physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.supplIdPattern)]),
         physicalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
         physicalTherapySelected: new FormControl({ value: '', disabled: false }),
       }),
@@ -404,31 +456,40 @@ export class PreAuthFormComponent implements OnInit {
         mrnNumber: new FormControl({ value: '', disabled: false }),
         speechPathologyRevenueCode: new FormControl({ value: '', disabled: false }),
         speechPathologyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        speechPathologyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        speechPathologyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+        speechPathologyPoviderLastName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
+        speechPathologyProviderFirstName: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.userNamePattern)]),
 
         speechPathologyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
         speechPathologyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-        speechPathologyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        speechPathologyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
+        speechPathologyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+          []),
+        speechPathologyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, []),
         speechPathologyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
         speechPathologyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        speechPathologyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyServiceType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+        speechPathologyRequestCategory: new FormControl({ value: 'Select', disabled: false }, []),
+        speechPathologyCertificationType: new FormControl({ value: 'Select', disabled: false }, []),
+        speechPathologyServiceType: new FormControl({ value: 'Select', disabled: false }, []),
+        speechPathologyLevelOfService: new FormControl({ value: 'Select', disabled: false }, []),
         speechPathologyProviderFullName: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyProviderAddress: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        speechPathologyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        speechPathologyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        speechPathologyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
-        speechPathologyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+        speechPathologyProviderType: new FormControl({ value: 'Select', disabled: false }, []),
+        speechPathologyProviderAddress: new FormControl({ value: '', disabled: false }, []),
+        speechPathologyProviderCity: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.cityPattern)]),
+        speechPathologyProviderState: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.statePattern)]),
+        speechPathologyProviderPostalCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.zipPattern)]),
+        speechPathologyProviderCountryCode: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.countryCodePattern)]),
+        speechPathologyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, []),
+        speechPathologyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, []),
+        speechPathologyProviderSupplimentalId: new FormControl({ value: '', disabled: false },
+          [Validators.pattern(this.supplIdPattern)]),
+        speechPathologyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false },
+          []),
         speechPathologySelected: new FormControl({ value: '', disabled: false }),
       }),
     }),
@@ -1184,6 +1245,243 @@ export class PreAuthFormComponent implements OnInit {
     //   insuranceDetailByPolicy.primaryInsuranceDetail.
     //   eligibilityCheckSelected = !this.selectedPatientViaDialog.insuranceDetailByPolicy
     //     .primaryInsuranceDetail.eligibilityCheckSelected;
+    // if (event.value) {
+    // //  this.preAuthForm.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyServiceType')?.setErrors({ invalid: false });
+    // }
+  }
+
+  homeHealthAideClicked(event) {
+    console.log(event.checked);
+    if (!event.checked) {
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateFrom').clearValidators();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateFrom').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateTo').clearValidators();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateTo').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideRequestCategory').clearValidators();
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideRequestCategory').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideCertificationType').clearValidators();
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideCertificationType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideServiceType').clearValidators();
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideServiceType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideLevelOfService').clearValidators();
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideLevelOfService').updateValueAndValidity();
+
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideVisit').clearValidators();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideVisit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideUnit').clearValidators();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideUnit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideCertificationAction').clearValidators();
+      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideCertificationAction').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideProviderType').clearValidators();
+      this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideProviderType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('homeHealthAide').
+        get('homeHealthAideProviderIdentificationNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('homeHealthAide').
+        get('homeHealthAideProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('homeHealthAide').
+        get('homeHealthAideProviderIdNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('homeHealthAide').
+        get('homeHealthAideProviderIdNumberType').updateValueAndValidity();
+    }
+  }
+
+  medicalSocialWorkClicked(event) {
+    console.log(event.checked);
+    if (!event.checked) {
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateFrom').clearValidators();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateFrom').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateTo').clearValidators();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateTo').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkRequestCategory').clearValidators();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkRequestCategory').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkCertificationType').clearValidators();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkCertificationType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkServiceType').clearValidators();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkServiceType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkLevelOfService').clearValidators();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkLevelOfService').updateValueAndValidity();
+
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkVisit').clearValidators();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkVisit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkUnit').clearValidators();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkUnit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkCertificationAction').clearValidators();
+      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkCertificationAction').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkProviderType').clearValidators();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkProviderType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').
+        get('medicalSocialWorkProviderIdentificationNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').
+        get('medicalSocialWorkProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').
+        get('medicalSocialWorkProviderIdNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('medicalSocialWork').
+        get('medicalSocialWorkProviderIdNumberType').updateValueAndValidity();
+    }
+  }
+
+  occupationTherapyClicked(event) {
+    console.log(event.checked);
+    if (!event.checked) {
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateFrom').clearValidators();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateFrom').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateTo').clearValidators();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateTo').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyRequestCategory').clearValidators();
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyRequestCategory').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyCertificationType').clearValidators();
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyCertificationType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyServiceType').clearValidators();
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyServiceType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyLevelOfService').clearValidators();
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyLevelOfService').updateValueAndValidity();
+
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyVisit').clearValidators();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyVisit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyUnit').clearValidators();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyUnit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyCertificationAction').clearValidators();
+      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyCertificationAction').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyProviderType').clearValidators();
+      this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyProviderType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('occupationTherapy').
+        get('occupationTherapyProviderIdentificationNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('occupationTherapy').
+        get('occupationTherapyProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('occupationTherapy').
+        get('occupationTherapyProviderIdNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('occupationTherapy').
+        get('occupationTherapyProviderIdNumberType').updateValueAndValidity();
+    }
+  }
+
+  skilledNursingClicked(event) {
+    console.log(event.checked);
+    if (!event.checked) {
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateFrom').clearValidators();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateFrom').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateTo').clearValidators();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateTo').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingRequestCategory').clearValidators();
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingRequestCategory').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingCertificationType').clearValidators();
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingCertificationType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingServiceType').clearValidators();
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingServiceType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingLevelOfService').clearValidators();
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingLevelOfService').updateValueAndValidity();
+
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingVisit').clearValidators();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingVisit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingUnit').clearValidators();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingUnit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingCertificationAction').clearValidators();
+      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingCertificationAction').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingProviderType').clearValidators();
+      this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingProviderType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('skilledNursing').
+        get('skilledNursingProviderIdentificationNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('skilledNursing').
+        get('skilledNursingProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('skilledNursing').
+        get('skilledNursingProviderIdNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('skilledNursing').
+        get('skilledNursingProviderIdNumberType').updateValueAndValidity();
+    }
+  }
+
+  physicalTherapyClicked(event) {
+    console.log(event.checked);
+    if (!event.checked) {
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateFrom').clearValidators();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateFrom').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateTo').clearValidators();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateTo').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyRequestCategory').clearValidators();
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyRequestCategory').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyCertificationType').clearValidators();
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyCertificationType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyServiceType').clearValidators();
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyServiceType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyLevelOfService').clearValidators();
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyLevelOfService').updateValueAndValidity();
+
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyVisit').clearValidators();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyVisit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyUnit').clearValidators();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyUnit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyCertificationAction').clearValidators();
+      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyCertificationAction').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyProviderType').clearValidators();
+      this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyProviderType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('physicalTherapy').
+        get('physicalTherapyProviderIdentificationNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('physicalTherapy').
+        get('physicalTherapyProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('physicalTherapy').
+        get('physicalTherapyProviderIdNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('physicalTherapy').
+        get('physicalTherapyProviderIdNumberType').updateValueAndValidity();
+    }
+  }
+
+  speechPathologyClicked(event) {
+    console.log(event.checked);
+    if (!event.checked) {
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateFrom').clearValidators();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateFrom').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateTo').clearValidators();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateTo').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyRequestCategory').clearValidators();
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyRequestCategory').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyCertificationType').clearValidators();
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyCertificationType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyServiceType').clearValidators();
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyServiceType').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyLevelOfService').clearValidators();
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyLevelOfService').updateValueAndValidity();
+
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyVisit').clearValidators();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyVisit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyUnit').clearValidators();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyUnit').updateValueAndValidity();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyCertificationAction').clearValidators();
+      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyCertificationAction').updateValueAndValidity();
+
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyProviderType').clearValidators();
+      this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyProviderType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('speechPathology').
+        get('speechPathologyProviderIdentificationNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('speechPathology').
+        get('speechPathologyProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthForm.get('requestService').get('speechPathology').
+        get('speechPathologyProviderIdNumberType').clearValidators();
+      this.preAuthForm.get('requestService').get('speechPathology').
+        get('speechPathologyProviderIdNumberType').updateValueAndValidity();
+    }
   }
 
 

@@ -44,7 +44,12 @@ export class PreAuthResponse {
     subscriberDetailStatus?: string;
 
     /*Dependent Details*/
-    // dependentRelToSubscriber?: string;
+    // dependentDetailStatus?: boolean;
+    // dependentSupplementalId?: string;
+    // dependentIdentificationNumberType?: string;
+    // dependentRejectionReason?: string;
+    // dependentFollowUpActionDescription?: string;
+
     dependentSubscriberIdentificationCode?: string;
     dependentSubscriberIdNumberType?: string;
     dependentPrefix?: string;

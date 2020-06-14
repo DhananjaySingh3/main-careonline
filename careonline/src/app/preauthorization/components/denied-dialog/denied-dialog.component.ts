@@ -119,14 +119,14 @@ export class DeniedDialogComponent implements OnInit {
     authorizationDetail: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
 
-      totalUnitsApproved: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-      totalUnitsConsumed: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-      remainingUnits: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      totalUnitsApproved: new FormControl({ value: '0', disabled: false }, [Validators.required, Validators.pattern(this.unitsPattern)]),
+      totalUnitsConsumed: new FormControl({ value: '0', disabled: false }, [Validators.required, Validators.pattern(this.unitsPattern)]),
+      remainingUnits: new FormControl({ value: '0', disabled: false }, [Validators.required, Validators.pattern(this.unitsPattern)]),
       noOfUnitsTobeUsed: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-      unitsForNoOfUnitsTobeUsed: new FormControl({ value: 'Select', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      unitsForNoOfUnitsTobeUsed: new FormControl({ value: '', disabled: false }, [Validators.required]),
       enquiryDetailStatus: new FormControl({ value: '', disabled: false }),
-      enquiryId: new FormControl({ value: '', disabled: false }),
-      processDateAndTime: new FormControl({ value: '', disabled: false }),
+      enquiryId: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      processDateAndTime: new FormControl({ value: '', disabled: false }, [Validators.required]),
       serviceDateFrom: new FormControl({ value: '', disabled: false }),
       serviceDateTo: new FormControl({ value: '', disabled: false }),
       admitDate: new FormControl({ value: '', disabled: false }),
@@ -135,20 +135,20 @@ export class DeniedDialogComponent implements OnInit {
       effectiveDateFrom: new FormControl({ value: '', disabled: false }),
       effectiveDateTo: new FormControl({ value: '', disabled: false }),
       expirationeDateTo: new FormControl({ value: '', disabled: false }),
-      preAuthorizationStatus: new FormControl({ value: 'Select', disabled: false }),
+      preAuthorizationStatus: new FormControl({ value: '', disabled: false }, [Validators.required]),
     }),
     /*Preauthorization Details*/
 
     /*Member Demographic details*/
     memberDetailStatus: new FormControl({ value: '', disabled: false }),
-    mrnNumber: new FormControl({ value: '', disabled: false }),
-    memberlastName: new FormControl({ value: '', disabled: false }, []),
-    memberfirstName: new FormControl({ value: '', disabled: false }, []),
-    membermiddleName: new FormControl({ value: '', disabled: false }, []),
-    memberdob: new FormControl({ value: '', disabled: false }, []),
-    membergender: new FormControl({ value: '', disabled: false }, []),
-    membersuffix: new FormControl({ value: '', disabled: false }),
-    memberPrefix: new FormControl({ value: '', disabled: false }),
+    mrnNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.mrnNumberPattern)]),
+    memberlastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    memberfirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    membermiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+    memberdob: new FormControl({ value: '', disabled: false }, [Validators.required]),
+    membergender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+    membersuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+    memberPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
     // ssn: new FormControl({ value: '', disabled: false }),
     memberRelationshipToSubscriber: new FormControl({ value: 'Select', disabled: false }),
 
@@ -159,9 +159,9 @@ export class DeniedDialogComponent implements OnInit {
     orgCommunicationExt: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.extPattern)]),
 
     orgDetailStatus: new FormControl({ value: '', disabled: false }),
-    organizationName: new FormControl({ value: '', disabled: false }),
-    orgIdentificationCode: new FormControl({ value: '', disabled: false }),
-    orgIdentificationCodeType: new FormControl({ value: '', disabled: false }),
+    organizationName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.orgNamePattern)]),
+    orgIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+    orgIdentificationCodeType: new FormControl({ value: '', disabled: false }, [Validators.required]),
     orgRejectionReason: new FormControl({ value: 'Select', disabled: false }),
     orgFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
 
@@ -170,37 +170,44 @@ export class DeniedDialogComponent implements OnInit {
     // orgTransactionRejected: new FormControl({ value: 'true', disabled: true }),
 
     /*Subscriber Details*/
-    subscriberRelToInsured: new FormControl({ value: 'Unknown', disabled: false }),
-    subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+    subscriberRelToInsured: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+    subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
     subscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
 
     subscriberDetailStatus: new FormControl({ value: '', disabled: false }),
-    subscriberLastName: new FormControl({ value: '', disabled: false }, []),
-    subscriberFirstName: new FormControl({ value: '', disabled: false }, []),
-    subscriberMiddleName: new FormControl({ value: '', disabled: false }, []),
-    subscriberDob: new FormControl({ value: '', disabled: false }, []),
-    subscriberGender: new FormControl({ value: '', disabled: false }, []),
-    subscriberSuffix: new FormControl({ value: '', disabled: false }),
-    subscriberPrefix: new FormControl({ value: '', disabled: false }),
+    subscriberLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    subscriberFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    subscriberMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+    subscriberDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+    subscriberGender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+    subscriberSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+    subscriberPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
     // subscSsn: new FormControl({ value: '', disabled: false }),
-    subscriberSupplementalId: new FormControl({ value: '', disabled: false }),
-    subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+    subscriberSupplementalId: new FormControl({ value: '', disabled: false },
+      [Validators.required, Validators.pattern(this.supplIdPattern)]),
+    subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
     subscriberRejectionReason: new FormControl({ value: 'Select', disabled: false }),
     subscriberFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
 
     /*Dependent Information*/
-    dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
-    dependentSubscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }),
-    dependentPrefix: new FormControl({ value: '', disabled: false }),
+    // dependentDetailStatus: new FormControl({ value: '', disabled: false }),
+    // dependentSupplementalId: new FormControl({ value: '', disabled: false },
+    //   [Validators.required, Validators.pattern(this.supplIdPattern)]),
+    // dependentIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+    // dependentRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+    // dependentFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
 
-    dependentLastName: new FormControl({ value: '', disabled: false }, []),
-    dependentFirstName: new FormControl({ value: '', disabled: false }, []),
-    dependentMiddleName: new FormControl({ value: '', disabled: false }, []),
-    dependentDob: new FormControl({ value: '', disabled: false }, []),
-    dependentGender: new FormControl({ value: '', disabled: false }, []),
-    dependentSuffix: new FormControl({ value: '', disabled: false }),
-    // dependentPrefix: new FormControl({ value: '', disabled: false }),
-    dependentReletionship: new FormControl({ value: '', disabled: false }),
+    dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
+    dependentSubscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+    dependentPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+
+    dependentLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    dependentFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    dependentMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+    dependentDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+    dependentGender: new FormControl({ value: '', disabled: false }, [Validators.required]),
+    dependentSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+    dependentReletionship: new FormControl({ value: '', disabled: false }, [Validators.required]),
 
     /*Requester Provider Information*/
 
@@ -218,40 +225,40 @@ export class DeniedDialogComponent implements OnInit {
       serviceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       levelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
-      reqProviderDetailStatus: new FormControl({ value: '', disabled: true }),
-      reqProviderFullName: new FormControl({ value: '', disabled: true }, []),
-      reqProviderFirstName: new FormControl({ value: '', disabled: true }, []),
-      reqProviderLastName: new FormControl({ value: '', disabled: true }, []),
-      reqProviderMiddleName: new FormControl({ value: '', disabled: true }, []),
-      reqProviderType: new FormControl({ value: 'Select', disabled: true }, []),
-      reqProviderIdentificationNumber: new FormControl({ value: '', disabled: true }),
-      reqProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: true }),
-      reqProviderSupplimentalId: new FormControl({ value: '', disabled: true }),
-      reqProviderIdNumberType: new FormControl({ value: 'Select', disabled: true }),
-      reqProviderRejectionReason: new FormControl({ value: 'Select', disabled: true }),
-      reqProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: true }),
+      reqProviderDetailStatus: new FormControl({ value: '', disabled: false }),
+      reqProviderFullName: new FormControl({ value: '', disabled: false }, []),
+      reqProviderFirstName: new FormControl({ value: '', disabled: false }, []),
+      reqProviderLastName: new FormControl({ value: '', disabled: false }, []),
+      reqProviderMiddleName: new FormControl({ value: '', disabled: false }, []),
+      reqProviderType: new FormControl({ value: 'Select', disabled: false }, []),
+      reqProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      reqProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+      reqProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      reqProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+      reqProviderRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      reqProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
     }),
 
     /*Servicing Provider Information*/
 
-    servicingProviderDetailStatus: new FormControl({ value: '', disabled: true }),
-    servicingProviderFullName: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderFirstName: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderLastName: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderMiddleName: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderType: new FormControl({ value: 'Select', disabled: true }, []),
-    servicingProviderAddress: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderCity: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderState: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderPostalCode: new FormControl({ value: '', disabled: true }, []),
-    servicingProviderCountryCode: new FormControl({ value: '', disabled: true }, []),
+    servicingProviderDetailStatus: new FormControl({ value: '', disabled: false }),
+    servicingProviderFullName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderFirstName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderLastName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderMiddleName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderType: new FormControl({ value: 'Select', disabled: false }, []),
+    servicingProviderAddress: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderCity: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderState: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderPostalCode: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderCountryCode: new FormControl({ value: '', disabled: false }, []),
 
-    servicingProviderIdentificationNumber: new FormControl({ value: '', disabled: true }),
-    servicingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: true }),
-    servicingProviderSupplimentId: new FormControl({ value: '', disabled: true }),
-    servicingProviderIdNumberType: new FormControl({ value: 'Select', disabled: true }),
-    servicingProviderRejectionReason: new FormControl({ value: 'Select', disabled: true }),
-    servicingProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: true }),
+    servicingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+    servicingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+    servicingProviderSupplimentId: new FormControl({ value: '', disabled: false }),
+    servicingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+    servicingProviderRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+    servicingProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
 
     /*Physical Therapy Information*/
     physicalTherapyResponse: new FormGroup({
@@ -262,37 +269,37 @@ export class DeniedDialogComponent implements OnInit {
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
       physicalTherapyRevenueCode: new FormControl({ value: '', disabled: false }, []),
 
-      id: new FormControl({ value: '', disabled: true }),
-      physicalTherapyDetailStatus: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      physicalTherapyDetailStatus: new FormControl({ value: '', disabled: false }),
 
-      physicalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: true }),
-      physicalTherapyCertificationType: new FormControl({ value: 'Select', disabled: true }),
-      physicalTherapyServiceType: new FormControl({ value: 'Select', disabled: true }),
-      physicalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: true }),
-      physicalTherapyVisit: new FormControl({ value: '', disabled: true }),
-      physicalTherapyUnit: new FormControl({ value: '', disabled: true }),
-      physicalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: true }),
-      physicalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: true }),
+      physicalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyVisit: new FormControl({ value: '', disabled: false }),
+      physicalTherapyUnit: new FormControl({ value: '', disabled: false }),
+      physicalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
       physicalTherapyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
 
-      physicalTherapyProviderFullName: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderFirstName: new FormControl({ value: '', disabled: true }),
-      physicalTherapyPoviderLastName: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderMiddleName: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderType: new FormControl({ value: 'Select', disabled: true }),
+      physicalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderFirstName: new FormControl({ value: '', disabled: false }),
+      physicalTherapyPoviderLastName: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
 
-      physicalTherapyProviderAddress: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderCity: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderState: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: true }),
+      physicalTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderCity: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderState: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false }),
 
-      physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderIdentificationNumberType: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderIdNumberType: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderRejectionReason: new FormControl({ value: '', disabled: true }),
-      physicalTherapyProviderFollowUpActionDescription: new FormControl({ value: '', disabled: true }),
+      physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderIdentificationNumberType: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderIdNumberType: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
 
     }),
     /*Occupational Therapy Information*/
@@ -304,37 +311,37 @@ export class DeniedDialogComponent implements OnInit {
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
       occupationalTherapyRevenueCode: new FormControl({ value: '', disabled: false }, []),
 
-      id: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyDetailStatus: new FormControl({ value: '', disabled: true }),
+      id: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyDetailStatus: new FormControl({ value: '', disabled: false }),
 
-      occupationalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: true }),
-      occupationalTherapyCertificationType: new FormControl({ value: 'Select', disabled: true }),
-      occupationalTherapyServiceType: new FormControl({ value: 'Select', disabled: true }),
-      occupationalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: true }),
-      occupationalTherapyVisit: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyUnit: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: true }),
-      occupationalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: true }),
-      occupationalTherapyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: true }),
+      occupationalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyVisit: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyUnit: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
 
-      occupationalTherapyProviderFullName: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderFirstName: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderMiddleName: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderLastName: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderType: new FormControl({ value: 'Select', disabled: true }),
+      occupationalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderFirstName: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderLastName: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
 
-      occupationalTherapyAddress: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyCity: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyState: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyPostalCode: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyCountryCode: new FormControl({ value: '', disabled: true }),
+      occupationalTherapyAddress: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyCity: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyState: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyPostalCode: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyCountryCode: new FormControl({ value: '', disabled: false }),
 
-      occupationalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: true }),
-      occupationalProviderIdentificationNumberType: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderIdNumberType: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderRejectionReason: new FormControl({ value: '', disabled: true }),
-      occupationalTherapyProviderFollowUpActionDescription: new FormControl({ value: '', disabled: true }),
+      occupationalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      occupationalProviderIdentificationNumberType: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderIdNumberType: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
     }),
     /*Medical Social Work Information*/
     medicalSocialWorkResponse: new FormGroup({
@@ -682,6 +689,12 @@ export class DeniedDialogComponent implements OnInit {
       subscriberDetailStatus: patient.subscriberDetailStatus,
 
       /*Dependent Details*/
+      // dependentDetailStatus: patient.dependentDetailStatus,
+      // dependentSupplementalId: patient.dependentSupplementalId,
+      // dependentIdentificationNumberType: patient.dependentIdentificationNumberType,
+      // dependentRejectionReason: patient.dependentRejectionReason,
+      // dependentFollowUpActionDescription: patient.dependentFollowUpActionDescription,
+
       dependentSubscriberIdentificationCode: patient.dependentSubscriberIdentificationCode,
       dependentSubscriberIdNumberType: patient.dependentSubscriberIdNumberType,
       dependentPrefix: patient.dependentPrefix,
@@ -960,7 +973,7 @@ export class DeniedDialogComponent implements OnInit {
   /* Populating ResponseForm Data */
 
   onSave(formDataOnSave) {
-
+    console.log('On save ', formDataOnSave);
     /*
     if (formDataOnSave.valid) {
       let selectedPatntData: PreAuthResponse;
@@ -1001,8 +1014,41 @@ export class DeniedDialogComponent implements OnInit {
 
   onEdit(selectedPatntData: PreAuthResponse) {
     this.editing = true;
+    this.preAuthReponseForm.get('authorizationDetail').patchValue({ processDateAndTime: (new Date()).toISOString() });
     console.log('on edit ', selectedPatntData);
 
+    // this.preAuthReponseForm.get('authorizationDetail').get('preAuthorizationStatus').clearValidators();
+    // this.preAuthReponseForm.get('authorizationDetail').get('preAuthorizationStatus').setValidators([Validators.required]);
+    this.preAuthReponseForm.get('authorizationDetail').get('preAuthorizationStatus').updateValueAndValidity();
+    this.preAuthReponseForm.get('authorizationDetail').get('unitsForNoOfUnitsTobeUsed').updateValueAndValidity();
+    this.preAuthReponseForm.get('membergender').updateValueAndValidity();
+    this.preAuthReponseForm.get('orgIdentificationCodeType').updateValueAndValidity();
+    this.preAuthReponseForm.get('orgRejectionReason').updateValueAndValidity();
+    this.preAuthReponseForm.get('orgFollowUpActionDescription').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('subscriberIdNumberType').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberRelToInsured').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberGender').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberIdentificationNumberType').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('subscriberRejectionReason').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberFollowUpActionDescription').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('subscriberIdNumberType').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberRelToInsured').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberGender').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberIdentificationNumberType').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('subscriberRejectionReason').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberFollowUpActionDescription').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('dependentSubscriberIdNumberType').updateValueAndValidity();
+    this.preAuthReponseForm.get('dependentReletionship').updateValueAndValidity();
+    this.preAuthReponseForm.get('dependentGender').updateValueAndValidity();
+    this.preAuthReponseForm.get('dependentIdentificationNumberType').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('dependentRejectionReason').updateValueAndValidity();
+    this.preAuthReponseForm.get('dependentFollowUpActionDescription').updateValueAndValidity();
 
     // if (this.selectedPatientViaDialog.episode.preauthFormStatus !== 'Sent For Approval') { // 'Saved As Draft'
     //   this.preAuthReponseForm.get('enquiryDeatils').patchValue({ preauthReqSentDate: (new Date()).toISOString() });
