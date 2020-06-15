@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PDGMService } from '../services/pdgm.service';
 import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel, OasisDetailsPdgmModel } from '../models/pdgm.model';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { EligibilityToasterService } from '../../eligibility-check/services/eligibility-toaster.service';
 
 @Component({
     selector: 'app-oasis-details',
@@ -26,7 +27,8 @@ export class OasisDetailsComponent implements OnInit {
     constructor(public dialog: MatDialog,
         public dialogRef: MatDialogRef<OasisDetailsComponent>,
         @Inject(MAT_DIALOG_DATA) public modelData: any,
-        private _pdgmService: PDGMService) {
+        private _pdgmService: PDGMService,
+        private _toasterService: EligibilityToasterService) {
 
     }
     ngOnInit() {
@@ -140,10 +142,10 @@ export class OasisDetailsComponent implements OnInit {
     saveOasisData() {
         this.saveOasisDetailsData.mrnNumber = this.modelData.mrnNumber;
         this._pdgmService.saveOasisDetailsData(this.saveOasisDetailsData).subscribe((result) => {
-            //  this.toaster
             this.dialogRef.close();
+            this._toasterService.success('Saved Successfully');
         })
-
+        this.dialogRef.close();
     }
 
 }

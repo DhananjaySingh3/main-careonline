@@ -22,7 +22,7 @@
 
       <ng-container matColumnDef="patientName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Patient Name</th>
-        <td mat-cell *matCellDef="let row">{{row.lastName}} {{row.firstName}} {{row.middleName}} {{row.suffix}}</td>
+        <td mat-cell *matCellDef="let row">{{row.lastName}}, {{row.firstName}}, {{row.middleName}}, {{row.suffix}}</td>
       </ng-container>
 
       <ng-container matColumnDef="oasisType">
@@ -31,7 +31,7 @@
       </ng-container>
 
       <ng-container matColumnDef="episodeDetails">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Episode Details</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Episode Date</th>
         <td mat-cell *matCellDef="let row">{{row.episodeStartDates | date:'MM/dd/yyyy'}}</td>
       </ng-container>
 
@@ -46,9 +46,9 @@
       </ng-container>
 
       <ng-container matColumnDef="visitPdgm">
-        <th mat-header-cell *matHeaderCellDef>Visit PDGM</th>
+        <th mat-header-cell *matHeaderCellDef>View PDGM</th>
         <td mat-cell *matCellDef="let row">
-          <button mat-raised-button color="primary" (click)="openPdgmForm(row)">
+          <button mat-raised-button color="primary" [disabled]="row.oasisType == 'Discharge'" (click)="openPdgmForm(row)">
             PDGM
           </button>
         </td>

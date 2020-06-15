@@ -47,6 +47,7 @@ export class PdgmComponent implements OnInit {
   openPdgmForm(dialogConfig) {
     this._pdgmDialogRef.open(PdgmFormComponent, {
       width: '800px',
+      hasBackdrop: true,
       data: dialogConfig
     })
       .afterClosed().subscribe(result => {
@@ -57,6 +58,7 @@ export class PdgmComponent implements OnInit {
   openOasisDetailsModel(modelData) {
     this._pdgmDialogRef.open(OasisDetailsComponent, {
       width: '800px',
+      hasBackdrop: true,
       data: modelData
     })
   }

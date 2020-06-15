@@ -15,7 +15,7 @@ export class PdgmFormComponent implements OnInit {
     panelOpenState: boolean = false;
     oasisDetails:any = [];
     pdgmToolData: any = [];
-    isLoadingResults : boolean = true;
+    isLoading : boolean = true;
     oasisQuestion1Data: any = [];
     functionScore: string;
     m1800OasisData: any = [];
@@ -49,8 +49,10 @@ export class PdgmFormComponent implements OnInit {
     }
 
     getPdgmToolData(request) {
+        this.isLoading = true;
         this._pdgmService.getPdgmToolData(request).subscribe(result => {
             this.pdgmToolData = result;
+            this.pdgmToolData[0].name = this.pdgmToolData[0].firstName + ' ' + this.pdgmToolData[0].lastName;
             this.pdgmToolData[0].dob = this._datePipe.transform(this.pdgmToolData[0].dob, 'dd/MM/yyyy')
             this.pdgmToolData[0].episodeStartDate = this._datePipe.transform(this.pdgmToolData[0].episodeStartDate, 'dd/MM/yyyy')
             this.pdgmToolData[0].episodeEndDate = this._datePipe.transform(this.pdgmToolData[0].episodeEndDate, 'dd/MM/yyyy')
@@ -66,7 +68,7 @@ export class PdgmFormComponent implements OnInit {
             if (this.pdgmToolData[1].institutional == true) {
                 this.selectedSource = "Institutional"
             }
-            this.isLoadingResults = false;
+            this.isLoading = false;
         })
     }
 

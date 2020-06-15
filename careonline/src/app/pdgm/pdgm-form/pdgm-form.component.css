@@ -18,6 +18,13 @@
   cursor: pointer;
 }
 
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
 table,
 th,
 td {
@@ -40,8 +47,8 @@ td {
   text-align: left !important;
 }
 
-.text-center{
-  text-align: center!important
+.text-center {
+  text-align: center !important
 }
 
 .mt-14 {
@@ -94,7 +101,7 @@ table.center {
   margin-right: auto;
 }
 
-.fun-score{
+.fun-score {
   background: lightgray;
   text-align: end;
   width: 85%;
@@ -102,7 +109,7 @@ table.center {
   padding: 6px;
 }
 
-.fun-btn{
+.fun-btn {
   width: 12%;
   margin-top: -58px;
 }

@@ -10,9 +10,10 @@
         </mat-icon>
     </mat-toolbar-row>
 </mat-toolbar>
-
+<div class="center">
+    <mat-spinner *ngIf="isLoading" mode="indeterminate"></mat-spinner>
+</div>
 <mat-dialog-content class="pdgm-form" *ngIf="pdgmToolData">
-
     <mat-accordion [multi]="true">
         <mat-expansion-panel>
             <mat-expansion-panel-header>
@@ -26,7 +27,7 @@
             <div class="row">
                 <mat-form-field fxFlex="280">
                     <mat-label>Patient Name</mat-label>
-                    <input matInput [(ngModel)]="pdgmToolData[0].firstName" ngDefaultControl readonly>
+                    <input matInput [(ngModel)]="pdgmToolData[0].name" ngDefaultControl readonly>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="280">
@@ -95,7 +96,7 @@
                             <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
                                 [(ngModel)]="selectedTimings">
                                 <mat-radio-button class="example-radio-button" *ngFor="let visit of visitTimings"
-                                    [value]="visit">
+                                    [value]="visit" disabled>
                                     {{visit}}
                                 </mat-radio-button>
                             </mat-radio-group>
@@ -104,7 +105,7 @@
                             <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
                                 [(ngModel)]="selectedSource">
                                 <mat-radio-button class="example-radio-button" *ngFor="let admission of admissionSource"
-                                    [value]="admission">
+                                    [value]="admission" disabled>
                                     {{admission}}
                                 </mat-radio-button>
                             </mat-radio-group>
@@ -121,7 +122,7 @@
         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    B. Clinical Grouping - Pharmacy Diagnosis
+                    B. Clinical Grouping - Primary Diagnosis
                 </mat-panel-title>
                 <mat-panel-description>
 
@@ -138,8 +139,8 @@
                     </tr>
                     <tr>
                         <td class="text-center">{{pdgmToolData[2].primaryDiagnosisCode}} </td>
-                        <td>{{pdgmToolData[2].discription}}</td>
-                        <td>{{pdgmToolData[2].clinicalGroup}}</td>
+                        <td class="text-center">{{pdgmToolData[2].discription}}</td>
+                        <td class="text-center">{{pdgmToolData[2].clinicalGroup}}</td>
                         <td class="text-center">{{pdgmToolData[2].comorbiditySubGroup}}</td>
                     </tr>
                 </table>
@@ -420,6 +421,40 @@
             <div class="row">
                 <h4 class="mb-24">5 Position (Placeholder) - HIPPS Code: </h4>
                 <button class="mat-raised-button f-r">1</button>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    F. HIPPS Code & Case Mix Weight
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="row">
+                <table style="width:100%">
+                    <tr>
+                        <th>Position #1</th>
+                        <th>Position #2</th>
+                        <th>Position #3</th>
+                        <th>Position #4</th>
+                        <th>Position #5</th>
+                        <th>HIPPS Code</th>
+                        <th>Case Mix Weight</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">  </td>
+                        <td class="text-center"> </td>
+                        <td class="text-center"> </td>
+                        <td class="text-center"> </td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"> </td>
+                    </tr>
+                </table>
             </div>
         </mat-expansion-panel>
 
