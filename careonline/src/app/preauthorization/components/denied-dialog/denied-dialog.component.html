@@ -27,135 +27,9 @@
   <div mat-dialog-content>
     <!-- <mat-accordion> -->
 
-    <!-- Preauthorization Details starts -->
-    <!-- <div formGroupName="authorizationDetail" class="preauthorizationDetails">
-      <mat-expansion-panel expanded>
-        <mat-expansion-panel-header class="disable_ripple">
-          <mat-panel-title>
-            Preauthorization Details
-          </mat-panel-title>
-          <mat-panel-description fxLayoutAlign="center" class="flex-end">
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <mat-grid-list cols="3" rowHeight="68px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="authorizationNo"
-                  [value]="preAuthReponseForm?.get('authorizationDetail').get('authorizationNo').value"
-                  autocomplete="off">
-                <mat-label>Authorization No</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="totalUnitsApproved"
-                  [value]="preAuthReponseForm?.get('authorizationDetail').get('totalUnitsApproved').value"
-                  autocomplete="off">
-                <mat-label>Total Units Approved</mat-label>
-              </mat-form-field>
-
-              <div fxLayout="row">
-                <mat-form-field class="reduced-padding">
-                  <input matInput #input formControlName="noOfUnitsTobeUsed" [errorStateMatcher]="matcher"
-                    [readonly]="isReadonly">
-                  <mat-label>No. Of Units</mat-label>
-                </mat-form-field>
-                <!-- <span>&nbsp; per &nbsp;</span> -->
-    <!-- <mat-form-field class="reduced-padding">
-                  <mat-label>Allowed Units Per</mat-label>
-                  <mat-select formControlName="unitsForNoOfUnitsTobeUsed" [compareWith]="compareFn" required>
-                    <mat-option value="Select">Select</mat-option>
-                    <mat-option *ngFor="let perUnitType of perUnitTypes; let i = index" [value]="perUnitType.name">
-                      {{perUnitType.name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-grid-tile> -->
-
-    <!-- <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput [matDatepicker]="authStartDate" formControlName="authStartDate"
-                  [value]="preAuthReponseForm?.get('authorizationDetail')?.get('authStartDate').value | date:'yyyy-MM-dd'"
-                  [readonly]="isReadonly">
-                <mat-label>Authorization Start Date</mat-label>
-                <mat-datepicker-toggle matSuffix [for]="authStartDate"></mat-datepicker-toggle>
-                <mat-datepicker #authStartDate></mat-datepicker>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="totalUnitsConsumed"
-                  [value]="preAuthReponseForm?.get('authorizationDetail').get('totalUnitsConsumed').value"
-                  autocomplete="off">
-                <mat-label>Total Units Consumed</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile> -->
-
-    <!-- <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput [matDatepicker]="authEndDate" formControlName="authEndDate"
-                  [value]="preAuthReponseForm?.get('authorizationDetail').get('authEndDate').value | date:'yyyy-MM-dd'"
-                  [readonly]="isReadonly">
-                <mat-label>Authorization End Date</mat-label>
-                <mat-datepicker-toggle matSuffix [for]="authEndDate"></mat-datepicker-toggle>
-                <mat-datepicker #authEndDate></mat-datepicker>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="remainingUnits"
-                  [value]="preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits').value"
-                  autocomplete="off">
-                <mat-label>Total Units Remaining</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile> -->
-
-    <!-- </mat-grid-list> -->
-
-    <!-- <mat-grid-list cols="2" rowHeight="70px"> -->
-
-    <!-- <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="noOfUnitsTobeUsed" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Units Allowed</mat-label>
-              </mat-form-field>
-            </div>
-          </mat-grid-tile> -->
-
-    <!-- <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <mat-label>Per Unit Specification</mat-label>
-                <mat-select formControlName="unitsForNoOfUnitsTobeUsed" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let perUnitType of perUnitTypes; let i = index" [value]="perUnitType.name">
-                    {{perUnitType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </mat-grid-tile> -->
-
-    <!-- </mat-grid-list> -->
-    <!-- 
-    </mat-expansion-panel>
-  </div> -->
-    <!-- Preauthorization Details ends -->
-
-    <!-- Preauthorization Details starts -->
-    <div class="enquiryDetails" formGroupName="authorizationDetail">
+    <!-- Preauthorization Enquiry Details starts -->
+    <div class="enquiryDetails" formGroupName="authorizationDetail"
+      *ngIf="preAuthReponseForm.get('authorizationDetail')?.value != null">
       <mat-expansion-panel
         [expanded]="preAuthReponseForm?.get('authorizationDetail')?.get('enquiryDetailStatus')?.value !== 'Approved'">
         <mat-expansion-panel-header class="disable_ripple">
@@ -167,13 +41,13 @@
             {{preAuthReponseForm?.get('authorizationDetail')?.get('enquiryDetailStatus')?.value}}
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-grid-list cols="4" rowHeight="70px">
+        <mat-grid-list cols="3" rowHeight="70px">
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="enquiryId"
+                <input matInput [readonly]="editing? true: true" formControlName="enquiryId"
                   [value]="preAuthReponseForm?.get('authorizationDetail')?.get('enquiryId')?.value" autocomplete="off">
                 <mat-label>Enquiry ID</mat-label>
               </mat-form-field>
@@ -185,27 +59,23 @@
             <div class="controles-container">
 
               <!-- <mat-form-field class="no-padding">
-                  <input matInput [matDatepicker]="processDateAndTime" formControlName="processDateAndTime"
-                    [errorStateMatcher]="matcher" [readonly]="isReadonly"
-                    [value]="preAuthReponseForm?.controls?.processDateAndTime?.value | date:'yyyy-MM-dd'"> -->
-              <!-- <span> <input matInput [errorStateMatcher]="matcher" [readonly]="isReadonly"
-                      [value]="preAuthReponseForm?.controls?.processDateAndTime?.value | date:'hh:mm:ss a'"></span> -->
-
-              <!-- [value]="preAuthReponseForm?.controls?.processDateAndTime?.value | date:'yyyy-MM-dd'" -->
-              <!-- <mat-label>Date</mat-label> -->
-              <!-- disabled for disabling icon -->
-              <!-- <mat-datepicker-toggle matSuffix [for]="processDateAndTime" disabled="false"> -->
-              <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
-              <!-- </mat-datepicker-toggle> -->
-              <!-- disabled for disabling input field -->
-              <!-- <mat-datepicker #processDateAndTime disabled="false"></mat-datepicker>
-                </mat-form-field> -->
-
-              <mat-form-field class="no-padding">
                 <mat-label>Processed Date And Time</mat-label>
                 <input matInput formControlName="processDateAndTime" name="processDateAndTime" ngDefaultControl
                   [value]="preAuthReponseForm?.get('authorizationDetail')?.get('processDateAndTime')?.value | date:'short'"
                   autocomplete="off" [errorStateMatcher]="matcher" [readonly]="isReadonly">
+              </mat-form-field> -->
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="processDateAndTime" formControlName="processDateAndTime"
+                  [readonly]="editing? true: true"
+                  [value]="preAuthReponseForm?.get('authorizationDetail')?.get('processDateAndTime')?.value | date:'yyyy-MM-dd'">
+                <mat-label>Preauth Received Date</mat-label>
+                <!-- disabled for disabling icon -->
+                <!-- <mat-datepicker-toggle matSuffix [for]="processDateAndTime" [disabled]="editing? false: true"> -->
+                <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> [disabled]="editing? false: true"-->
+                <!-- </mat-datepicker-toggle> -->
+                <!-- disabled for disabling input field -->
+                <mat-datepicker #processDateAndTime disabled="false"></mat-datepicker>
               </mat-form-field>
 
             </div>
@@ -213,29 +83,49 @@
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
-            </div>
-          </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
+              <!-- <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="preAuthorizationStatus"
+                  [readonly]="!editing? true: false" required>
                 <mat-label>Preauthorization Status</mat-label>
-                <!-- <input #input matInput formControlName="preAuthorizationStatus" [readonly]="isReadonly"> -->
-
-                <mat-select formControlName="preAuthorizationStatus" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let status of preAuthStatuses; let i = index" [value]="status.code">
-                    {{status.name}}
+                <mat-select *ngIf="editing" formControlName="preAuthorizationStatus" required [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let preAuthRespStatus of preAuthResponseStatuses; let i = index"
+                    [value]="preAuthRespStatus.name">
+                    {{preAuthRespStatus.name}}
                   </mat-option>
                 </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm.get('authorizationDetail')?.get('preAuthorizationStatus')?.hasError('required')">
+                  Please select preauthorization status.
+                </mat-error>
+              </mat-form-field> -->
 
+              <mat-form-field class="no-padding">
+                <input *ngIf="!(editing)" #input matInput formControlName="preAuthorizationStatus"
+                  [readonly]="!(editing)? true: false" [required]="preAuthReponseForm.get('authorizationDetail')?.get('preAuthorizationStatus')?.touched &&
+                  (editing)? true: false">
+                <mat-label>Preauthorization Status</mat-label>
+                <mat-select *ngIf="(editing)" formControlName="preAuthorizationStatus" [required]="preAuthReponseForm.get('authorizationDetail')?.get('preAuthorizationStatus')?.touched &&
+                  (editing)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let preAuthRespStatus of preAuthResponseStatuses; let i = index"
+                    [value]="preAuthRespStatus.name">
+                    {{preAuthRespStatus.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="preAuthReponseForm.get('authorizationDetail')?.get('preAuthorizationStatus')?.touched && 
+                  preAuthReponseForm.get('authorizationDetail')?.get('preAuthorizationStatus')?.hasError('required')">
+                  Please select preauthorization status.
+                </mat-error>
               </mat-form-field>
+
             </div>
           </mat-grid-tile>
 
         </mat-grid-list>
 
-        <mat-grid-list cols="4" rowHeight="70px">
+        <!-- <mat-grid-list cols="4" rowHeight="70px">
 
           <mat-grid-tile [colspan]="1" [rowspan]="2">
             <div class="controles-container">
@@ -333,135 +223,177 @@
                 <mat-label>Preauthorization Identification No</mat-label>
               </mat-form-field>
 
-              <!-- <mat-form-field class="no-padding">
-                  <input matInput [readonly]="isReadonly" formControlName="certExpiryDate"
-                    [errorStateMatcher]="matcher">
-                  <mat-label>Certification Expiration Date</mat-label>
-                </mat-form-field> -->
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list> -->
+
+        <mat-grid-list cols="3" rowHeight="68px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="4" formControlName="totalUnitsApproved" [required]="preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsApproved')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="unitsPattern">
+                <mat-label>Total Visits Approved</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsApproved')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsApproved')?.hasError('pattern')">
+                  Please enter a valid value for visits.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsApproved')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsApproved')?.hasError('required')">
+                  Visit is required.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="4" formControlName="totalUnitsConsumed" [required]="preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsConsumed')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="unitsPattern">
+                <mat-label>Total Visits Consumed</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsConsumed')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsConsumed')?.hasError('pattern')">
+                  Please enter a valid value for visits.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsConsumed')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('totalUnitsConsumed')?.hasError('required')">
+                  Visit is required.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="4" formControlName="remainingUnits" [required]="preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="unitsPattern">
+                <mat-label>Total Visits Remaining</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits')?.hasError('pattern')">
+                  Please enter a valid value for visits.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits')?.hasError('required')">
+                  Visit is required.
+                </mat-error>
+              </mat-form-field>
 
             </div>
           </mat-grid-tile>
 
         </mat-grid-list>
 
-        <mat-grid-list cols="4" rowHeight="68px">
+        <mat-grid-list cols="3" rowHeight="68px">
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
-
-              <!-- <mat-form-field class="no-padding">
-              <input matInput [readonly]="isReadonly" formControlName="authorizationNo"
-                [value]="preAuthReponseForm?.get('authorizationDetail').get('authorizationNo').value"
-                autocomplete="off">
-              <mat-label>Authorization No</mat-label>
-            </mat-form-field> -->
-
               <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="totalUnitsApproved"
-                  [value]="preAuthReponseForm?.get('authorizationDetail').get('totalUnitsApproved').value"
-                  autocomplete="off" [pattern]="unitsPattern" maxlength="3">
-                <mat-label>Total Units Approved</mat-label>
-              </mat-form-field>
-
-              <!-- <div fxLayout="row">
-              <mat-form-field class="reduced-padding">
-                <input matInput #input formControlName="noOfUnitsTobeUsed" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>No. Of Units</mat-label>
-              </mat-form-field> -->
-              <!-- <span>&nbsp; per &nbsp;</span> -->
-              <!-- <mat-form-field class="reduced-padding">
-                <mat-label>Allowed Units Per</mat-label>
-                <mat-select formControlName="unitsForNoOfUnitsTobeUsed" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
+                <input *ngIf="!(editing)" #input matInput formControlName="unitsForNoOfUnitsTobeUsed"
+                  [readonly]="!(editing)? true: false" [required]="preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.touched &&
+                  (editing)? true: false">
+                <mat-label>Allowed Visits Per</mat-label>
+                <mat-select *ngIf="(editing)" formControlName="unitsForNoOfUnitsTobeUsed" [required]="preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.touched &&
+                  (editing)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
                   <mat-option *ngFor="let perUnitType of perUnitTypes; let i = index" [value]="perUnitType.name">
                     {{perUnitType.name}}
                   </mat-option>
                 </mat-select>
-              </mat-form-field> -->
-              <!-- </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-              <!-- <mat-form-field class="no-padding">
-              <input matInput [matDatepicker]="authStartDate" formControlName="authStartDate"
-                [value]="preAuthReponseForm?.get('authorizationDetail')?.get('authStartDate').value | date:'yyyy-MM-dd'"
-                [readonly]="isReadonly">
-              <mat-label>Authorization Start Date</mat-label>
-              <mat-datepicker-toggle matSuffix [for]="authStartDate"></mat-datepicker-toggle>
-              <mat-datepicker #authStartDate></mat-datepicker>
-            </mat-form-field> -->
-
-              <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="totalUnitsConsumed"
-                  [value]="preAuthReponseForm?.get('authorizationDetail').get('totalUnitsConsumed').value"
-                  autocomplete="off" [pattern]="unitsPattern" maxlength="3">
-                <mat-label>Total Units Consumed</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.touched && 
+                  preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.hasError('required')">
+                  Please select allowed visits per.
+                </mat-error>
               </mat-form-field>
-
             </div>
           </mat-grid-tile>
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
-
-              <!-- <mat-form-field class="no-padding">
-              <input matInput [matDatepicker]="authEndDate" formControlName="authEndDate"
-                [value]="preAuthReponseForm?.get('authorizationDetail').get('authEndDate').value | date:'yyyy-MM-dd'"
-                [readonly]="isReadonly">
-              <mat-label>Authorization End Date</mat-label>
-              <mat-datepicker-toggle matSuffix [for]="authEndDate"></mat-datepicker-toggle>
-              <mat-datepicker #authEndDate></mat-datepicker>
-            </mat-form-field> -->
-
               <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="remainingUnits"
-                  [value]="preAuthReponseForm?.get('authorizationDetail')?.get('remainingUnits').value"
-                  autocomplete="off" [pattern]="unitsPattern" maxlength="3">
-                <mat-label>Total Units Remaining</mat-label>
+                <input matInput #input maxlength="4" formControlName="noOfUnitsTobeUsed" [required]="preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="unitsPattern">
+                <mat-label>Visits</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.hasError('pattern')">
+                  Please enter a valid value for visits.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.touched && 
+                  preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.hasError('required')">
+                  Visit is required.
+                </mat-error>
               </mat-form-field>
-
             </div>
           </mat-grid-tile>
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
 
-              <!-- <mat-form-field class="no-padding">
-              <input matInput [readonly]="isReadonly" formControlName="authorizationNo"
-                [value]="preAuthReponseForm?.get('authorizationDetail').get('authorizationNo').value"
-                autocomplete="off">
-              <mat-label>Authorization No</mat-label>
-            </mat-form-field> -->
+            </div>
+          </mat-grid-tile>
+
+          <!-- <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
 
               <div fxLayout="row">
+
                 <mat-form-field class="reduced-padding">
-                  <input matInput #input formControlName="noOfUnitsTobeUsed" [errorStateMatcher]="matcher"
-                    [readonly]="isReadonly" [pattern]="unitsPattern" maxlength="3">
-                  <mat-label>No. Of Units</mat-label>
+                  <input matInput #input maxlength="4" formControlName="noOfUnitsTobeUsed" [required]="preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.touched &&
+                  (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                    [pattern]="unitsPattern">
+                  <mat-label>Visits</mat-label>
+                  <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.touched && 
+                    preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.hasError('pattern')">
+                    Please enter a valid value for visits.
+                  </mat-error>
+                  <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.touched && 
+                    preAuthReponseForm?.get('authorizationDetail')?.get('noOfUnitsTobeUsed')?.hasError('required')">
+                    Visit is required.
+                  </mat-error>
                 </mat-form-field>
-                <!-- <span>&nbsp; per &nbsp;</span> -->
+
                 <mat-form-field class="reduced-padding">
-                  <mat-label>Allowed Units Per</mat-label>
-                  <mat-select formControlName="unitsForNoOfUnitsTobeUsed" [compareWith]="compareFn" required>
-                    <mat-option value="Select">Select</mat-option>
+                  <input *ngIf="!(editing)" #input matInput formControlName="unitsForNoOfUnitsTobeUsed"
+                    [readonly]="!(editing)? true: false" [required]="preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.touched &&
+                    (editing)? true: false">
+                  <mat-label>Allowed Visits Per</mat-label>
+                  <mat-select *ngIf="(editing)" formControlName="unitsForNoOfUnitsTobeUsed" [required]="preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.touched &&
+                    (editing)? true: false" [compareWith]="compareFn">
+                    <mat-option>Select</mat-option>
                     <mat-option *ngFor="let perUnitType of perUnitTypes; let i = index" [value]="perUnitType.name">
                       {{perUnitType.name}}
                     </mat-option>
                   </mat-select>
+                  <mat-error
+                    *ngIf="preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.touched && 
+                    preAuthReponseForm.get('authorizationDetail')?.get('unitsForNoOfUnitsTobeUsed')?.hasError('required')">
+                    Please select allowed visits per.
+                  </mat-error>
                 </mat-form-field>
+
               </div>
+
             </div>
-          </mat-grid-tile>
+          </mat-grid-tile> -->
 
         </mat-grid-list>
 
       </mat-expansion-panel>
     </div>
-    <!-- Enquiry Details ends -->
+    <!-- Preauthorization Enquiry Details ends -->
 
     <!-- Member Demographic details starts -->
     <!-- <div formGroupName="preAuthDemographics" *ngIf="preAuthReponseForm.get('preAuthDemographics')?.value != null"> -->
@@ -476,25 +408,45 @@
             {{preAuthReponseForm?.get('memberDetailStatus')?.value}}
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-grid-list cols="3" rowHeight="70px">
+        <mat-grid-list cols="3" rowHeight="68px">
           <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="memberlastName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
+                <input matInput #input maxlength="15" formControlName="memberlastName" [required]="preAuthReponseForm?.get('memberlastName')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="userNamePattern">
                 <mat-label>Last Name</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('memberlastName')?.touched &&
+                  preAuthReponseForm?.get('memberlastName')?.hasError('pattern')">
+                  Please enter a valid last name.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('memberlastName')?.touched &&
+                  preAuthReponseForm?.get('memberlastName')?.hasError('required')">
+                  Last name is required.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="memberPrefix" [errorStateMatcher]="matcher">
+                <input matInput #input maxlength="3" [readonly]="(editing)? false: true" formControlName="memberPrefix"
+                  [errorStateMatcher]="matcher" autocomplete="off" [pattern]="prefixPattern">
                 <mat-label>Prefix</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('memberPrefix')?.hasError('pattern')">
+                  Please enter a valid prefix.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput [matDatepicker]="memberdob" formControlName="memberdob" [errorStateMatcher]="matcher"
-                  [value]="preAuthReponseForm?.get('memberdob').value | date:'yyyy-MM-dd'" [readonly]="isReadonly">
+                <input matInput [matDatepicker]="memberdob" formControlName="memberdob" [required]="preAuthReponseForm.get('memberdob')?.touched &&
+                  (editing)? true: false" [readonly]="(editing) ? false : true"
+                  [value]="preAuthReponseForm.get('memberdob')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Date of birth</mat-label>
-                <mat-datepicker-toggle matSuffix [for]="memberdob"></mat-datepicker-toggle>
+                <mat-error *ngIf="preAuthReponseForm.get('memberdob')?.touched && 
+                  preAuthReponseForm.get('memberdob')?.hasError('required')">
+                  Date of birth is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="(editing)" matSuffix [for]="memberdob">
+                </mat-datepicker-toggle>
                 <mat-datepicker #memberdob></mat-datepicker>
               </mat-form-field>
 
@@ -503,64 +455,82 @@
 
           <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="memberfirstName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
+                <input matInput #input maxlength="15" formControlName="memberfirstName" [required]="preAuthReponseForm?.get('memberfirstName')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="userNamePattern">
                 <mat-label>First Name</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('memberfirstName')?.touched &&
+                  preAuthReponseForm?.get('memberfirstName')?.hasError('pattern')">
+                  Please enter a valid first name.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('memberfirstName')?.touched &&
+                  preAuthReponseForm?.get('memberfirstName')?.hasError('required')">
+                  First name is required.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="membersuffix" [errorStateMatcher]="matcher">
+                <input matInput maxlength="5" [readonly]="editing? false: true" formControlName="membersuffix"
+                  [errorStateMatcher]="matcher" autocomplete="off" [pattern]="suffixPattern">
                 <mat-label>Suffix</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('membersuffix')?.hasError('pattern')">
+                  Please enter a valid suffix.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input #input matInput formControlName="membergender" [readonly]="isReadonly">
+                <input *ngIf="!(editing)" #input matInput formControlName="membergender"
+                  [readonly]="!(editing)? true: false" [required]="preAuthReponseForm?.get('membergender')?.touched &&
+                  (editing)? true: false">
                 <mat-label>Gender</mat-label>
-                <!-- <mat-select *ngIf="!editing" formControlName="membergender">
-                  <mat-option value="">Select</mat-option>
-                  <mat-option *ngFor="let membergender of genders; let i = index" [value]="membergender.name">
+                <mat-select *ngIf="(editing)" formControlName="membergender" [required]="preAuthReponseForm?.get('membergender')?.touched &&
+                  (editing)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let membergender of genders; let i = index;" [value]="membergender.name">
                     {{membergender.name}}
                   </mat-option>
-                </mat-select> -->
+                </mat-select>
+                <mat-error *ngIf="preAuthReponseForm?.get('membergender')?.touched && 
+                  preAuthReponseForm?.get('membergender')?.hasError('required')">
+                  Please select gender.
+                </mat-error>
               </mat-form-field>
 
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="membermiddleName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
+                <input matInput #input maxlength="15" formControlName="membermiddleName" [errorStateMatcher]="matcher"
+                  [readonly]="editing? false: true" autocomplete="off" [pattern]="userNamePattern">
                 <mat-label>Middle Name</mat-label>
+                <mat-error *ngIf="preAuthReponseForm.get('membermiddleName').hasError('pattern')">
+                  Please enter a valid middleName.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput [readonly]="isReadonly" formControlName="mrnNumber" [errorStateMatcher]="matcher">
+                <input matInput #input maxlength="15" formControlName="mrnNumber" [required]="preAuthReponseForm?.get('mrnNumber')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="mrnNumberPattern">
                 <mat-label>MRN Number</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('mrnNumber')?.touched &&
+                  preAuthReponseForm?.get('mrnNumber')?.hasError('pattern')">
+                  Please enter a valid MRN number.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('mrnNumber')?.touched &&
+                  preAuthReponseForm?.get('mrnNumber')?.hasError('required')">
+                  MRN number is required.
+                </mat-error>
               </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="memberRelationshipToSubscriber" [readonly]="isReadonly"> -->
-                <mat-label>Relationship To Subscriber</mat-label>
-                <mat-select formControlName="memberRelationshipToSubscriber" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let relation of relations; let i = index" [value]="relation.name">
-                    {{relation.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-              <!-- <mat-form-field class="no-padding">
-                  <input matInput formControlName="ssn" [readonly]="isReadonly" [errorStateMatcher]="matcher">
-                  <mat-label>SSN</mat-label>
-                </mat-form-field> -->
 
             </div>
           </mat-grid-tile>
+
         </mat-grid-list>
       </mat-expansion-panel>
     </div>
@@ -579,108 +549,139 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <mat-grid-list cols="3" rowHeight="66px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="organizationName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
+                <input matInput #input maxlength="20" formControlName="organizationName" [required]="preAuthReponseForm?.get('organizationName')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="orgNamePattern">
                 <mat-label>Organization Name</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('organizationName')?.touched && 
+                  preAuthReponseForm?.get('organizationName')?.hasError('pattern')">
+                  Please enter a valid organization name.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('organizationName')?.touched && 
+                  preAuthReponseForm?.get('organizationName')?.hasError('required')">
+                  Organization name is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="25" formControlName="orgCommunicationTypeTelephone"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" autocomplete="off"
+                  [pattern]="communPatrn">
+                <mat-label>Communication-Telephone</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('orgCommunicationTypeTelephone')?.hasError('pattern')">
+                  Please enter a valid communication type.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="25" formControlName="orgCommunicationTypeEMail"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" autocomplete="off"
+                  [pattern]="communPatrn">
+                <mat-label>Communication-Email</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('orgCommunicationTypeEMail')?.hasError('pattern')">
+                  Please enter a valid communication type.
+                </mat-error>
+
               </mat-form-field>
 
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
-
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="orgIdentificationCode" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
+                <input matInput #input maxlength="20" formControlName="orgIdentificationCode" [required]="preAuthReponseForm?.get('orgIdentificationCode')?.touched &&
+                (editing)? true: false" [readonly]="editing? false: true" autocomplete="off"
+                  [pattern]="orgIdCodePatrn">
                 <mat-label>Identification Code</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('orgIdentificationCode')?.touched && 
+                  preAuthReponseForm?.get('orgIdentificationCode')?.hasError('pattern')">
+                  Please enter a valid identification code.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('orgIdentificationCode')?.touched && 
+                  preAuthReponseForm?.get('orgIdentificationCode')?.hasError('required')">
+                  Organization identification code is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="5" formControlName="orgCommunicationExt" [errorStateMatcher]="matcher"
+                  [readonly]="editing? false: true" autocomplete="off" [pattern]="extPattern">
+                <mat-label>Extension No</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('orgCommunicationExt')?.hasError('pattern')">
+                  Please enter a valid extension no.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="25" formControlName="orgCommunicationTypeFacsimile"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" autocomplete="off"
+                  [pattern]="communPatrn">
+                <mat-label>Communication-Facsimile</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('orgCommunicationTypeFacsimile')?.hasError('pattern')">
+                  Please enter a valid communication type.
+                </mat-error>
               </mat-form-field>
 
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="orgIdentificationCodeType" [readonly]="isReadonly"> -->
+                <input *ngIf="!editing" #input matInput formControlName="orgIdentificationCodeType"
+                  [readonly]="!editing? true: false" [required]="preAuthReponseForm?.get('orgIdentificationCodeType')?.touched &&
+                  (editing)? true: false">
                 <mat-label>Identification Code Type</mat-label>
-                <mat-select formControlName="orgIdentificationCodeType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let codeType of identificationCodeType; let i = index" [value]="codeType.name">
-                    {{codeType.name}}
+                <mat-select *ngIf="editing" formControlName="orgIdentificationCodeType" [required]="preAuthReponseForm?.get('orgIdentificationCodeType')?.touched &&
+                (editing)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let identificationCodeTyp of identificationCodeType; let i = index"
+                    [value]="identificationCodeTyp.name">
+                    {{identificationCodeTyp.name}}
                   </mat-option>
                 </mat-select>
-
+                <mat-error *ngIf="preAuthReponseForm?.get('orgIdentificationCodeType')?.touched && 
+                  preAuthReponseForm?.get('orgIdentificationCodeType')?.hasError('required')">
+                  Please select Identification Code Type.
+                </mat-error>
               </mat-form-field>
 
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
-
-        <!-- Reject reason and Follow up Action Desc starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="orgRejectionReason" [readonly]="isReadonly"> -->
+                <input *ngIf="!editing" #input matInput formControlName="orgRejectionReason"
+                  [readonly]="!editing? true: false">
                 <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="orgRejectionReason" name="orgRejectionReason" #orgRejectionReason
-                  [compareWith]="compareFn" required>
+                <mat-select *ngIf="editing" formControlName="orgRejectionReason" [compareWith]="compareFn">
                   <mat-option value="Select">Select</mat-option>
                   <mat-option *ngFor="let reason of rejectReasons; let i = index" [value]="reason.name">
                     {{reason.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Rejection Reason: </strong> {{ orgRejectionReason.value }} </p>
-                      </div> -->
-            </div>
-          </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <!-- <mat-form-field class="no-padding">
-                        <input #input matInput formControlName="subscGender" [readonly]="isReadonly">
-                        <mat-label>Gender</mat-label>
-                        <!-- <mat-select *ngIf="!editing" formControlName="subscGender">
-                        <mat-option value="">Select</mat-option>
-                        <mat-option *ngFor="let subscGender of genders; let i = index" [value]="subscGender.name">
-                          {{subscGender.name}}
-                        </mat-option>
-                      </mat-select> -->
-              <!-- </mat-form-field> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="orgFollowUpActionDescription" [readonly]="isReadonly"> -->
+                <input *ngIf="!editing" #input matInput formControlName="orgFollowUpActionDescription"
+                  [readonly]="!editing? true: false">
                 <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="orgFollowUpActionDescription" name="orgFollowUpActionDescription"
-                  #orgFollowUpActionDescription [compareWith]="compareFn" required>
+                <mat-select *ngIf="editing" formControlName="orgFollowUpActionDescription" [compareWith]="compareFn">
                   <mat-option value="Select">Select</mat-option>
                   <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
                     {{desc.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Follow Up Action Description: </strong> {{ orgFollowUpActionDescription.value }} </p>
-                      </div> -->
+
             </div>
           </mat-grid-tile>
 
         </mat-grid-list>
-        <!-- Reject reason and Follow up Action Desc ends -->
 
       </mat-expansion-panel>
     </div>
@@ -859,15 +860,15 @@
     <!-- Dependent Information details starts -->
 
     <!-- Requester Provider details starts -->
-    <div class="requesterProviderDetails">
-      <mat-expansion-panel [expanded]="preAuthReponseForm?.get('reqProviderDetailStatus')?.value !== 'Approved'">
-        <mat-expansion-panel-header class="disable_ripple">
+    <div class="requesterProviderDetails" formGroupName="requesterResponseInformation">
+      <mat-expansion-panel [expanded]=" preAuthReponseForm?.get('reqProviderDetailStatus')?.value !=='Approved'">
+        <mat-expansion-panel-header class=" disable_ripple">
           <mat-panel-title>
             Requester Information
           </mat-panel-title>
-          <mat-panel-description [ngStyle]="{'color': preAuthReponseForm?.get('reqProviderDetailStatus')?.value === 'Approved' ? 'green' :
+          <mat-panel-description [ngStyle]="{'color': preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderDetailStatus')?.value === 'Approved' ? 'green' :
                     'red'}" fxLayoutAlign="center" class="flex-end">
-            {{preAuthReponseForm?.get('reqProviderDetailStatus')?.value}}
+            {{preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderDetailStatus')?.value || 'No Value Received'}}
           </mat-panel-description>
         </mat-expansion-panel-header>
 
@@ -3051,6 +3052,9 @@
 <!-- Main Mat-Dialog Action Start -->
 <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> -->
 <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
+  <button mat-button mat-raised-button color="primary" type="submit"
+    (click)="onEdit(preAuthReponseForm.value)">Edit</button>
+  <button mat-button mat-raised-button color="primary" type="submit" (click)="onSave(preAuthReponseForm)">Save</button>
   <button mat-button mat-raised-button color="warn" (click)="printPage()">Print</button>
   <button mat-button mat-raised-button [mat-dialog-close]="false" color="accent" (click)="onNoClick()">Close</button>
 </div>

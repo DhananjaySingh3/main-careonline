@@ -99,37 +99,41 @@
         <mat-grid-list cols="3" rowHeight="68px">
           <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="15" formControlName="lastName" [errorStateMatcher]="matcher"
-                  [readonly]="editing? false: true" required autocomplete="off" [pattern]="userNamePattern">
+                <input matInput #input maxlength="15" formControlName="lastName" [required]="preAuthForm.get('preAuthDemographics')?.get('lastName')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="userNamePattern">
                 <mat-label>Last Name</mat-label>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('lastName').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('lastName')?.touched &&
+                  preAuthForm.get('preAuthDemographics')?.get('lastName')?.hasError('pattern')">
                   Please enter a valid last name.
                 </mat-error>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('lastName').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('lastName')?.touched &&
+                  preAuthForm.get('preAuthDemographics')?.get('lastName')?.hasError('required')">
                   Last name is required.
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="3" [readonly]="editing? false: true" formControlName="prefix"
+                <input matInput #input maxlength="3" [readonly]="(editing)? false: true" formControlName="prefix"
                   [errorStateMatcher]="matcher" autocomplete="off" [pattern]="prefixPattern">
                 <mat-label>Prefix</mat-label>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('prefix').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('prefix')?.hasError('pattern')">
                   Please enter a valid prefix.
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <!-- <input *ngIf="!editing" #input matInput formControlName="dob" [readonly]="true"> -->
-                <input matInput [matDatepicker]="dob" formControlName="dob" [errorStateMatcher]="matcher"
-                  [readonly]="editing? false: true"
-                  [value]="preAuthForm?.get('preAuthDemographics')?.get('dob')?.value | date:'yyyy-MM-dd'" required>
+                <input matInput [matDatepicker]="dob" formControlName="dob" [required]="preAuthForm?.get('preAuthDemographics')?.get('dob')?.touched &&
+                  (editing)? true: false" [readonly]="(editing) ? false : true"
+                  [value]="preAuthForm?.get('preAuthDemographics')?.get('dob')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Date of birth</mat-label>
-                <mat-error *ngIf="preAuthForm?.get('preAuthDemographics')?.get('dob')?.hasError('required')">
+                <mat-error *ngIf="preAuthForm?.get('preAuthDemographics')?.get('dob')?.touched && 
+                  preAuthForm?.get('preAuthDemographics')?.get('dob')?.hasError('required')">
                   Date of birth is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="editing" matSuffix [for]="dob">
+                <mat-datepicker-toggle *ngIf="(editing)" matSuffix [for]="dob">
                 </mat-datepicker-toggle>
                 <mat-datepicker #dob></mat-datepicker>
               </mat-form-field>
@@ -139,14 +143,18 @@
 
           <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="15" formControlName="firstName" [errorStateMatcher]="matcher"
-                  [readonly]="editing? false: true" required autocomplete="off" [pattern]="userNamePattern">
+                <input matInput #input maxlength="15" formControlName="firstName" [required]="preAuthForm.get('preAuthDemographics')?.get('firstName')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="userNamePattern">
                 <mat-label>First Name</mat-label>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('firstName').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('firstName')?.touched &&
+                  preAuthForm.get('preAuthDemographics')?.get('firstName')?.hasError('pattern')">
                   Please enter a valid first name.
                 </mat-error>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('firstName').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('firstName')?.touched &&
+                  preAuthForm.get('preAuthDemographics')?.get('firstName')?.hasError('required')">
                   First name is required.
                 </mat-error>
               </mat-form-field>
@@ -155,22 +163,25 @@
                 <input matInput maxlength="5" [readonly]="editing? false: true" formControlName="suffix"
                   [errorStateMatcher]="matcher" autocomplete="off" [pattern]="suffixPattern">
                 <mat-label>Suffix</mat-label>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('suffix').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('suffix')?.hasError('pattern')">
                   Please enter a valid suffix.
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input *ngIf="!editing" #input matInput formControlName="gender" [readonly]="!editing? true: false"
-                  required>
+                <input *ngIf="!(editing)" #input matInput formControlName="gender" [readonly]="!(editing)? true: false"
+                  [required]="preAuthForm.get('preAuthDemographics')?.get('gender')?.touched &&
+                  (editing)? true: false">
                 <mat-label>Gender</mat-label>
-                <mat-select *ngIf="editing" formControlName="gender" required [compareWith]="compareFn">
-                  <!-- <mat-option value="" *ngIf="editing">Select</mat-option> -->
-                  <mat-option *ngFor="let membergender of genders; let i = index" [value]="membergender.name">
+                <mat-select *ngIf="(editing)" formControlName="gender" [required]="preAuthForm.get('preAuthDemographics')?.get('gender')?.touched &&
+                  (editing)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let membergender of genders; let i = index;" [value]="membergender.name">
                     {{membergender.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('gender').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('gender')?.touched && 
+                  preAuthForm.get('preAuthDemographics')?.get('gender')?.hasError('required')">
                   Please select gender.
                 </mat-error>
               </mat-form-field>
@@ -191,28 +202,19 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput maxlength="15" [readonly]="editing? false: true" formControlName="mrnNumber"
-                  [errorStateMatcher]="matcher" required autocomplete="off" [pattern]="mrnNumberPattern">
+                <input matInput #input maxlength="15" formControlName="mrnNumber" [required]="preAuthForm.get('preAuthDemographics')?.get('mrnNumber')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="mrnNumberPattern">
                 <mat-label>MRN Number</mat-label>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('mrnNumber').hasError('pattern')">
-                  Please enter a valid MRN Number.
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('mrnNumber')?.touched &&
+                  preAuthForm.get('preAuthDemographics')?.get('mrnNumber')?.hasError('pattern')">
+                  Please enter a valid MRN number.
                 </mat-error>
-                <mat-error *ngIf="preAuthForm.get('preAuthDemographics').get('mrnNumber').hasError('required')">
-                  MRN Number is required.
+                <mat-error *ngIf="preAuthForm.get('preAuthDemographics')?.get('mrnNumber')?.touched &&
+                  preAuthForm.get('preAuthDemographics')?.get('mrnNumber')?.hasError('required')">
+                  MRN number is required.
                 </mat-error>
               </mat-form-field>
-
-              <!-- <mat-form-field class="no-padding"> -->
-              <!-- <input #input matInput formControlName="memberRelationshipToSubscriber" [readonly]="isReadonly"> -->
-              <!-- <mat-label>Relationship To Subscriber</mat-label>
-                <mat-select formControlName="memberRelationshipToSubscriber" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let relation of relations; let i = index" [value]="relation.name">
-                    {{relation.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field> -->
 
             </div>
           </mat-grid-tile>
@@ -239,15 +241,16 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="20" formControlName="organizationName" [errorStateMatcher]="matcher"
-                  [readonly]="editing? false: true" required autocomplete="off" [pattern]="orgNamePattern">
+                <input matInput #input maxlength="20" formControlName="organizationName" [required]="preAuthForm.get('organizationInformation')?.get('organizationName')?.touched &&
+                (editing)? true: false" [readonly]="(editing)? false: true" autocomplete="off"
+                  [pattern]="orgNamePattern">
                 <mat-label>Organization Name</mat-label>
-                <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation')?.get('organizationName')?.hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('organizationInformation')?.get('organizationName')?.touched && 
+                  preAuthForm.get('organizationInformation')?.get('organizationName')?.hasError('pattern')">
                   Please enter a valid organization name.
                 </mat-error>
-                <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation')?.get('organizationName')?.hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('organizationInformation')?.get('organizationName')?.touched && 
+                  preAuthForm.get('organizationInformation')?.get('organizationName')?.hasError('required')">
                   Organization name is required.
                 </mat-error>
               </mat-form-field>
@@ -281,16 +284,16 @@
           <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="20" formControlName="orgIdentificationCode"
-                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" required autocomplete="off"
+                <input matInput #input maxlength="20" formControlName="orgIdentificationCode" [required]="preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.touched &&
+                (editing)? true: false" [readonly]="editing? false: true" autocomplete="off"
                   [pattern]="orgIdCodePatrn">
                 <mat-label>Identification Code</mat-label>
-                <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.touched && 
+                  preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.hasError('pattern')">
                   Please enter a valid identification code.
                 </mat-error>
-                <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.touched && 
+                  preAuthForm.get('organizationInformation')?.get('orgIdentificationCode')?.hasError('required')">
                   Organization identification code is required.
                 </mat-error>
               </mat-form-field>
@@ -324,18 +327,19 @@
 
               <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="orgIdentificationCodeType"
-                  [readonly]="!editing? true: false" required>
+                  [readonly]="!editing? true: false" [required]="preAuthForm.get('organizationInformation')?.get('orgIdentificationCodeType')?.touched &&
+                  (editing)? true: false">
                 <mat-label>Identification Code Type</mat-label>
-                <mat-select *ngIf="editing" formControlName="orgIdentificationCodeType" required
-                  [compareWith]="compareFn">
-                  <!-- <mat-option value="" *ngIf="editing">Select</mat-option> -->
+                <mat-select *ngIf="editing" formControlName="orgIdentificationCodeType" [required]="preAuthForm.get('organizationInformation')?.get('orgIdentificationCodeType')?.touched &&
+                (editing)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
                   <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                     [value]="identificationCodeType.name">
                     {{identificationCodeType.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error
-                  *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCodeType')?.hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('organizationInformation')?.get('orgIdentificationCodeType')?.touched && 
+                  preAuthForm.get('organizationInformation')?.get('orgIdentificationCodeType')?.hasError('required')">
                   Please select Identification Code Type.
                 </mat-error>
               </mat-form-field>
@@ -382,13 +386,17 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="15" formControlName="subscriberLastName" [errorStateMatcher]="matcher"
-                  [readonly]="editing? false: true" required autocomplete="off" [pattern]="userNamePattern">
+                <input matInput #input maxlength="15" formControlName="subscriberLastName"
+                  [readonly]="editing? false: true"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberLastName')?.touched && (editing)? false: true"
+                  autocomplete="off" [pattern]="userNamePattern">
                 <mat-label>Last Name</mat-label>
-                <mat-error *ngIf="preAuthForm.get('subscriberDetails').get('subscriberLastName').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberLastName')?.touched &&
+                   preAuthForm.get('subscriberDetails')?.get('subscriberLastName')?.hasError('pattern')">
                   Please enter a valid last name.
                 </mat-error>
-                <mat-error *ngIf="preAuthForm.get('subscriberDetails').get('subscriberLastName').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberLastName')?.touched &&
+                   preAuthForm.get('subscriberDetails')?.get('subscriberLastName')?.hasError('required')">
                   Last name is required.
                 </mat-error>
               </mat-form-field>
@@ -406,11 +414,12 @@
               <mat-form-field class="no-padding">
                 <!-- <input *ngIf="!editing" #input matInput formControlName="subscriberDob" [readonly]="true"> -->
                 <input matInput [matDatepicker]="subscriberDob" formControlName="subscriberDob"
-                  [errorStateMatcher]="matcher" [readonly]="editing? false: true"
+                  [readonly]="editing? false: true" [errorStateMatcher]="matcher"
                   [value]="preAuthForm?.get('subscriberDetails')?.get('subscriberDob')?.value | date:'yyyy-MM-dd'"
-                  required>
+                  [required]="preAuthForm?.get('subscriberDetails')?.get('subscriberDob')?.touched && (editing? true: false)">
                 <mat-label>Date of birth</mat-label>
-                <mat-error *ngIf="preAuthForm?.get('subscriberDetails')?.get('subscriberDob')?.hasError('required')">
+                <mat-error *ngIf="preAuthForm?.get('subscriberDetails')?.get('subscriberDob')?.touched && 
+                preAuthForm?.get('subscriberDetails')?.get('subscriberDob')?.hasError('required')">
                   Date of birth is required.
                 </mat-error>
                 <mat-datepicker-toggle *ngIf="editing" matSuffix [for]="subscriberDob">
@@ -420,15 +429,16 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="20" formControlName="subscriberIdentificationCode"
-                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" required autocomplete="off"
-                  [pattern]="orgIdCodePatrn">
+                  [readonly]="editing? false: true"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationCode')?.touched && (editing)? false: true"
+                  autocomplete="off" [pattern]="orgIdCodePatrn">
                 <mat-label>Identification No</mat-label>
-                <mat-error
-                  *ngIf="preAuthForm.get('subscriberDetails').get('subscriberIdentificationCode').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationCode')?.touched && 
+                  preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationCode')?.hasError('pattern')">
                   Please enter a valid identification no.
                 </mat-error>
-                <mat-error
-                  *ngIf="preAuthForm.get('subscriberDetails').get('subscriberIdentificationCode').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationCode')?.touched && 
+                  preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationCode')?.hasError('required')">
                   Identification number is required.
                 </mat-error>
               </mat-form-field>
@@ -441,13 +451,16 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" formControlName="subscriberFirstName"
-                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" required autocomplete="off"
-                  [pattern]="userNamePattern">
+                  [readonly]="editing? false: true"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberFirstName')?.touched && (editing)? false: true"
+                  autocomplete="off" [pattern]="userNamePattern">
                 <mat-label>First Name</mat-label>
-                <mat-error *ngIf="preAuthForm.get('subscriberDetails').get('subscriberFirstName').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberFirstName')?.touched && 
+                preAuthForm.get('subscriberDetails')?.get('subscriberFirstName')?.hasError('pattern')">
                   Please enter a valid first name.
                 </mat-error>
-                <mat-error *ngIf="preAuthForm.get('subscriberDetails').get('subscriberFirstName').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberFirstName')?.touched && 
+                preAuthForm.get('subscriberDetails')?.get('subscriberFirstName')?.hasError('required')">
                   First name is required.
                 </mat-error>
               </mat-form-field>
@@ -464,24 +477,30 @@
 
               <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="subscriberGender"
-                  [readonly]="!editing? true: false" required>
+                  [readonly]="!editing? true: false"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberGender')?.touched && (editing)? false: true">
                 <mat-label>Gender</mat-label>
-                <mat-select *ngIf="editing" formControlName="subscriberGender" required [compareWith]="compareFn">
+                <mat-select *ngIf="editing" formControlName="subscriberGender"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberGender')?.touched && (editing)? false: true"
+                  [compareWith]="compareFn">
                   <mat-option>Select</mat-option>
                   <mat-option *ngFor="let membergender of genders; let i = index" [value]="membergender.name">
                     {{membergender.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="preAuthForm.get('subscriberDetails').get('subscriberGender').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberGender')?.touched && 
+                preAuthForm.get('subscriberDetails')?.get('subscriberGender')?.hasError('required')">
                   Please select gender.
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="subscriberIdentificationNumberType"
-                  [readonly]="!editing? true: false" required>
+                  [readonly]="!editing? true: false"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationNumberType')?.touched && (editing)? false: true">
                 <mat-label>Identification No Type</mat-label>
-                <mat-select *ngIf="editing" formControlName="subscriberIdentificationNumberType" required
+                <mat-select *ngIf="editing" formControlName="subscriberIdentificationNumberType"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationNumberType')?.touched && (editing)? false: true"
                   [compareWith]="compareFn">
                   <mat-option>Select</mat-option>
                   <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
@@ -490,7 +509,8 @@
                   </mat-option>
                 </mat-select>
                 <mat-error
-                  *ngIf="preAuthForm.get('subscriberDetails').get('subscriberIdentificationNumberType').hasError('required')">
+                  *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationNumberType')?.touched && 
+                  preAuthForm.get('subscriberDetails')?.get('subscriberIdentificationNumberType')?.hasError('required')">
                   Please select Identification No Type.
                 </mat-error>
               </mat-form-field>
@@ -513,49 +533,54 @@
 
               <mat-form-field class="no-padding">
                 <input matInput maxlength="20" [readonly]="editing? false: true"
-                  formControlName="subscriberSupplementalId" [errorStateMatcher]="matcher" required autocomplete="off"
-                  [pattern]="supplIdPattern">
+                  formControlName="subscriberSupplementalId"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberSupplementalId')?.touched && (editing)? false: true"
+                  autocomplete="off" [pattern]="supplIdPattern">
                 <mat-label>Supplement Id</mat-label>
-                <mat-error
-                  *ngIf="preAuthForm.get('subscriberDetails').get('subscriberSupplementalId').hasError('pattern')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberSupplementalId')?.touched && 
+                  preAuthForm.get('subscriberDetails')?.get('subscriberSupplementalId')?.hasError('pattern')">
                   Please enter a valid Supplement Id.
                 </mat-error>
-                <mat-error
-                  *ngIf="preAuthForm.get('subscriberDetails').get('subscriberSupplementalId').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberSupplementalId')?.touched && 
+                  preAuthForm.get('subscriberDetails')?.get('subscriberSupplementalId')?.hasError('required')">
                   Supplement Id is required.
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="subscriberIdNumberType"
-                  [readonly]="!editing? true: false" required>
+                  [readonly]="!editing? true: false"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberIdNumberType')?.touched && (editing)? false: true">
                 <mat-label>Identification No Type</mat-label>
-                <mat-select *ngIf="editing" formControlName="subscriberIdNumberType" required [compareWith]="compareFn">
+                <mat-select *ngIf="editing" formControlName="subscriberIdNumberType"
+                  [required]="preAuthForm.get('subscriberDetails')?.get('subscriberIdNumberType')?.touched && (editing)? false: true"
+                  [compareWith]="compareFn">
                   <mat-option>Select</mat-option>
                   <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                     [value]="identificationCodeType.name">
                     {{identificationCodeType.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error
-                  *ngIf="preAuthForm.get('subscriberDetails').get('subscriberIdNumberType').hasError('required')">
+                <mat-error *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberIdNumberType')?.touched && 
+                  preAuthForm.get('subscriberDetails')?.get('subscriberIdNumberType')?.hasError('required')">
                   Please select Identification No Type.
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="subscriberRelToInsured"
-                  [readonly]="!editing? true: false" required>
+                  [readonly]="!editing? true: false" required [errorStateMatcher]="matcher">
                 <mat-label>Relation To Patient</mat-label>
-                <mat-select *ngIf="editing" formControlName="subscriberRelToInsured" required [compareWith]="compareFn">
+                <mat-select *ngIf="editing" formControlName="subscriberRelToInsured" [compareWith]="compareFn"
+                  [errorStateMatcher]="matcher" required>
                   <mat-option>Select</mat-option>
                   <mat-option *ngFor="let relation of relations; let i = index" [value]="relation.name">
                     {{relation.name}}
                   </mat-option>
                 </mat-select>
                 <mat-error
-                  *ngIf="preAuthForm.get('subscriberDetails').get('subscriberRelToInsured').hasError('required')">
-                  Please select relationship.
+                  *ngIf="preAuthForm.get('subscriberDetails')?.get('subscriberRelToInsured')?.hasError('required')">
+                  Relationship is required.
                 </mat-error>
               </mat-form-field>
 
@@ -1677,6 +1702,11 @@
                     preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateFrom')?.hasError('required')">
                     Service Date From is required.
                   </mat-error>
+                  <mat-error *ngIf="(preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateFrom')?.value) >
+                  (preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateTo')?.value)
+                  ">
+                    From Date can't be greater than To Date.
+                  </mat-error>
                   <mat-datepicker-toggle *ngIf="(editing && medicalSocialWork.checked === true)" matSuffix
                     [for]="medicalSocialWorkRequestServiceDateFrom">
                   </mat-datepicker-toggle>
@@ -1742,6 +1772,11 @@
                     *ngIf="preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateTo')?.touched && 
                     preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateTo')?.hasError('required')">
                     Service Date To is required.
+                  </mat-error>
+                  <mat-error *ngIf="(preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateTo')?.value) < 
+                    (preAuthForm?.get('requestService')?.get('medicalSocialWork')?.get('medicalSocialWorkRequestServiceDateFrom')?.value)
+                    ">
+                    To Date can't be less than From Date.
                   </mat-error>
                   <mat-datepicker-toggle *ngIf="(editing && medicalSocialWork.checked === true)" matSuffix
                     [for]="medicalSocialWorkRequestServiceDateTo">
@@ -2335,18 +2370,22 @@
                     (editing && occupationTherapy.checked === true)? true: false">
                   <mat-label>Service Type</mat-label>
                   <mat-select *ngIf="(editing && occupationTherapy.checked === true)"
-                    formControlName="occupationTherapyServiceType" [required]="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.touched &&
-                    (editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
+                    formControlName="occupationTherapyServiceType" [errorStateMatcher]="matcher"
+                    [required]="(editing && occupationTherapy.checked === true)? true: false" [compareWith]="compareFn">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
                       {{serviceTyp.name}}
                     </mat-option>
                   </mat-select>
                   <mat-error
-                    *ngIf="preAuthForm?.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.touched && 
-                    preAuthForm.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.hasError('required')">
-                    Please select service type.
+                    *ngIf="occupationTherapy.checked && preAuthForm.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.hasError('required')">
+                    Please service type is required.
                   </mat-error>
+
+                  <!-- <mat-error *ngIf="preAuthForm.get('requestService')?.get('occupationTherapy')?.get('occupationTherapyServiceType')?.invalid">
+                    Please select service type.
+                  </mat-error> -->
+
                 </mat-form-field>
 
                 <mat-form-field class="no-padding">

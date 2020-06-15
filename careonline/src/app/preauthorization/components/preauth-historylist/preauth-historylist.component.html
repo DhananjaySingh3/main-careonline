@@ -1,0 +1,116 @@
+<!-- Table starts -->
+<div class="container example-container mat-elevation-z8">
+  <!-- Spinner starts -->
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <!-- Spinner ends -->
+
+  <div class="example-table-container">
+
+    <table mat-table [dataSource]="preAuthListForMatTable" class="example-table" matSort matSortActive="mrnMnumber"
+      matSortDisableClear matSortDirection="desc">
+      <!-- Patient Name Column -->
+      <ng-container matColumnDef="patientName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Patient Name</th>
+        <td mat-cell *matCellDef="let row">
+          {{row.lastName}},
+          {{row.firstName}}
+        </td>
+      </ng-container>
+
+      <!-- MRN Column -->
+      <ng-container matColumnDef="mrnNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>MRN</th>
+        <td mat-cell *matCellDef="let row">{{row.mrnNumber}}</td>
+      </ng-container>
+
+      <!-- Enquiry Id Column -->
+      <ng-container matColumnDef="enquiryId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Enquiry Id
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.enquiryId}}</td>
+      </ng-container>
+
+      <!-- Request Sent Date Column M/d/yyyy-->
+      <ng-container matColumnDef="requestSentDate">
+        <th mat-header-cell *matHeaderCellDef>Form Sent Date</th>
+        <td mat-cell *matCellDef="let row">{{row.requestSentDate | date:'M/d/yyyy'}}</td>
+      </ng-container>
+
+      <!-- Response Received Date Date Column M/d/yyyy-->
+      <ng-container matColumnDef="responseReceiveDate">
+        <th mat-header-cell *matHeaderCellDef>Response Received Date</th>
+        <td mat-cell *matCellDef="let row">{{row.responseReceiveDate | date:'M/d/yyyy'}}</td>
+      </ng-container>
+
+      <!-- Payor Type Column -->
+      <ng-container matColumnDef="responseType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Response Type
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.responseType}}</td>
+      </ng-container>
+
+      <!-- Authorization Status Column -->
+      <ng-container matColumnDef="authorizationStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Authorization Status
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.authorizationStatus}}</td>
+      </ng-container>
+
+      <!-- Authorization Effectiveness Column -->
+      <ng-container matColumnDef="authorizationEffectiveNess">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          Authorization Effectiveness
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.authorizationEffectiveNess}}</td>
+      </ng-container>
+
+      <!-- preAuthForm Response Column -->
+      <ng-container matColumnDef="preAuthResponseForm">
+        <th mat-header-cell *matHeaderCellDef>Preauth Response Form</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button mat-raised-button (click)="onResponseFormView(row)">View</button>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <!-- <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary" (click)="onViewHistory(row)">
+            <!-- <mat-icon>launch</mat-icon> -->
+      <!-- <mat-icon matTooltip="View History Details">open_with</mat-icon>
+          </button>
+        </td>
+      </ng-container> -->
+
+      <!-- Footer Column -->
+      <ng-container matColumnDef="loading">
+        <th mat-footer-cell *matFooterCellDef colspan="6">
+          Loading Data ...
+        </th>
+      </ng-container>
+
+      <!-- No Data Found Column -->
+      <ng-container matColumnDef="nodatafound">
+        <th mat-footer-cell *matFooterCellDef colspan="6">
+          No Data Found ...
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide': preAuthListForMatTable != null}"></tr>
+      <tr mat-footer-row *matFooterRowDef="['nodatafound']"
+        [ngClass]="{'hide': !(preAuthListForMatTable != null && preAuthListForMatTable.data.length == 0)}"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons>
+  </mat-paginator>
+</div>
+<!-- Table ends -->

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PreAuthReadResponse } from '../../preauthorization/models/read-pre-auth.model';
+import { PreauthHistoryList } from '../../preauthorization/models/preauth-history-list.model';
 import { PreAuthFormModelRequest, PreAuthFormModelResponse } from '../../preauthorization/models/pre-auth-form.model';
 import { tap } from 'rxjs/operators';
 
@@ -42,6 +43,11 @@ export class PreAuthService {
       this.refreshPage$.next();
     })
     );
+  }
+
+  /*Preauth History List Patient data*/
+  getPatientDataHistoryList(form: PreAuthReadResponse): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preAuthResponseHistoryList', form);
   }
 
   /*Preauth Send Request Patient data*/

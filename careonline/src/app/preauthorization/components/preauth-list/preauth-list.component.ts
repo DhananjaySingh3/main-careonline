@@ -7,8 +7,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { PreAuthFormModelResponse } from '../../../preauthorization/models/pre-auth-form.model';
+import { PreauthHistoryList } from '../../../preauthorization/models/preauth-history-list.model';
 import { PreAuthFormComponent } from '../../../preauthorization/components/pre-auth-form/pre-auth-form.component';
 import { DeniedDialogComponent } from '../../../preauthorization/components/denied-dialog/denied-dialog.component';
+import { PreauthHistorylistComponent } from '../../../preauthorization/components/preauth-historylist/preauth-historylist.component';
+
+
 
 @Component({
   selector: 'app-preauth-list',
@@ -117,7 +121,7 @@ export class PreauthListComponent implements OnInit {
   }
   /* Fetching edited Patient's Form Data ends*/
 
-  onViewErrorDetails(row: PreAuthReadResponse) {
+  onViewResponseForm(row: PreAuthReadResponse) {
     setTimeout(() => {
       /* To open the Modal to show Pre Auth Form Details starts*/
       const config = new MatDialogConfig();
@@ -138,6 +142,54 @@ export class PreauthListComponent implements OnInit {
         }
       });
     });
+  }
+
+  onViewHistory(row: PreauthHistoryList) {
+
+    setTimeout(() => {
+      /* To open the Modal to show Pre Auth Form Details starts*/
+      const config = new MatDialogConfig();
+      config.disableClose = true; // does not allow to close popup on clicking ESC or outside popup
+      config.autoFocus = false; // does not allow popup to focus on any field or icon
+      config.hasBackdrop = true;
+      config.width = '65%';
+
+      config.data = { heading: 'Preauthorization Response History', selectedPatientData: row };
+
+      this.dialog.open(PreauthHistorylistComponent, config).afterClosed().subscribe(result => {
+        console.log('Close or X button clicked so:  false will come: ' + result);
+        // this.toasterService.success(':: Submitted Successfully');
+        if (result) {
+          // [mat-dialog-close]="true" shuld be placed on eligibility button to get result=true
+          // else result=undefined will come
+          console.log('Denied View Details button is clicked so TRUE will come: ' + result);
+        }
+      });
+    });
+
+    // this.preAuthService.getPatientDataHistoryList().subscribe((preAuthListData) => {
+    //   if (preAuthListData) {
+    //     this.preAuthorizationList = preAuthListData;
+    //     this.preAuthListForMatTable = new MatTableDataSource(this.preAuthorizationList);
+
+    //     this.preAuthListForMatTable.sort = this.sort;
+    //     this.preAuthListForMatTable.paginator = this.paginator;
+
+    //     this.isLoadingResults = false;
+
+    //     this.preAuthListForMatTable.filterPredicate = (data, filter) => {
+    //       return this.displayedColumns.some((ele) => {
+    //         return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+    //       });
+    //     };
+
+    //   }
+    // },
+    //   (error) => {
+    //     this.isLoadingResults = false;
+    //     console.log(error);
+    //   }
+    // );
   }
 
   /* Pre-auth Class ends*/
