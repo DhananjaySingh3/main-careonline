@@ -776,15 +776,17 @@
     <!-- Subscriber details ends -->
 
     <!-- Dependent Information details starts -->
-    <div class="dependentDetail">
-      <mat-expansion-panel [expanded]="preAuthReponseForm?.get('dependentDetailStatus')?.value !== 'Approved'">
+    <div class="dependentDetailResponse" formGroupName="dependentDetailResponse" class="dependentDetailResp"
+      *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.value !== null">
+      <mat-expansion-panel
+        [expanded]="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentDetailStatus')?.value !== 'Approved'">
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
             Dependent Information
           </mat-panel-title>
-          <mat-panel-description [ngStyle]="{'color': preAuthReponseForm?.get('dependentDetailStatus')?.value === 'Approved' ? 'green' :
+          <mat-panel-description [ngStyle]="{'color': preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentDetailStatus')?.value === 'Approved' ? 'green' :
               'red'}" fxLayoutAlign="center" class="flex-end">
-            {{preAuthReponseForm?.get('dependentDetailStatus')?.value}}
+            {{preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentDetailStatus')?.value}}
           </mat-panel-description>
         </mat-expansion-panel-header>
 
@@ -797,12 +799,12 @@
                   [readonly]="editing? false: true" [required]="(editing)? true: false" autocomplete="off"
                   [pattern]="userNamePattern" [errorStateMatcher]="matcher">
                 <mat-label>Last Name</mat-label>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentLastName')?.invalid ||
-                   preAuthReponseForm?.get('dependentLastName')?.hasError('pattern')">
+                <mat-error *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentLastName')?.invalid ||
+                   preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentLastName')?.hasError('pattern')">
                   Please enter a valid last name.
                 </mat-error>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentLastName')?.touched ||
-                   preAuthReponseForm?.get('dependentLastName')?.hasError('required')">
+                <mat-error *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentLastName')?.touched ||
+                   preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentLastName')?.hasError('required')">
                   Last name is required.
                 </mat-error>
               </mat-form-field>
@@ -811,7 +813,8 @@
                 <input matInput #input maxlength="3" [readonly]="editing? false: true" formControlName="dependentPrefix"
                   [errorStateMatcher]="matcher" autocomplete="off" [pattern]="prefixPattern">
                 <mat-label>Prefix</mat-label>
-                <mat-error *ngIf="preAuthReponseForm.get('dependentPrefix').hasError('pattern')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentPrefix').hasError('pattern')">
                   Please enter a valid prefix.
                 </mat-error>
               </mat-form-field>
@@ -820,11 +823,11 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="dependentDob" [readonly]="true"> -->
                 <input matInput [matDatepicker]="dependentDob" formControlName="dependentDob"
                   [readonly]="editing? false: true" [errorStateMatcher]="matcher"
-                  [value]="preAuthReponseForm?.get('dependentDob')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentDob')?.value | date:'yyyy-MM-dd'"
                   [required]="(editing)? true: false">
                 <mat-label>Date of birth</mat-label>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentDob')?.invalid || 
-                preAuthReponseForm?.get('dependentDob')?.hasError('required')">
+                <mat-error *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentDob')?.invalid || 
+                preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentDob')?.hasError('required')">
                   Date of birth is required.
                 </mat-error>
                 <mat-datepicker-toggle *ngIf="editing" matSuffix [for]="dependentDob">
@@ -837,12 +840,14 @@
                   [readonly]="editing? false: true" [required]="(editing)? true: false" autocomplete="off"
                   [pattern]="orgIdCodePatrn" [errorStateMatcher]="matcher">
                 <mat-label>Identification No</mat-label>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentSubscriberIdentificationCode')?.invalid || 
-                  preAuthReponseForm?.get('dependentSubscriberIdentificationCode')?.hasError('pattern')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSubscriberIdentificationCode')?.invalid || 
+                  preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSubscriberIdentificationCode')?.hasError('pattern')">
                   Please enter a valid identification no.
                 </mat-error>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentSubscriberIdentificationCode')?.touched || 
-                  preAuthReponseForm?.get('dependentSubscriberIdentificationCode')?.hasError('required')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSubscriberIdentificationCode')?.touched || 
+                  preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSubscriberIdentificationCode')?.hasError('required')">
                   Identification number is required.
                 </mat-error>
               </mat-form-field>
@@ -858,12 +863,12 @@
                   [readonly]="editing? false: true" [required]="(editing)? true: false" autocomplete="off"
                   [pattern]="userNamePattern" [errorStateMatcher]="matcher">
                 <mat-label>First Name</mat-label>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentFirstName')?.invalid || 
-                preAuthReponseForm?.get('dependentFirstName')?.hasError('pattern')">
+                <mat-error *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentFirstName')?.invalid || 
+                preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentFirstName')?.hasError('pattern')">
                   Please enter a valid first name.
                 </mat-error>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentFirstName')?.touched || 
-                preAuthReponseForm?.get('dependentFirstName')?.hasError('required')">
+                <mat-error *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentFirstName')?.touched || 
+                preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentFirstName')?.hasError('required')">
                   First name is required.
                 </mat-error>
               </mat-form-field>
@@ -872,7 +877,8 @@
                 <input matInput maxlength="5" [readonly]="editing? false: true" formControlName="dependentSuffix"
                   [errorStateMatcher]="matcher" autocomplete="off" [pattern]="suffixPattern">
                 <mat-label>Suffix</mat-label>
-                <mat-error *ngIf="preAuthReponseForm.get('dependentSuffix').hasError('pattern')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSuffix').hasError('pattern')">
                   Please enter a valid suffix.
                 </mat-error>
               </mat-form-field>
@@ -889,13 +895,13 @@
                     {{membergender.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentGender')?.invalid || 
-                preAuthReponseForm?.get('dependentGender')?.hasError('required')">
+                <mat-error *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentGender')?.invalid || 
+                preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentGender')?.hasError('required')">
                   Please select gender.
                 </mat-error>
               </mat-form-field>
 
-              <!-- <mat-form-field class="no-padding">
+              <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="dependentIdentificationNumberType"
                   [readonly]="!editing? true: false" [errorStateMatcher]="matcher" [required]="(editing)? true: false">
                 <mat-label>Identification No Type</mat-label>
@@ -907,11 +913,12 @@
                     {{identificationCodeTyp.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentIdentificationNumberType')?.invalid || 
-                  preAuthReponseForm?.get('dependentIdentificationNumberType')?.hasError('required')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentIdentificationNumberType')?.invalid || 
+                  preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentIdentificationNumberType')?.hasError('required')">
                   Please select Identification No Type.
                 </mat-error>
-              </mat-form-field> -->
+              </mat-form-field>
 
             </div>
           </mat-grid-tile>
@@ -924,25 +931,28 @@
                   [errorStateMatcher]="matcher" [readonly]="editing? false: true" autocomplete="off"
                   [pattern]="userNamePattern">
                 <mat-label>Middle Name</mat-label>
-                <mat-error *ngIf="preAuthReponseForm.get('dependentMiddleName').hasError('pattern')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentMiddleName')?.hasError('pattern')">
                   Please enter a valid middleName.
                 </mat-error>
               </mat-form-field>
-              <!-- 
+
               <mat-form-field class="no-padding">
                 <input matInput maxlength="20" [readonly]="editing? false: true"
                   formControlName="dependentSupplementalId" [required]="(editing)? true: false" autocomplete="off"
                   [pattern]="supplIdPattern" [errorStateMatcher]="matcher">
                 <mat-label>Supplement Id</mat-label>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentSupplementalId')?.invalid || 
-                  preAuthReponseForm?.get('dependentSupplementalId')?.hasError('pattern')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSupplementalId')?.invalid || 
+                  preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSupplementalId')?.hasError('pattern')">
                   Please enter a valid Supplement Id.
                 </mat-error>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentSupplementalId')?.touched || 
-                  preAuthReponseForm?.get('dependentSupplementalId')?.hasError('required')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSupplementalId')?.touched || 
+                  preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSupplementalId')?.hasError('required')">
                   Supplement Id is required.
                 </mat-error>
-              </mat-form-field> -->
+              </mat-form-field>
 
               <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="dependentSubscriberIdNumberType"
@@ -956,8 +966,9 @@
                     {{identificationCodeTyp.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentSubscriberIdNumberType')?.invalid || 
-                  preAuthReponseForm?.get('dependentSubscriberIdNumberType')?.hasError('required')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSubscriberIdNumberType')?.invalid || 
+                  preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentSubscriberIdNumberType')?.hasError('required')">
                   Please select Identification No Type.
                 </mat-error>
               </mat-form-field>
@@ -973,7 +984,8 @@
                     {{relation.name}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="preAuthReponseForm?.get('dependentReletionship')?.hasError('required')">
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('dependentDetailResponse')?.get('dependentReletionship')?.hasError('required')">
                   Relationship is required.
                 </mat-error>
               </mat-form-field>
@@ -988,17 +1000,17 @@
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
 
-              <!-- <mat-form-field class="no-padding">
-                <input *ngIf="!editing" #input matInput formControlName="dependentRejectionReason"
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="dependentRejectionReaso"
                   [readonly]="!editing? true: false">
                 <mat-label>Rejection Reason</mat-label>
-                <mat-select *ngIf="editing" formControlName="dependentRejectionReason" [compareWith]="compareFn">
+                <mat-select *ngIf="editing" formControlName="dependentRejectionReaso" [compareWith]="compareFn">
                   <mat-option value="Select">Select</mat-option>
                   <mat-option *ngFor="let reason of rejectReasons; let i = index" [value]="reason.name">
                     {{reason.name}}
                   </mat-option>
                 </mat-select>
-              </mat-form-field> -->
+              </mat-form-field>
 
             </div>
           </mat-grid-tile>
@@ -1012,7 +1024,7 @@
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
 
-              <!-- <mat-form-field class="no-padding">
+              <mat-form-field class="no-padding">
                 <input *ngIf="!editing" #input matInput formControlName="dependentFollowUpActionDescription"
                   [readonly]="!editing? true: false">
                 <mat-label>Follow Up Action Description</mat-label>
@@ -1023,7 +1035,7 @@
                     {{desc.name}}
                   </mat-option>
                 </mat-select>
-              </mat-form-field> -->
+              </mat-form-field>
 
             </div>
           </mat-grid-tile>
@@ -1037,7 +1049,8 @@
 
     <!-- Requester Provider details starts -->
     <div class="requesterProviderDetails" formGroupName="requesterResponseInformation">
-      <mat-expansion-panel [expanded]=" preAuthReponseForm?.get('reqProviderDetailStatus')?.value !=='Approved'">
+      <mat-expansion-panel
+        [expanded]=" preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderDetailStatus')?.value !=='Approved'">
         <mat-expansion-panel-header class=" disable_ripple">
           <mat-panel-title>
             Requester Information
@@ -1049,75 +1062,179 @@
         </mat-expansion-panel-header>
 
         <!-- Provider name, type and other details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
+        <mat-grid-list cols="3" rowHeight="68px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="4">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="reqProviderFullName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Requesting Provider Name</mat-label>
+                <input matInput #input maxlength="15" formControlName="reqProviderLastName"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" [required]="(editing)? true: false"
+                  autocomplete="off" [pattern]="userNamePattern">
+                <mat-label>Last Name</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderLastName')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderLastName')?.hasError('pattern')">
+                  Please enter a valid last name.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderLastName')?.touched ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderLastName')?.hasError('required')">
+                  Last name is required.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="reqProviderIdentificationNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Requesting Provider Identification No Type</mat-label>
-                <mat-select formControlName="reqProviderIdentificationNumberType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of identificationNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
+                <input matInput #input maxlength="3" [readonly]="editing? false: true"
+                  formControlName="reqProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                  [pattern]="prefixPattern">
+                <mat-label>Prefix</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderPrefix')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderPrefix')?.hasError('pattern')">
+                  Please enter a valid prefix.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="20" formControlName="reqProviderIdentificationNumber"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" [required]="(editing)? true: false"
+                  autocomplete="off" [pattern]="orgIdCodePatrn">
+                <mat-label>Identification No</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdentificationNumber')?.invalid ||
+                  preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdentificationNumber')?.hasError('pattern')">
+                  Please enter a valid identification no.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdentificationNumber')?.touched ||
+                  preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdentificationNumber')?.hasError('required')">
+                  Identification number is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="reqProviderIdNumberType"
+                  [readonly]="!editing? true: false" [required]="(editing)? true: false" [errorStateMatcher]="matcher">
+                <mat-label>Supplement Id No Type</mat-label>
+                <mat-select *ngIf="editing" formControlName="reqProviderIdNumberType"
+                  [required]="(editing)? true: false" [compareWith]="compareFn" [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let identificationCodeTyp of identificationCodeType; let i = index"
+                    [value]="identificationCodeTyp.name">
+                    {{identificationCodeTyp.name}}
                   </mat-option>
                 </mat-select>
-
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdNumberType')?.invalid ||
+                  preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdNumberType')?.hasError('required')">
+                  Please select Identification No Type.
+                </mat-error>
               </mat-form-field>
 
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="reqProviderType" [readonly]="isReadonly"> -->
-                <mat-label>Requesting Provider Type</mat-label>
-                <mat-select formControlName="reqProviderType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let reqProviderType of providerTypes; let i = index"
-                    [value]="reqProviderType.name">
-                    {{reqProviderType.name}}
-                  </mat-option>
-                </mat-select>
-
+                <input matInput #input maxlength="15" formControlName="reqProviderFirstName"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" [required]="(editing)? true: false"
+                  autocomplete="off" [pattern]="userNamePattern">
+                <mat-label>First Name</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderFirstName')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderFirstName')?.hasError('pattern')">
+                  Please enter a valid first name.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderFirstName')?.touched ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderFirstName')?.hasError('required')">
+                  First name is required.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="reqProviderSupplimentalId" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Requesting Provider Supplement Id</mat-label>
+                <input matInput maxlength="5" [readonly]="editing? false: true" formControlName="reqProviderSuffix"
+                  [errorStateMatcher]="matcher" autocomplete="off" [pattern]="suffixPattern">
+                <mat-label>Suffix</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderSuffix')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderSuffix')?.hasError('pattern')">
+                  Please enter a valid suffix.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="reqProviderIdentificationNumberType"
+                  [readonly]="!editing? true: false" [required]="(editing)? true: false" [errorStateMatcher]="matcher">
+                <mat-label>Identification No Type</mat-label>
+                <mat-select *ngIf="editing" formControlName="reqProviderIdentificationNumberType"
+                  [required]="(editing)? true: false" [compareWith]="compareFn" [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let identificationCodeTyp of identificationCodeType; let i = index"
+                    [value]="identificationCodeTyp.name">
+                    {{identificationCodeTyp.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdentificationNumberType')?.invalid ||
+                  preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderIdentificationNumberType')?.hasError('required')">
+                  Please select Identification No Type.
+                </mat-error>
               </mat-form-field>
 
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="reqProviderIdentificationNumber" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Requesting Provider Identification No</mat-label>
+                <input matInput #input maxlength="15" formControlName="reqProviderMiddleName"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true" autocomplete="off"
+                  [pattern]="userNamePattern">
+                <mat-label>Middle Name</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderMiddleName')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderMiddleName')?.hasError('pattern')">
+                  Please enter a valid middleName.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="reqProviderIdNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Requesting Provider ID No Type</mat-label>
-                <mat-select formControlName="reqProviderIdNumberType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of idNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
+                <input *ngIf="!editing" #input matInput formControlName="reqProviderType"
+                  [readonly]="!editing? true: false" [required]="(editing)? true: false" [errorStateMatcher]="matcher">
+                <mat-label>Provider Type</mat-label>
+                <mat-select *ngIf="editing" formControlName="reqProviderType" [required]="(editing)? true: false"
+                  [compareWith]="compareFn" [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
+                    {{providerType.name}}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderType')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderType')?.hasError('required')">
+                  Please select provider type.
+                </mat-error>
+              </mat-form-field>
 
+              <mat-form-field class="no-padding">
+                <input matInput maxlength="20" [readonly]="editing? false: true"
+                  formControlName="reqProviderSupplimentalId" [errorStateMatcher]="matcher"
+                  [required]="(editing)? true: false" autocomplete="off" [pattern]="supplIdPattern">
+                <mat-label>Supplement Id</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderSupplimentalId')?.invalid ||
+                  preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderSupplimentalId')?.hasError('pattern')">
+                  Please enter a valid Supplement Id.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderSupplimentalId')?.touched ||
+                  preAuthReponseForm?.get('requesterResponseInformation')?.get('reqProviderSupplimentalId')?.hasError('required')">
+                  Supplement Id is required.
+                </mat-error>
               </mat-form-field>
 
             </div>
@@ -1126,51 +1243,210 @@
         </mat-grid-list>
         <!-- Provider name, type and other details ends -->
 
+        <mat-grid-list cols="3" rowHeight="66px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <!-- <input *ngIf="!editing" #input matInput formControlName="serviceDateFrom" [readonly]="true"> -->
+                <input matInput [matDatepicker]="serviceDateFrom" formControlName="serviceDateFrom"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true"
+                  [max]="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateTo')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateFrom')?.value | date:'yyyy-MM-dd'"
+                  [required]="(editing)? true: false">
+                <!-- [max]="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateTo')?.value" -->
+                <mat-label>Service Date From</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateFrom')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateFrom')?.hasError('required')">
+                  Service Date From is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="editing" matSuffix [for]="serviceDateFrom">
+                </mat-datepicker-toggle>
+                <mat-datepicker #serviceDateFrom></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <!-- <input *ngIf="!editing" #input matInput formControlName="admitDate" [readonly]="true"> -->
+                <input matInput [matDatepicker]="admitDate" formControlName="admitDate" [errorStateMatcher]="matcher"
+                  [readonly]="editing? false: true"
+                  [max]="preAuthReponseForm?.get('requesterResponseInformation')?.get('dischargeDate')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('requesterResponseInformation')?.get('admitDate')?.value | date:'yyyy-MM-dd'"
+                  [required]="(editing)? true: false">
+                <mat-label>Admit Date</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('admitDate')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('admitDate')?.hasError('required')">
+                  Admit date is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="editing" matSuffix [for]="admitDate">
+                </mat-datepicker-toggle>
+                <mat-datepicker #admitDate></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="requestCategory"
+                  [readonly]="!editing? true: false" [required]="(editing)? true: false" [errorStateMatcher]="matcher">
+                <mat-label>Request Category</mat-label>
+                <mat-select *ngIf="editing" formControlName="requestCategory" [required]="(editing)? true: false"
+                  [compareWith]="compareFn" [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
+                    [value]="requestCatego.name">
+                    {{requestCatego.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('requestCategory')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('requestCategory')?.hasError('required')">
+                  Please select request category.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <!-- <input *ngIf="!editing" #input matInput formControlName="serviceDateTo" [readonly]="true"> -->
+                <input matInput [matDatepicker]="serviceDateTo" formControlName="serviceDateTo"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true"
+                  [min]="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateFrom')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateTo')?.value | date:'yyyy-MM-dd'"
+                  [required]="(editing)? true: false">
+                <mat-label>Service Date To</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateTo')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceDateTo')?.hasError('required')">
+                  Service Date To is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="editing" matSuffix [for]="serviceDateTo">
+                </mat-datepicker-toggle>
+                <mat-datepicker #serviceDateTo></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="dischargeDate" formControlName="dischargeDate"
+                  [errorStateMatcher]="matcher" [readonly]="editing? false: true"
+                  [min]="preAuthReponseForm?.get('requesterResponseInformation')?.get('admitDate')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('requesterResponseInformation')?.get('dischargeDate')?.value | date:'yyyy-MM-dd'"
+                  [required]="(editing)? true: false">
+                <mat-label>Discharge Date</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('dischargeDate')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('dischargeDate')?.hasError('required')">
+                  Discharge date is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="editing" matSuffix [for]="dischargeDate">
+                </mat-datepicker-toggle>
+                <mat-datepicker #dischargeDate></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="certificationType"
+                  [readonly]="!editing? true: false" [required]="(editing)? true: false" [errorStateMatcher]="matcher">
+                <mat-label>Certification Type</mat-label>
+                <mat-select *ngIf="editing" formControlName="certificationType" required [compareWith]="compareFn"
+                  [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
+                    [value]="certificationTyp.name">
+                    {{certificationTyp.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('certificationType')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('certificationType')?.hasError('required')">
+                  Please select certification type.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="serviceType" [readonly]="!editing? true: false"
+                  [required]="(editing)? true: false" [errorStateMatcher]="matcher">
+                <mat-label>Service Type</mat-label>
+                <mat-select *ngIf="editing" formControlName="serviceType" [required]="(editing)? true: false"
+                  [compareWith]="compareFn" [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
+                    {{serviceTyp.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceType')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('serviceType')?.hasError('required')">
+                  Please select service type.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="levelOfService"
+                  [readonly]="!editing? true: false" [required]="(editing)? true: false" [errorStateMatcher]="matcher">
+                <mat-label>Level Of Service</mat-label>
+                <mat-select *ngIf="editing" formControlName="levelOfService" [required]="(editing)? true: false"
+                  [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
+                    {{levelOfServi.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="preAuthReponseForm?.get('requesterResponseInformation')?.get('levelOfService')?.invalid ||
+                preAuthReponseForm?.get('requesterResponseInformation')?.get('levelOfService')?.hasError('required')">
+                  Please select level of service.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+
         <!-- Reject reason and Follow up Action Desc starts -->
         <mat-grid-list cols="3" rowHeight="70px">
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="reqProviderRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Subscriber Reject Reason</mat-label>
-                <mat-select formControlName="reqProviderRejectionReason" name="reqProviderRejectionReason"
-                  #reqProviderRejectionReason [compareWith]="compareFn" required>
+                <input *ngIf="!editing" #input matInput formControlName="reqProviderRejectionReason"
+                  [readonly]="!editing? true: false">
+                <mat-label>Rejection Reason</mat-label>
+                <mat-select *ngIf="editing" formControlName="reqProviderRejectionReason" [compareWith]="compareFn">
                   <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
+                  <mat-option *ngFor="let reason of rejectReasons; let i = index" [value]="reason.name">
+                    {{reason.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Subscriber Reject Reason: </strong> {{ reqProviderRejectionReason.value }} </p>
-                      </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
 
             </div>
           </mat-grid-tile>
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="reqProviderFollowUpActionDescription" [readonly]="isReadonly"> -->
+                <input *ngIf="!editing" #input matInput formControlName="reqProviderFollowUpActionDescription"
+                  [readonly]="!editing? true: false">
                 <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="reqProviderFollowUpActionDescription"
-                  name="reqProviderFollowUpActionDescription" #reqProviderFollowUpActionDescription
-                  [compareWith]="compareFn" required>
+                <mat-select *ngIf="editing" formControlName="reqProviderFollowUpActionDescription"
+                  [compareWith]="compareFn">
                   <mat-option value="Select">Select</mat-option>
                   <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
                     {{desc.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Follow Up Action Description: </strong> {{ reqProviderFollowUpActionDescription.value }} </p>
-                      </div> -->
+
             </div>
           </mat-grid-tile>
 
@@ -1184,1710 +1460,42 @@
 
     <!-- Physical Therapy details starts -->
 
-    <!-- <div formGroupName="physicalTherapyResponse" class="physicalTherapyResp"
-        *ngIf="preAuthReponseForm.get('physicalTherapyResponse')?.value != null"> -->
-    <div formGroupName="physicalTherapyResponse" class="physicalTherapyResp">
-      <mat-expansion-panel
-        [expanded]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyDetailStatus')?.value !== 'Approved'"
-        *ngIf="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyDetailStatus')?.value != null">
-        <mat-expansion-panel-header class="disable_ripple">
-          <mat-panel-title>
-            Physical Therapy Details
-          </mat-panel-title>
-          <mat-panel-description fxLayoutAlign="center" class="flex-end"
-            [ngStyle]="{'color': preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
-            {{preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyDetailStatus')?.value}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyRequestCategory" [readonly]="isReadonly"> -->
-                <mat-label>Request Category</mat-label>
-                <mat-select formControlName="physicalTherapyRequestCategory" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let category of requestCategory; let i = index" [value]="category.name">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyLevelOfService" [readonly]="isReadonly"> -->
-                <mat-label>Level Of Service</mat-label>
-                <mat-select formControlName="physicalTherapyLevelOfService" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let servcLevel of levelOfService; let i = index" [value]="servcLevel.name">
-                    {{servcLevel.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyCertificationAction" [readonly]="isReadonly"> -->
-                <mat-label>Certification Action</mat-label>
-                <mat-select formControlName="physicalTherapyCertificationAction" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certAction of certificationAction; let i = index" [value]="certAction.name">
-                    {{certAction.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyCertificationType" [readonly]="isReadonly"> -->
-                <mat-label>Certification Type</mat-label>
-                <mat-select formControlName="physicalTherapyCertificationType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certType of certificationType; let i = index" [value]="certType.name">
-                    {{certType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="physicalTherapyVisit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Visits</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="physicalTherapyRejectionReason" name="physicalTherapyRejectionReason"
-                  #physicalTherapyRejectionReason [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ physicalTherapyRejectionReason.value }} </p>
-                </div> -->
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyServiceType" [readonly]="isReadonly"> -->
-                <mat-label>Request Category</mat-label>
-                <mat-select formControlName="physicalTherapyServiceType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let serviType of serviceType; let i = index" [value]="serviType.name">
-                    {{serviType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="physicalTherapyUnit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Units</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyRejectionReasonMSG" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason Message</mat-label>
-                <!-- <mat-select formControlName="physicalTherapyRejectionReasonMSG" name="physicalTherapyRejectionReasonMSG"
-                #physicalTherapyRejectionReasonMSG [compareWith]="compareFn" required multiple> -->
-                <mat-select formControlName="physicalTherapyRejectionReasonMSG" name="physicalTherapyRejectionReasonMSG"
-                  #physicalTherapyRejectionReasonMSG [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejecReasonMsg of rejectReasonsMsg; let i = index"
-                    [value]="rejecReasonMsg.name">
-                    {{rejecReasonMsg.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ physicalTherapyRejectionReasonMSG.value }} </p>
-                </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <div class="controles-container">
-              <p>Physical Therapy Provider Certification</p>
-              <mat-divider></mat-divider>
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <!-- Provider name, type and other details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="physicalTherapyProviderFullName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Provider Name</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyProviderIdentificationNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Identification No Type</mat-label>
-                <mat-select formControlName="physicalTherapyProviderIdentificationNumberType" [compareWith]="compareFn"
-                  required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of identificationNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyProviderType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Type</mat-label>
-                <mat-select formControlName="physicalTherapyProviderType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
-                    {{providerType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="physicalTherapyProviderSupplimentalId"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Supplement Id</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="physicalTherapyProviderIdentificationNumber"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Identification No</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyProviderIdNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider ID No Type</mat-label>
-                <mat-select formControlName="physicalTherapyProviderIdNumberType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of idNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider name, type and other details ends -->
-
-        <!-- Provider address details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Address" formControlName="physicalTherapyProviderAddress"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Address</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="State" formControlName="physicalTherapyProviderState"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>State</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="physicalTherapyProviderCity"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>City</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="physicalTherapyProviderCountryCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Country Code</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Zipcode" formControlName="physicalTherapyProviderPostalCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Zipcode</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider address details ends -->
-
-        <!-- Reject reason and Follow up Action Desc starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyProviderRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="physicalTherapyProviderRejectionReason"
-                  name="physicalTherapyProviderRejectionReason" #physicalTherapyProviderRejectionReason
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                                  <p> <strong>Subscriber Reject Reason: </strong> {{ physicalTherapyProviderRejectionReason.value }} </p>
-                                </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="physicalTherapyProviderFollowUpActionDescription" [readonly]="isReadonly"> -->
-                <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="physicalTherapyProviderFollowUpActionDescription"
-                  name="physicalTherapyProviderFollowUpActionDescription"
-                  #physicalTherapyProviderFollowUpActionDescription [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
-                    {{desc.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                                  <p> <strong>Follow Up Action Description: </strong> {{ reqProviderFollowUpActDesc.value }} </p>
-                                </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Reject reason and Follow up Action Desc ends -->
-
-      </mat-expansion-panel>
-    </div>
-
     <!-- Physical Therapy details ends -->
 
 
     <!-- Occupational Therapy details starts -->
-
-    <!-- <div formGroupName="occupationalTherapyResponse" class="occupationalTherapyResp"
-        *ngIf="preAuthReponseForm.get('occupationalTherapyResponse')?.value != null"> -->
-    <div formGroupName="occupationalTherapyResponse" class="occupationalTherapyResp">
-      <mat-expansion-panel
-        [expanded]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyDetailStatus')?.value !== 'Approved'"
-        *ngIf="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyDetailStatus')?.value != null">
-        <mat-expansion-panel-header class="disable_ripple">
-          <mat-panel-title>
-            Occupational Therapy Details
-          </mat-panel-title>
-          <mat-panel-description fxLayoutAlign="center" class="flex-end"
-            [ngStyle]="{'color': preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
-            {{preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyDetailStatus')?.value}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyRequestCategory" [readonly]="isReadonly"> -->
-                <mat-label>Request Category</mat-label>
-                <mat-select formControlName="occupationalTherapyRequestCategory" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let category of requestCategory; let i = index" [value]="category.name">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyLevelOfService" [readonly]="isReadonly"> -->
-                <mat-label>Level Of Service</mat-label>
-                <mat-select formControlName="occupationalTherapyLevelOfService" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let servcLevel of levelOfService; let i = index" [value]="servcLevel.name">
-                    {{servcLevel.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyCertificationAction" [readonly]="isReadonly"> -->
-                <mat-label>Certification Action</mat-label>
-                <mat-select formControlName="occupationalTherapyCertificationAction" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certAction of certificationAction; let i = index" [value]="certAction.name">
-                    {{certAction.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyCertificationType" [readonly]="isReadonly"> -->
-                <mat-label>Certification Type</mat-label>
-                <mat-select formControlName="occupationalTherapyCertificationType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certType of certificationType; let i = index" [value]="certType.name">
-                    {{certType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="occupationalTherapyVisit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Visits</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="occupationalTherapyRejectionReason"
-                  name="occupationalTherapyRejectionReason" #occupationalTherapyRejectionReason
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ occupationalTherapyRejectionReason.value }} </p>
-                </div> -->
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyServiceType" [readonly]="isReadonly"> -->
-                <mat-label>Service Type</mat-label>
-                <mat-select formControlName="occupationalTherapyServiceType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let serviType of serviceType; let i = index" [value]="serviType.name">
-                    {{serviType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="occupationalTherapyUnit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Units</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyRejectionReasonMSG" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason Message</mat-label>
-                <mat-select formControlName="occupationalTherapyRejectionReasonMSG"
-                  name="occupationalTherapyRejectionReasonMSG" #occupationalTherapyRejectionReasonMSG
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejecReasonMsg of rejectReasonsMsg; let i = index"
-                    [value]="rejecReasonMsg.name">
-                    {{rejecReasonMsg.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ occupationalTherapyRejectionReasonMSG.value }} </p>
-                </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <div class="controles-container">
-              <p>Occupational Therapy Provider Certification</p>
-              <mat-divider></mat-divider>
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <!-- Provider name, type and other details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="occupationalTherapyProviderFullName"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Name</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalProviderIdentificationNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Identification No Type</mat-label>
-                <mat-select formControlName="occupationalProviderIdentificationNumberType" [compareWith]="compareFn"
-                  required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of identificationNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyProviderType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Type</mat-label>
-                <mat-select formControlName="occupationalTherapyProviderType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
-                    {{providerType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="occupationalTherapyProviderSupplimentalId"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Supplement Id</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="occupationalTherapyProviderIdentificationNumber"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Identification No</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyProviderIdNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider ID No Type</mat-label>
-                <mat-select formControlName="occupationalTherapyProviderIdNumberType" [compareWith]="compareFn"
-                  required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of idNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider name, type and other details ends -->
-
-        <!-- Provider address details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Address" formControlName="occupationalTherapyAddress"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Address</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="State" formControlName="occupationalTherapyState"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>State</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="occupationalTherapyCity"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>City</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="occupationalTherapyCountryCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Country Code</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Zipcode" formControlName="occupationalTherapyPostalCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Zipcode</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider address details ends -->
-
-        <!-- Reject reason and Follow up Action Desc starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyProviderRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="occupationalTherapyProviderRejectionReason"
-                  name="occupationalTherapyProviderRejectionReason" #occupationalTherapyProviderRejectionReason
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                      <p> <strong>Subscriber Reject Reason: </strong> {{ occupationalTherapyProviderRejectionReason.value }} </p>
-                     </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="occupationalTherapyProviderFollowUpActionDescription" [readonly]="isReadonly"> -->
-                <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="occupationalTherapyProviderFollowUpActionDescription"
-                  name="occupationalTherapyProviderFollowUpActionDescription"
-                  #occupationalTherapyProviderFollowUpActionDescription [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
-                    {{desc.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                      <p> <strong>Follow Up Action Description: </strong> {{ occupationalTherapyProviderFollowUpActionDescription.value }} </p>
-                    </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Reject reason and Follow up Action Desc ends -->
-
-      </mat-expansion-panel>
-    </div>
 
     <!-- Occupational Therapy details ends -->
 
 
     <!-- Medical Social Work details starts -->
 
-    <!-- <div formGroupName="medicalSocialWorkResponse" class="medicalSocialWorkResp"
-        *ngIf="preAuthReponseForm.get('medicalSocialWorkResponse')?.value != null"> -->
-    <div formGroupName="medicalSocialWorkResponse" class="medicalSocialWorkResp">
-      <mat-expansion-panel
-        [expanded]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkDetailStatus')?.value !== 'Approved'"
-        *ngIf="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkDetailStatus')?.value != null">
-        <mat-expansion-panel-header class="disable_ripple">
-          <mat-panel-title>
-            Medical Social Work Details
-          </mat-panel-title>
-          <mat-panel-description fxLayoutAlign="center" class="flex-end"
-            [ngStyle]="{'color': preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
-            {{preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkDetailStatus')?.value}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkRequestCategory" [readonly]="isReadonly"> -->
-                <mat-label>Request Category</mat-label>
-                <mat-select formControlName="medicalSocialWorkRequestCategory" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let category of requestCategory; let i = index" [value]="category.name">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkLevelOfService" [readonly]="isReadonly"> -->
-                <mat-label>Level Of Service</mat-label>
-                <mat-select formControlName="medicalSocialWorkLevelOfService" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let servcLevel of levelOfService; let i = index" [value]="servcLevel.name">
-                    {{servcLevel.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkCertificationAction" [readonly]="isReadonly"> -->
-                <mat-label>Certification Action</mat-label>
-                <mat-select formControlName="medicalSocialWorkCertificationAction" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certAction of certificationAction; let i = index" [value]="certAction.name">
-                    {{certAction.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkCertificationType" [readonly]="isReadonly"> -->
-                <mat-label>Certification Type</mat-label>
-                <mat-select formControlName="medicalSocialWorkCertificationType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certType of certificationType; let i = index" [value]="certType.name">
-                    {{certType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="medicalSocialWorkVisit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Visits</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="medicalSocialWorkRejectionReason" name="medicalSocialWorkRejectionReason"
-                  #medicalSocialWorkRejectionReason [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ medicalSocialWorkRejectionReason.value }} </p>
-                </div> -->
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkServiceType" [readonly]="isReadonly"> -->
-                <mat-label>Service Type</mat-label>
-                <mat-select formControlName="medicalSocialWorkServiceType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let serviType of serviceType; let i = index" [value]="serviType.name">
-                    {{serviType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="medicalSocialWorkUnit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Units</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkRejectionReasonMSG" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason Message</mat-label>
-                <mat-select formControlName="medicalSocialWorkRejectionReasonMSG"
-                  name="medicalSocialWorkRejectionReasonMSG" #medicalSocialWorkRejectionReasonMSG
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejecReasonMsg of rejectReasonsMsg; let i = index"
-                    [value]="rejecReasonMsg.name">
-                    {{rejecReasonMsg.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ medicalSocialWorkRejectionReasonMSG.value }} </p>
-                </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <div class="controles-container">
-              <p>Medical Social Work Provider Certification</p>
-              <mat-divider></mat-divider>
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <!-- Provider name, type and other details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="medicalSocialWorkProviderFullName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Provider Name</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkProviderIdentificationNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Identification No Type</mat-label>
-                <mat-select formControlName="medicalSocialWorkProviderIdentificationNumberType"
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of identificationNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkProviderType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Type</mat-label>
-                <mat-select formControlName="medicalSocialWorkProviderType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
-                    {{providerType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="medicalSocialWorkProviderSupplimentalId"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Supplement Id</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="medicalSocialWorkProviderIdentificationNumber"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Identification No</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkProviderIdNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider ID No Type</mat-label>
-                <mat-select formControlName="medicalSocialWorkProviderIdNumberType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of idNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider name, type and other details ends -->
-
-        <!-- Provider address details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Address" formControlName="medicalSocialWorkProviderAddress"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Address</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="State" formControlName="medicalSocialWorkProviderState"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>State</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="medicalSocialWorkProviderCity"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>City</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="medicalSocialWorkProviderCountryCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Country Code</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Zipcode" formControlName="medicalSocialWorkProviderPostalCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Zipcode</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider address details ends -->
-
-        <!-- Reject reason and Follow up Action Desc starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkProviderRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="medicalSocialWorkProviderRejectionReason"
-                  name="medicalSocialWorkProviderRejectionReason" #medicalSocialWorkProviderRejectionReason
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                      <p> <strong>Subscriber Reject Reason: </strong> {{ medicalSocialWorkProviderRejectionReason.value }} </p>
-                     </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="medicalSocialWorkProviderFollowUpActionDescription" [readonly]="isReadonly"> -->
-                <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="medicalSocialWorkProviderFollowUpActionDescription"
-                  name="medicalSocialWorkProviderFollowUpActionDescription"
-                  #medicalSocialWorkProviderFollowUpActionDescription [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
-                    {{desc.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                      <p> <strong>Follow Up Action Description: </strong> {{ medicalSocialWorkProviderFollowUpActionDescription.value }} </p>
-                    </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Reject reason and Follow up Action Desc ends -->
-
-      </mat-expansion-panel>
-    </div>
-
     <!-- Medical Social Work details ends -->
 
 
     <!-- Skilled Nursing details starts -->
-
-    <!-- <div formGroupName="skilledNursingResponse" class="skilledNursingResp"
-        *ngIf="preAuthReponseForm.get('skilledNursingResponse')?.value != null"> -->
-    <div formGroupName="skilledNursingResponse" class="skilledNursingResp">
-      <mat-expansion-panel
-        [expanded]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingDetailStatus')?.value !== 'Approved'"
-        *ngIf="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingDetailStatus')?.value != null">
-        <mat-expansion-panel-header class="disable_ripple">
-          <mat-panel-title>
-            Skilled Nursing Details
-          </mat-panel-title>
-          <mat-panel-description fxLayoutAlign="center" class="flex-end"
-            [ngStyle]="{'color': preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
-            {{preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingDetailStatus')?.value}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingRequestCategory" [readonly]="isReadonly"> -->
-                <mat-label>Request Category</mat-label>
-                <mat-select formControlName="skilledNursingRequestCategory" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let category of requestCategory; let i = index" [value]="category.name">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingLevelOfService" [readonly]="isReadonly"> -->
-                <mat-label>Level Of Service</mat-label>
-                <mat-select formControlName="skilledNursingLevelOfService" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let servcLevel of levelOfService; let i = index" [value]="servcLevel.name">
-                    {{servcLevel.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingCertificationAction" [readonly]="isReadonly"> -->
-                <mat-label>Certification Action</mat-label>
-                <mat-select formControlName="skilledNursingCertificationAction" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certAction of certificationAction; let i = index" [value]="certAction.name">
-                    {{certAction.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingCertificationType" [readonly]="isReadonly"> -->
-                <mat-label>Certification Type</mat-label>
-                <mat-select formControlName="skilledNursingCertificationType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certType of certificationType; let i = index" [value]="certType.name">
-                    {{certType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="skilledNursingVisit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Visits</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="skilledNursingRejectionReason" name="skilledNursingRejectionReason"
-                  #skilledNursingRejectionReason [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ skilledNursingRejectionReason.value }} </p>
-                </div> -->
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingServiceType" [readonly]="isReadonly"> -->
-                <mat-label>Service Type</mat-label>
-                <mat-select formControlName="skilledNursingServiceType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let serviType of serviceType; let i = index" [value]="serviType.name">
-                    {{serviType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="skilledNursingUnit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Units</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingRejectionReasonMSG" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason Message</mat-label>
-                <mat-select formControlName="skilledNursingRejectionReasonMSG" name="skilledNursingRejectionReasonMSG"
-                  #skilledNursingRejectionReasonMSG [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejecReasonMsg of rejectReasonsMsg; let i = index"
-                    [value]="rejecReasonMsg.name">
-                    {{rejecReasonMsg.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                  <p> <strong>Subscriber Reject Reason: </strong> {{ skilledNursingRejectionReasonMSG.value }} </p>
-                </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <div class="controles-container">
-              <p>Skilled Nursing Provider Certification</p>
-              <mat-divider></mat-divider>
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <!-- Provider name, type and other details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="skilledNursingProviderFullName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Provider Name</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingProviderIdentificationNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Identification No Type</mat-label>
-                <mat-select formControlName="skilledNursingProviderIdentificationNumberType" [compareWith]="compareFn"
-                  required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of identificationNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingProviderType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Type</mat-label>
-                <mat-select formControlName="skilledNursingProviderType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
-                    {{providerType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="skilledNursingProviderSupplimentalId"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Supplement Id</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="skilledNursingProviderIdentificationNumber"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Identification No</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingProviderIdNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider ID No Type</mat-label>
-                <mat-select formControlName="skilledNursingProviderIdNumberType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of idNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider name, type and other details ends -->
-
-        <!-- Provider address details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Address" formControlName="skilledNursingProviderAddress"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Address</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="State" formControlName="skilledNursingProviderState"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>State</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="skilledNursingProviderCity"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>City</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="skilledNursingProviderCountryCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Country Code</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Zipcode" formControlName="skilledNursingProviderPostalCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Zipcode</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider address details ends -->
-
-        <!-- Reject reason and Follow up Action Desc starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingProviderRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="skilledNursingProviderRejectionReason"
-                  name="skilledNursingProviderRejectionReason" #skilledNursingProviderRejectionReason
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                      <p> <strong>Subscriber Reject Reason: </strong> {{ skilledNursingProviderRejectionReason.value }} </p>
-                     </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="skilledNursingProviderFollowUpActionDescription" [readonly]="isReadonly"> -->
-                <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="skilledNursingProviderFollowUpActionDescription"
-                  name="skilledNursingProviderFollowUpActionDescription"
-                  #skilledNursingProviderFollowUpActionDescription [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
-                    {{desc.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                      <p> <strong>Follow Up Action Description: </strong> {{ skilledNursingProviderFollowUpActionDescription.value }} </p>
-                    </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Reject reason and Follow up Action Desc ends -->
-
-      </mat-expansion-panel>
-    </div>
 
     <!-- Skilled Nursing details ends -->
 
 
     <!-- speech pathology details starts -->
 
-    <!-- <div formGroupName="speechPathologyResponse" class="speechPathologyResp"
-        *ngIf="preAuthReponseForm.get('speechPathologyResponse')?.value != null"> -->
-    <div formGroupName="speechPathologyResponse" class="speechPathologyResp">
-      <mat-expansion-panel
-        [expanded]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyDetailStatus')?.value !== 'Approved'"
-        *ngIf="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyDetailStatus')?.value != null">
-        <mat-expansion-panel-header class="disable_ripple">
-          <mat-panel-title>
-            Speech Pathology Details
-          </mat-panel-title>
-          <mat-panel-description fxLayoutAlign="center" class="flex-end"
-            [ngStyle]="{'color': preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
-            {{preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyDetailStatus')?.value}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyRequestCategory" [readonly]="isReadonly"> -->
-                <mat-label>Request Category</mat-label>
-                <mat-select formControlName="speechPathologyRequestCategory" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let category of requestCategory; let i = index" [value]="category.name">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyLevelOfService" [readonly]="isReadonly"> -->
-                <mat-label>Level Of Service</mat-label>
-                <mat-select formControlName="speechPathologyLevelOfService" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let servcLevel of levelOfService; let i = index" [value]="servcLevel.name">
-                    {{servcLevel.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyCertificationAction" [readonly]="isReadonly"> -->
-                <mat-label>Certification Action</mat-label>
-                <mat-select formControlName="speechPathologyCertificationAction" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certAction of certificationAction; let i = index" [value]="certAction.name">
-                    {{certAction.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyCertificationType" [readonly]="isReadonly"> -->
-                <mat-label>Certification Type</mat-label>
-                <mat-select formControlName="speechPathologyCertificationType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certType of certificationType; let i = index" [value]="certType.name">
-                    {{certType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="speechPathologyVisit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Visits</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="speechPathologyRejectionReason" name="speechPathologyRejectionReason"
-                  #speechPathologyRejectionReason [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                    <p> <strong>Subscriber Reject Reason: </strong> {{ speechPathologyRejectionReason.value }} </p>
-                  </div> -->
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyServiceType" [readonly]="isReadonly"> -->
-                <mat-label>Service Type</mat-label>
-                <mat-select formControlName="speechPathologyServiceType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let serviType of serviceType; let i = index" [value]="serviType.name">
-                    {{serviType.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="speechPathologyUnit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Units</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyRejectionReasonMSG" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason Message</mat-label>
-                <mat-select formControlName="speechPathologyRejectionReasonMSG" name="speechPathologyRejectionReasonMSG"
-                  #speechPathologyRejectionReasonMSG [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejecReasonMsg of rejectReasonsMsg; let i = index"
-                    [value]="rejecReasonMsg.name">
-                    {{rejecReasonMsg.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                    <p> <strong>Subscriber Reject Reason: </strong> {{ speechPathologyRejectionReasonMSG.value }} </p>
-                  </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="3" [rowspan]="1">
-            <div class="controles-container">
-              <p>Speech Pathology Provider Certification</p>
-              <mat-divider></mat-divider>
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-        <!-- Provider name, type and other details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="speechPathologyProviderFullName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Provider Name</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyProviderIdentificationNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Identification No Type</mat-label>
-                <mat-select formControlName="speechPathologyProviderIdentificationNumberType" [compareWith]="compareFn"
-                  required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of identificationNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyProviderType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Type</mat-label>
-                <mat-select formControlName="speechPathologyProviderType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
-                    {{providerType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="speechPathologyProviderSupplimentalId"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Supplement Id</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="speechPathologyProviderIdentificationNumber"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Identification No</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyProviderIdNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider ID No Type</mat-label>
-                <mat-select formControlName="speechPathologyProviderIdNumberType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of idNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider name, type and other details ends -->
-
-        <!-- Provider address details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Address" formControlName="speechPathologyProviderAddress"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Address</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="State" formControlName="speechPathologyProviderState"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>State</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="speechPathologyProviderCity"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>City</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="speechPathologyProviderCountryCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Country Code</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Zipcode" formControlName="speechPathologyProviderPostalCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Zipcode</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Provider address details ends -->
-
-        <!-- Reject reason and Follow up Action Desc starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyProviderRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="speechPathologyProviderRejectionReason"
-                  name="speechPathologyProviderRejectionReason" #speechPathologyProviderRejectionReason
-                  [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Subscriber Reject Reason: </strong> {{ speechPathologyProviderRejectionReason.value }} </p>
-                       </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="speechPathologyProviderFollowUpActionDescription" [readonly]="isReadonly"> -->
-                <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="speechPathologyProviderFollowUpActionDescription"
-                  name="speechPathologyProviderFollowUpActionDescription"
-                  #speechPathologyProviderFollowUpActionDescription [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
-                    {{desc.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Follow Up Action Description: </strong> {{ speechPathologyProviderFollowUpActionDescription.value }} </p>
-                      </div> -->
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-        <!-- Reject reason and Follow up Action Desc ends -->
-
-      </mat-expansion-panel>
-    </div>
-
     <!-- speech pathology details ends -->
 
     <!-- Home Health aide details starts -->
 
-    <!-- <div formGroupName="homeHealthAideResponse" class="homeHealthAideResp"
-        *ngIf="preAuthReponseForm.get('homeHealthAideResponse')?.value != null"> -->
-    <div formGroupName="homeHealthAideResponse" class="homeHealthAideResp">
-      <mat-expansion-panel
+    <div formGroupName="homeHealthAideResponse" class="homeHealthAideResp"
+      *ngIf="preAuthReponseForm.get('homeHealthAideResponse')?.value != null">
+      <mat-expansion-panel>
+        <!-- <mat-expansion-panel
         [expanded]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideDetailStatus')?.value !== 'Approved'"
-        *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideDetailStatus')?.value != null">
+        *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideDetailStatus')?.value != null"> -->
         <mat-expansion-panel-header class="disable_ripple">
           <mat-panel-title>
-            Home Health Aide Details
+            <mat-checkbox color="primary" (change)="homeHealthAideClicked($event)" [disabled]="editing? false: true"
+              (keydown)="$event.stopPropagation()" formControlName="homeHealthAideSelected" #homeHealthAide>
+              Home Health Aide Service
+            </mat-checkbox>
           </mat-panel-title>
           <mat-panel-description fxLayoutAlign="center" class="flex-end"
             [ngStyle]="{'color': preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideDetailStatus')?.value === 'Approved' ? 'green' : 'red' }">
@@ -2895,42 +1503,67 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-grid-list cols="3" rowHeight="70px">
+        <mat-grid-list cols="3" rowHeight="66px">
 
           <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideRequestCategory" [readonly]="isReadonly"> -->
+                <!-- <input *ngIf="!editing" #input matInput formControlName="homeHealthAideRequestServiceDateFrom" [readonly]="true"> -->
+                <input matInput [matDatepicker]="homeHealthAideResponseServiceDateFrom"
+                  formControlName="homeHealthAideResponseServiceDateFrom"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true) ? false : true"
+                  [max]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateTo')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'">
+                <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
+                <mat-label>Service Date From</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateFrom')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateFrom')?.hasError('required')">
+                  Service Date From is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="(editing && homeHealthAide.checked === true)" matSuffix
+                  [for]="homeHealthAideResponseServiceDateFrom">
+                </mat-datepicker-toggle>
+                <mat-datepicker #homeHealthAideResponseServiceDateFrom></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="3" formControlName="homeHealthAideUnit"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="unitsPattern">
+                <mat-label>Units Requested Per Day</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideUnit')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideUnit')?.hasError('pattern')">
+                  Please enter a valid value for unit.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideUnit')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideUnit')?.hasError('required')">
+                  Unit is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input #input matInput formControlName="homeHealthAideRequestCategory" [readonly]="true">
                 <mat-label>Request Category</mat-label>
-                <mat-select formControlName="homeHealthAideRequestCategory" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let category of requestCategory; let i = index" [value]="category.name">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
               </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideLevelOfService" [readonly]="isReadonly"> -->
-                <mat-label>Level Of Service</mat-label>
-                <mat-select formControlName="homeHealthAideLevelOfService" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let servcLevel of levelOfService; let i = index" [value]="servcLevel.name">
-                    {{servcLevel.name}}
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Request Category</mat-label>
+                <mat-select formControlName="homeHealthAideRequestCategory"
+                  [required]="(homeHealthAide.checked)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let requestCatego of requestCategories; let i = index;"
+                    [value]="requestCatego.name">
+                    {{requestCatego.name}}
                   </mat-option>
                 </mat-select>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideCertificationAction" [readonly]="isReadonly"> -->
-                <mat-label>Certification Action</mat-label>
-                <mat-select formControlName="homeHealthAideCertificationAction" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certAction of certificationAction; let i = index" [value]="certAction.name">
-                    {{certAction.name}}
-                  </mat-option>
-                </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideRequestCategory')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideRequestCategory')?.hasError('required')">
+                  Please select request category.
+                </mat-error>
               </mat-form-field>
 
             </div>
@@ -2940,81 +1573,265 @@
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideCertificationType" [readonly]="isReadonly"> -->
+                <!-- <input *ngIf="!editing" #input matInput formControlName="homeHealthAideRequestServiceDateTo" [readonly]="true"> -->
+                <input matInput [matDatepicker]="homeHealthAideRequestServiceDateTo"
+                  formControlName="homeHealthAideRequestServiceDateTo"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  [min]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideRequestServiceDateFrom')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideRequestServiceDateTo')?.value | date:'yyyy-MM-dd'">
+                <mat-label>Service Date To</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideRequestServiceDateTo')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideRequestServiceDateTo')?.hasError('required')">
+                  Service Date To is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="(editing && homeHealthAide.checked === true)" matSuffix
+                  [for]="homeHealthAideRequestServiceDateTo">
+                </mat-datepicker-toggle>
+                <mat-datepicker #homeHealthAideRequestServiceDateTo></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="3" formControlName="homeHealthAideVisit"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="unitsPattern">
+                <mat-label>Total Visits Requested</mat-label>
+                <mat-error *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideVisit')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideVisit')?.hasError('pattern')">
+                  Please enter a valid value for visits.
+                </mat-error>
+                <mat-error *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideVisit')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideVisit')?.hasError('required')">
+                  Visit is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input matInput formControlName="homeHealthAideCertificationType" [readonly]="true">
                 <mat-label>Certification Type</mat-label>
-                <mat-select formControlName="homeHealthAideCertificationType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let certType of certificationType; let i = index" [value]="certType.name">
-                    {{certType.name}}
-                  </mat-option>
-                </mat-select>
               </mat-form-field>
 
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="homeHealthAideVisit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Visits</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideRejectionReason" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="homeHealthAideRejectionReason" name="homeHealthAideRejectionReason"
-                  #homeHealthAideRejectionReason [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Certification Type</mat-label>
+                <mat-select formControlName="homeHealthAideCertificationType"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let certificationTyp of certificationTypes; let i = index"
+                    [value]="certificationTyp.name">
+                    {{certificationTyp.name}}
                   </mat-option>
                 </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideCertificationType')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideCertificationType')?.hasError('required')">
+                  Please select certification type.
+                </mat-error>
               </mat-form-field>
-              <!-- <div>
-                    <p> <strong>Subscriber Reject Reason: </strong> {{ homeHealthAideRejectionReason.value }} </p>
-                  </div> -->
 
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="3">
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
             <div class="controles-container">
 
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideServiceType" [readonly]="isReadonly"> -->
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input matInput formControlName="homeHealthAideServiceType" [readonly]="true">
                 <mat-label>Service Type</mat-label>
-                <mat-select formControlName="homeHealthAideServiceType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let serviType of serviceType; let i = index" [value]="serviType.name">
-                    {{serviType.name}}
+              </mat-form-field>
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Service Type</mat-label>
+                <mat-select formControlName="homeHealthAideServiceType"
+                  [required]="(homeHealthAide.checked)? true: false" [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let serviceTyp of serviceTypes; let i = index" [value]="serviceTyp.name">
+                    {{serviceTyp.name}}
                   </mat-option>
                 </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideLevelOfService')?.invalid ||
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideServiceType')?.hasError('required')">
+                  Please select service type.
+                </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="homeHealthAideUnit" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Units</mat-label>
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input matInput formControlName="homeHealthAideLevelOfService" [readonly]="true">
+                <mat-label>Level Of Service</mat-label>
               </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideRejectionReasonMSG" [readonly]="isReadonly"> -->
-                <mat-label>Rejection Reason Message</mat-label>
-                <mat-select formControlName="homeHealthAideRejectionReasonMSG" name="homeHealthAideRejectionReasonMSG"
-                  #homeHealthAideRejectionReasonMSG [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejecReasonMsg of rejectReasonsMsg; let i = index"
-                    [value]="rejecReasonMsg.name">
-                    {{rejecReasonMsg.name}}
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Level Of Service</mat-label>
+                <mat-select *ngIf="(homeHealthAide.checked)" formControlName="homeHealthAideLevelOfService"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let levelOfServi of levelOfServices; let i = index" [value]="levelOfServi.name">
+                    {{levelOfServi.name}}
                   </mat-option>
                 </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideLevelOfService')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideLevelOfService')?.hasError('required')">
+                  Please select level of service.
+                </mat-error>
               </mat-form-field>
-              <!-- <div>
-                    <p> <strong>Subscriber Reject Reason: </strong> {{ homeHealthAideRejectionReasonMSG.value }} </p>
-                  </div> -->
+
             </div>
           </mat-grid-tile>
 
         </mat-grid-list>
 
-        <mat-grid-list cols="3" rowHeight="70px">
+        <mat-grid-list cols="3" rowHeight="66px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="homeHealthAideEffectiveDateFrom"
+                  formControlName="homeHealthAideEffectiveDateFrom"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true) ? false : true"
+                  [max]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateFrom')?.value | date:'yyyy-MM-dd'">
+                <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
+                <mat-label>Service Date From</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateFrom')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateFrom')?.hasError('required')">
+                  Service Date From is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="(editing && homeHealthAide.checked === true)" matSuffix
+                  [for]="homeHealthAideEffectiveDateFrom">
+                </mat-datepicker-toggle>
+                <mat-datepicker #homeHealthAideEffectiveDateFrom></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="3" formControlName="homeHealthAideAuthorizationIdNo"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="unitsPattern">
+                <mat-label>Units Requested Per Day</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideAuthorizationIdNo')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideAuthorizationIdNo')?.hasError('pattern')">
+                  Please enter a valid value for unit.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideAuthorizationIdNo')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideAuthorizationIdNo')?.hasError('required')">
+                  Unit is required.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="homeHealthAideEffectiveDateTo"
+                  formControlName="homeHealthAideEffectiveDateTo"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  [min]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateFrom')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.value | date:'yyyy-MM-dd'">
+                <mat-label>Service Date To</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.hasError('required')">
+                  Service Date To is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="(editing && homeHealthAide.checked === true)" matSuffix
+                  [for]="homeHealthAideEffectiveDateTo">
+                </mat-datepicker-toggle>
+                <mat-datepicker #homeHealthAideEffectiveDateTo></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input matInput formControlName="homeHealthAideCertificationAction" [readonly]="true">
+                <mat-label>Certification Action</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Certification Action</mat-label>
+                <mat-select formControlName="homeHealthAideCertificationAction"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let certificationAction of certificationActions; let i = index"
+                    [value]="certificationAction.name">
+                    {{certificationAction.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideCertificationAction')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideCertificationAction')?.hasError('required')">
+                  Please select certification action.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="2">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput [matDatepicker]="homeHealthAideExpirationDate"
+                  formControlName="homeHealthAideExpirationDate"
+                  [required]="(editing && homeHealthAide.checked === true)? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  [min]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
+                  [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideExpirationDate')?.value | date:'yyyy-MM-dd'">
+                <mat-label>Service Date To</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideExpirationDate')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideExpirationDate')?.hasError('required')">
+                  Service Date To is required.
+                </mat-error>
+                <mat-datepicker-toggle *ngIf="(editing && homeHealthAide.checked === true)" matSuffix
+                  [for]="homeHealthAideExpirationDate">
+                </mat-datepicker-toggle>
+                <mat-datepicker #homeHealthAideExpirationDate></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input *ngIf="!editing" #input matInput formControlName="homeHealthAideProviderRejectionReason"
+                  [readonly]="!editing? true: false">
+                <mat-label>Rejection Reason</mat-label>
+                <mat-select *ngIf="editing" formControlName="homeHealthAideProviderRejectionReason"
+                  [compareWith]="compareFn">
+                  <mat-option value="Select">Select</mat-option>
+                  <mat-option *ngFor="let reason of rejectReasons; let i = index" [value]="reason.name">
+                    {{reason.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+
+        <mat-grid-list cols="3" rowHeight="66px">
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <textarea matInput formControlName="homeHealthAideRejectionReasonMSG"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [errorStateMatcher]="matcher"></textarea>
+                <mat-label>Error Message</mat-label>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-grid-list cols="3" rowHeight="40px">
 
           <mat-grid-tile [colspan]="3" [rowspan]="1">
             <div class="controles-container">
@@ -3026,75 +1843,194 @@
         </mat-grid-list>
 
         <!-- Provider name, type and other details starts -->
-        <mat-grid-list cols="3" rowHeight="70px">
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
+        <mat-grid-list cols="3" rowHeight="68px">
+
+          <mat-grid-tile [colspan]="1" [rowspan]="4">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="homeHealthAideProviderFullName" [errorStateMatcher]="matcher"
-                  [readonly]="isReadonly">
-                <mat-label>Provider Name</mat-label>
+                <input matInput #input maxlength="15" formControlName="homeHealthAidePoviderLastName"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? userNamePattern: false">
+                <mat-label>Last Name</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAidePoviderLastName')?.invalid ||
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAidePoviderLastName')?.hasError('pattern')">
+                  Please enter a valid last name.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAidePoviderLastName')?.touched ||
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAidePoviderLastName')?.hasError('required')">
+                  Last name is required.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideProviderIdentificationNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider Identification No Type</mat-label>
-                <mat-select formControlName="homeHealthAideProviderIdentificationNumberType" [compareWith]="compareFn"
-                  required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of identificationNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
+                <input matInput #input maxlength="3"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  formControlName="homeHealthAideProviderPrefix" [errorStateMatcher]="matcher" autocomplete="off"
+                  [pattern]="prefixPattern">
+                <mat-label>Prefix</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderPrefix')?.hasError('pattern')">
+                  Please enter a valid prefix.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="20" formControlName="homeHealthAideProviderIdentificationNumber"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? orgIdCodePatrn: false">
+                <mat-label>Provider Identification No</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdentificationNumber')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdentificationNumber')?.hasError('pattern')">
+                  Please enter a valid identification no.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdentificationNumber')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdentificationNumber')?.hasError('required')">
+                  Identification number is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input matInput formControlName="homeHealthAideProviderIdNumberType" [readonly]="true">
+                <mat-label>Supplement Id No Type</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Supplement Id No Type</mat-label>
+                <mat-select formControlName="homeHealthAideProviderIdNumberType"
+                  [required]="(homeHealthAide.checked)? true: false" [compareWith]="compareFn">
+                  <mat-option value="">Select</mat-option>
+                  <mat-option *ngFor="let identificationCodeTyp of identificationCodeType; let i = index"
+                    [value]="identificationCodeTyp.name">
+                    {{identificationCodeTyp.name}}
                   </mat-option>
                 </mat-select>
-
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdNumberType')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdNumberType')?.hasError('required')">
+                  Please select Identification No Type.
+                </mat-error>
               </mat-form-field>
 
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
             <div class="controles-container">
 
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideProviderType" [readonly]="isReadonly"> -->
+                <input matInput #input maxlength="15" formControlName="homeHealthAideProviderFirstName"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? userNamePattern: false">
+                <mat-label>First Name</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderFirstName')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderFirstName')?.hasError('pattern')">
+                  Please enter a valid first name.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderFirstName')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderFirstName')?.hasError('required')">
+                  First name is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding">
+                <input matInput maxlength="5" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  formControlName="homeHealthAideProviderSuffix" [errorStateMatcher]="matcher" autocomplete="off"
+                  [pattern]="suffixPattern">
+                <mat-label>Suffix</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderSuffix')?.hasError('pattern')">
+                  Please enter a valid suffix.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input matInput formControlName="homeHealthAideProviderIdentificationNumberType" [readonly]="true">
+                <mat-label>Identification No Type</mat-label>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Identification No Type</mat-label>
+                <mat-select formControlName="homeHealthAideProviderIdentificationNumberType"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
+                  <mat-option *ngFor="let identificationCodeTyp of identificationCodeType; let i = index"
+                    [value]="identificationCodeTyp.name">
+                    {{identificationCodeTyp.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdentificationNumberType')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderIdentificationNumberType')?.hasError('required')">
+                  Please select Identification No Type.
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="3">
+            <div class="controles-container">
+
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="15" formControlName="homeHealthAideProviderMiddleName"
+                  [errorStateMatcher]="matcher" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  autocomplete="off" [pattern]="homeHealthAide.checked? userNamePattern: false">
+                <mat-label>Middle Name</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderMiddleName')?.hasError('pattern')">
+                  Please enter a valid middleName.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="!(homeHealthAide.checked)">
+                <input matInput formControlName="homeHealthAideProviderType" [readonly]="true">
                 <mat-label>Provider Type</mat-label>
-                <mat-select formControlName="homeHealthAideProviderType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
+              </mat-form-field>
+
+              <mat-form-field class="no-padding" *ngIf="(homeHealthAide.checked)">
+                <mat-label>Provider Type</mat-label>
+                <mat-select formControlName="homeHealthAideProviderType"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [compareWith]="compareFn">
+                  <mat-option>Select</mat-option>
                   <mat-option *ngFor="let providerType of providerTypes; let i = index" [value]="providerType.name">
                     {{providerType.name}}
                   </mat-option>
                 </mat-select>
-
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderType')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderType')?.hasError('required')">
+                  Please select provider type.
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input formControlName="homeHealthAideProviderSupplimentalId"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
+                <input matInput maxlength="20" [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  formControlName="homeHealthAideProviderSupplimentalId"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? supplIdPattern: false">
                 <mat-label>Provider Supplement Id</mat-label>
-              </mat-form-field>
-
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="2">
-            <div class="controles-container">
-
-              <mat-form-field class="no-padding">
-                <input matInput #input formControlName="homeHealthAideProviderIdentificationNumber"
-                  [errorStateMatcher]="matcher" [readonly]="isReadonly">
-                <mat-label>Provider Identification No</mat-label>
-              </mat-form-field>
-
-              <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideProviderIdNumberType" [readonly]="isReadonly"> -->
-                <mat-label>Provider ID No Type</mat-label>
-                <mat-select formControlName="homeHealthAideProviderIdNumberType" [compareWith]="compareFn" required>
-                  <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let noType of idNoType; let i = index" [value]="noType.name">
-                    {{noType.name}}
-                  </mat-option>
-                </mat-select>
-
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderSupplimentalId')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderSupplimentalId')?.hasError('pattern')">
+                  Please enter a valid Supplement Id.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderSupplimentalId')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderSupplimentalId')?.hasError('required')">
+                  Supplement Id is required.
+                </mat-error>
               </mat-form-field>
 
             </div>
@@ -3109,16 +2045,39 @@
           <mat-grid-tile [colspan]="1" [rowspan]="2">
             <div class="controles-container">
 
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Address" formControlName="homeHealthAideProviderAddress"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="25" formControlName="homeHealthAideProviderAddress"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher" autocomplete="off">
                 <mat-label>Address</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderAddress')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderAddress')?.hasError('pattern')">
+                  Please enter a valid address pattern.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderAddress')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderAddress')?.hasError('required')">
+                  Address is required.
+                </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="State" formControlName="homeHealthAideProviderState"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="15" minlength="2" formControlName="homeHealthAideProviderState"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? statePattern: false">
                 <mat-label>State</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderState')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderState')?.hasError('pattern')">
+                  Please enter a valid state pattern.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderState')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderState')?.hasError('required')">
+                  State is required.
+                </mat-error>
               </mat-form-field>
 
             </div>
@@ -3127,16 +2086,40 @@
           <mat-grid-tile [colspan]="1" [rowspan]="2">
             <div class="controles-container">
 
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="homeHealthAideProviderCity"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="15" minlength="4" formControlName="homeHealthAideProviderCity"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? cityPattern: false">
                 <mat-label>City</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCity')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCity')?.hasError('pattern')">
+                  Please enter a valid city pattern.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCity')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCity')?.hasError('required')">
+                  City is required.
+                </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="City" formControlName="homeHealthAideProviderCountryCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="5" minlength="2" formControlName="homeHealthAideProviderCountryCode"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? countryCodePattern: false">
                 <mat-label>Country Code</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCountryCode')?.invalid || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCountryCode')?.hasError('pattern')">
+                  Please enter a valid country code pattern.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCountryCode')?.touched || 
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderCountryCode')?.hasError('required')">
+                  Country Code is required.
+                </mat-error>
               </mat-form-field>
 
             </div>
@@ -3145,10 +2128,22 @@
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
 
-              <mat-form-field class="example-full-width">
-                <input matInput #input placeholder="Zipcode" formControlName="homeHealthAideProviderPostalCode"
-                  [errorStateMatcher]="matcher" required [readonly]="isReadonly">
-                <mat-label>Zipcode</mat-label>
+              <mat-form-field class="no-padding">
+                <input matInput #input maxlength="7" minlength="5" formControlName="homeHealthAideProviderPostalCode"
+                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
+                  [readonly]="(editing && homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [pattern]="homeHealthAide.checked? zipPattern: false">
+                <mat-label>Postal Code</mat-label>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderPostalCode')?.invalid ||
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderPostalCode')?.hasError('pattern')">
+                  Please enter a valid postal code pattern.
+                </mat-error>
+                <mat-error
+                  *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderPostalCode')?.touched ||
+                  preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderPostalCode')?.hasError('required')">
+                  Postal is required.
+                </mat-error>
               </mat-form-field>
 
             </div>
@@ -3162,47 +2157,45 @@
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideProviderRejectionReason" [readonly]="isReadonly"> -->
+                <input *ngIf="!editing" #input matInput formControlName="homeHealthAideProviderRejectionReason"
+                  [readonly]="!editing? true: false">
                 <mat-label>Rejection Reason</mat-label>
-                <mat-select formControlName="homeHealthAideProviderRejectionReason"
-                  name="homeHealthAideProviderRejectionReason" #homeHealthAideProviderRejectionReason
-                  [compareWith]="compareFn" required>
+                <mat-select *ngIf="editing" formControlName="homeHealthAideProviderRejectionReason"
+                  [compareWith]="compareFn">
                   <mat-option value="Select">Select</mat-option>
-                  <mat-option *ngFor="let rejectReason of rejectReasons; let i = index" [value]="rejectReason.name">
-                    {{rejectReason.name}}
+                  <mat-option *ngFor="let reason of rejectReasons; let i = index" [value]="reason.name">
+                    {{reason.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Subscriber Reject Reason: </strong> {{ homeHealthAideProviderRejectionReason.value }} </p>
-                       </div> -->
-            </div>
-          </mat-grid-tile>
-
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <div class="controles-container">
 
             </div>
           </mat-grid-tile>
 
           <mat-grid-tile [colspan]="1" [rowspan]="1">
             <div class="controles-container">
+
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="1">
+            <div class="controles-container">
+
               <mat-form-field class="no-padding">
-                <!-- <input #input matInput formControlName="homeHealthAideProviderFollowUpActionDescription" [readonly]="isReadonly"> -->
+                <input *ngIf="!editing" #input matInput
+                  formControlName="homeHealthAideProviderFollowUpActionDescription" [readonly]="!editing? true: false">
                 <mat-label>Follow Up Action Description</mat-label>
-                <mat-select formControlName="homeHealthAideProviderFollowUpActionDescription"
-                  name="homeHealthAideProviderFollowUpActionDescription"
-                  #homeHealthAideProviderFollowUpActionDescription [compareWith]="compareFn" required>
+                <mat-select *ngIf="editing" formControlName="homeHealthAideProviderFollowUpActionDescription"
+                  [compareWith]="compareFn">
                   <mat-option value="Select">Select</mat-option>
                   <mat-option *ngFor="let desc of followUpActDesc; let i = index" [value]="desc.name">
                     {{desc.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <!-- <div>
-                        <p> <strong>Follow Up Action Description: </strong> {{ homeHealthAideProviderFollowUpActionDescription.value }} </p>
-                      </div> -->
+
             </div>
           </mat-grid-tile>
 

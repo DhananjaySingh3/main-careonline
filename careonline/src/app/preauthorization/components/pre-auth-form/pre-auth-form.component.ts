@@ -207,7 +207,7 @@ export class PreAuthFormComponent implements OnInit {
       reqProviderLastName: new FormControl({ value: '', disabled: false },
         [Validators.required, Validators.pattern(this.userNamePattern)]),
       reqProviderMiddleName: new FormControl({ value: '', disabled: false },
-        [Validators.required, Validators.pattern(this.userNamePattern)]),
+        [Validators.pattern(this.userNamePattern)]),
       reqProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       reqProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
@@ -1251,12 +1251,9 @@ export class PreAuthFormComponent implements OnInit {
   }
 
   homeHealthAideClicked(event) {
+    event.stopPropagation();
     console.log(event.checked);
     if (!event.checked) {
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateFrom').clearValidators();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateFrom').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateTo').clearValidators();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideResponseServiceDateTo').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideRequestCategory').clearValidators();
       this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideRequestCategory').updateValueAndValidity();
@@ -1268,13 +1265,6 @@ export class PreAuthFormComponent implements OnInit {
 
       this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideLevelOfService').clearValidators();
       this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideLevelOfService').updateValueAndValidity();
-
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideVisit').clearValidators();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideVisit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideUnit').clearValidators();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideUnit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideCertificationAction').clearValidators();
-      // this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideCertificationAction').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideProviderType').clearValidators();
       this.preAuthForm.get('requestService').get('homeHealthAide').get('homeHealthAideProviderType').updateValueAndValidity();
@@ -1290,13 +1280,9 @@ export class PreAuthFormComponent implements OnInit {
   }
 
   medicalSocialWorkClicked(event) {
+    event.stopPropagation();
     console.log(event.checked);
     if (!event.checked) {
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateFrom').clearValidators();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateFrom').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateTo').clearValidators();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkResponseServiceDateTo').updateValueAndValidity();
-
       this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkRequestCategory').clearValidators();
       this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkRequestCategory').updateValueAndValidity();
       this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkCertificationType').clearValidators();
@@ -1307,13 +1293,6 @@ export class PreAuthFormComponent implements OnInit {
 
       this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkLevelOfService').clearValidators();
       this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkLevelOfService').updateValueAndValidity();
-
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkVisit').clearValidators();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkVisit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkUnit').clearValidators();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkUnit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkCertificationAction').clearValidators();
-      // this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkCertificationAction').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkProviderType').clearValidators();
       this.preAuthForm.get('requestService').get('medicalSocialWork').get('medicalSocialWorkProviderType').updateValueAndValidity();
@@ -1329,13 +1308,9 @@ export class PreAuthFormComponent implements OnInit {
   }
 
   occupationTherapyClicked(event) {
+    event.stopPropagation();
     console.log(event.checked);
     if (!event.checked) {
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateFrom').clearValidators();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateFrom').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateTo').clearValidators();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyResponseServiceDateTo').updateValueAndValidity();
-
       this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyRequestCategory').clearValidators();
       this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyRequestCategory').updateValueAndValidity();
       this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyCertificationType').clearValidators();
@@ -1346,13 +1321,6 @@ export class PreAuthFormComponent implements OnInit {
 
       this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyLevelOfService').clearValidators();
       this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyLevelOfService').updateValueAndValidity();
-
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyVisit').clearValidators();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyVisit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyUnit').clearValidators();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyUnit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyCertificationAction').clearValidators();
-      // this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyCertificationAction').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyProviderType').clearValidators();
       this.preAuthForm.get('requestService').get('occupationTherapy').get('occupationTherapyProviderType').updateValueAndValidity();
@@ -1368,12 +1336,9 @@ export class PreAuthFormComponent implements OnInit {
   }
 
   skilledNursingClicked(event) {
+    event.stopPropagation();
     console.log(event.checked);
     if (!event.checked) {
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateFrom').clearValidators();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateFrom').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateTo').clearValidators();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingResponseServiceDateTo').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingRequestCategory').clearValidators();
       this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingRequestCategory').updateValueAndValidity();
@@ -1385,13 +1350,6 @@ export class PreAuthFormComponent implements OnInit {
 
       this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingLevelOfService').clearValidators();
       this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingLevelOfService').updateValueAndValidity();
-
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingVisit').clearValidators();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingVisit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingUnit').clearValidators();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingUnit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingCertificationAction').clearValidators();
-      // this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingCertificationAction').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingProviderType').clearValidators();
       this.preAuthForm.get('requestService').get('skilledNursing').get('skilledNursingProviderType').updateValueAndValidity();
@@ -1407,12 +1365,9 @@ export class PreAuthFormComponent implements OnInit {
   }
 
   physicalTherapyClicked(event) {
+    event.stopPropagation();
     console.log(event.checked);
     if (!event.checked) {
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateFrom').clearValidators();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateFrom').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateTo').clearValidators();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyResponseServiceDateTo').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyRequestCategory').clearValidators();
       this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyRequestCategory').updateValueAndValidity();
@@ -1424,13 +1379,6 @@ export class PreAuthFormComponent implements OnInit {
 
       this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyLevelOfService').clearValidators();
       this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyLevelOfService').updateValueAndValidity();
-
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyVisit').clearValidators();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyVisit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyUnit').clearValidators();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyUnit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyCertificationAction').clearValidators();
-      // this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyCertificationAction').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyProviderType').clearValidators();
       this.preAuthForm.get('requestService').get('physicalTherapy').get('physicalTherapyProviderType').updateValueAndValidity();
@@ -1446,12 +1394,9 @@ export class PreAuthFormComponent implements OnInit {
   }
 
   speechPathologyClicked(event) {
+    event.stopPropagation();
     console.log(event.checked);
     if (!event.checked) {
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateFrom').clearValidators();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateFrom').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateTo').clearValidators();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyResponseServiceDateTo').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyRequestCategory').clearValidators();
       this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyRequestCategory').updateValueAndValidity();
@@ -1463,13 +1408,6 @@ export class PreAuthFormComponent implements OnInit {
 
       this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyLevelOfService').clearValidators();
       this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyLevelOfService').updateValueAndValidity();
-
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyVisit').clearValidators();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyVisit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyUnit').clearValidators();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyUnit').updateValueAndValidity();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyCertificationAction').clearValidators();
-      // this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyCertificationAction').updateValueAndValidity();
 
       this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyProviderType').clearValidators();
       this.preAuthForm.get('requestService').get('speechPathology').get('speechPathologyProviderType').updateValueAndValidity();

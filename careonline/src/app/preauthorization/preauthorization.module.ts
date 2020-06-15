@@ -21,6 +21,7 @@ import { StackedModalComponent } from './components/stacked-modal/stacked-modal.
 import { DeniedDialogComponent } from './components/denied-dialog/denied-dialog.component';
 import { PreauthHistorylistComponent } from './components/preauth-historylist/preauth-historylist.component';
 import { PreauthHistoryformComponent } from './components/preauth-historyform/preauth-historyform.component';
+import { StackedModalResponseComponent } from './components/stacked-modal-response/stacked-modal-response.component';
 
 
 
@@ -33,6 +34,7 @@ import { PreauthHistoryformComponent } from './components/preauth-historyform/pr
     DeniedDialogComponent,
     PreauthHistorylistComponent,
     PreauthHistoryformComponent,
+    StackedModalResponseComponent,
 
   ],
   imports: [
@@ -61,7 +63,7 @@ import { PreauthHistoryformComponent } from './components/preauth-historyform/pr
 
   ],
   entryComponents: [PreAuthFormComponent, StackedModalComponent, DeniedDialogComponent,
-    PreauthHistorylistComponent, PreauthHistoryformComponent],
+    PreauthHistorylistComponent, PreauthHistoryformComponent, StackedModalResponseComponent],
 })
 export class PreauthorizationModule {
   constructor() {
