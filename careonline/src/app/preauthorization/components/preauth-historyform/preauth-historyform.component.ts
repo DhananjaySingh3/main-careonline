@@ -86,8 +86,8 @@ export class PreauthHistoryformComponent implements OnInit {
   // usernamePattern = '^[a-z0-9_-]{1,15}$';
   userNamePattern = '^[a-zA-Z.-]{1,15}$';
   mrnNumberPattern = '^[a-zA-Z0-9-]{4,15}$';
-  prefixPattern = '^[a-zA-Z.]{1,15}$';
-  suffixPattern = '^[a-zA-Z.-]{1,15}$';
+  prefixPattern = '^[a-zA-Z.]{1,3}$';
+  suffixPattern = '^[a-zA-Z.-]{1,5}$';
 
   orgNamePattern = '^[a-zA-Z]{1,20}$';
   orgIdCodePatrn = '^[a-zA-Z0-9]{1,20}$';
@@ -106,7 +106,7 @@ export class PreauthHistoryformComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<PreauthHistoryformComponent>,
+    public dialogRef: MatDialogRef<DeniedDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public preAuthFormService: PreAuthFormService,
     public commonService: CommonService,
@@ -293,8 +293,8 @@ export class PreauthHistoryformComponent implements OnInit {
       physicalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       physicalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       physicalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      physicalTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      physicalTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      physicalTherapyVisit: new FormControl({ value: '', disabled: false }),
+      physicalTherapyUnit: new FormControl({ value: '', disabled: false }),
       physicalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       physicalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
       physicalTherapyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
@@ -311,7 +311,7 @@ export class PreauthHistoryformComponent implements OnInit {
       physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
       physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
 
-      physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
       physicalTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
       physicalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
@@ -343,8 +343,8 @@ export class PreauthHistoryformComponent implements OnInit {
       occupationalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       occupationalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       occupationalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      occupationalTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      occupationalTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      occupationalTherapyVisit: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyUnit: new FormControl({ value: '', disabled: false }),
       occupationalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       occupationalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
       occupationalTherapyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
@@ -362,7 +362,7 @@ export class PreauthHistoryformComponent implements OnInit {
       occupationalTherapyCountryCode: new FormControl({ value: '', disabled: false },
         [Validators.pattern(this.countryCodePattern)]),
 
-      occupationalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      occupationalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
       occupationalProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       occupationalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
       occupationalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
@@ -393,8 +393,8 @@ export class PreauthHistoryformComponent implements OnInit {
       medicalSocialWorkCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       medicalSocialWorkServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       medicalSocialWorkLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      medicalSocialWorkVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      medicalSocialWorkUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      medicalSocialWorkVisit: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkUnit: new FormControl({ value: '', disabled: false }),
       medicalSocialWorkCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       medicalSocialWorkRejectionReason: new FormControl({ value: 'Select', disabled: false }),
       medicalSocialWorkRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
@@ -411,7 +411,7 @@ export class PreauthHistoryformComponent implements OnInit {
       medicalSocialWorkProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
       medicalSocialWorkProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
 
-      medicalSocialWorkProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      medicalSocialWorkProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
       medicalSocialWorkProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       medicalSocialWorkProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
       medicalSocialWorkProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
@@ -441,8 +441,8 @@ export class PreauthHistoryformComponent implements OnInit {
       skilledNursingCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       skilledNursingServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       skilledNursingLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      skilledNursingVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      skilledNursingUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      skilledNursingVisit: new FormControl({ value: '', disabled: false }),
+      skilledNursingUnit: new FormControl({ value: '', disabled: false }),
       skilledNursingCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       skilledNursingRejectionReason: new FormControl({ value: 'Select', disabled: false }),
       skilledNursingRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
@@ -459,7 +459,7 @@ export class PreauthHistoryformComponent implements OnInit {
       skilledNursingProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
       skilledNursingProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
 
-      skilledNursingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      skilledNursingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
       skilledNursingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       skilledNursingProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
       skilledNursingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
@@ -491,8 +491,8 @@ export class PreauthHistoryformComponent implements OnInit {
       speechPathologyCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       speechPathologyServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       speechPathologyLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      speechPathologyVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      speechPathologyUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      speechPathologyVisit: new FormControl({ value: '', disabled: false }),
+      speechPathologyUnit: new FormControl({ value: '', disabled: false }),
       speechPathologyCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       speechPathologyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
       speechPathologyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
@@ -509,7 +509,7 @@ export class PreauthHistoryformComponent implements OnInit {
       speechPathologyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
       speechPathologyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
 
-      speechPathologyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      speechPathologyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
       speechPathologyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       speechPathologyProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
       speechPathologyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
@@ -539,8 +539,8 @@ export class PreauthHistoryformComponent implements OnInit {
       homeHealthAideCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       homeHealthAideServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       homeHealthAideLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      homeHealthAideVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      homeHealthAideUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      homeHealthAideVisit: new FormControl({ value: '', disabled: false }),
+      homeHealthAideUnit: new FormControl({ value: '', disabled: false }),
       homeHealthAideCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       homeHealthAideRejectionReason: new FormControl({ value: 'Select', disabled: false }),
       homeHealthAideRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
@@ -557,7 +557,7 @@ export class PreauthHistoryformComponent implements OnInit {
       homeHealthAideProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
       homeHealthAideProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
 
-      homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
       homeHealthAideProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       homeHealthAideProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
       homeHealthAideProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
@@ -614,7 +614,7 @@ export class PreauthHistoryformComponent implements OnInit {
     // setTimeout(() => {
     this.isLoadingResults = true;
     this.commonMethods();
-    this.preAuthService.preauthResponseHistoryFormView(this.selectedPatientViaDialog).subscribe((response) => {
+    this.preAuthService.viewEditedResponseDataPatient(this.selectedPatientViaDialog).subscribe((response) => {
       this.isLoadingResults = true;
       console.log('Denial data response ', response);
       if (response) {
@@ -648,7 +648,7 @@ export class PreauthHistoryformComponent implements OnInit {
     const formData: PreAuthResponse = {
       id: patient.id,
 
-      /*Preauthorization Details*/
+      /*Preauthorization Details, this.datePipe.transform(patient.dob, 'M/d/yyyy')*/
       authorizationDetail: {
         id: patient.authorizationDetail.id,
         totalUnitsApproved: patient.authorizationDetail.totalUnitsApproved,
@@ -658,13 +658,14 @@ export class PreauthHistoryformComponent implements OnInit {
         unitsForNoOfUnitsTobeUsed: patient.authorizationDetail.unitsForNoOfUnitsTobeUsed,
         enquiryId: patient.authorizationDetail.enquiryId,
         processDateAndTime: (new Date(patient.authorizationDetail.processDateAndTime)).toISOString(),
-        serviceDateFrom: patient.authorizationDetail.serviceDateFrom,
-        serviceDateTo: patient.authorizationDetail.serviceDateTo,
-        effectiveDateTo: patient.authorizationDetail.effectiveDateTo,
-        effectiveDateFrom: patient.authorizationDetail.effectiveDateFrom,
-        expirationeDateTo: patient.authorizationDetail.expirationeDateTo,
-        admitDate: patient.authorizationDetail.admitDate,
-        dischargeDate: patient.authorizationDetail.dischargeDate,
+
+        serviceDateFrom: (new Date(patient.authorizationDetail.serviceDateFrom)).toISOString(),
+        serviceDateTo: (new Date(patient.authorizationDetail.serviceDateTo)).toISOString(),
+        effectiveDateTo: (new Date(patient.authorizationDetail.effectiveDateTo)).toISOString(),
+        effectiveDateFrom: (new Date(patient.authorizationDetail.effectiveDateFrom)).toISOString(),
+        expirationeDateTo: (new Date(patient.authorizationDetail.expirationeDateTo)).toISOString(),
+        admitDate: (new Date(patient.authorizationDetail.admitDate)).toISOString(),
+        dischargeDate: (new Date(patient.authorizationDetail.dischargeDate)).toISOString(),
         certificationIdentificationNumber: patient.authorizationDetail.certificationIdentificationNumber,
         preAuthorizationStatus: patient.authorizationDetail.preAuthorizationStatus,
         enquiryDetailStatus: patient.authorizationDetail.enquiryDetailStatus,
@@ -678,6 +679,9 @@ export class PreauthHistoryformComponent implements OnInit {
       membersuffix: patient.membersuffix,
       membergender: patient.membergender,
       memberdob: (new Date(patient.memberdob)).toISOString(),
+      // this.datePipe.transform(patient.memberdob, 'M/d/yyyy'),
+      // yyyy-MM-dd(new Date(patient.memberdob)).toISOString(),
+      // this.datePipe.transform(patient.memberdob, 'M/d/yyyy'),
       memberPrefix: patient.memberPrefix,
       memberRelationshipToSubscriber: patient.memberRelationshipToSubscriber,
       memberDetailStatus: patient.memberDetailStatus,
@@ -1069,13 +1073,14 @@ export class PreauthHistoryformComponent implements OnInit {
   onSave(formDataOnSave) {
     console.log('On save ', formDataOnSave);
 
-    //   if (formDataOnSave.valid) {
+
     let selectedPatntData: PreAuthResponse;
     selectedPatntData = formDataOnSave.value;
     /* Converting Date to ISO string */
 
     selectedPatntData.memberdob = new Date(selectedPatntData.memberdob).toISOString();
 
+    // this.preAuthReponseForm.get('authorizationDetail').patchValue({ processDateAndTime: (new Date()).toISOString() });
     // selectedPatntData.authorizationDetail.processDateAndTime =
     //   new Date(selectedPatntData.authorizationDetail.processDateAndTime).toISOString();
 
@@ -1194,38 +1199,38 @@ export class PreauthHistoryformComponent implements OnInit {
     selectedPatntData.homeHealthAideResponse.homeHealthAideResponseServiceDateTo =
       new Date(selectedPatntData.homeHealthAideResponse.homeHealthAideResponseServiceDateTo).toISOString();
     /** */
+    if (formDataOnSave.valid) {
+      console.log(selectedPatntData.memberdob);
+      // selectedPatientData.currenttimdate = new Date().toISOString();
+      // console.log('Date after change ', selectedPatientData);
+      console.log('Form data on save', selectedPatntData);
 
-    console.log(selectedPatntData.memberdob);
-    // selectedPatientData.currenttimdate = new Date().toISOString();
-    // console.log('Date after change ', selectedPatientData);
-    console.log('Form data on save', selectedPatntData);
+      const config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = false;
+      config.hasBackdrop = true;
+      config.width = '40%';
+      config.data = {
+        heading: '"Save" Confirmation Alert',
+        messageContent: 'Do you want to "Save" the content?',
+        selectedPatientData: selectedPatntData,
+        actionType: 'saveRequest'
+      };
+      const dialogRef = this.dialog.open(StackedModalResponseComponent, config);
 
-    const config = new MatDialogConfig();
-    config.disableClose = true;
-    config.autoFocus = false;
-    config.hasBackdrop = true;
-    config.width = '40%';
-    config.data = {
-      heading: '"Save" Confirmation Alert',
-      messageContent: 'Do you want to "Save" the content?',
-      selectedPatientData: selectedPatntData,
-      actionType: 'saveRequest'
-    };
-    const dialogRef = this.dialog.open(StackedModalResponseComponent, config);
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Stacked Dialog Closed: true / false will come ' + result);
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Stacked Dialog Closed: true / false will come ' + result);
+        if (result) {
+          console.log('Confirm is clicked: ' + result);
+          // this.isFormUpdated = result;
+          this.dialogRef.close(false);
+          // this.preAuthService.filter('Refresh Initiated');
+        }
 
-      if (result) {
-        console.log('Confirm is clicked: ' + result);
-        // this.isFormUpdated = result;
-        this.dialogRef.close(false);
-        // this.preAuthService.filter('Refresh Initiated');
-      }
+      });
 
-    });
-
-    // }
+    }
 
   }
 
@@ -1264,6 +1269,7 @@ export class PreauthHistoryformComponent implements OnInit {
     this.preAuthReponseForm.get('requesterResponseInformation').get('serviceType').updateValueAndValidity();
     this.preAuthReponseForm.get('requesterResponseInformation').get('levelOfService').updateValueAndValidity();
 
+    this.ngAfterViewInit();
     // }
   }
 
@@ -1279,6 +1285,53 @@ export class PreauthHistoryformComponent implements OnInit {
     WindowPrt.focus();
     WindowPrt.print();
     WindowPrt.close();
+  }
+
+  ngAfterViewInit() {
+    console.log('---ngAfterViewInit()---');
+    if (this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideSelected').value) {
+      console.log('homeHealthAideClicked ', this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideSelected').value);
+      this.homeHealthAideClicked(true);
+    } else {
+      this.homeHealthAideClicked(false);
+    }
+
+    if (this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkSelected').value) {
+      console.log('medicalSocialWorkClicked ', this.preAuthReponseForm.get('medicalSocialWorkResponse')
+        .get('medicalSocialWorkSelected').value);
+      this.medicalSocialWorkClicked(true);
+    } else {
+      this.medicalSocialWorkClicked(false);
+    }
+
+    if (this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapySelected').value) {
+      console.log('occupationTherapyClicked ', this.preAuthReponseForm.get('occupationalTherapyResponse')
+        .get('occupationalTherapySelected').value);
+      this.occupationTherapyClicked(true);
+    } else {
+      this.occupationTherapyClicked(false);
+    }
+
+    if (this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingSelected').value) {
+      console.log('skilledNursingClicked ', this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingSelected').value);
+      this.skilledNursingClicked(true);
+    } else {
+      this.skilledNursingClicked(false);
+    }
+
+    if (this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapySelected').value) {
+      console.log('physicalTherapyClicked ', this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapySelected').value);
+      this.physicalTherapyClicked(true);
+    } else {
+      this.physicalTherapyClicked(false);
+    }
+
+    if (this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologySelected').value) {
+      console.log('speechPathologyClicked ', this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologySelected').value);
+      this.speechPathologyClicked(true);
+    } else {
+      this.speechPathologyClicked(false);
+    }
   }
 
   homeHealthAideClicked(event) {
@@ -1338,28 +1391,29 @@ export class PreauthHistoryformComponent implements OnInit {
 
   occupationTherapyClicked(event) {
     if (event.checked) {
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyRequestCategory').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationType').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyServiceType').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyLevelOfService').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationAction').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderType').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderIdNumberType').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationalProviderIdentificationNumberType').updateValueAndValidity();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyRequestCategory').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyCertificationType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyServiceType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyLevelOfService').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyCertificationAction').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyProviderType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyProviderIdNumberType').updateValueAndValidity();
+      this.preAuthReponseForm
+        .get('occupationalTherapyResponse').get('occupationalProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyAuthorizationIdNo').updateValueAndValidity();
 
     } else {
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyRequestCategory').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationType').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyServiceType').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyLevelOfService').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationAction').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderType').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderIdNumberType').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationalProviderIdentificationNumberType').clearValidators();
-      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyRequestCategory').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyCertificationType').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyServiceType').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyLevelOfService').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyCertificationAction').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyProviderType').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyProviderIdNumberType').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalProviderIdentificationNumberType').clearValidators();
+      this.preAuthReponseForm.get('occupationalTherapyResponse').get('occupationalTherapyAuthorizationIdNo').clearValidators();
     }
   }
 

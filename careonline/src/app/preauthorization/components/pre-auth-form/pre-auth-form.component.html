@@ -174,8 +174,8 @@
                   [required]="(editing)? true: false" [errorStateMatcher]="matcher">
                 <mat-label>Gender</mat-label>
                 <mat-select *ngIf="(editing)" formControlName="gender" [required]="(editing)? true: false"
-                  [compareWith]="compareFn" [errorStateMatcher]="matcher">
-                  <mat-option value="Select">Select</mat-option>
+                  [compareWith]="compareFn" [errorStateMatcher]="(editing)? matcher: false">
+                  <mat-option>Select</mat-option>
                   <mat-option *ngFor="let membergender of genders; let i = index;" [value]="membergender.name">
                     {{membergender.name}}
                   </mat-option>
@@ -1431,7 +1431,7 @@
                   <mat-label>Supplement Id No Type</mat-label>
                   <mat-select formControlName="homeHealthAideProviderIdNumberType"
                     [required]="(homeHealthAide.checked)? true: false" [compareWith]="compareFn">
-                    <mat-option value="">Select</mat-option>
+                    <mat-option>Select</mat-option>
                     <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                       [value]="identificationCodeType.name">
                       {{identificationCodeType.name}}
@@ -1962,7 +1962,7 @@
                   <mat-label>Supplement Id No Type</mat-label>
                   <mat-select formControlName="medicalSocialWorkProviderIdNumberType"
                     [required]="(medicalSocialWork.checked)? true: false" [compareWith]="compareFn">
-                    <mat-option value="">Select</mat-option>
+                    <mat-option>Select</mat-option>
                     <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                       [value]="identificationCodeType.name">
                       {{identificationCodeType.name}}
@@ -2497,8 +2497,9 @@
                 <mat-form-field class="no-padding" *ngIf="(occupationTherapy.checked)">
                   <mat-label>Supplement Id No Type</mat-label>
                   <mat-select formControlName="occupationTherapyProviderIdNumberType"
+                    [errorStateMatcher]="(occupationTherapy.checked)? matcher: false"
                     [required]="(occupationTherapy.checked)? true: false" [compareWith]="compareFn">
-                    <mat-option value="">Select</mat-option>
+                    <mat-option>Select</mat-option>
                     <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                       [value]="identificationCodeType.name">
                       {{identificationCodeType.name}}
@@ -3029,7 +3030,7 @@
                   <mat-label>Supplement Id No Type</mat-label>
                   <mat-select formControlName="skilledNursingProviderIdNumberType"
                     [required]="(skilledNursing.checked)? true: false" [compareWith]="compareFn">
-                    <mat-option value="">Select</mat-option>
+                    <mat-option>Select</mat-option>
                     <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                       [value]="identificationCodeType.name">
                       {{identificationCodeType.name}}
@@ -3558,7 +3559,7 @@
                   <mat-label>Supplement Id No Type</mat-label>
                   <mat-select formControlName="physicalTherapyProviderIdNumberType"
                     [required]="(physicalTherapy.checked)? true: false" [compareWith]="compareFn">
-                    <mat-option value="">Select</mat-option>
+                    <mat-option>Select</mat-option>
                     <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                       [value]="identificationCodeType.name">
                       {{identificationCodeType.name}}
@@ -4089,7 +4090,7 @@
                   <mat-label>Supplement Id No Type</mat-label>
                   <mat-select formControlName="speechPathologyProviderIdNumberType"
                     [required]="(speechPathology.checked)? true: false" [compareWith]="compareFn">
-                    <mat-option value="">Select</mat-option>
+                    <mat-option>Select</mat-option>
                     <mat-option *ngFor="let identificationCodeType of identificationCodeTypes; let i = index"
                       [value]="identificationCodeType.name">
                       {{identificationCodeType.name}}
@@ -4353,13 +4354,15 @@
   <!-- Main Mat-Dialog Body/Content End -->
 
   <!-- Main Mat-Dialog Action Start -->
-  <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> -->
+  <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> [disabled]="!(editing && preAuthForm.invalid)"-->
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
-    <button mat-button mat-raised-button color="primary" type="submit" (click)="onEdit(preAuthForm.value)">Edit</button>
+    <button mat-button mat-raised-button color="primary" type="submit" [disabled]="editing"
+      (click)="onEdit(preAuthForm.value)">Edit</button>
     <button mat-button mat-raised-button color="primary" type="submit" (click)="onSave(preAuthForm)">Save as
       Draft</button>
     <button class="button-green" mat-button mat-raised-button color="primary" (click)="onSendRequest(preAuthForm)"
-      type="submit">Send Request</button>
+      type="submit">Send
+      Request</button>
     <button mat-button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
   </div>
   <!-- Main Mat-Dialog Action Ends [mat-dialog-close]="false"-->

@@ -1494,9 +1494,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="physicalTherapyRequestServiceDateFrom" [readonly]="true"> -->
                 <input matInput [matDatepicker]="physicalTherapyResponseServiceDateFrom"
                   formControlName="physicalTherapyResponseServiceDateFrom"
-                  [required]="(physicalTherapy.checked === true)? true: false"
+                  [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(editing && physicalTherapy.checked === true) ? false : true"
+                  [readonly]="(editing && physicalTherapy.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyResponseServiceDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -1506,7 +1506,7 @@
                   preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyResponseServiceDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked)" matSuffix
                   [for]="physicalTherapyResponseServiceDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #physicalTherapyResponseServiceDateFrom></mat-datepicker>
@@ -1514,10 +1514,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="physicalTherapyUnit"
-                  [required]="(physicalTherapy.checked === true)? true: false"
+                  [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Units Requested Per Day</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyUnit')?.invalid || 
                   preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyUnit')?.hasError('pattern')">
@@ -1563,9 +1562,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="physicalTherapyRequestServiceDateTo" [readonly]="true"> -->
                 <input matInput [matDatepicker]="physicalTherapyResponseServiceDateTo"
                   formControlName="physicalTherapyResponseServiceDateTo"
-                  [required]="(physicalTherapy.checked === true)? true: false"
+                  [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(editing && physicalTherapy.checked === true)? false: true"
+                  [readonly]="(editing && physicalTherapy.checked)? false: true"
                   [min]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyResponseServiceDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Service Date To</mat-label>
@@ -1574,7 +1573,7 @@
                   preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyResponseServiceDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked)" matSuffix
                   [for]="physicalTherapyResponseServiceDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #physicalTherapyResponseServiceDateTo></mat-datepicker>
@@ -1582,10 +1581,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="physicalTherapyVisit"
-                  [required]="(physicalTherapy.checked === true)? true: false"
+                  [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Total Visits Requested</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyVisit')?.invalid || 
@@ -1682,10 +1680,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="physicalTherapyEffectiveDateFrom"
-                  formControlName="physicalTherapyEffectiveDateFrom"
-                  [required]="(physicalTherapy.checked === true)? true: false"
+                  formControlName="physicalTherapyEffectiveDateFrom" [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true) ? false : true"
+                  [readonly]="(physicalTherapy.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyEffectiveDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -1695,7 +1692,7 @@
                   preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyEffectiveDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked)" matSuffix
                   [for]="physicalTherapyEffectiveDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #physicalTherapyEffectiveDateFrom></mat-datepicker>
@@ -1705,7 +1702,7 @@
                 <input matInput formControlName="physicalTherapyAuthorizationIdNo" autocomplete="off"
                   [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true) ? false : true">
+                  [readonly]="(physicalTherapy.checked) ? false : true">
                 <mat-label>Authorization Id No</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyAuthorizationIdNo')?.value ||
@@ -1727,10 +1724,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="physicalTherapyEffectiveDateTo"
-                  formControlName="physicalTherapyEffectiveDateTo"
-                  [required]="(physicalTherapy.checked === true)? true: false"
+                  formControlName="physicalTherapyEffectiveDateTo" [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true"
+                  [readonly]="(physicalTherapy.checked)? false: true"
                   [min]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyEffectiveDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyEffectiveDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Effective Date To</mat-label>
@@ -1739,7 +1735,7 @@
                   preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyEffectiveDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked)" matSuffix
                   [for]="physicalTherapyEffectiveDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #physicalTherapyEffectiveDateTo></mat-datepicker>
@@ -1776,10 +1772,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="physicalTherapyExpirationDate"
-                  formControlName="physicalTherapyExpirationDate"
-                  [required]="(physicalTherapy.checked === true)? true: false"
+                  formControlName="physicalTherapyExpirationDate" [required]="(physicalTherapy.checked)? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true"
+                  [readonly]="(physicalTherapy.checked)? false: true"
                   [min]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyExpirationDate')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Expiration Date</mat-label>
@@ -1788,7 +1783,7 @@
                   preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyExpirationDate')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(physicalTherapy.checked)" matSuffix
                   [for]="physicalTherapyExpirationDate">
                 </mat-datepicker-toggle>
                 <mat-datepicker #physicalTherapyExpirationDate></mat-datepicker>
@@ -1820,7 +1815,7 @@
 
               <mat-form-field class="no-padding">
                 <textarea matInput formControlName="physicalTherapyRejectionReasonMSG"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"></textarea>
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"></textarea>
                 <mat-label>Error Message</mat-label>
               </mat-form-field>
 
@@ -1849,7 +1844,7 @@
                 <input matInput #input maxlength="15" formControlName="physicalTherapyPoviderLastName"
                   [required]="physicalTherapy.checked? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? userNamePattern: false">
                 <mat-label>Last Name</mat-label>
                 <mat-error
@@ -1865,7 +1860,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="3" [readonly]="(physicalTherapy.checked === true)? false: true"
+                <input matInput #input maxlength="3" [readonly]="(physicalTherapy.checked)? false: true"
                   formControlName="physicalTherapyProviderPrefix"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false" autocomplete="off"
                   [pattern]="prefixPattern">
@@ -1880,7 +1875,7 @@
                 <input matInput #input maxlength="20" formControlName="physicalTherapyProviderIdentificationNumber"
                   [required]="physicalTherapy.checked? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? orgIdCodePatrn: false">
                 <mat-label>Provider Identification No</mat-label>
                 <mat-error
@@ -1930,7 +1925,7 @@
                 <input matInput #input maxlength="15" formControlName="physicalTherapyProviderFirstName"
                   [required]="physicalTherapy.checked? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? userNamePattern: false">
                 <mat-label>First Name</mat-label>
                 <mat-error
@@ -1946,7 +1941,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput maxlength="5" [readonly]="(physicalTherapy.checked === true)? false: true"
+                <input matInput maxlength="5" [readonly]="(physicalTherapy.checked)? false: true"
                   formControlName="physicalTherapyProviderSuffix"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false" autocomplete="off"
                   [pattern]="suffixPattern">
@@ -1989,7 +1984,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" formControlName="physicalTherapyProviderMiddleName"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? userNamePattern: false">
                 <mat-label>Middle Name</mat-label>
                 <mat-error
@@ -2024,7 +2019,7 @@
                 <input matInput #input maxlength="20" formControlName="physicalTherapyProviderSupplimentalId"
                   [required]="physicalTherapy.checked? true: false"
                   [errorStateMatcher]="(physicalTherapy.checked)? matcher: false"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? supplIdPattern: false">
                 <mat-label>Provider Supplement Id</mat-label>
                 <mat-error
@@ -2053,8 +2048,8 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="25" formControlName="physicalTherapyProviderAddress"
-                  [readonly]="(physicalTherapy.checked === true)? false: true"
-                  [required]="physicalTherapy.checked? true: false" [errorStateMatcher]="matcher" autocomplete="off">
+                  [readonly]="(physicalTherapy.checked)? false: true" [required]="physicalTherapy.checked? true: false"
+                  [errorStateMatcher]="matcher" autocomplete="off">
                 <mat-label>Address</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('physicalTherapyResponse')?.get('physicalTherapyProviderAddress')?.invalid || 
@@ -2071,7 +2066,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="2" formControlName="physicalTherapyProviderState"
                   [required]="physicalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? statePattern: false">
                 <mat-label>State</mat-label>
                 <mat-error
@@ -2095,7 +2090,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="4" formControlName="physicalTherapyProviderCity"
                   [required]="physicalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? cityPattern: false">
                 <mat-label>City</mat-label>
                 <mat-error
@@ -2113,7 +2108,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="5" minlength="2" formControlName="physicalTherapyProviderCountryCode"
                   [required]="physicalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? countryCodePattern: false">
                 <mat-label>Country Code</mat-label>
                 <mat-error
@@ -2137,7 +2132,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="7" minlength="5" formControlName="physicalTherapyProviderPostalCode"
                   [required]="physicalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(physicalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(physicalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="physicalTherapy.checked? zipPattern: false">
                 <mat-label>Postal Code</mat-label>
                 <mat-error
@@ -2247,9 +2242,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="occupationalTherapyRequestServiceDateFrom" [readonly]="true"> -->
                 <input matInput [matDatepicker]="occupationalTherapyResponseServiceDateFrom"
                   formControlName="occupationalTherapyResponseServiceDateFrom"
-                  [required]="(occupationalTherapy.checked === true)? true: false"
+                  [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(editing && occupationalTherapy.checked === true) ? false : true"
+                  [readonly]="(editing && occupationalTherapy.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyResponseServiceDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -2259,7 +2254,7 @@
                   preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyResponseServiceDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked)" matSuffix
                   [for]="occupationalTherapyResponseServiceDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #occupationalTherapyResponseServiceDateFrom></mat-datepicker>
@@ -2267,10 +2262,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="occupationalTherapyUnit"
-                  [required]="(occupationalTherapy.checked === true)? true: false"
+                  [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Units Requested Per Day</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyUnit')?.invalid || 
@@ -2317,9 +2311,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="occupationalTherapyRequestServiceDateTo" [readonly]="true"> -->
                 <input matInput [matDatepicker]="occupationalTherapyResponseServiceDateTo"
                   formControlName="occupationalTherapyResponseServiceDateTo"
-                  [required]="(occupationalTherapy.checked === true)? true: false"
+                  [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(editing && occupationalTherapy.checked === true)? false: true"
+                  [readonly]="(editing && occupationalTherapy.checked)? false: true"
                   [min]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyResponseServiceDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Service Date To</mat-label>
@@ -2328,7 +2322,7 @@
                   preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyResponseServiceDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked)" matSuffix
                   [for]="occupationalTherapyResponseServiceDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #occupationalTherapyResponseServiceDateTo></mat-datepicker>
@@ -2336,10 +2330,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="occupationalTherapyVisit"
-                  [required]="(occupationalTherapy.checked === true)? true: false"
+                  [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Total Visits Requested</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyVisit')?.invalid || 
@@ -2437,9 +2430,9 @@
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="occupationalTherapyEffectiveDateFrom"
                   formControlName="occupationalTherapyEffectiveDateFrom"
-                  [required]="(occupationalTherapy.checked === true)? true: false"
+                  [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true) ? false : true"
+                  [readonly]="(occupationalTherapy.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyEffectiveDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -2449,7 +2442,7 @@
                   preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyEffectiveDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked)" matSuffix
                   [for]="occupationalTherapyEffectiveDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #occupationalTherapyEffectiveDateFrom></mat-datepicker>
@@ -2459,7 +2452,7 @@
                 <input matInput formControlName="occupationalTherapyAuthorizationIdNo" autocomplete="off"
                   [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true) ? false : true">
+                  [readonly]="(occupationalTherapy.checked) ? false : true">
                 <mat-label>Authorization Id No</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyAuthorizationIdNo')?.value ||
@@ -2482,9 +2475,9 @@
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="occupationalTherapyEffectiveDateTo"
                   formControlName="occupationalTherapyEffectiveDateTo"
-                  [required]="(occupationalTherapy.checked === true)? true: false"
+                  [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true"
+                  [readonly]="(occupationalTherapy.checked)? false: true"
                   [min]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyEffectiveDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyEffectiveDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Effective Date To</mat-label>
@@ -2493,7 +2486,7 @@
                   preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyEffectiveDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked)" matSuffix
                   [for]="occupationalTherapyEffectiveDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #occupationalTherapyEffectiveDateTo></mat-datepicker>
@@ -2531,9 +2524,9 @@
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="occupationalTherapyExpirationDate"
                   formControlName="occupationalTherapyExpirationDate"
-                  [required]="(occupationalTherapy.checked === true)? true: false"
+                  [required]="(occupationalTherapy.checked)? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true"
+                  [readonly]="(occupationalTherapy.checked)? false: true"
                   [min]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyExpirationDate')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Expiration Date</mat-label>
@@ -2542,7 +2535,7 @@
                   preAuthReponseForm?.get('occupationalTherapyResponse')?.get('occupationalTherapyExpirationDate')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(occupationalTherapy.checked)" matSuffix
                   [for]="occupationalTherapyExpirationDate">
                 </mat-datepicker-toggle>
                 <mat-datepicker #occupationalTherapyExpirationDate></mat-datepicker>
@@ -2574,7 +2567,7 @@
 
               <mat-form-field class="no-padding">
                 <textarea matInput formControlName="occupationalTherapyRejectionReasonMSG"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"></textarea>
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"></textarea>
                 <mat-label>Error Message</mat-label>
               </mat-form-field>
 
@@ -2603,7 +2596,7 @@
                 <input matInput #input maxlength="15" formControlName="occupationalTherapyProviderLastName"
                   [required]="occupationalTherapy.checked? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? userNamePattern: false">
                 <mat-label>Last Name</mat-label>
                 <mat-error
@@ -2619,7 +2612,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="3" [readonly]="(occupationalTherapy.checked === true)? false: true"
+                <input matInput #input maxlength="3" [readonly]="(occupationalTherapy.checked)? false: true"
                   formControlName="occupationalTherapyProviderPrefix"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false" autocomplete="off"
                   [pattern]="prefixPattern">
@@ -2634,7 +2627,7 @@
                 <input matInput #input maxlength="20" formControlName="occupationalTherapyProviderIdentificationNumber"
                   [required]="occupationalTherapy.checked? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? orgIdCodePatrn: false">
                 <mat-label>Provider Identification No</mat-label>
                 <mat-error
@@ -2685,7 +2678,7 @@
                 <input matInput #input maxlength="15" formControlName="occupationalTherapyProviderFirstName"
                   [required]="occupationalTherapy.checked? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? userNamePattern: false">
                 <mat-label>First Name</mat-label>
                 <mat-error
@@ -2701,7 +2694,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput maxlength="5" [readonly]="(occupationalTherapy.checked === true)? false: true"
+                <input matInput maxlength="5" [readonly]="(occupationalTherapy.checked)? false: true"
                   formControlName="occupationalTherapyProviderSuffix"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false" autocomplete="off"
                   [pattern]="suffixPattern">
@@ -2744,7 +2737,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" formControlName="occupationalTherapyProviderMiddleName"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? userNamePattern: false">
                 <mat-label>Middle Name</mat-label>
                 <mat-error
@@ -2779,7 +2772,7 @@
                 <input matInput #input maxlength="20" formControlName="occupationalTherapyProviderSupplimentalId"
                   [required]="occupationalTherapy.checked? true: false"
                   [errorStateMatcher]="(occupationalTherapy.checked)? matcher: false"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? supplIdPattern: false">
                 <mat-label>Provider Supplement Id</mat-label>
                 <mat-error
@@ -2808,7 +2801,7 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="25" formControlName="occupationalTherapyAddress"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true"
+                  [readonly]="(occupationalTherapy.checked)? false: true"
                   [required]="occupationalTherapy.checked? true: false" [errorStateMatcher]="matcher"
                   autocomplete="off">
                 <mat-label>Address</mat-label>
@@ -2827,7 +2820,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="2" formControlName="occupationalTherapyState"
                   [required]="occupationalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? statePattern: false">
                 <mat-label>State</mat-label>
                 <mat-error
@@ -2851,7 +2844,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="4" formControlName="occupationalTherapyCity"
                   [required]="occupationalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? cityPattern: false">
                 <mat-label>City</mat-label>
                 <mat-error
@@ -2869,7 +2862,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="5" minlength="2" formControlName="occupationalTherapyCountryCode"
                   [required]="occupationalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? countryCodePattern: false">
                 <mat-label>Country Code</mat-label>
                 <mat-error
@@ -2893,7 +2886,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="7" minlength="5" formControlName="occupationalTherapyPostalCode"
                   [required]="occupationalTherapy.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(occupationalTherapy.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(occupationalTherapy.checked)? false: true" autocomplete="off"
                   [pattern]="occupationalTherapy.checked? zipPattern: false">
                 <mat-label>Postal Code</mat-label>
                 <mat-error
@@ -3004,9 +2997,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="medicalSocialWorkRequestServiceDateFrom" [readonly]="true"> -->
                 <input matInput [matDatepicker]="medicalSocialWorkResponseServiceDateFrom"
                   formControlName="medicalSocialWorkResponseServiceDateFrom"
-                  [required]="(medicalSocialWork.checked === true)? true: false"
+                  [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(editing && medicalSocialWork.checked === true) ? false : true"
+                  [readonly]="(editing && medicalSocialWork.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkResponseServiceDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -3016,7 +3009,7 @@
                   preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkResponseServiceDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked)" matSuffix
                   [for]="medicalSocialWorkResponseServiceDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #medicalSocialWorkResponseServiceDateFrom></mat-datepicker>
@@ -3024,10 +3017,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="medicalSocialWorkUnit"
-                  [required]="(medicalSocialWork.checked === true)? true: false"
+                  [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Units Requested Per Day</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkUnit')?.invalid || 
@@ -3074,9 +3066,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="medicalSocialWorkRequestServiceDateTo" [readonly]="true"> -->
                 <input matInput [matDatepicker]="medicalSocialWorkResponseServiceDateTo"
                   formControlName="medicalSocialWorkResponseServiceDateTo"
-                  [required]="(medicalSocialWork.checked === true)? true: false"
+                  [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(editing && medicalSocialWork.checked === true)? false: true"
+                  [readonly]="(editing && medicalSocialWork.checked)? false: true"
                   [min]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkResponseServiceDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Service Date To</mat-label>
@@ -3085,7 +3077,7 @@
                   preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkResponseServiceDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked)" matSuffix
                   [for]="medicalSocialWorkResponseServiceDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #medicalSocialWorkResponseServiceDateTo></mat-datepicker>
@@ -3093,10 +3085,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="medicalSocialWorkVisit"
-                  [required]="(medicalSocialWork.checked === true)? true: false"
+                  [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Total Visits Requested</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkVisit')?.invalid || 
@@ -3194,9 +3185,9 @@
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="medicalSocialWorkEffectiveDateFrom"
                   formControlName="medicalSocialWorkEffectiveDateFrom"
-                  [required]="(medicalSocialWork.checked === true)? true: false"
+                  [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true) ? false : true"
+                  [readonly]="(medicalSocialWork.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkEffectiveDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -3206,7 +3197,7 @@
                   preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkEffectiveDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked)" matSuffix
                   [for]="medicalSocialWorkEffectiveDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #medicalSocialWorkEffectiveDateFrom></mat-datepicker>
@@ -3216,7 +3207,7 @@
                 <input matInput formControlName="medicalSocialWorkAuthorizationIdNo" autocomplete="off"
                   [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true) ? false : true">
+                  [readonly]="(medicalSocialWork.checked) ? false : true">
                 <mat-label>Authorization Id No</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkAuthorizationIdNo')?.value ||
@@ -3239,9 +3230,9 @@
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="medicalSocialWorkEffectiveDateTo"
                   formControlName="medicalSocialWorkEffectiveDateTo"
-                  [required]="(medicalSocialWork.checked === true)? true: false"
+                  [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true"
+                  [readonly]="(medicalSocialWork.checked)? false: true"
                   [min]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkEffectiveDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkEffectiveDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Effective Date To</mat-label>
@@ -3250,7 +3241,7 @@
                   preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkEffectiveDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked)" matSuffix
                   [for]="medicalSocialWorkEffectiveDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #medicalSocialWorkEffectiveDateTo></mat-datepicker>
@@ -3288,9 +3279,9 @@
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="medicalSocialWorkExpirationDate"
                   formControlName="medicalSocialWorkExpirationDate"
-                  [required]="(medicalSocialWork.checked === true)? true: false"
+                  [required]="(medicalSocialWork.checked)? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true"
+                  [readonly]="(medicalSocialWork.checked)? false: true"
                   [min]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkExpirationDate')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Expiration Date</mat-label>
@@ -3299,7 +3290,7 @@
                   preAuthReponseForm?.get('medicalSocialWorkResponse')?.get('medicalSocialWorkExpirationDate')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(medicalSocialWork.checked)" matSuffix
                   [for]="medicalSocialWorkExpirationDate">
                 </mat-datepicker-toggle>
                 <mat-datepicker #medicalSocialWorkExpirationDate></mat-datepicker>
@@ -3331,7 +3322,7 @@
 
               <mat-form-field class="no-padding">
                 <textarea matInput formControlName="medicalSocialWorkRejectionReasonMSG"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"></textarea>
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"></textarea>
                 <mat-label>Error Message</mat-label>
               </mat-form-field>
 
@@ -3360,7 +3351,7 @@
                 <input matInput #input maxlength="15" formControlName="medicalSocialWorkPoviderLastName"
                   [required]="medicalSocialWork.checked? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? userNamePattern: false">
                 <mat-label>Last Name</mat-label>
                 <mat-error
@@ -3376,7 +3367,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="3" [readonly]="(medicalSocialWork.checked === true)? false: true"
+                <input matInput #input maxlength="3" [readonly]="(medicalSocialWork.checked)? false: true"
                   formControlName="medicalSocialWorkProviderPrefix"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false" autocomplete="off"
                   [pattern]="prefixPattern">
@@ -3391,7 +3382,7 @@
                 <input matInput #input maxlength="20" formControlName="medicalSocialWorkProviderIdentificationNumber"
                   [required]="medicalSocialWork.checked? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? orgIdCodePatrn: false">
                 <mat-label>Provider Identification No</mat-label>
                 <mat-error
@@ -3441,7 +3432,7 @@
                 <input matInput #input maxlength="15" formControlName="medicalSocialWorkProviderFirstName"
                   [required]="medicalSocialWork.checked? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? userNamePattern: false">
                 <mat-label>First Name</mat-label>
                 <mat-error
@@ -3457,7 +3448,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput maxlength="5" [readonly]="(medicalSocialWork.checked === true)? false: true"
+                <input matInput maxlength="5" [readonly]="(medicalSocialWork.checked)? false: true"
                   formControlName="medicalSocialWorkProviderSuffix"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false" autocomplete="off"
                   [pattern]="suffixPattern">
@@ -3500,7 +3491,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" formControlName="medicalSocialWorkProviderMiddleName"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? userNamePattern: false">
                 <mat-label>Middle Name</mat-label>
                 <mat-error
@@ -3535,7 +3526,7 @@
                 <input matInput #input maxlength="20" formControlName="medicalSocialWorkProviderSupplimentalId"
                   [required]="medicalSocialWork.checked? true: false"
                   [errorStateMatcher]="(medicalSocialWork.checked)? matcher: false"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? supplIdPattern: false">
                 <mat-label>Provider Supplement Id</mat-label>
                 <mat-error
@@ -3564,7 +3555,7 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="25" formControlName="medicalSocialWorkProviderAddress"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true"
+                  [readonly]="(medicalSocialWork.checked)? false: true"
                   [required]="medicalSocialWork.checked? true: false" [errorStateMatcher]="matcher" autocomplete="off">
                 <mat-label>Address</mat-label>
                 <mat-error
@@ -3582,7 +3573,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="2" formControlName="medicalSocialWorkProviderState"
                   [required]="medicalSocialWork.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? statePattern: false">
                 <mat-label>State</mat-label>
                 <mat-error
@@ -3606,7 +3597,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="4" formControlName="medicalSocialWorkProviderCity"
                   [required]="medicalSocialWork.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? cityPattern: false">
                 <mat-label>City</mat-label>
                 <mat-error
@@ -3625,7 +3616,7 @@
                 <input matInput #input maxlength="5" minlength="2"
                   formControlName="medicalSocialWorkProviderCountryCode"
                   [required]="medicalSocialWork.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? countryCodePattern: false">
                 <mat-label>Country Code</mat-label>
                 <mat-error
@@ -3649,7 +3640,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="7" minlength="5" formControlName="medicalSocialWorkProviderPostalCode"
                   [required]="medicalSocialWork.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(medicalSocialWork.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(medicalSocialWork.checked)? false: true" autocomplete="off"
                   [pattern]="medicalSocialWork.checked? zipPattern: false">
                 <mat-label>Postal Code</mat-label>
                 <mat-error
@@ -3759,9 +3750,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="skilledNursingRequestServiceDateFrom" [readonly]="true"> -->
                 <input matInput [matDatepicker]="skilledNursingResponseServiceDateFrom"
                   formControlName="skilledNursingResponseServiceDateFrom"
-                  [required]="(skilledNursing.checked === true)? true: false"
+                  [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(editing && skilledNursing.checked === true) ? false : true"
+                  [readonly]="(editing && skilledNursing.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingResponseServiceDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -3771,7 +3762,7 @@
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingResponseServiceDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(skilledNursing.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(skilledNursing.checked)" matSuffix
                   [for]="skilledNursingResponseServiceDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #skilledNursingResponseServiceDateFrom></mat-datepicker>
@@ -3779,10 +3770,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="skilledNursingUnit"
-                  [required]="(skilledNursing.checked === true)? true: false"
+                  [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Units Requested Per Day</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingUnit')?.invalid || 
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingUnit')?.hasError('pattern')">
@@ -3827,9 +3817,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="skilledNursingRequestServiceDateTo" [readonly]="true"> -->
                 <input matInput [matDatepicker]="skilledNursingResponseServiceDateTo"
                   formControlName="skilledNursingResponseServiceDateTo"
-                  [required]="(skilledNursing.checked === true)? true: false"
+                  [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(editing && skilledNursing.checked === true)? false: true"
+                  [readonly]="(editing && skilledNursing.checked)? false: true"
                   [min]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingResponseServiceDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Service Date To</mat-label>
@@ -3838,7 +3828,7 @@
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingResponseServiceDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(skilledNursing.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(skilledNursing.checked)" matSuffix
                   [for]="skilledNursingResponseServiceDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #skilledNursingResponseServiceDateTo></mat-datepicker>
@@ -3846,10 +3836,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="skilledNursingVisit"
-                  [required]="(skilledNursing.checked === true)? true: false"
+                  [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Total Visits Requested</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingVisit')?.invalid || 
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingVisit')?.hasError('pattern')">
@@ -3944,10 +3933,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="skilledNursingEffectiveDateFrom"
-                  formControlName="skilledNursingEffectiveDateFrom"
-                  [required]="(skilledNursing.checked === true)? true: false"
+                  formControlName="skilledNursingEffectiveDateFrom" [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true) ? false : true"
+                  [readonly]="(skilledNursing.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingEffectiveDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -3957,7 +3945,7 @@
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingEffectiveDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(skilledNursing.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(skilledNursing.checked)" matSuffix
                   [for]="skilledNursingEffectiveDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #skilledNursingEffectiveDateFrom></mat-datepicker>
@@ -3967,7 +3955,7 @@
                 <input matInput formControlName="skilledNursingAuthorizationIdNo" autocomplete="off"
                   [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true) ? false : true">
+                  [readonly]="(skilledNursing.checked) ? false : true">
                 <mat-label>Authorization Id No</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingAuthorizationIdNo')?.value ||
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingAuthorizationIdNo')?.invalid">
@@ -3988,10 +3976,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="skilledNursingEffectiveDateTo"
-                  formControlName="skilledNursingEffectiveDateTo"
-                  [required]="(skilledNursing.checked === true)? true: false"
+                  formControlName="skilledNursingEffectiveDateTo" [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true"
+                  [readonly]="(skilledNursing.checked)? false: true"
                   [min]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingEffectiveDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingEffectiveDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Effective Date To</mat-label>
@@ -4000,8 +3987,7 @@
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingEffectiveDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(skilledNursing.checked === true)" matSuffix
-                  [for]="skilledNursingEffectiveDateTo">
+                <mat-datepicker-toggle *ngIf="(skilledNursing.checked)" matSuffix [for]="skilledNursingEffectiveDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #skilledNursingEffectiveDateTo></mat-datepicker>
               </mat-form-field>
@@ -4037,10 +4023,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="skilledNursingExpirationDate"
-                  formControlName="skilledNursingExpirationDate"
-                  [required]="(skilledNursing.checked === true)? true: false"
+                  formControlName="skilledNursingExpirationDate" [required]="(skilledNursing.checked)? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true"
+                  [readonly]="(skilledNursing.checked)? false: true"
                   [min]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingExpirationDate')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Expiration Date</mat-label>
@@ -4049,8 +4034,7 @@
                   preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingExpirationDate')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(skilledNursing.checked === true)" matSuffix
-                  [for]="skilledNursingExpirationDate">
+                <mat-datepicker-toggle *ngIf="(skilledNursing.checked)" matSuffix [for]="skilledNursingExpirationDate">
                 </mat-datepicker-toggle>
                 <mat-datepicker #skilledNursingExpirationDate></mat-datepicker>
               </mat-form-field>
@@ -4081,7 +4065,7 @@
 
               <mat-form-field class="no-padding">
                 <textarea matInput formControlName="skilledNursingRejectionReasonMSG"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"></textarea>
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"></textarea>
                 <mat-label>Error Message</mat-label>
               </mat-form-field>
 
@@ -4110,7 +4094,7 @@
                 <input matInput #input maxlength="15" formControlName="skilledNursingPoviderLastName"
                   [required]="skilledNursing.checked? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? userNamePattern: false">
                 <mat-label>Last Name</mat-label>
                 <mat-error
@@ -4126,7 +4110,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="3" [readonly]="(skilledNursing.checked === true)? false: true"
+                <input matInput #input maxlength="3" [readonly]="(skilledNursing.checked)? false: true"
                   formControlName="skilledNursingProviderPrefix"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false" autocomplete="off"
                   [pattern]="prefixPattern">
@@ -4141,7 +4125,7 @@
                 <input matInput #input maxlength="20" formControlName="skilledNursingProviderIdentificationNumber"
                   [required]="skilledNursing.checked? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? orgIdCodePatrn: false">
                 <mat-label>Provider Identification No</mat-label>
                 <mat-error
@@ -4191,7 +4175,7 @@
                 <input matInput #input maxlength="15" formControlName="skilledNursingProviderFirstName"
                   [required]="skilledNursing.checked? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? userNamePattern: false">
                 <mat-label>First Name</mat-label>
                 <mat-error
@@ -4207,7 +4191,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput maxlength="5" [readonly]="(skilledNursing.checked === true)? false: true"
+                <input matInput maxlength="5" [readonly]="(skilledNursing.checked)? false: true"
                   formControlName="skilledNursingProviderSuffix"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false" autocomplete="off"
                   [pattern]="suffixPattern">
@@ -4250,7 +4234,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" formControlName="skilledNursingProviderMiddleName"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? userNamePattern: false">
                 <mat-label>Middle Name</mat-label>
                 <mat-error
@@ -4285,7 +4269,7 @@
                 <input matInput #input maxlength="20" formControlName="skilledNursingProviderSupplimentalId"
                   [required]="skilledNursing.checked? true: false"
                   [errorStateMatcher]="(skilledNursing.checked)? matcher: false"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? supplIdPattern: false">
                 <mat-label>Provider Supplement Id</mat-label>
                 <mat-error
@@ -4314,8 +4298,8 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="25" formControlName="skilledNursingProviderAddress"
-                  [readonly]="(skilledNursing.checked === true)? false: true"
-                  [required]="skilledNursing.checked? true: false" [errorStateMatcher]="matcher" autocomplete="off">
+                  [readonly]="(skilledNursing.checked)? false: true" [required]="skilledNursing.checked? true: false"
+                  [errorStateMatcher]="matcher" autocomplete="off">
                 <mat-label>Address</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('skilledNursingResponse')?.get('skilledNursingProviderAddress')?.invalid || 
@@ -4332,7 +4316,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="2" formControlName="skilledNursingProviderState"
                   [required]="skilledNursing.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? statePattern: false">
                 <mat-label>State</mat-label>
                 <mat-error
@@ -4356,7 +4340,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="4" formControlName="skilledNursingProviderCity"
                   [required]="skilledNursing.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? cityPattern: false">
                 <mat-label>City</mat-label>
                 <mat-error
@@ -4374,7 +4358,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="5" minlength="2" formControlName="skilledNursingProviderCountryCode"
                   [required]="skilledNursing.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? countryCodePattern: false">
                 <mat-label>Country Code</mat-label>
                 <mat-error
@@ -4398,7 +4382,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="7" minlength="5" formControlName="skilledNursingProviderPostalCode"
                   [required]="skilledNursing.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(skilledNursing.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(skilledNursing.checked)? false: true" autocomplete="off"
                   [pattern]="skilledNursing.checked? zipPattern: false">
                 <mat-label>Postal Code</mat-label>
                 <mat-error
@@ -4507,9 +4491,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="speechPathologyRequestServiceDateFrom" [readonly]="true"> -->
                 <input matInput [matDatepicker]="speechPathologyResponseServiceDateFrom"
                   formControlName="speechPathologyResponseServiceDateFrom"
-                  [required]="(speechPathology.checked === true)? true: false"
+                  [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(editing && speechPathology.checked === true) ? false : true"
+                  [readonly]="(editing && speechPathology.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyResponseServiceDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -4519,7 +4503,7 @@
                   preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyResponseServiceDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(speechPathology.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(speechPathology.checked)" matSuffix
                   [for]="speechPathologyResponseServiceDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #speechPathologyResponseServiceDateFrom></mat-datepicker>
@@ -4527,10 +4511,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="speechPathologyUnit"
-                  [required]="(speechPathology.checked === true)? true: false"
+                  [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Units Requested Per Day</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyUnit')?.invalid || 
                   preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyUnit')?.hasError('pattern')">
@@ -4576,9 +4559,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="speechPathologyRequestServiceDateTo" [readonly]="true"> -->
                 <input matInput [matDatepicker]="speechPathologyResponseServiceDateTo"
                   formControlName="speechPathologyResponseServiceDateTo"
-                  [required]="(speechPathology.checked === true)? true: false"
+                  [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(editing && speechPathology.checked === true)? false: true"
+                  [readonly]="(editing && speechPathology.checked)? false: true"
                   [min]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyResponseServiceDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Service Date To</mat-label>
@@ -4587,7 +4570,7 @@
                   preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyResponseServiceDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(speechPathology.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(speechPathology.checked)" matSuffix
                   [for]="speechPathologyResponseServiceDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #speechPathologyResponseServiceDateTo></mat-datepicker>
@@ -4595,10 +4578,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="speechPathologyVisit"
-                  [required]="(speechPathology.checked === true)? true: false"
+                  [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Total Visits Requested</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyVisit')?.invalid || 
@@ -4695,10 +4677,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="speechPathologyEffectiveDateFrom"
-                  formControlName="speechPathologyEffectiveDateFrom"
-                  [required]="(speechPathology.checked === true)? true: false"
+                  formControlName="speechPathologyEffectiveDateFrom" [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true) ? false : true"
+                  [readonly]="(speechPathology.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyEffectiveDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -4708,7 +4689,7 @@
                   preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyEffectiveDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(speechPathology.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(speechPathology.checked)" matSuffix
                   [for]="speechPathologyEffectiveDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #speechPathologyEffectiveDateFrom></mat-datepicker>
@@ -4718,7 +4699,7 @@
                 <input matInput formControlName="speechPathologyAuthorizationIdNo" autocomplete="off"
                   [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true) ? false : true">
+                  [readonly]="(speechPathology.checked) ? false : true">
                 <mat-label>Authorization Id No</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyAuthorizationIdNo')?.value ||
@@ -4740,10 +4721,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="speechPathologyEffectiveDateTo"
-                  formControlName="speechPathologyEffectiveDateTo"
-                  [required]="(speechPathology.checked === true)? true: false"
+                  formControlName="speechPathologyEffectiveDateTo" [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true"
+                  [readonly]="(speechPathology.checked)? false: true"
                   [min]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyEffectiveDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyEffectiveDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Effective Date To</mat-label>
@@ -4752,7 +4732,7 @@
                   preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyEffectiveDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(speechPathology.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(speechPathology.checked)" matSuffix
                   [for]="speechPathologyEffectiveDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #speechPathologyEffectiveDateTo></mat-datepicker>
@@ -4789,10 +4769,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="speechPathologyExpirationDate"
-                  formControlName="speechPathologyExpirationDate"
-                  [required]="(speechPathology.checked === true)? true: false"
+                  formControlName="speechPathologyExpirationDate" [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true"
+                  [readonly]="(speechPathology.checked)? false: true"
                   [min]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyExpirationDate')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Expiration Date</mat-label>
@@ -4801,7 +4780,7 @@
                   preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyExpirationDate')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(speechPathology.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(speechPathology.checked)" matSuffix
                   [for]="speechPathologyExpirationDate">
                 </mat-datepicker-toggle>
                 <mat-datepicker #speechPathologyExpirationDate></mat-datepicker>
@@ -4833,7 +4812,7 @@
 
               <mat-form-field class="no-padding">
                 <textarea matInput formControlName="speechPathologyRejectionReasonMSG"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"></textarea>
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"></textarea>
                 <mat-label>Error Message</mat-label>
               </mat-form-field>
 
@@ -4862,7 +4841,7 @@
                 <input matInput #input maxlength="15" formControlName="speechPathologyPoviderLastName"
                   [required]="speechPathology.checked? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? userNamePattern: false">
                 <mat-label>Last Name</mat-label>
                 <mat-error
@@ -4878,7 +4857,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="3" [readonly]="(speechPathology.checked === true)? false: true"
+                <input matInput #input maxlength="3" [readonly]="(speechPathology.checked)? false: true"
                   formControlName="speechPathologyProviderPrefix"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false" autocomplete="off"
                   [pattern]="prefixPattern">
@@ -4891,9 +4870,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="20" formControlName="speechPathologyProviderIdentificationNumber"
-                  [required]="speechPathology.checked? true: false"
+                  [required]="(speechPathology.checked)? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? orgIdCodePatrn: false">
                 <mat-label>Provider Identification No</mat-label>
                 <mat-error
@@ -4943,7 +4922,7 @@
                 <input matInput #input maxlength="15" formControlName="speechPathologyProviderFirstName"
                   [required]="speechPathology.checked? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? userNamePattern: false">
                 <mat-label>First Name</mat-label>
                 <mat-error
@@ -4959,7 +4938,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput maxlength="5" [readonly]="(speechPathology.checked === true)? false: true"
+                <input matInput maxlength="5" [readonly]="(speechPathology.checked)? false: true"
                   formControlName="speechPathologyProviderSuffix"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false" autocomplete="off"
                   [pattern]="suffixPattern">
@@ -5002,7 +4981,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" formControlName="speechPathologyProviderMiddleName"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? userNamePattern: false">
                 <mat-label>Middle Name</mat-label>
                 <mat-error
@@ -5037,7 +5016,7 @@
                 <input matInput #input maxlength="20" formControlName="speechPathologyProviderSupplimentalId"
                   [required]="speechPathology.checked? true: false"
                   [errorStateMatcher]="(speechPathology.checked)? matcher: false"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? supplIdPattern: false">
                 <mat-label>Provider Supplement Id</mat-label>
                 <mat-error
@@ -5066,8 +5045,8 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="25" formControlName="speechPathologyProviderAddress"
-                  [readonly]="(speechPathology.checked === true)? false: true"
-                  [required]="speechPathology.checked? true: false" [errorStateMatcher]="matcher" autocomplete="off">
+                  [readonly]="(speechPathology.checked)? false: true" [required]="speechPathology.checked? true: false"
+                  [errorStateMatcher]="matcher" autocomplete="off">
                 <mat-label>Address</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('speechPathologyResponse')?.get('speechPathologyProviderAddress')?.invalid || 
@@ -5084,7 +5063,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="2" formControlName="speechPathologyProviderState"
                   [required]="speechPathology.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? statePattern: false">
                 <mat-label>State</mat-label>
                 <mat-error
@@ -5108,7 +5087,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="4" formControlName="speechPathologyProviderCity"
                   [required]="speechPathology.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? cityPattern: false">
                 <mat-label>City</mat-label>
                 <mat-error
@@ -5126,7 +5105,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="5" minlength="2" formControlName="speechPathologyProviderCountryCode"
                   [required]="speechPathology.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? countryCodePattern: false">
                 <mat-label>Country Code</mat-label>
                 <mat-error
@@ -5150,7 +5129,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="7" minlength="5" formControlName="speechPathologyProviderPostalCode"
                   [required]="speechPathology.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(speechPathology.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(speechPathology.checked)? false: true" autocomplete="off"
                   [pattern]="speechPathology.checked? zipPattern: false">
                 <mat-label>Postal Code</mat-label>
                 <mat-error
@@ -5259,9 +5238,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="homeHealthAideRequestServiceDateFrom" [readonly]="true"> -->
                 <input matInput [matDatepicker]="homeHealthAideResponseServiceDateFrom"
                   formControlName="homeHealthAideResponseServiceDateFrom"
-                  [required]="(homeHealthAide.checked === true)? true: false"
+                  [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(editing && homeHealthAide.checked === true) ? false : true"
+                  [readonly]="(editing && homeHealthAide.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -5271,7 +5250,7 @@
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked)" matSuffix
                   [for]="homeHealthAideResponseServiceDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #homeHealthAideResponseServiceDateFrom></mat-datepicker>
@@ -5279,10 +5258,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="homeHealthAideUnit"
-                  [required]="(homeHealthAide.checked === true)? true: false"
+                  [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Units Requested Per Day</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideUnit')?.invalid || 
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideUnit')?.hasError('pattern')">
@@ -5327,9 +5305,9 @@
                 <!-- <input *ngIf="!editing" #input matInput formControlName="homeHealthAideRequestServiceDateTo" [readonly]="true"> -->
                 <input matInput [matDatepicker]="homeHealthAideResponseServiceDateTo"
                   formControlName="homeHealthAideResponseServiceDateTo"
-                  [required]="(homeHealthAide.checked === true)? true: false"
+                  [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(editing && homeHealthAide.checked === true)? false: true"
+                  [readonly]="(editing && homeHealthAide.checked)? false: true"
                   [min]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Service Date To</mat-label>
@@ -5338,7 +5316,7 @@
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideResponseServiceDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked)" matSuffix
                   [for]="homeHealthAideResponseServiceDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #homeHealthAideResponseServiceDateTo></mat-datepicker>
@@ -5346,10 +5324,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="3" formControlName="homeHealthAideVisit"
-                  [required]="(homeHealthAide.checked === true)? true: false"
+                  [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
-                  [pattern]="unitsPattern">
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off" [pattern]="unitsPattern">
                 <mat-label>Total Visits Requested</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideVisit')?.invalid || 
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideVisit')?.hasError('pattern')">
@@ -5444,10 +5421,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="homeHealthAideEffectiveDateFrom"
-                  formControlName="homeHealthAideEffectiveDateFrom"
-                  [required]="(homeHealthAide.checked === true)? true: false"
+                  formControlName="homeHealthAideEffectiveDateFrom" [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true) ? false : true"
+                  [readonly]="(homeHealthAide.checked) ? false : true"
                   [max]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateFrom')?.value | date:'yyyy-MM-dd'">
                 <!-- [max]="preAuthReponseForm?.get('serviceDateTo')?.value" -->
@@ -5457,7 +5433,7 @@
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateFrom')?.hasError('required')">
                   Service Date From is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked === true)" matSuffix
+                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked)" matSuffix
                   [for]="homeHealthAideEffectiveDateFrom">
                 </mat-datepicker-toggle>
                 <mat-datepicker #homeHealthAideEffectiveDateFrom></mat-datepicker>
@@ -5467,7 +5443,7 @@
                 <input matInput formControlName="homeHealthAideAuthorizationIdNo" autocomplete="off"
                   [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true) ? false : true">
+                  [readonly]="(homeHealthAide.checked) ? false : true">
                 <mat-label>Authorization Id No</mat-label>
                 <mat-error *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideAuthorizationIdNo')?.value ||
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideAuthorizationIdNo')?.invalid">
@@ -5488,10 +5464,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="homeHealthAideEffectiveDateTo"
-                  formControlName="homeHealthAideEffectiveDateTo"
-                  [required]="(homeHealthAide.checked === true)? true: false"
+                  formControlName="homeHealthAideEffectiveDateTo" [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true"
+                  [readonly]="(homeHealthAide.checked)? false: true"
                   [min]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateFrom')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Effective Date To</mat-label>
@@ -5500,8 +5475,7 @@
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked === true)" matSuffix
-                  [for]="homeHealthAideEffectiveDateTo">
+                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked)" matSuffix [for]="homeHealthAideEffectiveDateTo">
                 </mat-datepicker-toggle>
                 <mat-datepicker #homeHealthAideEffectiveDateTo></mat-datepicker>
               </mat-form-field>
@@ -5537,10 +5511,9 @@
 
               <mat-form-field class="no-padding">
                 <input matInput [matDatepicker]="homeHealthAideExpirationDate"
-                  formControlName="homeHealthAideExpirationDate"
-                  [required]="(homeHealthAide.checked === true)? true: false"
+                  formControlName="homeHealthAideExpirationDate" [required]="(homeHealthAide.checked)? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true"
+                  [readonly]="(homeHealthAide.checked)? false: true"
                   [min]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideEffectiveDateTo')?.value | date:'yyyy-MM-dd'"
                   [value]="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideExpirationDate')?.value | date:'yyyy-MM-dd'">
                 <mat-label>Expiration Date</mat-label>
@@ -5549,8 +5522,7 @@
                   preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideExpirationDate')?.hasError('required')">
                   Service Date To is required.
                 </mat-error>
-                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked === true)" matSuffix
-                  [for]="homeHealthAideExpirationDate">
+                <mat-datepicker-toggle *ngIf="(homeHealthAide.checked)" matSuffix [for]="homeHealthAideExpirationDate">
                 </mat-datepicker-toggle>
                 <mat-datepicker #homeHealthAideExpirationDate></mat-datepicker>
               </mat-form-field>
@@ -5581,7 +5553,7 @@
 
               <mat-form-field class="no-padding">
                 <textarea matInput formControlName="homeHealthAideRejectionReasonMSG"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"></textarea>
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"></textarea>
                 <mat-label>Error Message</mat-label>
               </mat-form-field>
 
@@ -5610,7 +5582,7 @@
                 <input matInput #input maxlength="15" formControlName="homeHealthAidePoviderLastName"
                   [required]="homeHealthAide.checked? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? userNamePattern: false">
                 <mat-label>Last Name</mat-label>
                 <mat-error
@@ -5626,7 +5598,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput #input maxlength="3" [readonly]="(homeHealthAide.checked === true)? false: true"
+                <input matInput #input maxlength="3" [readonly]="(homeHealthAide.checked)? false: true"
                   formControlName="homeHealthAideProviderPrefix"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false" autocomplete="off"
                   [pattern]="prefixPattern">
@@ -5641,7 +5613,7 @@
                 <input matInput #input maxlength="20" formControlName="homeHealthAideProviderIdentificationNumber"
                   [required]="homeHealthAide.checked? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? orgIdCodePatrn: false">
                 <mat-label>Provider Identification No</mat-label>
                 <mat-error
@@ -5691,7 +5663,7 @@
                 <input matInput #input maxlength="15" formControlName="homeHealthAideProviderFirstName"
                   [required]="homeHealthAide.checked? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? userNamePattern: false">
                 <mat-label>First Name</mat-label>
                 <mat-error
@@ -5707,7 +5679,7 @@
               </mat-form-field>
 
               <mat-form-field class="no-padding">
-                <input matInput maxlength="5" [readonly]="(homeHealthAide.checked === true)? false: true"
+                <input matInput maxlength="5" [readonly]="(homeHealthAide.checked)? false: true"
                   formControlName="homeHealthAideProviderSuffix"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false" autocomplete="off"
                   [pattern]="suffixPattern">
@@ -5750,7 +5722,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" formControlName="homeHealthAideProviderMiddleName"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? userNamePattern: false">
                 <mat-label>Middle Name</mat-label>
                 <mat-error
@@ -5785,7 +5757,7 @@
                 <input matInput #input maxlength="20" formControlName="homeHealthAideProviderSupplimentalId"
                   [required]="homeHealthAide.checked? true: false"
                   [errorStateMatcher]="(homeHealthAide.checked)? matcher: false"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? supplIdPattern: false">
                 <mat-label>Provider Supplement Id</mat-label>
                 <mat-error
@@ -5814,8 +5786,8 @@
 
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="25" formControlName="homeHealthAideProviderAddress"
-                  [readonly]="(homeHealthAide.checked === true)? false: true"
-                  [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher" autocomplete="off">
+                  [readonly]="(homeHealthAide.checked)? false: true" [required]="homeHealthAide.checked? true: false"
+                  [errorStateMatcher]="matcher" autocomplete="off">
                 <mat-label>Address</mat-label>
                 <mat-error
                   *ngIf="preAuthReponseForm?.get('homeHealthAideResponse')?.get('homeHealthAideProviderAddress')?.invalid || 
@@ -5832,7 +5804,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="2" formControlName="homeHealthAideProviderState"
                   [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? statePattern: false">
                 <mat-label>State</mat-label>
                 <mat-error
@@ -5856,7 +5828,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="15" minlength="4" formControlName="homeHealthAideProviderCity"
                   [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? cityPattern: false">
                 <mat-label>City</mat-label>
                 <mat-error
@@ -5874,7 +5846,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="5" minlength="2" formControlName="homeHealthAideProviderCountryCode"
                   [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? countryCodePattern: false">
                 <mat-label>Country Code</mat-label>
                 <mat-error
@@ -5898,7 +5870,7 @@
               <mat-form-field class="no-padding">
                 <input matInput #input maxlength="7" minlength="5" formControlName="homeHealthAideProviderPostalCode"
                   [required]="homeHealthAide.checked? true: false" [errorStateMatcher]="matcher"
-                  [readonly]="(homeHealthAide.checked === true)? false: true" autocomplete="off"
+                  [readonly]="(homeHealthAide.checked)? false: true" autocomplete="off"
                   [pattern]="homeHealthAide.checked? zipPattern: false">
                 <mat-label>Postal Code</mat-label>
                 <mat-error
@@ -5989,7 +5961,7 @@
 <!-- Patient Form Ends Here -->
 
 <!-- Main Mat-Dialog Action Start -->
-<!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> -->
+<!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> [disabled]="!(editing && preAuthReponseForm.valid)" -->
 <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
   <button mat-button mat-raised-button color="primary" type="submit" (click)="onEdit(preAuthReponseForm)">Edit</button>
   <button mat-button mat-raised-button color="primary" type="submit" (click)="onSave(preAuthReponseForm)">Save</button>
