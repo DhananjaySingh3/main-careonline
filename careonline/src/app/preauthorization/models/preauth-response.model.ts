@@ -1,20 +1,5 @@
 export class PreAuthResponse {
     id?: number;
-
-    /*Enquiry Details*/
-    // enquiryId?: string;
-    // processDateAndTime?: any;
-    // serviceDateFrom?: any;
-    // serviceDateTo?: any;
-    // effectiveDateTo?: any;
-    // effectiveDateFrom?: any;
-    // expirationeDateTo?: any;
-    // admitDate?: any;
-    // dischargeDate?: any;
-    // certificationIdentificationNumber?: string;
-    // preAuthorizationStatus?: string;
-    // enquiryDetailStatus?: string;
-
     /*Member Details*/
     mrnNumber?: string;
     memberfirstName?: string;
@@ -58,20 +43,6 @@ export class PreAuthResponse {
     subscriberFollowUpActionDescription?: string;
     subscriberDetailStatus?: string;
 
-    /*Dependent Details*/
-    // dependentRelToSubscriber?: string;
-    dependentSubscriberIdentificationCode?: string;
-    dependentSubscriberIdNumberType?: string;
-    dependentPrefix?: string;
-
-    dependentFirstName?: string;
-    dependentLastName?: string;
-    dependentMiddleName?: string;
-    dependentSuffix?: string;
-    dependentGender?: string;
-    dependentDob?: any;
-    dependentReletionship?: string;
-
     /*Servicing Provider Details*/
     servicingProviderFullName?: string;
     servicingProviderFirstName?: string;
@@ -99,9 +70,16 @@ export class PreAuthResponse {
     speechPathologyResponse?: SpeechPathologyResponse;
     authorizationDetail?: AuthorizationDetail;
     requesterResponseInformation?: RequesterResponseInformation;
+    dependentDetailResponse?: DependentDetailResponse;
 }
 
 export class HomeHealthAideResponse {
+    homeHealthAideAuthorizationIdNo?: string;
+    homeHealthAideEffectiveDateFrom?: any;
+    homeHealthAideEffectiveDateTo?: any;
+    homeHealthAideExpirationDate?: any;
+    homeHealthAideSelected?: boolean;
+
     homeHealthAideProviderSuffix?: string;
     homeHealthAideProviderPrefix?: string;
     homeHealthAideResponseServiceDateFrom?: any;
@@ -139,6 +117,12 @@ export class HomeHealthAideResponse {
 }
 
 export class OccupationalTherapyResponse {
+    occupationalTherapyAuthorizationIdNo?: string;
+    occupationalTherapyEffectiveDateFrom?: any;
+    occupationalTherapyEffectiveDateTo?: any;
+    occupationalTherapyExpirationDate?: any;
+    occupationalTherapySelected?: boolean;
+
     occupationalTherapyProviderSuffix?: string;
     occupationalTherapyProviderPrefix?: string;
     occupationalTherapyResponseServiceDateFrom?: any;
@@ -176,6 +160,12 @@ export class OccupationalTherapyResponse {
 }
 
 export class MedicalSocialWorkResponse {
+    medicalSocialWorkAuthorizationIdNo?: string;
+    medicalSocialWorkEffectiveDateFrom?: any;
+    medicalSocialWorkEffectiveDateTo?: any;
+    medicalSocialWorkExpirationDate?: any;
+    medicalSocialWorkSelected?: boolean;
+
     medicalSocialWorkProviderSuffix?: string;
     medicalSocialWorkProviderPrefix?: string;
     medicalSocialWorkResponseServiceDateFrom?: any;
@@ -213,6 +203,12 @@ export class MedicalSocialWorkResponse {
 }
 
 export class PhysicalTherapyResponse {
+    physicalTherapyAuthorizationIdNo?: string;
+    physicalTherapyEffectiveDateFrom?: any;
+    physicalTherapyEffectiveDateTo?: any;
+    physicalTherapyExpirationDate?: any;
+    physicalTherapySelected?: boolean;
+
     physicalTherapyProviderSuffix?: string;
     physicalTherapyProviderPrefix?: string;
     physicalTherapyResponseServiceDateFrom?: any;
@@ -250,6 +246,12 @@ export class PhysicalTherapyResponse {
 }
 
 export class SkilledNursingResponse {
+    skilledNursingAuthorizationIdNo?: string;
+    skilledNursingEffectiveDateFrom?: any;
+    skilledNursingEffectiveDateTo?: any;
+    skilledNursingExpirationDate?: any;
+    skilledNursingSelected?: boolean;
+
     skilledNursingProviderSuffix?: string;
     skilledNursingProviderPrefix?: string;
     skilledNursingResponseServiceDateFrom?: any;
@@ -287,6 +289,12 @@ export class SkilledNursingResponse {
 }
 
 export class SpeechPathologyResponse {
+    speechPathologyAuthorizationIdNo?: string;
+    speechPathologyEffectiveDateFrom?: any;
+    speechPathologyEffectiveDateTo?: any;
+    speechPathologyExpirationDate?: any;
+    speechPathologySelected?: boolean;
+
     speechPathologyProviderSuffix?: string;
     speechPathologyProviderPrefix?: string;
     speechPathologyResponseServiceDateFrom?: any;
@@ -377,3 +385,22 @@ export class RequesterResponseInformation {
     reqProviderDetailStatus?: string;
 }
 
+export class DependentDetailResponse {
+    /*Dependent Details*/
+    id?: number;
+    dependentDetailStatus?: boolean;
+    dependentSupplementalId?: string;
+    dependentIdentificationNumberType?: string;
+    dependentRejectionReaso?: string;
+    dependentFollowUpActionDescription?: string;
+    dependentSubscriberIdentificationCode?: string;
+    dependentSubscriberIdNumberType?: string;
+    dependentFirstName?: string;
+    dependentLastName?: string;
+    dependentMiddleName?: string;
+    dependentSuffix?: string;
+    dependentPrefix?: string;
+    dependentGender?: string;
+    dependentDob?: any;
+    dependentReletionship?: string;
+}
