@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PreAuthReadResponse } from '../../preauthorization/models/read-pre-auth.model';
+import { PreAuthResponse } from '../../preauthorization/models/preauth-response.model';
 import { PreauthHistoryList } from '../../preauthorization/models/preauth-history-list.model';
 import { PreAuthFormModelRequest, PreAuthFormModelResponse } from '../../preauthorization/models/pre-auth-form.model';
 import { tap } from 'rxjs/operators';
@@ -68,9 +69,15 @@ export class PreAuthService {
   }
 
   /*Sending Patient data on PreAuth Form Click onto the table for Denial Response*/
-  viewDenialResponseData(form: PreAuthReadResponse): Observable<any> {
+  viewEditedResponseDataPatient(form: PreAuthReadResponse): Observable<any> {
     return this.httpClient.post(this.apiURL + '/preAuthResponse', { mrnNumber: form.mrnNumber });
   }
+
+  /*Sending Patient data on Editing Response Patient Data on Manual Save*/
+  saveManualResponsePatientData(form: PreAuthResponse): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/preAuthManualResponseSave', form);
+  }
+
   // filter(filterby: string) {
   //   return this.listeners$.next(filterby);
   // }

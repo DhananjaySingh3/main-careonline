@@ -104,7 +104,7 @@ export class PreauthHistorylistComponent implements OnInit {
       config.hasBackdrop = true;
       config.width = '65%';
 
-      config.data = { heading: 'Preauthorization Response Form', selectedPatientData: row };
+      config.data = { heading: 'Preauthorization Response Form View', selectedPatientData: row };
 
       this.dialog.open(PreauthHistoryformComponent, config).afterClosed().subscribe(result => {
         console.log('Close or X button clicked so:  false will come: ' + result);

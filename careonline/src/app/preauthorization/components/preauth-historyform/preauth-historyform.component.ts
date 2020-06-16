@@ -11,26 +11,24 @@ import { PreAuthFormService } from '../../../preauthorization/services/pre-auth-
 import { PreAuthService } from '../../../preauthorization/services/pre-auth.service';
 import { DialogData } from '../../../preauthorization/models/preauth-dialog-data.model';
 import { PreAuthResponse } from '../../../preauthorization/models/preauth-response.model';
-import { PreauthHistoryList } from '../../../preauthorization/models/preauth-history-list.model';
-import { PreAuthReadResponse } from '../../../preauthorization/models/read-pre-auth.model';
-import { PreAuthFormModelRequest } from '../../../preauthorization/models/pre-auth-form.model';
-
-
-
 import {
   Sex, Suffix, Genders, Plans, City, State, Relation, Prefixes,
   Payment, RequestTypes, InsuranceTypes, RequestFor, PreAuthStatus, RejectReasons, FollowUpActDesc,
   IdentificationNoType, RequestCategory, CertificationType, ServiceType, LevelOfService, CertificationAction,
   RejectReasonsMsg, IdNoType, IdentificationCodeType, ProviderTypes, PerUnitTypes, PreAuthResponseStatus
 } from '../../../preauthorization/models/preauth-common.model';
-
+import {
+  StackedModalResponseComponent
+} from '../../../preauthorization/components/stacked-modal-response/stacked-modal-response.component';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    // return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return !!(control && control.invalid);
+    // return !!(control && control.invalid || (control.dirty || control.touched || isSubmitted));
   }
 }
 
@@ -46,8 +44,8 @@ export class PreauthHistoryformComponent implements OnInit {
   selectedPatientViaDialog = { ...this.data.selectedPatientData };
   /* Selected Patient's Data received via Dialog while opening from preauthList Component ends*/
 
-  resultsLength = 0;
   isLoadingResults = true;
+  select;
 
   /* Common Data Source from api*/
   perUnitTypes: PerUnitTypes[];
@@ -58,15 +56,16 @@ export class PreauthHistoryformComponent implements OnInit {
   followUpActDesc: FollowUpActDesc[];
   identificationNoType: IdentificationNoType[];
   identificationCodeType: IdentificationCodeType[];
-  requestCategory: RequestCategory[];
-  certificationType: CertificationType[];
-  serviceType: ServiceType[];
-  levelOfService: LevelOfService[];
-  certificationAction: CertificationAction[];
+  requestCategories: RequestCategory[];
+  certificationTypes: CertificationType[];
+  serviceTypes: ServiceType[];
+  levelOfServices: LevelOfService[];
+  certificationActions: CertificationAction[];
   rejectReasonsMsg: RejectReasonsMsg[];
   idNoType: IdNoType[];
   providerTypes: ProviderTypes[];
 
+  // ............
   genders: Genders[];
   relations: Relation[];
   states: State[];
@@ -116,322 +115,467 @@ export class PreauthHistoryformComponent implements OnInit {
   ) { }
 
   /* Building Form */
-  preAuthForm: FormGroup = new FormGroup({
+  preAuthReponseForm: FormGroup = new FormGroup({
     id: new FormControl({ value: '', disabled: false }),
-    mrnNumber: new FormControl({ value: '', disabled: false }),
 
-    enquiryDeatils: new FormGroup({
+    /*Preauthorization Details*/
+    authorizationDetail: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      enquiryId: new FormControl({ value: '1234', disabled: false }, [Validators.required]),
-      preauthReqSentDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+
+      totalUnitsApproved: new FormControl({ value: '0', disabled: false }, [Validators.required, Validators.pattern(this.unitsPattern)]),
+      totalUnitsConsumed: new FormControl({ value: '0', disabled: false }, [Validators.required, Validators.pattern(this.unitsPattern)]),
+      remainingUnits: new FormControl({ value: '0', disabled: false }, [Validators.required, Validators.pattern(this.unitsPattern)]),
+      noOfUnitsTobeUsed: new FormControl({ value: '0', disabled: false }, [Validators.pattern(this.unitsPattern)]),
+      unitsForNoOfUnitsTobeUsed: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      enquiryDetailStatus: new FormControl({ value: '', disabled: false }),
+      enquiryId: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      processDateAndTime: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      serviceDateFrom: new FormControl({ value: '', disabled: false }),
+      serviceDateTo: new FormControl({ value: '', disabled: false }),
+      admitDate: new FormControl({ value: '', disabled: false }),
+      dischargeDate: new FormControl({ value: '', disabled: false }),
+      certificationIdentificationNumber: new FormControl({ value: '', disabled: false }),
+      effectiveDateFrom: new FormControl({ value: '', disabled: false }),
+      effectiveDateTo: new FormControl({ value: '', disabled: false }),
+      expirationeDateTo: new FormControl({ value: '', disabled: false }),
+      preAuthorizationStatus: new FormControl({ value: '', disabled: false }, [Validators.required]),
     }),
+    /*Preauthorization Details*/
 
-    preAuthDemographics: new FormGroup({
+    /*Member Demographic details*/
+    memberDetailStatus: new FormControl({ value: '', disabled: false }),
+    mrnNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.mrnNumberPattern)]),
+    memberlastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    memberfirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    membermiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+    memberdob: new FormControl({ value: '', disabled: false }, [Validators.required]),
+    membergender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+    membersuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+    memberPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+    // ssn: new FormControl({ value: '', disabled: false }),
+    memberRelationshipToSubscriber: new FormControl({ value: 'Select', disabled: false }),
+
+    /*Organization Information*/
+    orgCommunicationTypeTelephone: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
+    orgCommunicationTypeFacsimile: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
+    orgCommunicationTypeEMail: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
+    orgCommunicationExt: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.extPattern)]),
+
+    orgDetailStatus: new FormControl({ value: '', disabled: false }),
+    organizationName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.orgNamePattern)]),
+    orgIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+    orgIdentificationCodeType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+    orgRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+    orgFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
+
+    // orgFollowUpActionRequired: new FormControl({ value: 'true', disabled: true }),
+    // orgRequestValidationAccepted: new FormControl({ value: 'true', disabled: true }),
+    // orgTransactionRejected: new FormControl({ value: 'true', disabled: true }),
+
+    /*Subscriber Details*/
+    subscriberRelToInsured: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+    subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+    subscriberIdentificationCode: new FormControl({ value: '', disabled: false },
+      [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+
+    subscriberDetailStatus: new FormControl({ value: '', disabled: false }),
+    subscriberLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    subscriberFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+    subscriberMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+    subscriberDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+    subscriberGender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
+    subscriberSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+    subscriberPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+    // subscSsn: new FormControl({ value: '', disabled: false }),
+    subscriberSupplementalId: new FormControl({ value: '', disabled: false },
+      [Validators.required, Validators.pattern(this.supplIdPattern)]),
+    subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+    subscriberRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+    subscriberFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
+
+    /*Dependent Information*/
+    dependentDetailResponse: new FormGroup({
       id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.mrnNumberPattern)]),
-      lastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      firstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      middleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      gender: new FormControl({ value: 'Unknown', disabled: false }, [Validators.required]),
-      suffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-      prefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
-      ssn: new FormControl({ value: '', disabled: false }),
-      relationshipToSubscriber: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-    }),
+      dependentDetailStatus: new FormControl({ value: '', disabled: false }),
+      dependentSupplementalId: new FormControl({ value: '', disabled: false },
+        [Validators.required, Validators.pattern(this.supplIdPattern)]),
+      dependentIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      dependentRejectionReaso: new FormControl({ value: 'Select', disabled: false }),
+      dependentFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
 
-    organizationInformation: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      organizationName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgNamePattern)]),
-      orgIdentificationCode: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.orgIdCodePatrn)]),
-      orgIdentificationCodeType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-
-      orgCommunicationTypeTelephone: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
-      orgCommunicationTypeFacsimile: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
-      orgCommunicationTypeEMail: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.communPatrn)]),
-      orgCommunicationExt: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.extPattern)]),
-    }),
-
-    subscriberDetails: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      subscriberLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      subscriberFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      subscriberMiddleName: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.userNamePattern)]),
-      subscriberDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
-      subscriberGender: new FormControl({ value: 'Unknown', disabled: false }),
-      subscriberSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-      subscriberPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
-      subscriberRelToInsured: new FormControl({ value: '', disabled: false }, [Validators.required]),
-      subscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
-      subscriberIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-      subscriberSupplementalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
-      subscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
-    }),
-
-    dependentDetails: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, []),
-      dependentLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dependentFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dependentMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-      dependentDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      dependentGender: new FormControl({ value: 'Unknown', disabled: false }),
-      dependentSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-      dependentPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
-      dependentRelToSubscriber: new FormControl({ value: 'Unknown', disabled: false }),
       dependentSubscriberIdentificationCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.orgIdCodePatrn)]),
-      dependentSubscriberIdentificationNumberType: new FormControl({ value: 'Payor Identification', disabled: false },
-        [Validators.required]),
-      dependentSubscriberSupplementalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
-      dependentSubscriberIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }),
-    }),
-    providerDetail: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
-      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      dependentSubscriberIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      dependentPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
 
-      reqProviderFirstName: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.userNamePattern)]),
-      reqProviderLastName: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.userNamePattern)]),
-      reqProviderMiddleName: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.userNamePattern)]),
+      dependentLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      dependentFirstName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      dependentMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      dependentDob: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      dependentGender: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      dependentSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      dependentReletionship: new FormControl({ value: '', disabled: false }, [Validators.required]),
+    }),
+    /*Requester Provider Information*/
+
+    /*Note: Requester Provider Full Name is missing*/
+    requesterResponseInformation: new FormGroup({
+      id: new FormControl({ value: '', disabled: false }),
       reqProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
       reqProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      serviceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      serviceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      admitDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      dischargeDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      requestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]), // Admission Review
+      certificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      serviceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      levelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
+      reqProviderDetailStatus: new FormControl({ value: '', disabled: false }),
       reqProviderFullName: new FormControl({ value: '', disabled: false }, []),
-      reqProviderType: new FormControl({ value: 'Referring', disabled: false }),
+      reqProviderFirstName: new FormControl({ value: '', disabled: false },
+        [Validators.required, Validators.pattern(this.userNamePattern)]),
+      reqProviderLastName: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(this.userNamePattern)]),
+      reqProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      reqProviderType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       reqProviderIdentificationNumber: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.orgIdCodePatrn)]),
-      reqProviderIdentificationNumberType: new FormControl({ value: 'Payor Identification', disabled: false }, [Validators.required]),
+        [Validators.required, Validators.pattern(this.orgIdCodePatrn)]),
+      reqProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
       reqProviderSupplimentalId: new FormControl({ value: '', disabled: false },
-        [Validators.pattern(this.supplIdPattern)]),
-      reqProviderIdNumberType: new FormControl({ value: 'Payor Identification', disabled: false }),
-      serviceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      serviceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      admitDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      dischargeDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-      requestCategory: new FormControl({ value: 'Select', disabled: false }), // Admission Review
-      certificationType: new FormControl({ value: 'Select', disabled: false }),
-      serviceType: new FormControl({ value: 'Select', disabled: false }),
-      levelOfService: new FormControl({ value: 'Select', disabled: false }),
+        [Validators.required, Validators.pattern(this.supplIdPattern)]),
+      reqProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      reqProviderRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      reqProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
     }),
 
-    requestService: new FormGroup({
-      id: new FormControl({ value: '', disabled: false }),
+    /*Servicing Provider Information*/
+
+    servicingProviderDetailStatus: new FormControl({ value: '', disabled: false }),
+    servicingProviderFullName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderFirstName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderLastName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderMiddleName: new FormControl({ value: '', disabled: false }, []),
+    servicingProviderType: new FormControl({ value: 'Select', disabled: false }, []),
+    servicingProviderAddress: new FormControl({ value: '', disabled: false }, []),
+
+    servicingProviderCity: new FormControl({ value: '', disabled: true }, [Validators.pattern(this.cityPattern)]),
+    servicingProviderState: new FormControl({ value: '', disabled: true }, [Validators.pattern(this.statePattern)]),
+    servicingProviderPostalCode: new FormControl({ value: '', disabled: true }, [Validators.pattern(this.zipPattern)]),
+    servicingProviderCountryCode: new FormControl({ value: '', disabled: true }, [Validators.pattern(this.countryCodePattern)]),
+
+    servicingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
+    servicingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
+    servicingProviderSupplimentId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+    servicingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
+    servicingProviderRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+    servicingProviderFollowUpActionDescription: new FormControl({ value: 'Select', disabled: false }),
+
+    /*Physical Therapy Information*/
+    physicalTherapyResponse: new FormGroup({
+      physicalTherapyAuthorizationIdNo: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      physicalTherapyEffectiveDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      physicalTherapyEffectiveDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      physicalTherapyExpirationDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      physicalTherapySelected: new FormControl({ value: '', disabled: false }),
+
+      physicalTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      physicalTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      physicalTherapyResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+        [Validators.required]),
+      physicalTherapyResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
       mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      physicalTherapyRevenueCode: new FormControl({ value: '', disabled: false }, []),
 
-      homeHealthAide: new FormGroup({
-        id: new FormControl({ value: '', disabled: false }),
-        mrnNumber: new FormControl({ value: '', disabled: false }, []),
-        homeHealthAideRevenueCode: new FormControl({ value: '', disabled: false }, []),
-        homeHealthAideProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        homeHealthAidePoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        homeHealthAideProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      id: new FormControl({ value: '', disabled: false }),
+      physicalTherapyDetailStatus: new FormControl({ value: '', disabled: false }),
 
-        homeHealthAideProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-        homeHealthAideProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      physicalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      physicalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      physicalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      physicalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      physicalTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      physicalTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      physicalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      physicalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      physicalTherapyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
 
-        homeHealthAideRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        homeHealthAideRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        homeHealthAideVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        homeHealthAideUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        homeHealthAideRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideServiceType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideLevelOfService: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideProviderFullName: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideProviderAddress: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        homeHealthAideProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        homeHealthAideProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        homeHealthAideProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
-        homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        homeHealthAideProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
-        homeHealthAideSelected: new FormControl({ value: '', disabled: false }),
-      }),
+      physicalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      physicalTherapyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      physicalTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      physicalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
-      medicalSocialWork: new FormGroup({
-        id: new FormControl({ value: '', disabled: false }),
-        mrnNumber: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkRevenueCode: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        medicalSocialWorkPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        medicalSocialWorkProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      physicalTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
+      physicalTherapyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
+      physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+      physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
 
-        medicalSocialWorkProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-        medicalSocialWorkProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      physicalTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      physicalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      physicalTherapyProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      physicalTherapyProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
 
-        medicalSocialWorkRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        medicalSocialWorkRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        medicalSocialWorkVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        medicalSocialWorkUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        medicalSocialWorkRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkServiceType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkLevelOfService: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkProviderFullName: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkProviderAddress: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        medicalSocialWorkProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        medicalSocialWorkProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        medicalSocialWorkProviderCountryCode: new FormControl({ value: '', disabled: false },
-          [Validators.pattern(this.countryCodePattern)]),
-        medicalSocialWorkProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        medicalSocialWorkProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
-        medicalSocialWorkSelected: new FormControl({ value: '', disabled: false }),
-      }),
+    }),
+    /*Occupational Therapy Information*/
+    occupationalTherapyResponse: new FormGroup({
+      occupationalTherapyAuthorizationIdNo: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      occupationalTherapyEffectiveDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      occupationalTherapyEffectiveDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      occupationalTherapyExpirationDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      occupationalTherapySelected: new FormControl({ value: '', disabled: false }),
 
-      occupationTherapy: new FormGroup({
-        id: new FormControl({ value: '', disabled: false }),
-        mrnNumber: new FormControl({ value: '', disabled: false }),
-        occupationTherapyRevenueCode: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      occupationalTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      occupationalTherapyResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+        [Validators.required]),
+      occupationalTherapyResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+        [Validators.required]),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      occupationalTherapyRevenueCode: new FormControl({ value: '', disabled: false }, []),
 
-        occupationTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        occupationTherapyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        occupationTherapyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        occupationTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-        occupationTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      id: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyDetailStatus: new FormControl({ value: '', disabled: false }),
 
-        occupationTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        occupationTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        occupationTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        occupationTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        occupationTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyServiceType: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      occupationalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      occupationalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      occupationalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      occupationalTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      occupationalTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      occupationalTherapyCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      occupationalTherapyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
 
-        occupationTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
+      occupationalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      occupationalTherapyProviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      occupationalTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      occupationalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
-        occupationTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        occupationTherapyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        occupationTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        occupationTherapyProviderCountryCode: new FormControl({ value: '', disabled: false },
-          [Validators.pattern(this.countryCodePattern)]),
+      occupationalTherapyAddress: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
+      occupationalTherapyState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
+      occupationalTherapyPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+      occupationalTherapyCountryCode: new FormControl({ value: '', disabled: false },
+        [Validators.pattern(this.countryCodePattern)]),
 
-        occupationTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        occupationTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
-        occupationTherapySelected: new FormControl({ value: '', disabled: false }),
-      }),
+      occupationalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      occupationalProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      occupationalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      occupationalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      occupationalTherapyProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      occupationalTherapyProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
+    }),
+    /*Medical Social Work Information*/
+    medicalSocialWorkResponse: new FormGroup({
+      medicalSocialWorkAuthorizationIdNo: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      medicalSocialWorkEffectiveDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      medicalSocialWorkEffectiveDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      medicalSocialWorkExpirationDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      medicalSocialWorkSelected: new FormControl({ value: '', disabled: false }),
 
-      skilledNursing: new FormGroup({
-        id: new FormControl({ value: '', disabled: false }),
-        mrnNumber: new FormControl({ value: '', disabled: false }),
-        skilledNursingRevenueCode: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        skilledNursingPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        skilledNursingProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      medicalSocialWorkProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      medicalSocialWorkProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      medicalSocialWorkResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+        [Validators.required]),
+      medicalSocialWorkResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+        [Validators.required]),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      medicalSocialWorkRevenueCode: new FormControl({ value: '', disabled: false }, []),
 
-        skilledNursingProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-        skilledNursingProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      id: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkDetailStatus: new FormControl({ value: '', disabled: false }),
 
-        skilledNursingRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        skilledNursingRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        skilledNursingVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        skilledNursingUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        skilledNursingRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingServiceType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingLevelOfService: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingProviderFullName: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingProviderAddress: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        skilledNursingProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        skilledNursingProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        skilledNursingProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
-        skilledNursingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        skilledNursingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
-        skilledNursingSelected: new FormControl({ value: '', disabled: false }),
-      }),
+      medicalSocialWorkRequestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      medicalSocialWorkCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      medicalSocialWorkServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      medicalSocialWorkLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      medicalSocialWorkVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      medicalSocialWorkUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      medicalSocialWorkCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      medicalSocialWorkRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      medicalSocialWorkRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
 
-      physicalTherapy: new FormGroup({
-        id: new FormControl({ value: '', disabled: false }),
-        mrnNumber: new FormControl({ value: '', disabled: false }),
-        physicalTherapyrevenueCode: new FormControl({ value: '', disabled: false }),
-        physicalTherapyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        physicalTherapyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        physicalTherapyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      medicalSocialWorkProviderFullName: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      medicalSocialWorkPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      medicalSocialWorkProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      medicalSocialWorkProviderType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
 
-        physicalTherapyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-        physicalTherapyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      medicalSocialWorkProviderAddress: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
+      medicalSocialWorkProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
+      medicalSocialWorkProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+      medicalSocialWorkProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
 
-        physicalTherapyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        physicalTherapyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        physicalTherapyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        physicalTherapyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        physicalTherapyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyServiceType: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyProviderFullName: new FormControl({ value: '', disabled: false }),
-        physicalTherapyProviderType: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyProviderAddress: new FormControl({ value: '', disabled: false }),
-        physicalTherapyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        physicalTherapyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        physicalTherapyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        physicalTherapyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
-        physicalTherapyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        physicalTherapyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        physicalTherapyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
-        physicalTherapySelected: new FormControl({ value: '', disabled: false }),
-      }),
+      medicalSocialWorkProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      medicalSocialWorkProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      medicalSocialWorkProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      medicalSocialWorkProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      medicalSocialWorkProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      medicalSocialWorkProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
+    }),
 
-      speechPathology: new FormGroup({
-        id: new FormControl({ value: '', disabled: false }),
-        mrnNumber: new FormControl({ value: '', disabled: false }),
-        speechPathologyRevenueCode: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        speechPathologyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
-        speechPathologyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+    /*Skilled Nursing Information*/
+    skilledNursingResponse: new FormGroup({
+      skilledNursingAuthorizationIdNo: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      skilledNursingEffectiveDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      skilledNursingEffectiveDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      skilledNursingExpirationDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      skilledNursingSelected: new FormControl({ value: '', disabled: false }),
 
-        speechPathologyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
-        speechPathologyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      skilledNursingProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      skilledNursingProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      skilledNursingResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      skilledNursingResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      skilledNursingRevenueCode: new FormControl({ value: '', disabled: false }, []),
 
-        speechPathologyRequestServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        speechPathologyRequestServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }),
-        speechPathologyVisit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        speechPathologyUnit: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.unitsPattern)]),
-        speechPathologyRequestCategory: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyCertificationType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyServiceType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyLevelOfService: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyProviderFullName: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyProviderAddress: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
-        speechPathologyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
-        speechPathologyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
-        speechPathologyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
-        speechPathologyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologyProviderSupplimentalId: new FormControl({ value: '', disabled: false }),
-        speechPathologyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }),
-        speechPathologySelected: new FormControl({ value: '', disabled: false }),
-      }),
+      id: new FormControl({ value: '', disabled: false }),
+      skilledNursingDetailStatus: new FormControl({ value: '', disabled: false }),
+
+      skilledNursingRequestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      skilledNursingCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      skilledNursingServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      skilledNursingLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      skilledNursingVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      skilledNursingUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      skilledNursingCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      skilledNursingRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      skilledNursingRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
+
+      skilledNursingProviderFullName: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      skilledNursingPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      skilledNursingProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      skilledNursingProviderType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+
+      skilledNursingProviderAddress: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
+      skilledNursingProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
+      skilledNursingProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+      skilledNursingProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
+
+      skilledNursingProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      skilledNursingProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      skilledNursingProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      skilledNursingProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      skilledNursingProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      skilledNursingProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
+    }),
+
+    /*speech Pathology Information*/
+
+    speechPathologyResponse: new FormGroup({
+      speechPathologyAuthorizationIdNo: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      speechPathologyEffectiveDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      speechPathologyEffectiveDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      speechPathologyExpirationDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      speechPathologySelected: new FormControl({ value: '', disabled: false }),
+
+      speechPathologyProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      speechPathologyProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      speechPathologyResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false },
+        [Validators.required]),
+      speechPathologyResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      speechPathologyRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
+      id: new FormControl({ value: '', disabled: false }),
+      speechPathologyDetailStatus: new FormControl({ value: '', disabled: false }),
+
+      speechPathologyRequestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      speechPathologyCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      speechPathologyServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      speechPathologyLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      speechPathologyVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      speechPathologyUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      speechPathologyCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      speechPathologyRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      speechPathologyRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
+
+      speechPathologyProviderFullName: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      speechPathologyPoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      speechPathologyProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      speechPathologyProviderType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+
+      speechPathologyProviderAddress: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
+      speechPathologyProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
+      speechPathologyProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+      speechPathologyProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
+
+      speechPathologyProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      speechPathologyProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      speechPathologyProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      speechPathologyProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      speechPathologyProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      speechPathologyProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
+    }),
+
+    /*Home health aide Information*/
+    homeHealthAideResponse: new FormGroup({
+      homeHealthAideAuthorizationIdNo: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      homeHealthAideEffectiveDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      homeHealthAideEffectiveDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      homeHealthAideExpirationDate: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      homeHealthAideSelected: new FormControl({ value: '', disabled: false }),
+
+      homeHealthAideProviderSuffix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.suffixPattern)]),
+      homeHealthAideProviderPrefix: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.prefixPattern)]),
+      homeHealthAideResponseServiceDateFrom: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      homeHealthAideResponseServiceDateTo: new FormControl({ value: (new Date()).toISOString(), disabled: false }, [Validators.required]),
+      mrnNumber: new FormControl({ value: '', disabled: false }, []),
+      homeHealthAideRevenueCode: new FormControl({ value: '', disabled: false }, []),
+
+      id: new FormControl({ value: '', disabled: false }),
+      homeHealthAideDetailStatus: new FormControl({ value: '', disabled: false }),
+
+      homeHealthAideRequestCategory: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      homeHealthAideCertificationType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      homeHealthAideServiceType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      homeHealthAideLevelOfService: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      homeHealthAideVisit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      homeHealthAideUnit: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      homeHealthAideCertificationAction: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      homeHealthAideRejectionReason: new FormControl({ value: 'Select', disabled: false }),
+      homeHealthAideRejectionReasonMSG: new FormControl({ value: 'Select', disabled: false }),
+
+      homeHealthAideProviderFullName: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderFirstName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      homeHealthAidePoviderLastName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      homeHealthAideProviderMiddleName: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.userNamePattern)]),
+      homeHealthAideProviderType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+
+      homeHealthAideProviderAddress: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderCity: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.cityPattern)]),
+      homeHealthAideProviderState: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.statePattern)]),
+      homeHealthAideProviderPostalCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.zipPattern)]),
+      homeHealthAideProviderCountryCode: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.countryCodePattern)]),
+
+      homeHealthAideProviderIdentificationNumber: new FormControl({ value: '', disabled: false }, [Validators.required]),
+      homeHealthAideProviderIdentificationNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      homeHealthAideProviderSupplimentalId: new FormControl({ value: '', disabled: false }, [Validators.pattern(this.supplIdPattern)]),
+      homeHealthAideProviderIdNumberType: new FormControl({ value: 'Select', disabled: false }, [Validators.required]),
+      homeHealthAideProviderRejectionReason: new FormControl({ value: '', disabled: false }),
+      homeHealthAideProviderFollowUpActionDescription: new FormControl({ value: '', disabled: false }),
     }),
 
   });
 
   /* Building Form */
+
+  /* Common Getters */
+
+  get memberDetailStatus() {
+    return this.preAuthReponseForm.get('memberDetailStatus').value;
+  }
+
+  /* Common Getters */
 
   /* Common Methods */
   commonMethods() {
@@ -442,11 +586,11 @@ export class PreauthHistoryformComponent implements OnInit {
     this.rejectReasonsMsg = this.commonService.getRejectReasonsMsg();
     this.followUpActDesc = this.commonService.getFollowUpActDesc();
     this.identificationNoType = this.commonService.getIdentificationNoType();
-    this.requestCategory = this.commonService.getRequestCategory();
-    this.certificationType = this.commonService.getCertificationType();
-    this.serviceType = this.commonService.getServiceType();
-    this.levelOfService = this.commonService.getLevelOfService();
-    this.certificationAction = this.commonService.getCertificationAction();
+    this.requestCategories = this.commonService.getRequestCategory();
+    this.certificationTypes = this.commonService.getCertificationType();
+    this.serviceTypes = this.commonService.getServiceType();
+    this.levelOfServices = this.commonService.getLevelOfService();
+    this.certificationActions = this.commonService.getCertificationAction();
     this.idNoType = this.commonService.getIdNoType();
     this.identificationCodeType = this.commonService.getIdNoType();
     this.providerTypes = this.commonService.getProviderTypes();
@@ -467,349 +611,23 @@ export class PreauthHistoryformComponent implements OnInit {
   /* Common methods */
 
   ngOnInit() {
-    setTimeout(() => {
-      this.preAuthService.preauthResponseHistoryFormView(this.selectedPatientViaDialog).subscribe((dataForSelectedPat) => {
-        this.isLoadingResults = true;
-        if (dataForSelectedPat) {
-          this.populatePatientFormData(dataForSelectedPat[0]);
-          console.log('Data received for edit btn', dataForSelectedPat[0]);
-          this.editing = true;
-          this.isLoadingResults = false;
-        }
-      },
-        (error) => {
-          this.isLoadingResults = false;
-          console.log(error);
-        }
-      );
-    });
+    // setTimeout(() => {
+    this.isLoadingResults = true;
+    this.commonMethods();
+    this.preAuthService.preauthResponseHistoryFormView(this.selectedPatientViaDialog).subscribe((response) => {
+      this.isLoadingResults = true;
+      console.log('Denial data response ', response);
+      if (response) {
+        this.populateResponseFormData(response[0]);
+        this.isLoadingResults = false;
+      }
+    },
+      (error) => {
+        console.log(error);
+        this.isLoadingResults = false;
+      });
+    // });
   }
-
-  /* Populating Form Data */
-  populatePatientFormData(patient: PreAuthFormModelRequest) {
-    console.log('Pat data ', patient);
-
-    const formData: PreAuthFormModelRequest = {
-      id: patient.id,
-      mrnNumber: patient.mrnNumber,
-
-      enquiryDeatils: {
-        id: patient.enquiryDeatils.id,
-        mrnNumber: patient.enquiryDeatils.mrnNumber,
-        enquiryId: patient.enquiryDeatils.enquiryId ? patient.enquiryDeatils.enquiryId : null,
-        preauthReqSentDate: patient.enquiryDeatils.preauthReqSentDate ?
-          (new Date(patient.enquiryDeatils.preauthReqSentDate)).toISOString() :
-          (new Date()).toISOString(),
-      },
-
-      preAuthDemographics: {
-        mrnNumber: patient.preAuthDemographics.mrnNumber,
-        lastName: patient.preAuthDemographics.lastName,
-        firstName: patient.preAuthDemographics.firstName,
-        middleName: patient.preAuthDemographics.middleName,
-        dob: (new Date(patient.preAuthDemographics.dob)).toISOString(),
-        gender: patient.preAuthDemographics.gender,
-        suffix: patient.preAuthDemographics.suffix,
-        prefix: patient.preAuthDemographics.prefix,
-        id: patient.preAuthDemographics.id,
-        ssn: patient.preAuthDemographics.ssn,
-        relationshipToSubscriber: patient.preAuthDemographics.relationshipToSubscriber,
-      },
-
-      organizationInformation: {
-        id: patient.organizationInformation.id,
-        mrnNumber: patient.organizationInformation.mrnNumber,
-        organizationName: patient.organizationInformation.organizationName,
-        orgIdentificationCode: patient.organizationInformation.orgIdentificationCode,
-        orgIdentificationCodeType: patient.organizationInformation.orgIdentificationCodeType,
-
-        orgCommunicationTypeTelephone: patient.organizationInformation.orgCommunicationTypeTelephone,
-        orgCommunicationExt: patient.organizationInformation.orgCommunicationExt,
-        orgCommunicationTypeFacsimile: patient.organizationInformation.orgCommunicationTypeFacsimile,
-        orgCommunicationTypeEMail: patient.organizationInformation.orgCommunicationTypeEMail,
-      },
-
-      subscriberDetails: {
-        id: patient.subscriberDetails.id,
-        mrnNumber: patient.subscriberDetails.mrnNumber,
-        subscriberLastName: patient.subscriberDetails.subscriberLastName,
-        subscriberFirstName: patient.subscriberDetails.subscriberFirstName,
-        subscriberMiddleName: patient.subscriberDetails.subscriberMiddleName,
-        subscriberDob: (new Date(patient.subscriberDetails.subscriberDob)).toISOString(),
-        subscriberGender: patient.subscriberDetails.subscriberGender,
-        subscriberSuffix: patient.subscriberDetails.subscriberSuffix,
-        subscriberPrefix: patient.subscriberDetails.subscriberPrefix,
-        subscriberRelToInsured: patient.subscriberDetails.subscriberRelToInsured,
-        subscriberIdentificationCode: patient.subscriberDetails.subscriberIdentificationCode,
-        subscriberIdentificationNumberType: patient.subscriberDetails.subscriberIdentificationNumberType,
-        subscriberSupplementalId: patient.subscriberDetails.subscriberSupplementalId,
-        subscriberIdNumberType: patient.subscriberDetails.subscriberIdNumberType,
-      },
-
-      dependentDetails: {
-        id: patient.dependentDetails.id,
-        mrnNumber: patient.dependentDetails.mrnNumber,
-        dependentLastName: patient.dependentDetails.dependentLastName,
-        dependentFirstName: patient.dependentDetails.dependentFirstName,
-        dependentMiddleName: patient.dependentDetails.dependentMiddleName,
-        dependentDob: (new Date(patient.dependentDetails.dependentDob)).toISOString(),
-        dependentGender: patient.dependentDetails.dependentGender,
-        dependentSuffix: patient.dependentDetails.dependentSuffix,
-        dependentPrefix: patient.dependentDetails.dependentPrefix,
-        dependentRelToSubscriber: patient.dependentDetails.dependentRelToSubscriber,
-        dependentSubscriberIdentificationCode: patient.dependentDetails.dependentSubscriberIdentificationCode,
-        dependentSubscriberIdentificationNumberType: patient.dependentDetails.dependentSubscriberIdentificationNumberType,
-        dependentSubscriberSupplementalId: patient.dependentDetails.dependentSubscriberSupplementalId,
-        dependentSubscriberIdNumberType: patient.dependentDetails.dependentSubscriberIdNumberType,
-      },
-
-      providerDetail: {
-        id: patient.providerDetail.id,
-        mrnNumber: patient.providerDetail.mrnNumber,
-        reqProviderFullName: patient.providerDetail.reqProviderFullName,
-
-        reqProviderFirstName: patient.providerDetail.reqProviderFirstName,
-        reqProviderLastName: patient.providerDetail.reqProviderLastName,
-        reqProviderMiddleName: patient.providerDetail.reqProviderMiddleName,
-        reqProviderSuffix: patient.providerDetail.reqProviderSuffix,
-        reqProviderPrefix: patient.providerDetail.reqProviderPrefix,
-
-        reqProviderType: patient.providerDetail.reqProviderType,
-        reqProviderIdentificationNumber: patient.providerDetail.reqProviderIdentificationNumber,
-        reqProviderIdentificationNumberType: patient.providerDetail.reqProviderIdentificationNumberType,
-        reqProviderSupplimentalId: patient.providerDetail.reqProviderSupplimentalId,
-        reqProviderIdNumberType: patient.providerDetail.reqProviderIdNumberType,
-        serviceDateFrom: (new Date(patient.providerDetail.serviceDateFrom)).toISOString(),
-        serviceDateTo: (new Date(patient.providerDetail.serviceDateTo)).toISOString(),
-        admitDate: (new Date(patient.providerDetail.admitDate)).toISOString(),
-        dischargeDate: (new Date(patient.providerDetail.dischargeDate)).toISOString(),
-        requestCategory: patient.providerDetail.requestCategory,
-        certificationType: patient.providerDetail.certificationType,
-        serviceType: patient.providerDetail.serviceType,
-        levelOfService: patient.providerDetail.levelOfService,
-      },
-      requestService: {
-        id: patient.requestService.id,
-        mrnNumber: patient.requestService.mrnNumber,
-        homeHealthAide: {
-          id: patient.requestService.homeHealthAide.id,
-          mrnNumber: patient.requestService.homeHealthAide.mrnNumber,
-          homeHealthAideRevenueCode: patient.requestService.homeHealthAide.homeHealthAideRevenueCode,
-          homeHealthAideProviderMiddleName: patient.requestService.homeHealthAide.homeHealthAideProviderMiddleName,
-          homeHealthAidePoviderLastName: patient.requestService.homeHealthAide.homeHealthAidePoviderLastName,
-          homeHealthAideProviderFirstName: patient.requestService.homeHealthAide.homeHealthAideProviderFirstName,
-          homeHealthAideProviderSuffix: patient.requestService.homeHealthAide.homeHealthAideProviderSuffix,
-          homeHealthAideProviderPrefix: patient.requestService.homeHealthAide.homeHealthAideProviderPrefix,
-
-          homeHealthAideRequestServiceDateFrom:
-            (new Date(patient.requestService.homeHealthAide.homeHealthAideRequestServiceDateFrom)).toISOString(),
-          homeHealthAideRequestServiceDateTo:
-            (new Date(patient.requestService.homeHealthAide.homeHealthAideRequestServiceDateTo)).toISOString(),
-          homeHealthAideVisit: patient.requestService.homeHealthAide.homeHealthAideVisit,
-          homeHealthAideUnit: patient.requestService.homeHealthAide.homeHealthAideUnit,
-          homeHealthAideRequestCategory: patient.requestService.homeHealthAide.homeHealthAideRequestCategory,
-          homeHealthAideCertificationType: patient.requestService.homeHealthAide.homeHealthAideCertificationType,
-          homeHealthAideServiceType: patient.requestService.homeHealthAide.homeHealthAideServiceType,
-          homeHealthAideLevelOfService: patient.requestService.homeHealthAide.homeHealthAideLevelOfService,
-          homeHealthAideProviderFullName: patient.requestService.homeHealthAide.homeHealthAideProviderFullName,
-          homeHealthAideProviderType: patient.requestService.homeHealthAide.homeHealthAideProviderType,
-          homeHealthAideProviderAddress: patient.requestService.homeHealthAide.homeHealthAideProviderAddress,
-          homeHealthAideProviderCity: patient.requestService.homeHealthAide.homeHealthAideProviderCity,
-          homeHealthAideProviderState: patient.requestService.homeHealthAide.homeHealthAideProviderState,
-          homeHealthAideProviderPostalCode: patient.requestService.homeHealthAide.homeHealthAideProviderPostalCode,
-          homeHealthAideProviderCountryCode: patient.requestService.homeHealthAide.homeHealthAideProviderCountryCode,
-          homeHealthAideProviderIdentificationNumber: patient.requestService.homeHealthAide.homeHealthAideProviderIdentificationNumber,
-          homeHealthAideProviderIdentificationNumberType:
-            patient.requestService.homeHealthAide.homeHealthAideProviderIdentificationNumberType,
-          homeHealthAideProviderSupplimentalId: patient.requestService.homeHealthAide.homeHealthAideProviderSupplimentalId,
-          homeHealthAideProviderIdNumberType: patient.requestService.homeHealthAide.homeHealthAideProviderIdNumberType,
-          homeHealthAideSelected: patient.requestService.homeHealthAide.homeHealthAideSelected,
-        },
-
-        medicalSocialWork: {
-          id: patient.requestService.medicalSocialWork.id,
-          mrnNumber: patient.requestService.medicalSocialWork.mrnNumber,
-          medicalSocialWorkRevenueCode: patient.requestService.medicalSocialWork.medicalSocialWorkRevenueCode,
-          medicalSocialWorkProviderMiddleName: patient.requestService.medicalSocialWork.medicalSocialWorkProviderMiddleName,
-          medicalSocialWorkPoviderLastName: patient.requestService.medicalSocialWork.medicalSocialWorkPoviderLastName,
-          medicalSocialWorkProviderFirstName: patient.requestService.medicalSocialWork.medicalSocialWorkProviderFirstName,
-          medicalSocialWorkProviderSuffix: patient.requestService.medicalSocialWork.medicalSocialWorkProviderSuffix,
-          medicalSocialWorkProviderPrefix: patient.requestService.medicalSocialWork.medicalSocialWorkProviderPrefix,
-
-          medicalSocialWorkRequestServiceDateFrom:
-            (new Date(patient.requestService.medicalSocialWork.medicalSocialWorkRequestServiceDateFrom)).toISOString(),
-          medicalSocialWorkRequestServiceDateTo:
-            (new Date(patient.requestService.medicalSocialWork.medicalSocialWorkRequestServiceDateTo)).toISOString(),
-          medicalSocialWorkVisit: patient.requestService.medicalSocialWork.medicalSocialWorkVisit,
-          medicalSocialWorkUnit: patient.requestService.medicalSocialWork.medicalSocialWorkUnit,
-          medicalSocialWorkRequestCategory: patient.requestService.medicalSocialWork.medicalSocialWorkRequestCategory,
-          medicalSocialWorkCertificationType: patient.requestService.medicalSocialWork.medicalSocialWorkCertificationType,
-          medicalSocialWorkServiceType: patient.requestService.medicalSocialWork.medicalSocialWorkServiceType,
-          medicalSocialWorkLevelOfService: patient.requestService.medicalSocialWork.medicalSocialWorkLevelOfService,
-          medicalSocialWorkProviderFullName: patient.requestService.medicalSocialWork.medicalSocialWorkProviderFullName,
-          medicalSocialWorkProviderType: patient.requestService.medicalSocialWork.medicalSocialWorkProviderType,
-          medicalSocialWorkProviderAddress: patient.requestService.medicalSocialWork.medicalSocialWorkProviderAddress,
-          medicalSocialWorkProviderCity: patient.requestService.medicalSocialWork.medicalSocialWorkProviderCity,
-          medicalSocialWorkProviderState: patient.requestService.medicalSocialWork.medicalSocialWorkProviderState,
-          medicalSocialWorkProviderPostalCode: patient.requestService.medicalSocialWork.medicalSocialWorkProviderPostalCode,
-          medicalSocialWorkProviderCountryCode: patient.requestService.medicalSocialWork.medicalSocialWorkProviderCountryCode,
-          medicalSocialWorkProviderIdentificationNumber:
-            patient.requestService.medicalSocialWork.medicalSocialWorkProviderIdentificationNumber,
-          medicalSocialWorkProviderIdentificationNumberType:
-            patient.requestService.medicalSocialWork.medicalSocialWorkProviderIdentificationNumberType,
-          medicalSocialWorkProviderSupplimentalId: patient.requestService.medicalSocialWork.medicalSocialWorkProviderSupplimentalId,
-          medicalSocialWorkProviderIdNumberType: patient.requestService.medicalSocialWork.medicalSocialWorkProviderIdNumberType,
-          medicalSocialWorkSelected: patient.requestService.medicalSocialWork.medicalSocialWorkSelected,
-        },
-
-        occupationTherapy: {
-          id: patient.requestService.occupationTherapy.id,
-          mrnNumber: patient.requestService.occupationTherapy.mrnNumber,
-          occupationTherapyRevenueCode: patient.requestService.occupationTherapy.occupationTherapyRevenueCode,
-          occupationTherapyProviderMiddleName: patient.requestService.occupationTherapy.occupationTherapyProviderMiddleName,
-          occupationTherapyPoviderLastName: patient.requestService.occupationTherapy.occupationTherapyPoviderLastName,
-          occupationTherapyProviderFirstName: patient.requestService.occupationTherapy.occupationTherapyProviderFirstName,
-          occupationTherapyProviderSuffix: patient.requestService.occupationTherapy.occupationTherapyProviderSuffix,
-          occupationTherapyProviderPrefix: patient.requestService.occupationTherapy.occupationTherapyProviderPrefix,
-
-          occupationTherapyRequestServiceDateFrom:
-            (new Date(patient.requestService.occupationTherapy.occupationTherapyRequestServiceDateFrom)).toISOString(),
-          occupationTherapyRequestServiceDateTo:
-            (new Date(patient.requestService.occupationTherapy.occupationTherapyRequestServiceDateTo)).toISOString(),
-          occupationTherapyVisit: patient.requestService.occupationTherapy.occupationTherapyVisit,
-          occupationTherapyUnit: patient.requestService.occupationTherapy.occupationTherapyUnit,
-          occupationTherapyRequestCategory: patient.requestService.occupationTherapy.occupationTherapyRequestCategory,
-          occupationTherapyCertificationType: patient.requestService.occupationTherapy.occupationTherapyCertificationType,
-          occupationTherapyServiceType: patient.requestService.occupationTherapy.occupationTherapyServiceType,
-          occupationTherapyLevelOfService: patient.requestService.occupationTherapy.occupationTherapyLevelOfService,
-          occupationTherapyProviderFullName: patient.requestService.occupationTherapy.occupationTherapyProviderFullName,
-          occupationTherapyProviderType: patient.requestService.occupationTherapy.occupationTherapyProviderType,
-          occupationTherapyProviderAddress: patient.requestService.occupationTherapy.occupationTherapyProviderAddress,
-          occupationTherapyProviderCity: patient.requestService.occupationTherapy.occupationTherapyProviderCity,
-          occupationTherapyProviderState: patient.requestService.occupationTherapy.occupationTherapyProviderState,
-          occupationTherapyProviderPostalCode: patient.requestService.occupationTherapy.occupationTherapyProviderPostalCode,
-          occupationTherapyProviderCountryCode: patient.requestService.occupationTherapy.occupationTherapyProviderCountryCode,
-          occupationTherapyProviderIdentificationNumber:
-            patient.requestService.occupationTherapy.occupationTherapyProviderIdentificationNumber,
-          occupationTherapyProviderIdentificationNumberType:
-            patient.requestService.occupationTherapy.occupationTherapyProviderIdentificationNumberType,
-          occupationTherapyProviderSupplimentalId: patient.requestService.occupationTherapy.occupationTherapyProviderSupplimentalId,
-          occupationTherapyProviderIdNumberType: patient.requestService.occupationTherapy.occupationTherapyProviderIdNumberType,
-          occupationTherapySelected: patient.requestService.occupationTherapy.occupationTherapySelected,
-        },
-
-        skilledNursing: {
-          id: patient.requestService.skilledNursing.id,
-          mrnNumber: patient.requestService.skilledNursing.mrnNumber,
-          skilledNursingRevenueCode: patient.requestService.skilledNursing.skilledNursingRevenueCode,
-          skilledNursingProviderMiddleName: patient.requestService.skilledNursing.skilledNursingProviderMiddleName,
-          skilledNursingPoviderLastName: patient.requestService.skilledNursing.skilledNursingPoviderLastName,
-          skilledNursingProviderFirstName: patient.requestService.skilledNursing.skilledNursingProviderFirstName,
-          skilledNursingProviderSuffix: patient.requestService.skilledNursing.skilledNursingProviderSuffix,
-          skilledNursingProviderPrefix: patient.requestService.skilledNursing.skilledNursingProviderPrefix,
-
-          skilledNursingRequestServiceDateFrom:
-            (new Date(patient.requestService.skilledNursing.skilledNursingRequestServiceDateFrom)).toISOString(),
-          skilledNursingRequestServiceDateTo:
-            (new Date(patient.requestService.skilledNursing.skilledNursingRequestServiceDateTo)).toISOString(),
-          skilledNursingVisit: patient.requestService.skilledNursing.skilledNursingVisit,
-          skilledNursingUnit: patient.requestService.skilledNursing.skilledNursingUnit,
-          skilledNursingRequestCategory: patient.requestService.skilledNursing.skilledNursingRequestCategory,
-          skilledNursingCertificationType: patient.requestService.skilledNursing.skilledNursingCertificationType,
-          skilledNursingServiceType: patient.requestService.skilledNursing.skilledNursingServiceType,
-          skilledNursingLevelOfService: patient.requestService.skilledNursing.skilledNursingLevelOfService,
-          skilledNursingProviderFullName: patient.requestService.skilledNursing.skilledNursingProviderFullName,
-          skilledNursingProviderType: patient.requestService.skilledNursing.skilledNursingProviderType,
-          skilledNursingProviderAddress: patient.requestService.skilledNursing.skilledNursingProviderAddress,
-          skilledNursingProviderCity: patient.requestService.skilledNursing.skilledNursingProviderCity,
-          skilledNursingProviderState: patient.requestService.skilledNursing.skilledNursingProviderState,
-          skilledNursingProviderPostalCode: patient.requestService.skilledNursing.skilledNursingProviderPostalCode,
-          skilledNursingProviderCountryCode: patient.requestService.skilledNursing.skilledNursingProviderCountryCode,
-          skilledNursingProviderIdentificationNumber: patient.requestService.skilledNursing.skilledNursingProviderIdentificationNumber,
-          skilledNursingProviderIdentificationNumberType:
-            patient.requestService.skilledNursing.skilledNursingProviderIdentificationNumberType,
-          skilledNursingProviderSupplimentalId: patient.requestService.skilledNursing.skilledNursingProviderSupplimentalId,
-          skilledNursingProviderIdNumberType: patient.requestService.skilledNursing.skilledNursingProviderIdNumberType,
-          skilledNursingSelected: patient.requestService.skilledNursing.skilledNursingSelected,
-        },
-
-        physicalTherapy: {
-          id: patient.requestService.physicalTherapy.id,
-          mrnNumber: patient.requestService.physicalTherapy.mrnNumber,
-          physicalTherapyrevenueCode: patient.requestService.physicalTherapy.physicalTherapyrevenueCode,
-          physicalTherapyProviderMiddleName: patient.requestService.physicalTherapy.physicalTherapyProviderMiddleName,
-          physicalTherapyPoviderLastName: patient.requestService.physicalTherapy.physicalTherapyPoviderLastName,
-          physicalTherapyProviderFirstName: patient.requestService.physicalTherapy.physicalTherapyProviderFirstName,
-          physicalTherapyProviderSuffix: patient.requestService.physicalTherapy.physicalTherapyProviderSuffix,
-          physicalTherapyProviderPrefix: patient.requestService.physicalTherapy.physicalTherapyProviderPrefix,
-
-          physicalTherapyRequestServiceDateFrom:
-            (new Date(patient.requestService.physicalTherapy.physicalTherapyRequestServiceDateFrom)).toISOString(),
-          physicalTherapyRequestServiceDateTo:
-            (new Date(patient.requestService.physicalTherapy.physicalTherapyRequestServiceDateTo)).toISOString(),
-          physicalTherapyVisit: patient.requestService.physicalTherapy.physicalTherapyVisit,
-          physicalTherapyUnit: patient.requestService.physicalTherapy.physicalTherapyUnit,
-          physicalTherapyRequestCategory: patient.requestService.physicalTherapy.physicalTherapyRequestCategory,
-          physicalTherapyCertificationType: patient.requestService.physicalTherapy.physicalTherapyCertificationType,
-          physicalTherapyServiceType: patient.requestService.physicalTherapy.physicalTherapyServiceType,
-          physicalTherapyLevelOfService: patient.requestService.physicalTherapy.physicalTherapyLevelOfService,
-          physicalTherapyProviderFullName: patient.requestService.physicalTherapy.physicalTherapyProviderFullName,
-          physicalTherapyProviderType: patient.requestService.physicalTherapy.physicalTherapyProviderType,
-          physicalTherapyProviderAddress: patient.requestService.physicalTherapy.physicalTherapyProviderAddress,
-          physicalTherapyProviderCity: patient.requestService.physicalTherapy.physicalTherapyProviderCity,
-          physicalTherapyProviderState: patient.requestService.physicalTherapy.physicalTherapyProviderState,
-          physicalTherapyProviderPostalCode: patient.requestService.physicalTherapy.physicalTherapyProviderPostalCode,
-          physicalTherapyProviderCountryCode: patient.requestService.physicalTherapy.physicalTherapyProviderCountryCode,
-          physicalTherapyProviderIdentificationNumber: patient.requestService.physicalTherapy.physicalTherapyProviderIdentificationNumber,
-          physicalTherapyProviderIdentificationNumberType:
-            patient.requestService.physicalTherapy.physicalTherapyProviderIdentificationNumberType,
-          physicalTherapyProviderSupplimentalId: patient.requestService.physicalTherapy.physicalTherapyProviderSupplimentalId,
-          physicalTherapyProviderIdNumberType: patient.requestService.physicalTherapy.physicalTherapyProviderIdNumberType,
-          physicalTherapySelected: patient.requestService.physicalTherapy.physicalTherapySelected,
-        },
-
-        speechPathology: {
-          id: patient.requestService.speechPathology.id,
-          mrnNumber: patient.requestService.speechPathology.mrnNumber,
-          speechPathologyRevenueCode: patient.requestService.speechPathology.speechPathologyRevenueCode,
-          speechPathologyProviderMiddleName: patient.requestService.speechPathology.speechPathologyProviderMiddleName,
-          speechPathologyPoviderLastName: patient.requestService.speechPathology.speechPathologyPoviderLastName,
-          speechPathologyProviderFirstName: patient.requestService.speechPathology.speechPathologyProviderFirstName,
-          speechPathologyProviderSuffix: patient.requestService.speechPathology.speechPathologyProviderSuffix,
-          speechPathologyProviderPrefix: patient.requestService.speechPathology.speechPathologyProviderPrefix,
-
-          speechPathologyRequestServiceDateFrom:
-            (new Date(patient.requestService.speechPathology.speechPathologyRequestServiceDateFrom)).toISOString(),
-          speechPathologyRequestServiceDateTo:
-            (new Date(patient.requestService.speechPathology.speechPathologyRequestServiceDateTo)).toISOString(),
-          speechPathologyVisit: patient.requestService.speechPathology.speechPathologyVisit,
-          speechPathologyUnit: patient.requestService.speechPathology.speechPathologyUnit,
-          speechPathologyRequestCategory: patient.requestService.speechPathology.speechPathologyRequestCategory,
-          speechPathologyCertificationType: patient.requestService.speechPathology.speechPathologyCertificationType,
-          speechPathologyServiceType: patient.requestService.speechPathology.speechPathologyServiceType,
-          speechPathologyLevelOfService: patient.requestService.speechPathology.speechPathologyLevelOfService,
-          speechPathologyProviderFullName: patient.requestService.speechPathology.speechPathologyProviderFullName,
-          speechPathologyProviderType: patient.requestService.speechPathology.speechPathologyProviderType,
-          speechPathologyProviderAddress: patient.requestService.speechPathology.speechPathologyProviderAddress,
-          speechPathologyProviderCity: patient.requestService.speechPathology.speechPathologyProviderCity,
-          speechPathologyProviderState: patient.requestService.speechPathology.speechPathologyProviderState,
-          speechPathologyProviderPostalCode: patient.requestService.speechPathology.speechPathologyProviderPostalCode,
-          speechPathologyProviderCountryCode: patient.requestService.speechPathology.speechPathologyProviderCountryCode,
-          speechPathologyProviderIdentificationNumber: patient.requestService.speechPathology.speechPathologyProviderIdentificationNumber,
-          speechPathologyProviderIdentificationNumberType:
-            patient.requestService.speechPathology.speechPathologyProviderIdentificationNumberType,
-          speechPathologyProviderSupplimentalId: patient.requestService.speechPathology.speechPathologyProviderSupplimentalId,
-          speechPathologyProviderIdNumberType: patient.requestService.speechPathology.speechPathologyProviderIdNumberType,
-          speechPathologySelected: patient.requestService.speechPathology.speechPathologySelected,
-        },
-      },
-    };
-
-    this.preAuthForm.setValue(formData);
-
-    console.log('Form Populated Data ', formData);
-  }
-  /* Populating Form Data */
 
   compareFn = (val1: string, val2: string) => {
     return (val1 === val2);
@@ -823,5 +641,811 @@ export class PreauthHistoryformComponent implements OnInit {
     console.log(formData);
   }
 
+  /* Populating ResponseForm Data */
+  populateResponseFormData(patient: PreAuthResponse) {
+    console.log('Pat data ', patient);
+
+    const formData: PreAuthResponse = {
+      id: patient.id,
+
+      /*Preauthorization Details*/
+      authorizationDetail: {
+        id: patient.authorizationDetail.id,
+        totalUnitsApproved: patient.authorizationDetail.totalUnitsApproved,
+        totalUnitsConsumed: patient.authorizationDetail.totalUnitsConsumed,
+        remainingUnits: patient.authorizationDetail.remainingUnits,
+        noOfUnitsTobeUsed: patient.authorizationDetail.noOfUnitsTobeUsed,
+        unitsForNoOfUnitsTobeUsed: patient.authorizationDetail.unitsForNoOfUnitsTobeUsed,
+        enquiryId: patient.authorizationDetail.enquiryId,
+        processDateAndTime: (new Date(patient.authorizationDetail.processDateAndTime)).toISOString(),
+        serviceDateFrom: patient.authorizationDetail.serviceDateFrom,
+        serviceDateTo: patient.authorizationDetail.serviceDateTo,
+        effectiveDateTo: patient.authorizationDetail.effectiveDateTo,
+        effectiveDateFrom: patient.authorizationDetail.effectiveDateFrom,
+        expirationeDateTo: patient.authorizationDetail.expirationeDateTo,
+        admitDate: patient.authorizationDetail.admitDate,
+        dischargeDate: patient.authorizationDetail.dischargeDate,
+        certificationIdentificationNumber: patient.authorizationDetail.certificationIdentificationNumber,
+        preAuthorizationStatus: patient.authorizationDetail.preAuthorizationStatus,
+        enquiryDetailStatus: patient.authorizationDetail.enquiryDetailStatus,
+      },
+
+      /*Member Details*/
+      mrnNumber: patient.mrnNumber,
+      memberfirstName: patient.memberfirstName,
+      memberlastName: patient.memberlastName,
+      membermiddleName: patient.membermiddleName,
+      membersuffix: patient.membersuffix,
+      membergender: patient.membergender,
+      memberdob: (new Date(patient.memberdob)).toISOString(),
+      memberPrefix: patient.memberPrefix,
+      memberRelationshipToSubscriber: patient.memberRelationshipToSubscriber,
+      memberDetailStatus: patient.memberDetailStatus,
+
+      /*Organization Details*/
+      orgCommunicationTypeTelephone: patient.orgCommunicationTypeTelephone,
+      orgCommunicationTypeFacsimile: patient.orgCommunicationTypeFacsimile,
+      orgCommunicationTypeEMail: patient.orgCommunicationTypeEMail,
+      orgCommunicationExt: patient.orgCommunicationExt,
+
+      organizationName: patient.organizationName,
+      orgIdentificationCode: patient.orgIdentificationCode,
+      orgIdentificationCodeType: patient.orgIdentificationCodeType,
+      orgRejectionReason: patient.orgRejectionReason,
+      orgFollowUpActionDescription: patient.orgFollowUpActionDescription,
+      orgDetailStatus: patient.orgDetailStatus,
+
+      /*Requester Provider Details*/
+      requesterResponseInformation: {
+        id: patient.requesterResponseInformation.id,
+        reqProviderSuffix: patient.requesterResponseInformation.reqProviderSuffix,
+        reqProviderPrefix: patient.requesterResponseInformation.reqProviderPrefix,
+        serviceDateFrom: (new Date(patient.requesterResponseInformation.serviceDateFrom)).toISOString(),
+        serviceDateTo: (new Date(patient.requesterResponseInformation.serviceDateTo)).toISOString(),
+        admitDate: (new Date(patient.requesterResponseInformation.admitDate)).toISOString(),
+        dischargeDate: (new Date(patient.requesterResponseInformation.dischargeDate)).toISOString(),
+        requestCategory: patient.requesterResponseInformation.requestCategory,
+        certificationType: patient.requesterResponseInformation.certificationType,
+        serviceType: patient.requesterResponseInformation.serviceType,
+        levelOfService: patient.requesterResponseInformation.levelOfService,
+
+        reqProviderFullName: patient.requesterResponseInformation.reqProviderFullName,
+        reqProviderFirstName: patient.requesterResponseInformation.reqProviderFirstName,
+        reqProviderLastName: patient.requesterResponseInformation.reqProviderLastName,
+        reqProviderMiddleName: patient.requesterResponseInformation.reqProviderMiddleName,
+        reqProviderType: patient.requesterResponseInformation.reqProviderType,
+        reqProviderIdentificationNumber: patient.requesterResponseInformation.reqProviderIdentificationNumber,
+        reqProviderIdentificationNumberType: patient.requesterResponseInformation.reqProviderIdentificationNumberType,
+        reqProviderSupplimentalId: patient.requesterResponseInformation.reqProviderSupplimentalId,
+        reqProviderIdNumberType: patient.requesterResponseInformation.reqProviderIdNumberType,
+        reqProviderRejectionReason: patient.requesterResponseInformation.reqProviderRejectionReason,
+        reqProviderFollowUpActionDescription: patient.requesterResponseInformation.reqProviderFollowUpActionDescription,
+        reqProviderDetailStatus: patient.requesterResponseInformation.reqProviderDetailStatus,
+      },
+
+      /*Subscriber Details*/
+      subscriberRelToInsured: patient.subscriberRelToInsured,
+      subscriberIdentificationCode: patient.subscriberIdentificationCode,
+      subscriberIdNumberType: patient.subscriberIdNumberType,
+
+      subscriberFirstName: patient.subscriberFirstName,
+      subscriberLastName: patient.subscriberLastName,
+      subscriberMiddleName: patient.subscriberMiddleName,
+      subscriberSuffix: patient.subscriberSuffix,
+      subscriberGender: patient.subscriberGender,
+      subscriberDob: (new Date(patient.subscriberDob)).toISOString(),
+      subscriberPrefix: patient.subscriberPrefix,
+      subscriberSupplementalId: patient.subscriberSupplementalId,
+      subscriberIdentificationNumberType: patient.subscriberIdentificationNumberType,
+      subscriberRejectionReason: patient.subscriberRejectionReason,
+      subscriberFollowUpActionDescription: patient.subscriberFollowUpActionDescription,
+      subscriberDetailStatus: patient.subscriberDetailStatus,
+
+      dependentDetailResponse: {
+        /*Dependent Details*/
+        id: patient.id,
+        dependentDetailStatus: patient.dependentDetailResponse.dependentDetailStatus,
+        dependentSupplementalId: patient.dependentDetailResponse.dependentSupplementalId,
+        dependentIdentificationNumberType: patient.dependentDetailResponse.dependentIdentificationNumberType,
+        dependentRejectionReaso: patient.dependentDetailResponse.dependentRejectionReaso,
+        dependentFollowUpActionDescription: patient.dependentDetailResponse.dependentFollowUpActionDescription,
+
+        dependentSubscriberIdentificationCode: patient.dependentDetailResponse.dependentSubscriberIdentificationCode,
+        dependentSubscriberIdNumberType: patient.dependentDetailResponse.dependentSubscriberIdNumberType,
+        dependentPrefix: patient.dependentDetailResponse.dependentPrefix,
+
+        dependentFirstName: patient.dependentDetailResponse.dependentFirstName,
+        dependentLastName: patient.dependentDetailResponse.dependentLastName,
+        dependentMiddleName: patient.dependentDetailResponse.dependentMiddleName,
+        dependentSuffix: patient.dependentDetailResponse.dependentSuffix,
+        dependentGender: patient.dependentDetailResponse.dependentGender,
+        dependentDob: (new Date(patient.dependentDetailResponse.dependentDob)).toISOString(),
+        dependentReletionship: patient.dependentDetailResponse.dependentReletionship,
+      },
+      /*Servicing Provider Details*/
+      servicingProviderFullName: patient.servicingProviderFullName,
+      servicingProviderFirstName: patient.servicingProviderFirstName,
+      servicingProviderLastName: patient.servicingProviderLastName,
+      servicingProviderMiddleName: patient.servicingProviderMiddleName,
+      servicingProviderType: patient.servicingProviderType,
+      servicingProviderAddress: patient.servicingProviderAddress,
+      servicingProviderCity: patient.servicingProviderCity,
+      servicingProviderState: patient.servicingProviderState,
+      servicingProviderPostalCode: patient.servicingProviderPostalCode,
+      servicingProviderCountryCode: patient.servicingProviderCountryCode,
+      servicingProviderIdentificationNumber: patient.servicingProviderIdentificationNumber,
+      servicingProviderIdentificationNumberType: patient.servicingProviderIdentificationNumberType,
+      servicingProviderSupplimentId: patient.servicingProviderSupplimentId,
+      servicingProviderIdNumberType: patient.servicingProviderIdNumberType,
+      servicingProviderRejectionReason: patient.servicingProviderRejectionReason,
+      servicingProviderFollowUpActionDescription: patient.servicingProviderFollowUpActionDescription,
+      servicingProviderDetailStatus: patient.servicingProviderDetailStatus,
+      homeHealthAideResponse: {
+        homeHealthAideAuthorizationIdNo: patient.homeHealthAideResponse.homeHealthAideAuthorizationIdNo ?
+          patient.homeHealthAideResponse.homeHealthAideAuthorizationIdNo : null,
+        homeHealthAideEffectiveDateFrom: (new Date(patient.homeHealthAideResponse.homeHealthAideEffectiveDateFrom)).toISOString(),
+        homeHealthAideEffectiveDateTo: (new Date(patient.homeHealthAideResponse.homeHealthAideEffectiveDateTo)).toISOString(),
+        homeHealthAideExpirationDate: (new Date(patient.homeHealthAideResponse.homeHealthAideExpirationDate)).toISOString(),
+        homeHealthAideSelected: patient.homeHealthAideResponse.homeHealthAideSelected,
+
+        mrnNumber: patient.homeHealthAideResponse.mrnNumber,
+        homeHealthAideRevenueCode: patient.homeHealthAideResponse.homeHealthAideRevenueCode,
+        homeHealthAideProviderSuffix: patient.homeHealthAideResponse.homeHealthAideProviderSuffix,
+        homeHealthAideProviderPrefix: patient.homeHealthAideResponse.homeHealthAideProviderPrefix,
+        homeHealthAideResponseServiceDateFrom:
+          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateFrom)).toISOString(),
+        homeHealthAideResponseServiceDateTo:
+          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateTo)).toISOString(),
+
+        id: patient.homeHealthAideResponse.id,
+        homeHealthAideProviderIdentificationNumberType: patient.homeHealthAideResponse.homeHealthAideProviderIdentificationNumberType,
+        homeHealthAideProviderFollowUpActionDescription: patient.homeHealthAideResponse.homeHealthAideProviderFollowUpActionDescription,
+        homeHealthAideRejectionReasonMSG: patient.homeHealthAideResponse.homeHealthAideRejectionReasonMSG,
+        homeHealthAideProviderCountryCode: patient.homeHealthAideResponse.homeHealthAideProviderCountryCode,
+        homeHealthAideProviderPostalCode: patient.homeHealthAideResponse.homeHealthAideProviderPostalCode,
+        homeHealthAideProviderIdentificationNumber: patient.homeHealthAideResponse.homeHealthAideProviderIdentificationNumber,
+        homeHealthAideProviderSupplimentalId: patient.homeHealthAideResponse.homeHealthAideProviderSupplimentalId,
+        homeHealthAideProviderFirstName: patient.homeHealthAideResponse.homeHealthAideProviderFirstName,
+        homeHealthAideProviderFullName: patient.homeHealthAideResponse.homeHealthAideProviderFullName,
+        homeHealthAideCertificationAction: patient.homeHealthAideResponse.homeHealthAideCertificationAction,
+        homeHealthAideProviderMiddleName: patient.homeHealthAideResponse.homeHealthAideProviderMiddleName,
+        homeHealthAideCertificationType: patient.homeHealthAideResponse.homeHealthAideCertificationType,
+        homeHealthAideProviderIdNumberType: patient.homeHealthAideResponse.homeHealthAideProviderIdNumberType,
+        homeHealthAideProviderRejectionReason: patient.homeHealthAideResponse.homeHealthAideProviderRejectionReason,
+        homeHealthAideProviderType: patient.homeHealthAideResponse.homeHealthAideProviderType,
+        homeHealthAideDetailStatus: patient.homeHealthAideResponse.homeHealthAideDetailStatus,
+        homeHealthAideVisit: patient.homeHealthAideResponse.homeHealthAideVisit,
+        homeHealthAideRejectionReason: patient.homeHealthAideResponse.homeHealthAideRejectionReason,
+        homeHealthAideServiceType: patient.homeHealthAideResponse.homeHealthAideServiceType,
+        homeHealthAidePoviderLastName: patient.homeHealthAideResponse.homeHealthAidePoviderLastName,
+        homeHealthAideUnit: patient.homeHealthAideResponse.homeHealthAideUnit,
+        homeHealthAideLevelOfService: patient.homeHealthAideResponse.homeHealthAideLevelOfService,
+        homeHealthAideProviderCity: patient.homeHealthAideResponse.homeHealthAideProviderCity,
+        homeHealthAideProviderState: patient.homeHealthAideResponse.homeHealthAideProviderState,
+        homeHealthAideProviderAddress: patient.homeHealthAideResponse.homeHealthAideProviderAddress,
+        homeHealthAideRequestCategory: patient.homeHealthAideResponse.homeHealthAideRequestCategory,
+      },
+      occupationalTherapyResponse: {
+        occupationalTherapyAuthorizationIdNo: patient.occupationalTherapyResponse.occupationalTherapyAuthorizationIdNo,
+        occupationalTherapyEffectiveDateFrom:
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyEffectiveDateFrom)).toISOString(),
+        occupationalTherapyEffectiveDateTo:
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyEffectiveDateTo)).toISOString(),
+        occupationalTherapyExpirationDate:
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyExpirationDate)).toISOString(),
+        occupationalTherapySelected: patient.occupationalTherapyResponse.occupationalTherapySelected,
+
+        mrnNumber: patient.occupationalTherapyResponse.mrnNumber,
+        occupationalTherapyRevenueCode: patient.occupationalTherapyResponse.occupationalTherapyRevenueCode,
+        occupationalTherapyProviderSuffix: patient.occupationalTherapyResponse.occupationalTherapyProviderSuffix,
+        occupationalTherapyProviderPrefix: patient.occupationalTherapyResponse.occupationalTherapyProviderPrefix,
+        occupationalTherapyResponseServiceDateFrom:
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateFrom)).toISOString(),
+        occupationalTherapyResponseServiceDateTo:
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateTo)).toISOString(),
+
+        id: patient.occupationalTherapyResponse.id,
+        occupationalTherapyProviderIdentificationNumber:
+          patient.occupationalTherapyResponse.occupationalTherapyProviderIdentificationNumber,
+        occupationalTherapyProviderFollowUpActionDescription:
+          patient.occupationalTherapyResponse.occupationalTherapyProviderFollowUpActionDescription,
+        occupationalTherapyRequestCategory: patient.occupationalTherapyResponse.occupationalTherapyRequestCategory,
+        occupationalTherapyProviderRejectionReason: patient.occupationalTherapyResponse.occupationalTherapyProviderRejectionReason,
+        occupationalTherapyProviderLastName: patient.occupationalTherapyResponse.occupationalTherapyProviderLastName,
+        occupationalTherapyServiceType: patient.occupationalTherapyResponse.occupationalTherapyServiceType,
+        occupationalTherapyProviderFullName: patient.occupationalTherapyResponse.occupationalTherapyProviderFullName,
+        occupationalTherapyProviderType: patient.occupationalTherapyResponse.occupationalTherapyProviderType,
+        occupationalTherapyProviderSupplimentalId: patient.occupationalTherapyResponse.occupationalTherapyProviderSupplimentalId,
+        occupationalTherapyCountryCode: patient.occupationalTherapyResponse.occupationalTherapyCountryCode,
+        occupationalTherapyRejectionReason: patient.occupationalTherapyResponse.occupationalTherapyRejectionReason,
+        occupationalProviderIdentificationNumberType: patient.occupationalTherapyResponse.occupationalProviderIdentificationNumberType,
+        occupationalTherapyProviderMiddleName: patient.occupationalTherapyResponse.occupationalTherapyProviderMiddleName,
+        occupationalTherapyCertificationType: patient.occupationalTherapyResponse.occupationalTherapyCertificationType,
+        occupationalTherapyCertificationAction: patient.occupationalTherapyResponse.occupationalTherapyCertificationAction,
+        occupationalTherapyLevelOfService: patient.occupationalTherapyResponse.occupationalTherapyLevelOfService,
+        occupationalTherapyRejectionReasonMSG: patient.occupationalTherapyResponse.occupationalTherapyRejectionReasonMSG,
+        occupationalTherapyProviderIdNumberType: patient.occupationalTherapyResponse.occupationalTherapyProviderIdNumberType,
+        occupationalTherapyProviderFirstName: patient.occupationalTherapyResponse.occupationalTherapyProviderFirstName,
+        occupationalTherapyDetailStatus: patient.occupationalTherapyResponse.occupationalTherapyDetailStatus,
+        occupationalTherapyVisit: patient.occupationalTherapyResponse.occupationalTherapyVisit,
+        occupationalTherapyCity: patient.occupationalTherapyResponse.occupationalTherapyCity,
+        occupationalTherapyState: patient.occupationalTherapyResponse.occupationalTherapyState,
+        occupationalTherapyAddress: patient.occupationalTherapyResponse.occupationalTherapyAddress,
+        occupationalTherapyPostalCode: patient.occupationalTherapyResponse.occupationalTherapyPostalCode,
+        occupationalTherapyUnit: patient.occupationalTherapyResponse.occupationalTherapyUnit,
+      },
+      medicalSocialWorkResponse: {
+        medicalSocialWorkAuthorizationIdNo: patient.medicalSocialWorkResponse.medicalSocialWorkAuthorizationIdNo,
+        medicalSocialWorkEffectiveDateFrom: (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateFrom)).toISOString(),
+        medicalSocialWorkEffectiveDateTo: (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateTo)).toISOString(),
+        medicalSocialWorkExpirationDate: (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkExpirationDate)).toISOString(),
+        medicalSocialWorkSelected: patient.medicalSocialWorkResponse.medicalSocialWorkSelected,
+
+        mrnNumber: patient.medicalSocialWorkResponse.mrnNumber,
+        medicalSocialWorkRevenueCode: patient.medicalSocialWorkResponse.medicalSocialWorkRevenueCode,
+        medicalSocialWorkProviderSuffix: patient.medicalSocialWorkResponse.medicalSocialWorkProviderSuffix,
+        medicalSocialWorkProviderPrefix: patient.medicalSocialWorkResponse.medicalSocialWorkProviderPrefix,
+        medicalSocialWorkResponseServiceDateFrom:
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateFrom)).toISOString(),
+        medicalSocialWorkResponseServiceDateTo:
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateTo)).toISOString(),
+
+
+        id: patient.medicalSocialWorkResponse.id,
+        medicalSocialWorkProviderFollowUpActionDescription:
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderFollowUpActionDescription,
+        medicalSocialWorkProviderIdentificationNumberType:
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdentificationNumberType,
+        medicalSocialWorkProviderState: patient.medicalSocialWorkResponse.medicalSocialWorkProviderState,
+        medicalSocialWorkCertificationAction: patient.medicalSocialWorkResponse.medicalSocialWorkCertificationAction,
+        medicalSocialWorkProviderPostalCode: patient.medicalSocialWorkResponse.medicalSocialWorkProviderPostalCode,
+        medicalSocialWorkProviderSupplimentalId: patient.medicalSocialWorkResponse.medicalSocialWorkProviderSupplimentalId,
+        medicalSocialWorkProviderCountryCode: patient.medicalSocialWorkResponse.medicalSocialWorkProviderCountryCode,
+        medicalSocialWorkProviderRejectionReason: patient.medicalSocialWorkResponse.medicalSocialWorkProviderRejectionReason,
+        medicalSocialWorkProviderFullName: patient.medicalSocialWorkResponse.medicalSocialWorkProviderFullName,
+        medicalSocialWorkRejectionReason: patient.medicalSocialWorkResponse.medicalSocialWorkRejectionReason,
+        medicalSocialWorkRejectionReasonMSG: patient.medicalSocialWorkResponse.medicalSocialWorkRejectionReasonMSG,
+        medicalSocialWorkProviderIdentificationNumber: patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdentificationNumber,
+        medicalSocialWorkCertificationType: patient.medicalSocialWorkResponse.medicalSocialWorkCertificationType,
+        medicalSocialWorkProviderMiddleName: patient.medicalSocialWorkResponse.medicalSocialWorkProviderMiddleName,
+        medicalSocialWorkProviderIdNumberType: patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdNumberType,
+        medicalSocialWorkProviderFirstName: patient.medicalSocialWorkResponse.medicalSocialWorkProviderFirstName,
+        medicalSocialWorkPoviderLastName: patient.medicalSocialWorkResponse.medicalSocialWorkPoviderLastName,
+        medicalSocialWorkRequestCategory: patient.medicalSocialWorkResponse.medicalSocialWorkRequestCategory,
+        medicalSocialWorkProviderAddress: patient.medicalSocialWorkResponse.medicalSocialWorkProviderAddress,
+        medicalSocialWorkLevelOfService: patient.medicalSocialWorkResponse.medicalSocialWorkLevelOfService,
+        medicalSocialWorkVisit: patient.medicalSocialWorkResponse.medicalSocialWorkVisit,
+        medicalSocialWorkUnit: patient.medicalSocialWorkResponse.medicalSocialWorkUnit,
+        medicalSocialWorkServiceType: patient.medicalSocialWorkResponse.medicalSocialWorkServiceType,
+        medicalSocialWorkDetailStatus: patient.medicalSocialWorkResponse.medicalSocialWorkDetailStatus,
+        medicalSocialWorkProviderType: patient.medicalSocialWorkResponse.medicalSocialWorkProviderType,
+        medicalSocialWorkProviderCity: patient.medicalSocialWorkResponse.medicalSocialWorkProviderCity,
+      },
+      physicalTherapyResponse: {
+        physicalTherapyAuthorizationIdNo: patient.physicalTherapyResponse.physicalTherapyAuthorizationIdNo,
+        physicalTherapyEffectiveDateFrom: (new Date(patient.physicalTherapyResponse.physicalTherapyEffectiveDateFrom)).toISOString(),
+        physicalTherapyEffectiveDateTo: (new Date(patient.physicalTherapyResponse.physicalTherapyEffectiveDateTo)).toISOString(),
+        physicalTherapyExpirationDate: (new Date(patient.physicalTherapyResponse.physicalTherapyExpirationDate)).toISOString(),
+        physicalTherapySelected: patient.physicalTherapyResponse.physicalTherapySelected,
+
+        mrnNumber: patient.physicalTherapyResponse.mrnNumber,
+        physicalTherapyRevenueCode: patient.physicalTherapyResponse.physicalTherapyRevenueCode,
+        physicalTherapyProviderSuffix: patient.physicalTherapyResponse.physicalTherapyProviderSuffix,
+        physicalTherapyProviderPrefix: patient.physicalTherapyResponse.physicalTherapyProviderPrefix,
+        physicalTherapyResponseServiceDateFrom:
+          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateFrom)).toISOString(),
+        physicalTherapyResponseServiceDateTo:
+          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateTo)).toISOString(),
+
+
+        id: patient.physicalTherapyResponse.id,
+        physicalTherapyRequestCategory: patient.physicalTherapyResponse.physicalTherapyRequestCategory,
+        physicalTherapyCertificationType: patient.physicalTherapyResponse.physicalTherapyCertificationType,
+        physicalTherapyServiceType: patient.physicalTherapyResponse.physicalTherapyServiceType,
+        physicalTherapyLevelOfService: patient.physicalTherapyResponse.physicalTherapyLevelOfService,
+        physicalTherapyVisit: patient.physicalTherapyResponse.physicalTherapyVisit,
+        physicalTherapyUnit: patient.physicalTherapyResponse.physicalTherapyUnit,
+        physicalTherapyCertificationAction: patient.physicalTherapyResponse.physicalTherapyCertificationAction,
+        physicalTherapyRejectionReason: patient.physicalTherapyResponse.physicalTherapyRejectionReason,
+        physicalTherapyRejectionReasonMSG: patient.physicalTherapyResponse.physicalTherapyRejectionReasonMSG,
+        physicalTherapyProviderFirstName: patient.physicalTherapyResponse.physicalTherapyProviderFirstName,
+        physicalTherapyPoviderLastName: patient.physicalTherapyResponse.physicalTherapyPoviderLastName,
+        physicalTherapyProviderMiddleName: patient.physicalTherapyResponse.physicalTherapyProviderMiddleName,
+        physicalTherapyProviderType: patient.physicalTherapyResponse.physicalTherapyProviderType,
+        physicalTherapyProviderIdentificationNumber: patient.physicalTherapyResponse.physicalTherapyProviderIdentificationNumber,
+        physicalTherapyProviderIdentificationNumberType: patient.physicalTherapyResponse.physicalTherapyProviderIdentificationNumberType,
+        physicalTherapyProviderSupplimentalId: patient.physicalTherapyResponse.physicalTherapyProviderSupplimentalId,
+        physicalTherapyProviderIdNumberType: patient.physicalTherapyResponse.physicalTherapyProviderIdNumberType,
+        physicalTherapyProviderRejectionReason: patient.physicalTherapyResponse.physicalTherapyProviderRejectionReason,
+        physicalTherapyProviderFollowUpActionDescription: patient.physicalTherapyResponse.physicalTherapyProviderFollowUpActionDescription,
+        physicalTherapyProviderAddress: patient.physicalTherapyResponse.physicalTherapyProviderAddress,
+        physicalTherapyProviderCity: patient.physicalTherapyResponse.physicalTherapyProviderCity,
+        physicalTherapyProviderState: patient.physicalTherapyResponse.physicalTherapyProviderState,
+        physicalTherapyProviderPostalCode: patient.physicalTherapyResponse.physicalTherapyProviderPostalCode,
+        physicalTherapyProviderCountryCode: patient.physicalTherapyResponse.physicalTherapyProviderCountryCode,
+        physicalTherapyProviderFullName: patient.physicalTherapyResponse.physicalTherapyProviderFullName,
+        physicalTherapyDetailStatus: patient.physicalTherapyResponse.physicalTherapyDetailStatus,
+      },
+      skilledNursingResponse: {
+        skilledNursingAuthorizationIdNo: patient.skilledNursingResponse.skilledNursingAuthorizationIdNo,
+        skilledNursingEffectiveDateFrom: (new Date(patient.skilledNursingResponse.skilledNursingEffectiveDateFrom)).toISOString(),
+        skilledNursingEffectiveDateTo: (new Date(patient.skilledNursingResponse.skilledNursingEffectiveDateTo)).toISOString(),
+        skilledNursingExpirationDate: (new Date(patient.skilledNursingResponse.skilledNursingExpirationDate)).toISOString(),
+        skilledNursingSelected: patient.skilledNursingResponse.skilledNursingSelected,
+
+        mrnNumber: patient.skilledNursingResponse.mrnNumber,
+        skilledNursingRevenueCode: patient.skilledNursingResponse.skilledNursingRevenueCode,
+        skilledNursingProviderSuffix: patient.skilledNursingResponse.skilledNursingProviderSuffix,
+        skilledNursingProviderPrefix: patient.skilledNursingResponse.skilledNursingProviderPrefix,
+        skilledNursingResponseServiceDateFrom:
+          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateFrom)).toISOString(),
+        skilledNursingResponseServiceDateTo:
+          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateTo)).toISOString(),
+
+
+        id: patient.skilledNursingResponse.id,
+        skilledNursingProviderIdentificationNumberType: patient.skilledNursingResponse.skilledNursingProviderIdentificationNumberType,
+        skilledNursingProviderFollowUpActionDescription: patient.skilledNursingResponse.skilledNursingProviderFollowUpActionDescription,
+        skilledNursingProviderIdNumberType: patient.skilledNursingResponse.skilledNursingProviderIdNumberType,
+        skilledNursingProviderRejectionReason: patient.skilledNursingResponse.skilledNursingProviderRejectionReason,
+        skilledNursingProviderPostalCode: patient.skilledNursingResponse.skilledNursingProviderPostalCode,
+        skilledNursingProviderSupplimentalId: patient.skilledNursingResponse.skilledNursingProviderSupplimentalId,
+        skilledNursingCertificationType: patient.skilledNursingResponse.skilledNursingCertificationType,
+        skilledNursingProviderMiddleName: patient.skilledNursingResponse.skilledNursingProviderMiddleName,
+        skilledNursingCertificationAction: patient.skilledNursingResponse.skilledNursingCertificationAction,
+        skilledNursingProviderIdentificationNumber: patient.skilledNursingResponse.skilledNursingProviderIdentificationNumber,
+        skilledNursingProviderFirstName: patient.skilledNursingResponse.skilledNursingProviderFirstName,
+        skilledNursingProviderFullName: patient.skilledNursingResponse.skilledNursingProviderFullName,
+        skilledNursingRejectionReasonMSG: patient.skilledNursingResponse.skilledNursingRejectionReasonMSG,
+        skilledNursingProviderCountryCode: patient.skilledNursingResponse.skilledNursingProviderCountryCode,
+        skilledNursingPoviderLastName: patient.skilledNursingResponse.skilledNursingPoviderLastName,
+        skilledNursingUnit: patient.skilledNursingResponse.skilledNursingUnit,
+        skilledNursingServiceType: patient.skilledNursingResponse.skilledNursingServiceType,
+        skilledNursingRequestCategory: patient.skilledNursingResponse.skilledNursingRequestCategory,
+        skilledNursingLevelOfService: patient.skilledNursingResponse.skilledNursingLevelOfService,
+        skilledNursingProviderType: patient.skilledNursingResponse.skilledNursingProviderType,
+        skilledNursingProviderState: patient.skilledNursingResponse.skilledNursingProviderState,
+        skilledNursingRejectionReason: patient.skilledNursingResponse.skilledNursingRejectionReason,
+        skilledNursingVisit: patient.skilledNursingResponse.skilledNursingVisit,
+        skilledNursingProviderAddress: patient.skilledNursingResponse.skilledNursingProviderAddress,
+        skilledNursingDetailStatus: patient.skilledNursingResponse.skilledNursingDetailStatus,
+        skilledNursingProviderCity: patient.skilledNursingResponse.skilledNursingProviderCity,
+      },
+      speechPathologyResponse: {
+        speechPathologyAuthorizationIdNo: patient.speechPathologyResponse.speechPathologyAuthorizationIdNo,
+        speechPathologyEffectiveDateFrom: (new Date(patient.speechPathologyResponse.speechPathologyEffectiveDateFrom)).toISOString(),
+        speechPathologyEffectiveDateTo: (new Date(patient.speechPathologyResponse.speechPathologyEffectiveDateTo)).toISOString(),
+        speechPathologyExpirationDate: (new Date(patient.speechPathologyResponse.speechPathologyExpirationDate)).toISOString(),
+        speechPathologySelected: patient.speechPathologyResponse.speechPathologySelected,
+
+        mrnNumber: patient.speechPathologyResponse.mrnNumber,
+        speechPathologyRevenueCode: patient.speechPathologyResponse.speechPathologyRevenueCode,
+        speechPathologyProviderSuffix: patient.speechPathologyResponse.speechPathologyProviderSuffix,
+        speechPathologyProviderPrefix: patient.speechPathologyResponse.speechPathologyProviderPrefix,
+        speechPathologyResponseServiceDateFrom:
+          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateFrom)).toISOString(),
+        speechPathologyResponseServiceDateTo:
+          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateTo)).toISOString(),
+
+
+        id: patient.speechPathologyResponse.id,
+        speechPathologyProviderIdentificationNumberType: patient.speechPathologyResponse.speechPathologyProviderIdentificationNumberType,
+        speechPathologyProviderFollowUpActionDescription: patient.speechPathologyResponse.speechPathologyProviderFollowUpActionDescription,
+        speechPathologyProviderRejectionReason: patient.speechPathologyResponse.speechPathologyProviderRejectionReason,
+        speechPathologyProviderIdNumberType: patient.speechPathologyResponse.speechPathologyProviderIdNumberType,
+        speechPathologyRequestCategory: patient.speechPathologyResponse.speechPathologyRequestCategory,
+        speechPathologyProviderAddress: patient.speechPathologyResponse.speechPathologyProviderAddress,
+        speechPathologyProviderFullName: patient.speechPathologyResponse.speechPathologyProviderFullName,
+        speechPathologyProviderSupplimentalId: patient.speechPathologyResponse.speechPathologyProviderSupplimentalId,
+        speechPathologyRejectionReason: patient.speechPathologyResponse.speechPathologyRejectionReason,
+        speechPathologyCertificationAction: patient.speechPathologyResponse.speechPathologyCertificationAction,
+        speechPathologyProviderPostalCode: patient.speechPathologyResponse.speechPathologyProviderPostalCode,
+        speechPathologyRejectionReasonMSG: patient.speechPathologyResponse.speechPathologyRejectionReasonMSG,
+        speechPathologyProviderCountryCode: patient.speechPathologyResponse.speechPathologyProviderCountryCode,
+        speechPathologyPoviderLastName: patient.speechPathologyResponse.speechPathologyPoviderLastName,
+        speechPathologyProviderFirstName: patient.speechPathologyResponse.speechPathologyProviderFirstName,
+        speechPathologyCertificationType: patient.speechPathologyResponse.speechPathologyCertificationType,
+        speechPathologyProviderMiddleName: patient.speechPathologyResponse.speechPathologyProviderMiddleName,
+        speechPathologyProviderIdentificationNumber: patient.speechPathologyResponse.speechPathologyProviderIdentificationNumber,
+        speechPathologyVisit: patient.speechPathologyResponse.speechPathologyVisit,
+        speechPathologyDetailStatus: patient.speechPathologyResponse.speechPathologyDetailStatus,
+        speechPathologyUnit: patient.speechPathologyResponse.speechPathologyUnit,
+        speechPathologyServiceType: patient.speechPathologyResponse.speechPathologyServiceType,
+        speechPathologyProviderState: patient.speechPathologyResponse.speechPathologyProviderState,
+        speechPathologyProviderCity: patient.speechPathologyResponse.speechPathologyProviderCity,
+        speechPathologyProviderType: patient.speechPathologyResponse.speechPathologyProviderType,
+        speechPathologyLevelOfService: patient.speechPathologyResponse.speechPathologyLevelOfService,
+      },
+    };
+
+    this.preAuthReponseForm.setValue(formData);
+
+    //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
+    console.log('Form Populated Data ', formData);
+
+  }
+  /* Populating ResponseForm Data */
+
+  onSave(formDataOnSave) {
+    console.log('On save ', formDataOnSave);
+
+    //   if (formDataOnSave.valid) {
+    let selectedPatntData: PreAuthResponse;
+    selectedPatntData = formDataOnSave.value;
+    /* Converting Date to ISO string */
+
+    selectedPatntData.memberdob = new Date(selectedPatntData.memberdob).toISOString();
+
+    // selectedPatntData.authorizationDetail.processDateAndTime =
+    //   new Date(selectedPatntData.authorizationDetail.processDateAndTime).toISOString();
+
+    selectedPatntData.subscriberDob = new Date(selectedPatntData.subscriberDob).toISOString();
+
+    selectedPatntData.dependentDetailResponse.dependentDob =
+      new Date(selectedPatntData.dependentDetailResponse.dependentDob).toISOString();
+
+    selectedPatntData.requesterResponseInformation.serviceDateFrom =
+      new Date(selectedPatntData.requesterResponseInformation.serviceDateFrom).toISOString();
+
+    selectedPatntData.requesterResponseInformation.serviceDateTo =
+      new Date(selectedPatntData.requesterResponseInformation.serviceDateTo).toISOString();
+
+    selectedPatntData.requesterResponseInformation.admitDate =
+      new Date(selectedPatntData.requesterResponseInformation.admitDate).toISOString();
+
+    selectedPatntData.requesterResponseInformation.dischargeDate =
+      new Date(selectedPatntData.requesterResponseInformation.dischargeDate).toISOString();
+
+    selectedPatntData.speechPathologyResponse.speechPathologyEffectiveDateFrom =
+      new Date(selectedPatntData.speechPathologyResponse.speechPathologyEffectiveDateFrom).toISOString();
+
+    selectedPatntData.speechPathologyResponse.speechPathologyEffectiveDateTo =
+      new Date(selectedPatntData.speechPathologyResponse.speechPathologyEffectiveDateTo).toISOString();
+
+    selectedPatntData.speechPathologyResponse.speechPathologyExpirationDate =
+      new Date(selectedPatntData.speechPathologyResponse.speechPathologyExpirationDate).toISOString();
+
+    selectedPatntData.speechPathologyResponse.speechPathologyResponseServiceDateFrom =
+      new Date(selectedPatntData.speechPathologyResponse.speechPathologyResponseServiceDateFrom).toISOString();
+
+    selectedPatntData.speechPathologyResponse.speechPathologyResponseServiceDateTo =
+      new Date(selectedPatntData.speechPathologyResponse.speechPathologyResponseServiceDateTo).toISOString();
+    /** */
+    selectedPatntData.skilledNursingResponse.skilledNursingEffectiveDateFrom =
+      new Date(selectedPatntData.skilledNursingResponse.skilledNursingEffectiveDateFrom).toISOString();
+
+    selectedPatntData.skilledNursingResponse.skilledNursingEffectiveDateTo =
+      new Date(selectedPatntData.skilledNursingResponse.skilledNursingEffectiveDateTo).toISOString();
+
+    selectedPatntData.skilledNursingResponse.skilledNursingExpirationDate =
+      new Date(selectedPatntData.skilledNursingResponse.skilledNursingExpirationDate).toISOString();
+
+    selectedPatntData.skilledNursingResponse.skilledNursingResponseServiceDateFrom =
+      new Date(selectedPatntData.skilledNursingResponse.skilledNursingResponseServiceDateFrom).toISOString();
+
+    selectedPatntData.skilledNursingResponse.skilledNursingResponseServiceDateTo =
+      new Date(selectedPatntData.skilledNursingResponse.skilledNursingResponseServiceDateTo).toISOString();
+    /** */
+
+    /** */
+    selectedPatntData.physicalTherapyResponse.physicalTherapyEffectiveDateFrom =
+      new Date(selectedPatntData.physicalTherapyResponse.physicalTherapyEffectiveDateFrom).toISOString();
+
+    selectedPatntData.physicalTherapyResponse.physicalTherapyEffectiveDateTo =
+      new Date(selectedPatntData.physicalTherapyResponse.physicalTherapyEffectiveDateTo).toISOString();
+
+    selectedPatntData.physicalTherapyResponse.physicalTherapyExpirationDate =
+      new Date(selectedPatntData.physicalTherapyResponse.physicalTherapyExpirationDate).toISOString();
+
+    selectedPatntData.physicalTherapyResponse.physicalTherapyResponseServiceDateFrom =
+      new Date(selectedPatntData.physicalTherapyResponse.physicalTherapyResponseServiceDateFrom).toISOString();
+
+    selectedPatntData.physicalTherapyResponse.physicalTherapyResponseServiceDateTo =
+      new Date(selectedPatntData.physicalTherapyResponse.physicalTherapyResponseServiceDateTo).toISOString();
+    /** */
+
+    /** */
+    selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateFrom =
+      new Date(selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateFrom).toISOString();
+
+    selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateTo =
+      new Date(selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateTo).toISOString();
+
+    selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkExpirationDate =
+      new Date(selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkExpirationDate).toISOString();
+
+    selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateFrom =
+      new Date(selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateFrom).toISOString();
+
+    selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateTo =
+      new Date(selectedPatntData.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateTo).toISOString();
+    /** */
+
+    /** */
+    selectedPatntData.occupationalTherapyResponse.occupationalTherapyEffectiveDateFrom =
+      new Date(selectedPatntData.occupationalTherapyResponse.occupationalTherapyEffectiveDateFrom).toISOString();
+
+    selectedPatntData.occupationalTherapyResponse.occupationalTherapyEffectiveDateTo =
+      new Date(selectedPatntData.occupationalTherapyResponse.occupationalTherapyEffectiveDateTo).toISOString();
+
+    selectedPatntData.occupationalTherapyResponse.occupationalTherapyExpirationDate =
+      new Date(selectedPatntData.occupationalTherapyResponse.occupationalTherapyExpirationDate).toISOString();
+
+    selectedPatntData.occupationalTherapyResponse.occupationalTherapyResponseServiceDateFrom =
+      new Date(selectedPatntData.occupationalTherapyResponse.occupationalTherapyResponseServiceDateFrom).toISOString();
+
+    selectedPatntData.occupationalTherapyResponse.occupationalTherapyResponseServiceDateTo =
+      new Date(selectedPatntData.occupationalTherapyResponse.occupationalTherapyResponseServiceDateTo).toISOString();
+    /** */
+
+    /** */
+    selectedPatntData.homeHealthAideResponse.homeHealthAideEffectiveDateFrom =
+      new Date(selectedPatntData.homeHealthAideResponse.homeHealthAideEffectiveDateFrom).toISOString();
+
+    selectedPatntData.homeHealthAideResponse.homeHealthAideEffectiveDateTo =
+      new Date(selectedPatntData.homeHealthAideResponse.homeHealthAideEffectiveDateTo).toISOString();
+
+    selectedPatntData.homeHealthAideResponse.homeHealthAideExpirationDate =
+      new Date(selectedPatntData.homeHealthAideResponse.homeHealthAideExpirationDate).toISOString();
+
+    selectedPatntData.homeHealthAideResponse.homeHealthAideResponseServiceDateFrom =
+      new Date(selectedPatntData.homeHealthAideResponse.homeHealthAideResponseServiceDateFrom).toISOString();
+
+    selectedPatntData.homeHealthAideResponse.homeHealthAideResponseServiceDateTo =
+      new Date(selectedPatntData.homeHealthAideResponse.homeHealthAideResponseServiceDateTo).toISOString();
+    /** */
+
+    console.log(selectedPatntData.memberdob);
+    // selectedPatientData.currenttimdate = new Date().toISOString();
+    // console.log('Date after change ', selectedPatientData);
+    console.log('Form data on save', selectedPatntData);
+
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = false;
+    config.hasBackdrop = true;
+    config.width = '40%';
+    config.data = {
+      heading: '"Save" Confirmation Alert',
+      messageContent: 'Do you want to "Save" the content?',
+      selectedPatientData: selectedPatntData,
+      actionType: 'saveRequest'
+    };
+    const dialogRef = this.dialog.open(StackedModalResponseComponent, config);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Stacked Dialog Closed: true / false will come ' + result);
+
+      if (result) {
+        console.log('Confirm is clicked: ' + result);
+        // this.isFormUpdated = result;
+        this.dialogRef.close(false);
+        // this.preAuthService.filter('Refresh Initiated');
+      }
+
+    });
+
+    // }
+
+  }
+
+  onEdit(formDataOnEdit) {
+    this.editing = true;
+    this.preAuthReponseForm.get('authorizationDetail').patchValue({ processDateAndTime: (new Date()).toISOString() });
+    console.log('Response form on edit ', formDataOnEdit);
+
+    // if (formDataOnEdit.valid) {
+    //   let selectedPatntData: PreAuthResponse;
+    //   selectedPatntData = formDataOnEdit.value;
+
+    this.preAuthReponseForm.get('authorizationDetail').get('preAuthorizationStatus').updateValueAndValidity();
+    this.preAuthReponseForm.get('authorizationDetail').get('unitsForNoOfUnitsTobeUsed').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('membergender').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('orgIdentificationCodeType').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('subscriberIdNumberType').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberRelToInsured').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberGender').updateValueAndValidity();
+    this.preAuthReponseForm.get('subscriberIdentificationNumberType').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('dependentDetailResponse').get('dependentSubscriberIdNumberType').updateValueAndValidity();
+    this.preAuthReponseForm.get('dependentDetailResponse').get('dependentReletionship').updateValueAndValidity();
+    this.preAuthReponseForm.get('dependentDetailResponse').get('dependentGender').updateValueAndValidity();
+    this.preAuthReponseForm.get('dependentDetailResponse').get('dependentIdentificationNumberType').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('requesterResponseInformation').get('reqProviderIdNumberType').updateValueAndValidity();
+    this.preAuthReponseForm.get('requesterResponseInformation').get('reqProviderIdentificationNumberType').updateValueAndValidity();
+    this.preAuthReponseForm.get('requesterResponseInformation').get('reqProviderType').updateValueAndValidity();
+    this.preAuthReponseForm.get('requesterResponseInformation').get('requestCategory').updateValueAndValidity();
+    this.preAuthReponseForm.get('requesterResponseInformation').get('certificationType').updateValueAndValidity();
+
+    this.preAuthReponseForm.get('requesterResponseInformation').get('serviceType').updateValueAndValidity();
+    this.preAuthReponseForm.get('requesterResponseInformation').get('levelOfService').updateValueAndValidity();
+
+    // }
+  }
+
+
+  printPage() {
+    // window.print();
+    const printContent = document.getElementById('formId');
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    // WindowPrt.document.write(`<link rel="stylesheet" type="text/css"
+    //   href = "../../../preauthorization/components/denied-dialog/denied-dialog.component.css" > `);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
+  }
+
+  homeHealthAideClicked(event) {
+    if (event.checked) {
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideRequestCategory').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideCertificationType').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideServiceType').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideLevelOfService').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideCertificationAction').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideProviderType').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideProviderIdNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideAuthorizationIdNo').updateValueAndValidity();
+
+    } else {
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideRequestCategory').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideCertificationType').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideServiceType').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideLevelOfService').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideCertificationAction').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideProviderType').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideProviderIdNumberType').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideProviderIdentificationNumberType').clearValidators();
+      this.preAuthReponseForm.get('homeHealthAideResponse').get('homeHealthAideAuthorizationIdNo').clearValidators();
+    }
+  }
+
+  medicalSocialWorkClicked(event) {
+    if (event.checked) {
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkRequestCategory').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkCertificationType').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkServiceType').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkLevelOfService').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkCertificationAction').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkProviderType').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkProviderIdNumberType').updateValueAndValidity();
+      this.preAuthReponseForm
+        .get('medicalSocialWorkResponse').get('medicalSocialWorkProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkAuthorizationIdNo').updateValueAndValidity();
+
+    } else {
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkRequestCategory').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkCertificationType').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkServiceType').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkLevelOfService').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkCertificationAction').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkProviderType').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkProviderIdNumberType').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkProviderIdentificationNumberType').clearValidators();
+      this.preAuthReponseForm.get('medicalSocialWorkResponse').get('medicalSocialWorkAuthorizationIdNo').clearValidators();
+    }
+  }
+
+  occupationTherapyClicked(event) {
+    if (event.checked) {
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyRequestCategory').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyServiceType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyLevelOfService').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationAction').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderIdNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationalProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').updateValueAndValidity();
+
+    } else {
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyRequestCategory').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationType').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyServiceType').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyLevelOfService').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyCertificationAction').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderType').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyProviderIdNumberType').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationalProviderIdentificationNumberType').clearValidators();
+      this.preAuthReponseForm.get('occupationTherapyResponse').get('occupationTherapyAuthorizationIdNo').clearValidators();
+    }
+  }
+
+  skilledNursingClicked(event) {
+    if (event.checked) {
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingRequestCategory').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingCertificationType').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingServiceType').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingLevelOfService').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingCertificationAction').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingProviderType').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingProviderIdNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingAuthorizationIdNo').updateValueAndValidity();
+
+    } else {
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingRequestCategory').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingCertificationType').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingServiceType').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingLevelOfService').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingCertificationAction').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingProviderType').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingProviderIdNumberType').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingProviderIdentificationNumberType').clearValidators();
+      this.preAuthReponseForm.get('skilledNursingResponse').get('skilledNursingAuthorizationIdNo').clearValidators();
+    }
+  }
+
+  physicalTherapyClicked(event) {
+    if (event.checked) {
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyRequestCategory').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyCertificationType').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyServiceType').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyLevelOfService').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyCertificationAction').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyProviderType').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyProviderIdNumberType').updateValueAndValidity();
+      this.preAuthReponseForm
+        .get('physicalTherapyResponse').get('physicalTherapyProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyAuthorizationIdNo').updateValueAndValidity();
+
+    } else {
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyRequestCategory').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyCertificationType').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyServiceType').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyLevelOfService').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyCertificationAction').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyProviderType').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyProviderIdNumberType').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyProviderIdentificationNumberType').clearValidators();
+      this.preAuthReponseForm.get('physicalTherapyResponse').get('physicalTherapyAuthorizationIdNo').clearValidators();
+    }
+  }
+
+  speechPathologyClicked(event) {
+    if (event.checked) {
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyRequestCategory').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyCertificationType').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyServiceType').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyLevelOfService').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyAuthorizationIdNo').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyCertificationAction').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyProviderType').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyProviderIdNumberType').updateValueAndValidity();
+      this.preAuthReponseForm
+        .get('speechPathologyResponse').get('speechPathologyProviderIdentificationNumberType').updateValueAndValidity();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyAuthorizationIdNo').updateValueAndValidity();
+
+    } else {
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyRequestCategory').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyCertificationType').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyServiceType').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyLevelOfService').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyAuthorizationIdNo').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyCertificationAction').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyProviderType').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyProviderIdNumberType').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyProviderIdentificationNumberType').clearValidators();
+      this.preAuthReponseForm.get('speechPathologyResponse').get('speechPathologyAuthorizationIdNo').clearValidators();
+    }
+  }
+
 
 }
+

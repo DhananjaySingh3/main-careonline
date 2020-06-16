@@ -162,3 +162,7 @@ mat-checkbox {
   min-width: 0;
   width: 200px; /* reduces the size of the field i.e space*/
 }
+
+.flex-end {
+  flex: none;
+}

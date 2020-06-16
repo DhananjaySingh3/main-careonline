@@ -50,51 +50,29 @@ export class StackedModalResponseComponent implements OnInit {
   onConfirmClick() {
 
     setTimeout(() => {
-      console.log('Data received from pre-auth form component start');
+      console.log('Data received from pre-auth response component start');
       console.log(this.formDataReceived);
-      console.log('Data received from pre-auth form component end');
+      console.log('Data received from pre-auth response component end');
       const formDataSent = { ...this.formDataReceived };
-      console.log('Data received from pre-auth form component copied in a variable start');
+      console.log('Data received from pre-auth response component copied in a variable start');
       console.log(formDataSent);
-      console.log('Data received from pre-auth form component copied in a variable end');
+      console.log('Data received from pre-auth response component copied in a variable end');
       this.isLoadingResults = true;
       if (this.actionType === 'saveRequest') {
-        this.preAuthService.saveAsDraftPatientData(formDataSent).subscribe((response) => {
+        this.preAuthService.saveManualResponsePatientData(formDataSent).subscribe((response) => {
           if (response) {
-            console.log('Response Data received for Eligibility check');
+            console.log('Response Data received for manual save');
             console.log(response);
             this.responseDatReceived = { ...response };
             // this.eligibilityCheckService.dataFromEligibilityCheck = { ...response };
             console.log(this.responseDatReceived);
-            console.log('Data received as Preautorization check response , stored start');
+            console.log('Data received as Preautorization manual save response , stored start');
             console.log(this.responseDatReceived);
-            console.log('Data received as Preautorization check response stored end');
+            console.log('Data received as Preautorization manual save response stored end');
           }
           if (response.ackn) {
             // this.patientFormService.getEligibilityData();
-            this.snackbarToasterService.success(':: Successfully Saved as Draft');
-            this.isLoadingResults = false;
-            this.closePopup(true);
-          }
-        }, (error) => {
-          this.snackbarToasterService.warn(':: Sent request failed!');
-          this.closePopup(true);
-        });
-      } else if (this.actionType === 'sendRequest') {
-        this.preAuthService.sendRequestPatientData(formDataSent).subscribe((response) => {
-          if (response) {
-            console.log('Response Data received for Eligibility check');
-            console.log(response);
-            this.responseDatReceived = { ...response };
-            // this.eligibilityCheckService.dataFromEligibilityCheck = { ...response };
-            console.log(this.responseDatReceived);
-            console.log('Data received as Preautorization check response , stored start');
-            console.log(this.responseDatReceived);
-            console.log('Data received as Preautorization check response stored end');
-          }
-          if (response.ackn || true) {
-            // this.patientFormService.getEligibilityData();
-            this.snackbarToasterService.success(':: Data submitted for approval Successfully');
+            this.snackbarToasterService.success(':: Successfully Saved');
             this.isLoadingResults = false;
             this.closePopup(true);
           }
