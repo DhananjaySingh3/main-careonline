@@ -8,14 +8,19 @@ const routes: Routes = [
     {
         /*path: 'preauthorization',*/
         path: '',
-        component: PreauthorizationComponent,
-        children: [
-            {
-                path: 'preauth-list',
-                component: PreauthListComponent
-            }
-        ]
+        component: PreauthListComponent,
     }
+    // {
+    //     /*path: 'preauthorization',*/
+    //     path: '',
+    //     component: PreauthorizationComponent,
+    //     children: [
+    //         {
+    //             path: 'preauth-list',
+    //             component: PreauthListComponent
+    //         }
+    //     ]
+    // }
 ];
 
 @NgModule({

@@ -24,7 +24,11 @@ const routes: Routes = [
     path: 'pdgm',
     loadChildren: './pdgm/pdgm.module#PdgmModule',
   },
-
+  {
+    path: 'raps',
+    loadChildren: './raps/raps.module#RapsModule',
+    pathMatch: 'full'
+  },
 ];
 
 
