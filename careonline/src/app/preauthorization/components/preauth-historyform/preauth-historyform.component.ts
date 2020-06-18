@@ -648,7 +648,7 @@ export class PreauthHistoryformComponent implements OnInit {
     const formData: PreAuthResponse = {
       id: patient.id,
 
-      /*Preauthorization Details*/
+      /*Preauthorization Details, this.datePipe.transform(patient.dob, 'M/d/yyyy')*/
       authorizationDetail: {
         id: patient.authorizationDetail.id,
         totalUnitsApproved: patient.authorizationDetail.totalUnitsApproved,
@@ -658,13 +658,14 @@ export class PreauthHistoryformComponent implements OnInit {
         unitsForNoOfUnitsTobeUsed: patient.authorizationDetail.unitsForNoOfUnitsTobeUsed,
         enquiryId: patient.authorizationDetail.enquiryId,
         processDateAndTime: (new Date(patient.authorizationDetail.processDateAndTime)).toISOString(),
-        serviceDateFrom: patient.authorizationDetail.serviceDateFrom,
-        serviceDateTo: patient.authorizationDetail.serviceDateTo,
-        effectiveDateTo: patient.authorizationDetail.effectiveDateTo,
-        effectiveDateFrom: patient.authorizationDetail.effectiveDateFrom,
-        expirationeDateTo: patient.authorizationDetail.expirationeDateTo,
-        admitDate: patient.authorizationDetail.admitDate,
-        dischargeDate: patient.authorizationDetail.dischargeDate,
+
+        serviceDateFrom: (new Date(patient.authorizationDetail.serviceDateFrom)).toISOString(),
+        serviceDateTo: (new Date(patient.authorizationDetail.serviceDateTo)).toISOString(),
+        effectiveDateTo: (new Date(patient.authorizationDetail.effectiveDateTo)).toISOString(),
+        effectiveDateFrom: (new Date(patient.authorizationDetail.effectiveDateFrom)).toISOString(),
+        expirationeDateTo: (new Date(patient.authorizationDetail.expirationeDateTo)).toISOString(),
+        admitDate: (new Date(patient.authorizationDetail.admitDate)).toISOString(),
+        dischargeDate: (new Date(patient.authorizationDetail.dischargeDate)).toISOString(),
         certificationIdentificationNumber: patient.authorizationDetail.certificationIdentificationNumber,
         preAuthorizationStatus: patient.authorizationDetail.preAuthorizationStatus,
         enquiryDetailStatus: patient.authorizationDetail.enquiryDetailStatus,
@@ -678,6 +679,9 @@ export class PreauthHistoryformComponent implements OnInit {
       membersuffix: patient.membersuffix,
       membergender: patient.membergender,
       memberdob: (new Date(patient.memberdob)).toISOString(),
+      // this.datePipe.transform(patient.memberdob, 'M/d/yyyy'),
+      // yyyy-MM-dd(new Date(patient.memberdob)).toISOString(),
+      // this.datePipe.transform(patient.memberdob, 'M/d/yyyy'),
       memberPrefix: patient.memberPrefix,
       memberRelationshipToSubscriber: patient.memberRelationshipToSubscriber,
       memberDetailStatus: patient.memberDetailStatus,
@@ -781,280 +785,491 @@ export class PreauthHistoryformComponent implements OnInit {
       servicingProviderFollowUpActionDescription: patient.servicingProviderFollowUpActionDescription,
       servicingProviderDetailStatus: patient.servicingProviderDetailStatus,
       homeHealthAideResponse: {
-        homeHealthAideAuthorizationIdNo: patient.homeHealthAideResponse.homeHealthAideAuthorizationIdNo ?
+        homeHealthAideAuthorizationIdNo: patient.homeHealthAideResponse !== null ?
           patient.homeHealthAideResponse.homeHealthAideAuthorizationIdNo : null,
-        homeHealthAideEffectiveDateFrom: (new Date(patient.homeHealthAideResponse.homeHealthAideEffectiveDateFrom)).toISOString(),
-        homeHealthAideEffectiveDateTo: (new Date(patient.homeHealthAideResponse.homeHealthAideEffectiveDateTo)).toISOString(),
-        homeHealthAideExpirationDate: (new Date(patient.homeHealthAideResponse.homeHealthAideExpirationDate)).toISOString(),
-        homeHealthAideSelected: patient.homeHealthAideResponse.homeHealthAideSelected,
+        homeHealthAideEffectiveDateFrom: patient.homeHealthAideResponse !== null ?
+          (new Date(patient.homeHealthAideResponse.homeHealthAideEffectiveDateFrom)).toISOString() : (new Date()).toISOString(),
+        homeHealthAideEffectiveDateTo: patient.homeHealthAideResponse !== null ?
+          (new Date(patient.homeHealthAideResponse.homeHealthAideEffectiveDateTo)).toISOString() : (new Date()).toISOString(),
+        homeHealthAideExpirationDate: patient.homeHealthAideResponse !== null ?
+          (new Date(patient.homeHealthAideResponse.homeHealthAideExpirationDate)).toISOString() : (new Date()).toISOString(),
+        homeHealthAideSelected: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideSelected : false,
 
-        mrnNumber: patient.homeHealthAideResponse.mrnNumber,
-        homeHealthAideRevenueCode: patient.homeHealthAideResponse.homeHealthAideRevenueCode,
-        homeHealthAideProviderSuffix: patient.homeHealthAideResponse.homeHealthAideProviderSuffix,
-        homeHealthAideProviderPrefix: patient.homeHealthAideResponse.homeHealthAideProviderPrefix,
-        homeHealthAideResponseServiceDateFrom:
-          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateFrom)).toISOString(),
-        homeHealthAideResponseServiceDateTo:
-          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateTo)).toISOString(),
+        mrnNumber: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.mrnNumber : null,
+        homeHealthAideRevenueCode: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideRevenueCode : null,
+        homeHealthAideProviderSuffix: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderSuffix : null,
+        homeHealthAideProviderPrefix: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderPrefix : null,
+        homeHealthAideResponseServiceDateFrom: patient.homeHealthAideResponse !== null ?
 
-        id: patient.homeHealthAideResponse.id,
-        homeHealthAideProviderIdentificationNumberType: patient.homeHealthAideResponse.homeHealthAideProviderIdentificationNumberType,
-        homeHealthAideProviderFollowUpActionDescription: patient.homeHealthAideResponse.homeHealthAideProviderFollowUpActionDescription,
-        homeHealthAideRejectionReasonMSG: patient.homeHealthAideResponse.homeHealthAideRejectionReasonMSG,
-        homeHealthAideProviderCountryCode: patient.homeHealthAideResponse.homeHealthAideProviderCountryCode,
-        homeHealthAideProviderPostalCode: patient.homeHealthAideResponse.homeHealthAideProviderPostalCode,
-        homeHealthAideProviderIdentificationNumber: patient.homeHealthAideResponse.homeHealthAideProviderIdentificationNumber,
-        homeHealthAideProviderSupplimentalId: patient.homeHealthAideResponse.homeHealthAideProviderSupplimentalId,
-        homeHealthAideProviderFirstName: patient.homeHealthAideResponse.homeHealthAideProviderFirstName,
-        homeHealthAideProviderFullName: patient.homeHealthAideResponse.homeHealthAideProviderFullName,
-        homeHealthAideCertificationAction: patient.homeHealthAideResponse.homeHealthAideCertificationAction,
-        homeHealthAideProviderMiddleName: patient.homeHealthAideResponse.homeHealthAideProviderMiddleName,
-        homeHealthAideCertificationType: patient.homeHealthAideResponse.homeHealthAideCertificationType,
-        homeHealthAideProviderIdNumberType: patient.homeHealthAideResponse.homeHealthAideProviderIdNumberType,
-        homeHealthAideProviderRejectionReason: patient.homeHealthAideResponse.homeHealthAideProviderRejectionReason,
-        homeHealthAideProviderType: patient.homeHealthAideResponse.homeHealthAideProviderType,
-        homeHealthAideDetailStatus: patient.homeHealthAideResponse.homeHealthAideDetailStatus,
-        homeHealthAideVisit: patient.homeHealthAideResponse.homeHealthAideVisit,
-        homeHealthAideRejectionReason: patient.homeHealthAideResponse.homeHealthAideRejectionReason,
-        homeHealthAideServiceType: patient.homeHealthAideResponse.homeHealthAideServiceType,
-        homeHealthAidePoviderLastName: patient.homeHealthAideResponse.homeHealthAidePoviderLastName,
-        homeHealthAideUnit: patient.homeHealthAideResponse.homeHealthAideUnit,
-        homeHealthAideLevelOfService: patient.homeHealthAideResponse.homeHealthAideLevelOfService,
-        homeHealthAideProviderCity: patient.homeHealthAideResponse.homeHealthAideProviderCity,
-        homeHealthAideProviderState: patient.homeHealthAideResponse.homeHealthAideProviderState,
-        homeHealthAideProviderAddress: patient.homeHealthAideResponse.homeHealthAideProviderAddress,
-        homeHealthAideRequestCategory: patient.homeHealthAideResponse.homeHealthAideRequestCategory,
+          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateFrom)).toISOString() : (new Date()).toISOString(),
+        homeHealthAideResponseServiceDateTo: patient.homeHealthAideResponse !== null ?
+          (new Date(patient.homeHealthAideResponse.homeHealthAideResponseServiceDateTo)).toISOString() : (new Date()).toISOString(),
+
+        id: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.id : null,
+        homeHealthAideProviderIdentificationNumberType: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderIdentificationNumberType : null,
+        homeHealthAideProviderFollowUpActionDescription: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderFollowUpActionDescription : null,
+        homeHealthAideRejectionReasonMSG: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideRejectionReasonMSG : null,
+        homeHealthAideProviderCountryCode: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderCountryCode : null,
+        homeHealthAideProviderPostalCode: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderPostalCode : null,
+        homeHealthAideProviderIdentificationNumber: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderIdentificationNumber : null,
+        homeHealthAideProviderSupplimentalId: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderSupplimentalId : null,
+        homeHealthAideProviderFirstName: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderFirstName : null,
+        homeHealthAideProviderFullName: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderFullName : null,
+        homeHealthAideCertificationAction: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideCertificationAction : null,
+        homeHealthAideProviderMiddleName: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderMiddleName : null,
+        homeHealthAideCertificationType: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideCertificationType : null,
+        homeHealthAideProviderIdNumberType: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderIdNumberType : null,
+        homeHealthAideProviderRejectionReason: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderRejectionReason : null,
+        homeHealthAideProviderType: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderType : null,
+        homeHealthAideDetailStatus: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideDetailStatus : null,
+        homeHealthAideVisit: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideVisit : null,
+        homeHealthAideRejectionReason: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideRejectionReason : null,
+        homeHealthAideServiceType: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideServiceType : null,
+        homeHealthAidePoviderLastName: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAidePoviderLastName : null,
+        homeHealthAideUnit: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideUnit : null,
+        homeHealthAideLevelOfService: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideLevelOfService : null,
+        homeHealthAideProviderCity: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderCity : null,
+        homeHealthAideProviderState: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderState : null,
+        homeHealthAideProviderAddress: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideProviderAddress : null,
+        homeHealthAideRequestCategory: patient.homeHealthAideResponse !== null ?
+          patient.homeHealthAideResponse.homeHealthAideRequestCategory : null,
       },
       occupationalTherapyResponse: {
-        occupationalTherapyAuthorizationIdNo: patient.occupationalTherapyResponse.occupationalTherapyAuthorizationIdNo,
-        occupationalTherapyEffectiveDateFrom:
-          (new Date(patient.occupationalTherapyResponse.occupationalTherapyEffectiveDateFrom)).toISOString(),
-        occupationalTherapyEffectiveDateTo:
-          (new Date(patient.occupationalTherapyResponse.occupationalTherapyEffectiveDateTo)).toISOString(),
-        occupationalTherapyExpirationDate:
-          (new Date(patient.occupationalTherapyResponse.occupationalTherapyExpirationDate)).toISOString(),
-        occupationalTherapySelected: patient.occupationalTherapyResponse.occupationalTherapySelected,
+        occupationalTherapyAuthorizationIdNo: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyAuthorizationIdNo : null,
+        occupationalTherapyEffectiveDateFrom: patient.occupationalTherapyResponse !== null ?
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyEffectiveDateFrom)).toISOString() : (new Date()).toISOString(),
+        occupationalTherapyEffectiveDateTo: patient.occupationalTherapyResponse !== null ?
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyEffectiveDateTo)).toISOString() : (new Date()).toISOString(),
+        occupationalTherapyExpirationDate: patient.occupationalTherapyResponse !== null ?
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyExpirationDate)).toISOString() : (new Date()).toISOString(),
+        occupationalTherapySelected: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapySelected : false,
 
-        mrnNumber: patient.occupationalTherapyResponse.mrnNumber,
-        occupationalTherapyRevenueCode: patient.occupationalTherapyResponse.occupationalTherapyRevenueCode,
-        occupationalTherapyProviderSuffix: patient.occupationalTherapyResponse.occupationalTherapyProviderSuffix,
-        occupationalTherapyProviderPrefix: patient.occupationalTherapyResponse.occupationalTherapyProviderPrefix,
-        occupationalTherapyResponseServiceDateFrom:
-          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateFrom)).toISOString(),
-        occupationalTherapyResponseServiceDateTo:
-          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateTo)).toISOString(),
+        mrnNumber: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.mrnNumber : null,
+        occupationalTherapyRevenueCode: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyRevenueCode : null,
+        occupationalTherapyProviderSuffix: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderSuffix : null,
+        occupationalTherapyProviderPrefix: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderPrefix : null,
+        occupationalTherapyResponseServiceDateFrom: patient.occupationalTherapyResponse !== null ?
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateFrom)).toISOString() :
+          (new Date()).toISOString(),
+        occupationalTherapyResponseServiceDateTo: patient.occupationalTherapyResponse !== null ?
+          (new Date(patient.occupationalTherapyResponse.occupationalTherapyResponseServiceDateTo)).toISOString() :
+          (new Date()).toISOString(),
 
-        id: patient.occupationalTherapyResponse.id,
-        occupationalTherapyProviderIdentificationNumber:
-          patient.occupationalTherapyResponse.occupationalTherapyProviderIdentificationNumber,
-        occupationalTherapyProviderFollowUpActionDescription:
-          patient.occupationalTherapyResponse.occupationalTherapyProviderFollowUpActionDescription,
-        occupationalTherapyRequestCategory: patient.occupationalTherapyResponse.occupationalTherapyRequestCategory,
-        occupationalTherapyProviderRejectionReason: patient.occupationalTherapyResponse.occupationalTherapyProviderRejectionReason,
-        occupationalTherapyProviderLastName: patient.occupationalTherapyResponse.occupationalTherapyProviderLastName,
-        occupationalTherapyServiceType: patient.occupationalTherapyResponse.occupationalTherapyServiceType,
-        occupationalTherapyProviderFullName: patient.occupationalTherapyResponse.occupationalTherapyProviderFullName,
-        occupationalTherapyProviderType: patient.occupationalTherapyResponse.occupationalTherapyProviderType,
-        occupationalTherapyProviderSupplimentalId: patient.occupationalTherapyResponse.occupationalTherapyProviderSupplimentalId,
-        occupationalTherapyCountryCode: patient.occupationalTherapyResponse.occupationalTherapyCountryCode,
-        occupationalTherapyRejectionReason: patient.occupationalTherapyResponse.occupationalTherapyRejectionReason,
-        occupationalProviderIdentificationNumberType: patient.occupationalTherapyResponse.occupationalProviderIdentificationNumberType,
-        occupationalTherapyProviderMiddleName: patient.occupationalTherapyResponse.occupationalTherapyProviderMiddleName,
-        occupationalTherapyCertificationType: patient.occupationalTherapyResponse.occupationalTherapyCertificationType,
-        occupationalTherapyCertificationAction: patient.occupationalTherapyResponse.occupationalTherapyCertificationAction,
-        occupationalTherapyLevelOfService: patient.occupationalTherapyResponse.occupationalTherapyLevelOfService,
-        occupationalTherapyRejectionReasonMSG: patient.occupationalTherapyResponse.occupationalTherapyRejectionReasonMSG,
-        occupationalTherapyProviderIdNumberType: patient.occupationalTherapyResponse.occupationalTherapyProviderIdNumberType,
-        occupationalTherapyProviderFirstName: patient.occupationalTherapyResponse.occupationalTherapyProviderFirstName,
-        occupationalTherapyDetailStatus: patient.occupationalTherapyResponse.occupationalTherapyDetailStatus,
-        occupationalTherapyVisit: patient.occupationalTherapyResponse.occupationalTherapyVisit,
-        occupationalTherapyCity: patient.occupationalTherapyResponse.occupationalTherapyCity,
-        occupationalTherapyState: patient.occupationalTherapyResponse.occupationalTherapyState,
-        occupationalTherapyAddress: patient.occupationalTherapyResponse.occupationalTherapyAddress,
-        occupationalTherapyPostalCode: patient.occupationalTherapyResponse.occupationalTherapyPostalCode,
-        occupationalTherapyUnit: patient.occupationalTherapyResponse.occupationalTherapyUnit,
+        id: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.id : null,
+        occupationalTherapyProviderIdentificationNumber: patient.occupationalTherapyResponse !== null ?
+
+          patient.occupationalTherapyResponse.occupationalTherapyProviderIdentificationNumber : null,
+        occupationalTherapyProviderFollowUpActionDescription: patient.occupationalTherapyResponse !== null ?
+
+          patient.occupationalTherapyResponse.occupationalTherapyProviderFollowUpActionDescription : null,
+        occupationalTherapyRequestCategory: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyRequestCategory : null,
+        occupationalTherapyProviderRejectionReason: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderRejectionReason : null,
+        occupationalTherapyProviderLastName: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderLastName : null,
+        occupationalTherapyServiceType: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyServiceType : null,
+        occupationalTherapyProviderFullName: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderFullName : null,
+        occupationalTherapyProviderType: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderType : null,
+        occupationalTherapyProviderSupplimentalId: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderSupplimentalId : null,
+        occupationalTherapyCountryCode: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyCountryCode : null,
+        occupationalTherapyRejectionReason: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyRejectionReason : null,
+        occupationalProviderIdentificationNumberType: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalProviderIdentificationNumberType : null,
+        occupationalTherapyProviderMiddleName: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderMiddleName : null,
+        occupationalTherapyCertificationType: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyCertificationType : null,
+        occupationalTherapyCertificationAction: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyCertificationAction : null,
+        occupationalTherapyLevelOfService: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyLevelOfService : null,
+        occupationalTherapyRejectionReasonMSG: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyRejectionReasonMSG : null,
+        occupationalTherapyProviderIdNumberType: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderIdNumberType : null,
+        occupationalTherapyProviderFirstName: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyProviderFirstName : null,
+        occupationalTherapyDetailStatus: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyDetailStatus : null,
+        occupationalTherapyVisit: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyVisit : null,
+        occupationalTherapyCity: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyCity : null,
+        occupationalTherapyState: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyState : null,
+        occupationalTherapyAddress: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyAddress : null,
+        occupationalTherapyPostalCode: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyPostalCode : null,
+        occupationalTherapyUnit: patient.occupationalTherapyResponse !== null ?
+          patient.occupationalTherapyResponse.occupationalTherapyUnit : null,
       },
       medicalSocialWorkResponse: {
-        medicalSocialWorkAuthorizationIdNo: patient.medicalSocialWorkResponse.medicalSocialWorkAuthorizationIdNo,
-        medicalSocialWorkEffectiveDateFrom: (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateFrom)).toISOString(),
-        medicalSocialWorkEffectiveDateTo: (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateTo)).toISOString(),
-        medicalSocialWorkExpirationDate: (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkExpirationDate)).toISOString(),
-        medicalSocialWorkSelected: patient.medicalSocialWorkResponse.medicalSocialWorkSelected,
+        medicalSocialWorkAuthorizationIdNo: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkAuthorizationIdNo : null,
+        medicalSocialWorkEffectiveDateFrom: patient.medicalSocialWorkResponse !== null ?
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateFrom)).toISOString() : (new Date()).toISOString(),
+        medicalSocialWorkEffectiveDateTo: patient.medicalSocialWorkResponse !== null ?
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkEffectiveDateTo)).toISOString() : (new Date()).toISOString(),
+        medicalSocialWorkExpirationDate: patient.medicalSocialWorkResponse !== null ?
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkExpirationDate)).toISOString() : (new Date()).toISOString(),
+        medicalSocialWorkSelected: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkSelected : false,
 
-        mrnNumber: patient.medicalSocialWorkResponse.mrnNumber,
-        medicalSocialWorkRevenueCode: patient.medicalSocialWorkResponse.medicalSocialWorkRevenueCode,
-        medicalSocialWorkProviderSuffix: patient.medicalSocialWorkResponse.medicalSocialWorkProviderSuffix,
-        medicalSocialWorkProviderPrefix: patient.medicalSocialWorkResponse.medicalSocialWorkProviderPrefix,
-        medicalSocialWorkResponseServiceDateFrom:
-          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateFrom)).toISOString(),
-        medicalSocialWorkResponseServiceDateTo:
-          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateTo)).toISOString(),
-
-
-        id: patient.medicalSocialWorkResponse.id,
-        medicalSocialWorkProviderFollowUpActionDescription:
-          patient.medicalSocialWorkResponse.medicalSocialWorkProviderFollowUpActionDescription,
-        medicalSocialWorkProviderIdentificationNumberType:
-          patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdentificationNumberType,
-        medicalSocialWorkProviderState: patient.medicalSocialWorkResponse.medicalSocialWorkProviderState,
-        medicalSocialWorkCertificationAction: patient.medicalSocialWorkResponse.medicalSocialWorkCertificationAction,
-        medicalSocialWorkProviderPostalCode: patient.medicalSocialWorkResponse.medicalSocialWorkProviderPostalCode,
-        medicalSocialWorkProviderSupplimentalId: patient.medicalSocialWorkResponse.medicalSocialWorkProviderSupplimentalId,
-        medicalSocialWorkProviderCountryCode: patient.medicalSocialWorkResponse.medicalSocialWorkProviderCountryCode,
-        medicalSocialWorkProviderRejectionReason: patient.medicalSocialWorkResponse.medicalSocialWorkProviderRejectionReason,
-        medicalSocialWorkProviderFullName: patient.medicalSocialWorkResponse.medicalSocialWorkProviderFullName,
-        medicalSocialWorkRejectionReason: patient.medicalSocialWorkResponse.medicalSocialWorkRejectionReason,
-        medicalSocialWorkRejectionReasonMSG: patient.medicalSocialWorkResponse.medicalSocialWorkRejectionReasonMSG,
-        medicalSocialWorkProviderIdentificationNumber: patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdentificationNumber,
-        medicalSocialWorkCertificationType: patient.medicalSocialWorkResponse.medicalSocialWorkCertificationType,
-        medicalSocialWorkProviderMiddleName: patient.medicalSocialWorkResponse.medicalSocialWorkProviderMiddleName,
-        medicalSocialWorkProviderIdNumberType: patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdNumberType,
-        medicalSocialWorkProviderFirstName: patient.medicalSocialWorkResponse.medicalSocialWorkProviderFirstName,
-        medicalSocialWorkPoviderLastName: patient.medicalSocialWorkResponse.medicalSocialWorkPoviderLastName,
-        medicalSocialWorkRequestCategory: patient.medicalSocialWorkResponse.medicalSocialWorkRequestCategory,
-        medicalSocialWorkProviderAddress: patient.medicalSocialWorkResponse.medicalSocialWorkProviderAddress,
-        medicalSocialWorkLevelOfService: patient.medicalSocialWorkResponse.medicalSocialWorkLevelOfService,
-        medicalSocialWorkVisit: patient.medicalSocialWorkResponse.medicalSocialWorkVisit,
-        medicalSocialWorkUnit: patient.medicalSocialWorkResponse.medicalSocialWorkUnit,
-        medicalSocialWorkServiceType: patient.medicalSocialWorkResponse.medicalSocialWorkServiceType,
-        medicalSocialWorkDetailStatus: patient.medicalSocialWorkResponse.medicalSocialWorkDetailStatus,
-        medicalSocialWorkProviderType: patient.medicalSocialWorkResponse.medicalSocialWorkProviderType,
-        medicalSocialWorkProviderCity: patient.medicalSocialWorkResponse.medicalSocialWorkProviderCity,
+        mrnNumber: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.mrnNumber : null,
+        medicalSocialWorkRevenueCode: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkRevenueCode : null,
+        medicalSocialWorkProviderSuffix: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderSuffix : null,
+        medicalSocialWorkProviderPrefix: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderPrefix : null,
+        medicalSocialWorkResponseServiceDateFrom: patient.medicalSocialWorkResponse !== null ?
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateFrom)).toISOString() : (new Date()).toISOString(),
+        medicalSocialWorkResponseServiceDateTo: patient.medicalSocialWorkResponse !== null ?
+          (new Date(patient.medicalSocialWorkResponse.medicalSocialWorkResponseServiceDateTo)).toISOString() : (new Date()).toISOString(),
+        id: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.id : null,
+        medicalSocialWorkProviderFollowUpActionDescription: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderFollowUpActionDescription : null,
+        medicalSocialWorkProviderIdentificationNumberType: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdentificationNumberType : null,
+        medicalSocialWorkProviderState: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderState : null,
+        medicalSocialWorkCertificationAction: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkCertificationAction : null,
+        medicalSocialWorkProviderPostalCode: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderPostalCode : null,
+        medicalSocialWorkProviderSupplimentalId: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderSupplimentalId : null,
+        medicalSocialWorkProviderCountryCode: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderCountryCode : null,
+        medicalSocialWorkProviderRejectionReason: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderRejectionReason : null,
+        medicalSocialWorkProviderFullName: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderFullName : null,
+        medicalSocialWorkRejectionReason: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkRejectionReason : null,
+        medicalSocialWorkRejectionReasonMSG: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkRejectionReasonMSG : null,
+        medicalSocialWorkProviderIdentificationNumber: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdentificationNumber : null,
+        medicalSocialWorkCertificationType: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkCertificationType : null,
+        medicalSocialWorkProviderMiddleName: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderMiddleName : null,
+        medicalSocialWorkProviderIdNumberType: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderIdNumberType : null,
+        medicalSocialWorkProviderFirstName: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderFirstName : null,
+        medicalSocialWorkPoviderLastName: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkPoviderLastName : null,
+        medicalSocialWorkRequestCategory: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkRequestCategory : null,
+        medicalSocialWorkProviderAddress: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderAddress : null,
+        medicalSocialWorkLevelOfService: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkLevelOfService : null,
+        medicalSocialWorkVisit: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkVisit : null,
+        medicalSocialWorkUnit: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkUnit : null,
+        medicalSocialWorkServiceType: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkServiceType : null,
+        medicalSocialWorkDetailStatus: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkDetailStatus : null,
+        medicalSocialWorkProviderType: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderType : null,
+        medicalSocialWorkProviderCity: patient.medicalSocialWorkResponse !== null ?
+          patient.medicalSocialWorkResponse.medicalSocialWorkProviderCity : null,
       },
       physicalTherapyResponse: {
-        physicalTherapyAuthorizationIdNo: patient.physicalTherapyResponse.physicalTherapyAuthorizationIdNo,
-        physicalTherapyEffectiveDateFrom: (new Date(patient.physicalTherapyResponse.physicalTherapyEffectiveDateFrom)).toISOString(),
-        physicalTherapyEffectiveDateTo: (new Date(patient.physicalTherapyResponse.physicalTherapyEffectiveDateTo)).toISOString(),
-        physicalTherapyExpirationDate: (new Date(patient.physicalTherapyResponse.physicalTherapyExpirationDate)).toISOString(),
-        physicalTherapySelected: patient.physicalTherapyResponse.physicalTherapySelected,
+        physicalTherapyAuthorizationIdNo: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyAuthorizationIdNo : null,
+        physicalTherapyEffectiveDateFrom: patient.physicalTherapyResponse !== null ?
+          (new Date(patient.physicalTherapyResponse.physicalTherapyEffectiveDateFrom)).toISOString() :
+          (new Date()).toISOString(),
+        physicalTherapyEffectiveDateTo: patient.physicalTherapyResponse !== null ?
+          (new Date(patient.physicalTherapyResponse.physicalTherapyEffectiveDateTo)).toISOString() :
+          (new Date()).toISOString(),
+        physicalTherapyExpirationDate: patient.physicalTherapyResponse !== null ?
+          (new Date(patient.physicalTherapyResponse.physicalTherapyExpirationDate)).toISOString() :
+          (new Date()).toISOString(),
+        physicalTherapySelected: patient.physicalTherapyResponse !== null ? patient.physicalTherapyResponse.physicalTherapySelected : false,
 
-        mrnNumber: patient.physicalTherapyResponse.mrnNumber,
-        physicalTherapyRevenueCode: patient.physicalTherapyResponse.physicalTherapyRevenueCode,
-        physicalTherapyProviderSuffix: patient.physicalTherapyResponse.physicalTherapyProviderSuffix,
-        physicalTherapyProviderPrefix: patient.physicalTherapyResponse.physicalTherapyProviderPrefix,
-        physicalTherapyResponseServiceDateFrom:
-          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateFrom)).toISOString(),
-        physicalTherapyResponseServiceDateTo:
-          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateTo)).toISOString(),
+        mrnNumber: patient.physicalTherapyResponse !== null ? patient.physicalTherapyResponse.mrnNumber : null,
+        physicalTherapyRevenueCode: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyRevenueCode : null,
+        physicalTherapyProviderSuffix: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderSuffix : null,
+        physicalTherapyProviderPrefix: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderPrefix : null,
+        physicalTherapyResponseServiceDateFrom: patient.physicalTherapyResponse !== null ?
+          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateFrom)).toISOString() :
+          (new Date()).toISOString(),
+        physicalTherapyResponseServiceDateTo: patient.physicalTherapyResponse !== null ?
+          (new Date(patient.physicalTherapyResponse.physicalTherapyResponseServiceDateTo)).toISOString() :
+          (new Date()).toISOString(),
 
 
-        id: patient.physicalTherapyResponse.id,
-        physicalTherapyRequestCategory: patient.physicalTherapyResponse.physicalTherapyRequestCategory,
-        physicalTherapyCertificationType: patient.physicalTherapyResponse.physicalTherapyCertificationType,
-        physicalTherapyServiceType: patient.physicalTherapyResponse.physicalTherapyServiceType,
-        physicalTherapyLevelOfService: patient.physicalTherapyResponse.physicalTherapyLevelOfService,
-        physicalTherapyVisit: patient.physicalTherapyResponse.physicalTherapyVisit,
-        physicalTherapyUnit: patient.physicalTherapyResponse.physicalTherapyUnit,
-        physicalTherapyCertificationAction: patient.physicalTherapyResponse.physicalTherapyCertificationAction,
-        physicalTherapyRejectionReason: patient.physicalTherapyResponse.physicalTherapyRejectionReason,
-        physicalTherapyRejectionReasonMSG: patient.physicalTherapyResponse.physicalTherapyRejectionReasonMSG,
-        physicalTherapyProviderFirstName: patient.physicalTherapyResponse.physicalTherapyProviderFirstName,
-        physicalTherapyPoviderLastName: patient.physicalTherapyResponse.physicalTherapyPoviderLastName,
-        physicalTherapyProviderMiddleName: patient.physicalTherapyResponse.physicalTherapyProviderMiddleName,
-        physicalTherapyProviderType: patient.physicalTherapyResponse.physicalTherapyProviderType,
-        physicalTherapyProviderIdentificationNumber: patient.physicalTherapyResponse.physicalTherapyProviderIdentificationNumber,
-        physicalTherapyProviderIdentificationNumberType: patient.physicalTherapyResponse.physicalTherapyProviderIdentificationNumberType,
-        physicalTherapyProviderSupplimentalId: patient.physicalTherapyResponse.physicalTherapyProviderSupplimentalId,
-        physicalTherapyProviderIdNumberType: patient.physicalTherapyResponse.physicalTherapyProviderIdNumberType,
-        physicalTherapyProviderRejectionReason: patient.physicalTherapyResponse.physicalTherapyProviderRejectionReason,
-        physicalTherapyProviderFollowUpActionDescription: patient.physicalTherapyResponse.physicalTherapyProviderFollowUpActionDescription,
-        physicalTherapyProviderAddress: patient.physicalTherapyResponse.physicalTherapyProviderAddress,
-        physicalTherapyProviderCity: patient.physicalTherapyResponse.physicalTherapyProviderCity,
-        physicalTherapyProviderState: patient.physicalTherapyResponse.physicalTherapyProviderState,
-        physicalTherapyProviderPostalCode: patient.physicalTherapyResponse.physicalTherapyProviderPostalCode,
-        physicalTherapyProviderCountryCode: patient.physicalTherapyResponse.physicalTherapyProviderCountryCode,
-        physicalTherapyProviderFullName: patient.physicalTherapyResponse.physicalTherapyProviderFullName,
-        physicalTherapyDetailStatus: patient.physicalTherapyResponse.physicalTherapyDetailStatus,
+        id: patient.physicalTherapyResponse !== null ? patient.physicalTherapyResponse.id : null,
+        physicalTherapyRequestCategory: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyRequestCategory : null,
+        physicalTherapyCertificationType: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyCertificationType : null,
+        physicalTherapyServiceType: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyServiceType : null,
+        physicalTherapyLevelOfService: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyLevelOfService : null,
+        physicalTherapyVisit: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyVisit : null,
+        physicalTherapyUnit: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyUnit : null,
+        physicalTherapyCertificationAction: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyCertificationAction : null,
+        physicalTherapyRejectionReason: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyRejectionReason : null,
+        physicalTherapyRejectionReasonMSG: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyRejectionReasonMSG : null,
+        physicalTherapyProviderFirstName: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderFirstName : null,
+        physicalTherapyPoviderLastName: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyPoviderLastName : null,
+        physicalTherapyProviderMiddleName: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderMiddleName : null,
+        physicalTherapyProviderType: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderType : null,
+        physicalTherapyProviderIdentificationNumber: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderIdentificationNumber : null,
+        physicalTherapyProviderIdentificationNumberType: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderIdentificationNumberType : null,
+        physicalTherapyProviderSupplimentalId: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderSupplimentalId : null,
+        physicalTherapyProviderIdNumberType: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderIdNumberType : null,
+        physicalTherapyProviderRejectionReason: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderRejectionReason : null,
+        physicalTherapyProviderFollowUpActionDescription: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderFollowUpActionDescription : null,
+        physicalTherapyProviderAddress: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderAddress : null,
+        physicalTherapyProviderCity: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderCity : null,
+        physicalTherapyProviderState: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderState : null,
+        physicalTherapyProviderPostalCode: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderPostalCode : null,
+        physicalTherapyProviderCountryCode: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderCountryCode : null,
+        physicalTherapyProviderFullName: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyProviderFullName : null,
+        physicalTherapyDetailStatus: patient.physicalTherapyResponse !== null ?
+          patient.physicalTherapyResponse.physicalTherapyDetailStatus : null,
       },
       skilledNursingResponse: {
-        skilledNursingAuthorizationIdNo: patient.skilledNursingResponse.skilledNursingAuthorizationIdNo,
-        skilledNursingEffectiveDateFrom: (new Date(patient.skilledNursingResponse.skilledNursingEffectiveDateFrom)).toISOString(),
-        skilledNursingEffectiveDateTo: (new Date(patient.skilledNursingResponse.skilledNursingEffectiveDateTo)).toISOString(),
-        skilledNursingExpirationDate: (new Date(patient.skilledNursingResponse.skilledNursingExpirationDate)).toISOString(),
-        skilledNursingSelected: patient.skilledNursingResponse.skilledNursingSelected,
+        skilledNursingAuthorizationIdNo: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingAuthorizationIdNo : null,
+        skilledNursingEffectiveDateFrom: patient.skilledNursingResponse !== null ?
+          (new Date(patient.skilledNursingResponse.skilledNursingEffectiveDateFrom)).toISOString() : (new Date()).toISOString(),
+        skilledNursingEffectiveDateTo: patient.skilledNursingResponse !== null ?
+          (new Date(patient.skilledNursingResponse.skilledNursingEffectiveDateTo)).toISOString() : (new Date()).toISOString(),
+        skilledNursingExpirationDate: patient.skilledNursingResponse !== null ?
+          (new Date(patient.skilledNursingResponse.skilledNursingExpirationDate)).toISOString() : (new Date()).toISOString(),
+        skilledNursingSelected: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingSelected : false,
 
-        mrnNumber: patient.skilledNursingResponse.mrnNumber,
-        skilledNursingRevenueCode: patient.skilledNursingResponse.skilledNursingRevenueCode,
-        skilledNursingProviderSuffix: patient.skilledNursingResponse.skilledNursingProviderSuffix,
-        skilledNursingProviderPrefix: patient.skilledNursingResponse.skilledNursingProviderPrefix,
-        skilledNursingResponseServiceDateFrom:
-          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateFrom)).toISOString(),
-        skilledNursingResponseServiceDateTo:
-          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateTo)).toISOString(),
+        mrnNumber: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.mrnNumber : null,
+        skilledNursingRevenueCode: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingRevenueCode : null,
+        skilledNursingProviderSuffix: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderSuffix : null,
+        skilledNursingProviderPrefix: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderPrefix : null,
+        skilledNursingResponseServiceDateFrom: patient.skilledNursingResponse !== null ?
+          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateFrom)).toISOString() : (new Date()).toISOString(),
+        skilledNursingResponseServiceDateTo: patient.skilledNursingResponse !== null ?
+          (new Date(patient.skilledNursingResponse.skilledNursingResponseServiceDateTo)).toISOString() : (new Date()).toISOString(),
 
-
-        id: patient.skilledNursingResponse.id,
-        skilledNursingProviderIdentificationNumberType: patient.skilledNursingResponse.skilledNursingProviderIdentificationNumberType,
-        skilledNursingProviderFollowUpActionDescription: patient.skilledNursingResponse.skilledNursingProviderFollowUpActionDescription,
-        skilledNursingProviderIdNumberType: patient.skilledNursingResponse.skilledNursingProviderIdNumberType,
-        skilledNursingProviderRejectionReason: patient.skilledNursingResponse.skilledNursingProviderRejectionReason,
-        skilledNursingProviderPostalCode: patient.skilledNursingResponse.skilledNursingProviderPostalCode,
-        skilledNursingProviderSupplimentalId: patient.skilledNursingResponse.skilledNursingProviderSupplimentalId,
-        skilledNursingCertificationType: patient.skilledNursingResponse.skilledNursingCertificationType,
-        skilledNursingProviderMiddleName: patient.skilledNursingResponse.skilledNursingProviderMiddleName,
-        skilledNursingCertificationAction: patient.skilledNursingResponse.skilledNursingCertificationAction,
-        skilledNursingProviderIdentificationNumber: patient.skilledNursingResponse.skilledNursingProviderIdentificationNumber,
-        skilledNursingProviderFirstName: patient.skilledNursingResponse.skilledNursingProviderFirstName,
-        skilledNursingProviderFullName: patient.skilledNursingResponse.skilledNursingProviderFullName,
-        skilledNursingRejectionReasonMSG: patient.skilledNursingResponse.skilledNursingRejectionReasonMSG,
-        skilledNursingProviderCountryCode: patient.skilledNursingResponse.skilledNursingProviderCountryCode,
-        skilledNursingPoviderLastName: patient.skilledNursingResponse.skilledNursingPoviderLastName,
-        skilledNursingUnit: patient.skilledNursingResponse.skilledNursingUnit,
-        skilledNursingServiceType: patient.skilledNursingResponse.skilledNursingServiceType,
-        skilledNursingRequestCategory: patient.skilledNursingResponse.skilledNursingRequestCategory,
-        skilledNursingLevelOfService: patient.skilledNursingResponse.skilledNursingLevelOfService,
-        skilledNursingProviderType: patient.skilledNursingResponse.skilledNursingProviderType,
-        skilledNursingProviderState: patient.skilledNursingResponse.skilledNursingProviderState,
-        skilledNursingRejectionReason: patient.skilledNursingResponse.skilledNursingRejectionReason,
-        skilledNursingVisit: patient.skilledNursingResponse.skilledNursingVisit,
-        skilledNursingProviderAddress: patient.skilledNursingResponse.skilledNursingProviderAddress,
-        skilledNursingDetailStatus: patient.skilledNursingResponse.skilledNursingDetailStatus,
-        skilledNursingProviderCity: patient.skilledNursingResponse.skilledNursingProviderCity,
+        id: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.id : null,
+        skilledNursingProviderIdentificationNumberType: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderIdentificationNumberType : null,
+        skilledNursingProviderFollowUpActionDescription: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderFollowUpActionDescription : null,
+        skilledNursingProviderIdNumberType: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderIdNumberType : null,
+        skilledNursingProviderRejectionReason: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderRejectionReason : null,
+        skilledNursingProviderPostalCode: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderPostalCode : null,
+        skilledNursingProviderSupplimentalId: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderSupplimentalId : null,
+        skilledNursingCertificationType: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingCertificationType : null,
+        skilledNursingProviderMiddleName: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderMiddleName : null,
+        skilledNursingCertificationAction: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingCertificationAction : null,
+        skilledNursingProviderIdentificationNumber: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderIdentificationNumber : null,
+        skilledNursingProviderFirstName: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderFirstName : null,
+        skilledNursingProviderFullName: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderFullName : null,
+        skilledNursingRejectionReasonMSG: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingRejectionReasonMSG : null,
+        skilledNursingProviderCountryCode: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderCountryCode : null,
+        skilledNursingPoviderLastName: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingPoviderLastName : null,
+        skilledNursingUnit: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingUnit : null,
+        skilledNursingServiceType: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingServiceType : null,
+        skilledNursingRequestCategory: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingRequestCategory : null,
+        skilledNursingLevelOfService: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingLevelOfService : null,
+        skilledNursingProviderType: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderType : null,
+        skilledNursingProviderState: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderState : null,
+        skilledNursingRejectionReason: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingRejectionReason : null,
+        skilledNursingVisit: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingVisit : null,
+        skilledNursingProviderAddress: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderAddress : null,
+        skilledNursingDetailStatus: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingDetailStatus : null,
+        skilledNursingProviderCity: patient.skilledNursingResponse !== null ?
+          patient.skilledNursingResponse.skilledNursingProviderCity : null,
       },
       speechPathologyResponse: {
-        speechPathologyAuthorizationIdNo: patient.speechPathologyResponse.speechPathologyAuthorizationIdNo,
-        speechPathologyEffectiveDateFrom: (new Date(patient.speechPathologyResponse.speechPathologyEffectiveDateFrom)).toISOString(),
-        speechPathologyEffectiveDateTo: (new Date(patient.speechPathologyResponse.speechPathologyEffectiveDateTo)).toISOString(),
-        speechPathologyExpirationDate: (new Date(patient.speechPathologyResponse.speechPathologyExpirationDate)).toISOString(),
-        speechPathologySelected: patient.speechPathologyResponse.speechPathologySelected,
+        speechPathologyAuthorizationIdNo: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyAuthorizationIdNo : null,
+        speechPathologyEffectiveDateFrom: patient.speechPathologyResponse !== null ?
+          (new Date(patient.speechPathologyResponse.speechPathologyEffectiveDateFrom)).toISOString() : (new Date()).toISOString(),
+        speechPathologyEffectiveDateTo: patient.speechPathologyResponse !== null ?
+          (new Date(patient.speechPathologyResponse.speechPathologyEffectiveDateTo)).toISOString() : (new Date()).toISOString(),
+        speechPathologyExpirationDate: patient.speechPathologyResponse !== null ?
+          (new Date(patient.speechPathologyResponse.speechPathologyExpirationDate)).toISOString() : (new Date()).toISOString(),
+        speechPathologySelected: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologySelected : false,
 
-        mrnNumber: patient.speechPathologyResponse.mrnNumber,
-        speechPathologyRevenueCode: patient.speechPathologyResponse.speechPathologyRevenueCode,
-        speechPathologyProviderSuffix: patient.speechPathologyResponse.speechPathologyProviderSuffix,
-        speechPathologyProviderPrefix: patient.speechPathologyResponse.speechPathologyProviderPrefix,
-        speechPathologyResponseServiceDateFrom:
-          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateFrom)).toISOString(),
-        speechPathologyResponseServiceDateTo:
-          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateTo)).toISOString(),
+        mrnNumber: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.mrnNumber : null,
+        speechPathologyRevenueCode: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyRevenueCode : null,
+        speechPathologyProviderSuffix: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderSuffix : null,
+        speechPathologyProviderPrefix: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderPrefix : null,
+        speechPathologyResponseServiceDateFrom: patient.speechPathologyResponse !== null ?
+          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateFrom)).toISOString() : (new Date()).toISOString(),
+        speechPathologyResponseServiceDateTo: patient.speechPathologyResponse !== null ?
+          (new Date(patient.speechPathologyResponse.speechPathologyResponseServiceDateTo)).toISOString() : (new Date()).toISOString(),
 
-
-        id: patient.speechPathologyResponse.id,
-        speechPathologyProviderIdentificationNumberType: patient.speechPathologyResponse.speechPathologyProviderIdentificationNumberType,
-        speechPathologyProviderFollowUpActionDescription: patient.speechPathologyResponse.speechPathologyProviderFollowUpActionDescription,
-        speechPathologyProviderRejectionReason: patient.speechPathologyResponse.speechPathologyProviderRejectionReason,
-        speechPathologyProviderIdNumberType: patient.speechPathologyResponse.speechPathologyProviderIdNumberType,
-        speechPathologyRequestCategory: patient.speechPathologyResponse.speechPathologyRequestCategory,
-        speechPathologyProviderAddress: patient.speechPathologyResponse.speechPathologyProviderAddress,
-        speechPathologyProviderFullName: patient.speechPathologyResponse.speechPathologyProviderFullName,
-        speechPathologyProviderSupplimentalId: patient.speechPathologyResponse.speechPathologyProviderSupplimentalId,
-        speechPathologyRejectionReason: patient.speechPathologyResponse.speechPathologyRejectionReason,
-        speechPathologyCertificationAction: patient.speechPathologyResponse.speechPathologyCertificationAction,
-        speechPathologyProviderPostalCode: patient.speechPathologyResponse.speechPathologyProviderPostalCode,
-        speechPathologyRejectionReasonMSG: patient.speechPathologyResponse.speechPathologyRejectionReasonMSG,
-        speechPathologyProviderCountryCode: patient.speechPathologyResponse.speechPathologyProviderCountryCode,
-        speechPathologyPoviderLastName: patient.speechPathologyResponse.speechPathologyPoviderLastName,
-        speechPathologyProviderFirstName: patient.speechPathologyResponse.speechPathologyProviderFirstName,
-        speechPathologyCertificationType: patient.speechPathologyResponse.speechPathologyCertificationType,
-        speechPathologyProviderMiddleName: patient.speechPathologyResponse.speechPathologyProviderMiddleName,
-        speechPathologyProviderIdentificationNumber: patient.speechPathologyResponse.speechPathologyProviderIdentificationNumber,
-        speechPathologyVisit: patient.speechPathologyResponse.speechPathologyVisit,
-        speechPathologyDetailStatus: patient.speechPathologyResponse.speechPathologyDetailStatus,
-        speechPathologyUnit: patient.speechPathologyResponse.speechPathologyUnit,
-        speechPathologyServiceType: patient.speechPathologyResponse.speechPathologyServiceType,
-        speechPathologyProviderState: patient.speechPathologyResponse.speechPathologyProviderState,
-        speechPathologyProviderCity: patient.speechPathologyResponse.speechPathologyProviderCity,
-        speechPathologyProviderType: patient.speechPathologyResponse.speechPathologyProviderType,
-        speechPathologyLevelOfService: patient.speechPathologyResponse.speechPathologyLevelOfService,
+        id: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.id : null,
+        speechPathologyProviderIdentificationNumberType: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderIdentificationNumberType : null,
+        speechPathologyProviderFollowUpActionDescription: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderFollowUpActionDescription : null,
+        speechPathologyProviderRejectionReason: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderRejectionReason : null,
+        speechPathologyProviderIdNumberType: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderIdNumberType : null,
+        speechPathologyRequestCategory: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyRequestCategory : null,
+        speechPathologyProviderAddress: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderAddress : null,
+        speechPathologyProviderFullName: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderFullName : null,
+        speechPathologyProviderSupplimentalId: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderSupplimentalId : null,
+        speechPathologyRejectionReason: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyRejectionReason : null,
+        speechPathologyCertificationAction: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyCertificationAction : null,
+        speechPathologyProviderPostalCode: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderPostalCode : null,
+        speechPathologyRejectionReasonMSG: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyRejectionReasonMSG : null,
+        speechPathologyProviderCountryCode: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderCountryCode : null,
+        speechPathologyPoviderLastName: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyPoviderLastName : null,
+        speechPathologyProviderFirstName: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderFirstName : null,
+        speechPathologyCertificationType: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyCertificationType : null,
+        speechPathologyProviderMiddleName: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderMiddleName : null,
+        speechPathologyProviderIdentificationNumber: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderIdentificationNumber : null,
+        speechPathologyVisit: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyVisit : null,
+        speechPathologyDetailStatus: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyDetailStatus : null,
+        speechPathologyUnit: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyUnit : null,
+        speechPathologyServiceType: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyServiceType : null,
+        speechPathologyProviderState: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderState : null,
+        speechPathologyProviderCity: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderCity : null,
+        speechPathologyProviderType: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyProviderType : null,
+        speechPathologyLevelOfService: patient.speechPathologyResponse !== null ?
+          patient.speechPathologyResponse.speechPathologyLevelOfService : null,
       },
     };
 
