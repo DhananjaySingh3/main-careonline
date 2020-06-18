@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Secondary Diagnosis</h2>
+<form [formGroup]="secondaryCodeForm">
+    <mat-dialog-content>
+        <div formArrayName="secondaryDiagnosisCode">
+            <button mat-button class="mat-raised-button mat-primary f-r" (click)="addCode()">Add</button>
+            <div *ngFor="let address of secondaryDiagnosisCode.controls; let i=index">
+                <mat-form-field class="w-65">
+                    <mat-label>Secondary Diagnosis Code {{i}}</mat-label>
+                    <input matInput type="text" [formControlName]="i">
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="f-r">
+        <button mat-button class="mat-raised-button" mat-dialog-close>Cancel</button>
+        <button mat-button class="mat-raised-button mat-primary" (click)="saveSecondaryCode()">Save</button>
+    </mat-dialog-actions>
+</form>

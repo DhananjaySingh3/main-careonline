@@ -8,6 +8,7 @@ import { PatientFormDataRequest } from '../pdgm/models/pdgm.model';
 import { PDGMService } from '../pdgm/services/pdgm.service';
 import { PdgmFormComponent } from '../pdgm/pdgm-form/pdgm-form.component';
 import { OasisDetailsComponent } from '../pdgm/oasis-details/oasis-details.component';
+import { SecondaryDiagnosisFormComponent } from '../pdgm/secondary-diagnosis-form/secondary-diagnosis.component';
 
 @Component({
   selector: 'app-pdgm',
@@ -28,6 +29,7 @@ export class PdgmComponent implements OnInit {
 
   constructor(private _pdgmService: PDGMService,
     public _pdgmDialogRef: MatDialog,
+   
   ) { }
 
   ngOnInit() {
@@ -53,6 +55,14 @@ export class PdgmComponent implements OnInit {
       .afterClosed().subscribe(result => {
 
       })
+  }
+
+  openSecondaryDiagnosisModel(modelData){
+    this._pdgmDialogRef.open(SecondaryDiagnosisFormComponent, {
+      width: '600px',
+      hasBackdrop: true,
+      data: modelData
+    })
   }
 
   openOasisDetailsModel(modelData) {
