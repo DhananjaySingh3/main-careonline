@@ -50,6 +50,7 @@ export class PdgmComponent implements OnInit {
     this._pdgmDialogRef.open(PdgmFormComponent, {
       width: '800px',
       hasBackdrop: true,
+      disableClose: true,
       data: dialogConfig
     })
       .afterClosed().subscribe(result => {
@@ -61,6 +62,7 @@ export class PdgmComponent implements OnInit {
     this._pdgmDialogRef.open(SecondaryDiagnosisFormComponent, {
       width: '600px',
       hasBackdrop: true,
+      disableClose: true,
       data: modelData
     })
   }
@@ -69,6 +71,7 @@ export class PdgmComponent implements OnInit {
     this._pdgmDialogRef.open(OasisDetailsComponent, {
       width: '800px',
       hasBackdrop: true,
+      disableClose: true,
       data: modelData
     })
   }

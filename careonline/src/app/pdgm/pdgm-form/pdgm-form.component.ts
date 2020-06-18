@@ -13,9 +13,9 @@ import { DatePipe } from '@angular/common';
 export class PdgmFormComponent implements OnInit {
 
     panelOpenState: boolean = false;
-    oasisDetails:any = [];
+    oasisDetails: any = [];
     pdgmToolData: any = [];
-    isLoading : boolean = true;
+    isLoading: boolean = true;
     oasisQuestion1Data: any = [];
     functionScore: string;
     m1800OasisData: any = [];
@@ -75,40 +75,45 @@ export class PdgmFormComponent implements OnInit {
     getpdgmToolPosition3OasisData(request) {
         this._pdgmService.getpdgmToolPosition3OasisData(request).subscribe(result => {
             this.pdgmToolPosition3Data = result;
+            let m1033FunctionalScore = 0;
             for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1033List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1033List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1033List[i].functionalPoint = '';
+                if (this.pdgmToolPosition3Data[0].m1033List[i].flag == true) {
+                    m1033FunctionalScore = m1033FunctionalScore + this.pdgmToolPosition3Data[0].m1033List[i].functionalPoint;
+               debugger
                 }
-            } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1810List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1810List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1810List[i].functionalPoint = '';
+                this.pdgmToolPosition3Data[0].m1033List.functionalPoint = m1033FunctionalScore;
+            }
+            for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1810List.length - 1; i++) {
+                if (this.pdgmToolPosition3Data[0].m1810List[i].flag == true) {
+                    this.pdgmToolPosition3Data[0].m1810List.functionalPoint = this.pdgmToolPosition3Data[0].m1810List[i].functionalPoint;
                 }
-            } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1800List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1800List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1800List[i].functionalPoint = '';
+            }
+            for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1800List.length - 1; i++) {
+                if (this.pdgmToolPosition3Data[0].m1800List[i].flag == true) {
+                    this.pdgmToolPosition3Data[0].m1800List.functionalPoint = this.pdgmToolPosition3Data[0].m1800List[i].functionalPoint;
                 }
             } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1820List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1820List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1820List[i].functionalPoint = '';
+                if (this.pdgmToolPosition3Data[0].m1820List[i].flag == true) {
+                    this.pdgmToolPosition3Data[0].m1820List.functionalPoint = this.pdgmToolPosition3Data[0].m1820List[i].functionalPoint;
                 }
             } for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1830List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1830List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1830List[i].functionalPoint = '';
+                if (this.pdgmToolPosition3Data[0].m1830List[i].flag == true) {
+                    this.pdgmToolPosition3Data[0].m1830List.functionalPoint = this.pdgmToolPosition3Data[0].m1830List[i].functionalPoint;
                 }
             }
             for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1840List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1840List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1840List[i].functionalPoint = '';
+                if (this.pdgmToolPosition3Data[0].m1840List[i].flag == true) {
+                    this.pdgmToolPosition3Data[0].m1840List.functionalPoint = this.pdgmToolPosition3Data[0].m1840List[i].functionalPoint;
                 }
             }
             for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1850List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1850List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1850List[i].functionalPoint = '';
+                if (this.pdgmToolPosition3Data[0].m1850List[i].flag == true) {
+                    this.pdgmToolPosition3Data[0].m1850List.functionalPoint = this.pdgmToolPosition3Data[0].m1850List[i].functionalPoint;
                 }
             }
             for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1860List.length - 1; i++) {
-                if(this.pdgmToolPosition3Data[0].m1860List[i].flag != true){
-                    this.pdgmToolPosition3Data[0].m1860List[i].functionalPoint = '';
+                if (this.pdgmToolPosition3Data[0].m1860List[i].flag == true) {
+                    this.pdgmToolPosition3Data[0].m1860List.functionalPoint = this.pdgmToolPosition3Data[0].m1860List[i].functionalPoint;
                 }
             }
             this.oasisQuestion1Data = this.pdgmToolPosition3Data[0].m1033List;
@@ -132,7 +137,6 @@ export class PdgmFormComponent implements OnInit {
     closeModel() {
         this.dialogRef.close();
     }
-
 
     insertPdgmForm() {
 

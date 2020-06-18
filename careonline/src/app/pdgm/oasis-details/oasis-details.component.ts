@@ -138,14 +138,14 @@ export class OasisDetailsComponent implements OnInit {
         }
     }
 
-
     saveOasisData() {
         this.saveOasisDetailsData.mrnNumber = this.modelData.mrnNumber;
         this._pdgmService.saveOasisDetailsData(this.saveOasisDetailsData).subscribe((result) => {
-            this.dialogRef.close();
-            this._toasterService.success('Saved Successfully');
+            if(result.ackn == "Success"){
+                this.dialogRef.close();
+                this._toasterService.success('Saved Successfully');
+            }           
         })
-        this.dialogRef.close();
     }
 
 }

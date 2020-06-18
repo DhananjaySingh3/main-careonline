@@ -170,7 +170,7 @@
                             Risk for hospitalization : Which of the following signs or Symptoms characterise this
                             patient as at risk for hospitalisation ? (Mark all that apply)
                         </th>
-                        <th class="w-20">Functional Point</th>
+                        <!-- <th class="w-20">Functional Point</th> -->
                     </tr>
                     <tr *ngFor="let optionDetails of oasisQuestion1Data">
                         <td class="text-center">
@@ -181,9 +181,13 @@
                         <td>
                             {{optionDetails.discription}}
                         </td>
-                        <td>{{optionDetails.functionalPoint}}</td>
+                        <!-- <td>{{optionDetails.functionalPoint}}</td> -->
                     </tr>
                 </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                <button class="mat-raised-button f-r fun-btn" disabled>{{oasisQuestion1Data.functionalPoint}}</button>
             </div>
 
             <div class="row">
@@ -196,7 +200,7 @@
                             Grooming: Current ability to tend safely to personal hygenie needs (i.e washing face and
                             hands, hair care, shaving or makeup, teeth or denture care, fingernail care)
                         </th>
-                        <th class="w-20">Functional Point</th>
+                        <!-- <th class="w-20">Functional Point</th> -->
                     </tr>
                     <tr *ngFor="let m1800 of m1800OasisData">
                         <td class="text-center">
@@ -206,9 +210,13 @@
                         <td>
                             {{m1800.discription}}
                         </td>
-                        <td>{{m1800.functionalPoint}}</td>
+                        <!-- <td>{{m1800.functionalPoint}}</td> -->
                     </tr>
                 </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                <button class="mat-raised-button f-r fun-btn" disabled>{{m1800OasisData.functionalPoint}}</button>
             </div>
             <div class="row">
                 <table style="width:100%" class="mt-14">
@@ -221,7 +229,7 @@
                             undergarments,pullovers,front opening shirts and blouses, managing zippers, buttons and
                             snaps
                         </th>
-                        <th class="w-20">Functional Point</th>
+                        <!-- <th class="w-20">Functional Point</th> -->
                     </tr>
                     <tr *ngFor="let m1810 of m1810OasisData">
                         <td class="text-center">
@@ -231,10 +239,15 @@
                         <td>
                             {{m1810.discription}}
                         </td>
-                        <td>{{m1810.functionalPoint}}</td>
+                        <!-- <td>{{m1810.functionalPoint}}</td> -->
                     </tr>
                 </table>
             </div>
+            <div class="row">
+                <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                <button class="mat-raised-button f-r fun-btn" disabled>{{m1810OasisData.functionalPoint}}</button>
+            </div>
+           
             <div class="row">
                 <table style="width:100%" class="mt-14">
                     <tr>
@@ -245,7 +258,7 @@
                             Bathing: Current ability to dress lower body safely(with or without dressing aids),
                             including undrgarments,slacks,socks or nylons, shoes
                         </th>
-                        <th class="w-20">Functional Point</th>
+                        <!-- <th class="w-20">Functional Point</th> -->
                     </tr>
                     <tr *ngFor="let m1820 of m1820OasisData">
                         <td class="text-center">
@@ -255,9 +268,13 @@
                         <td>
                             {{m1820.discription}}
                         </td>
-                        <td>{{m1820.functionalPoint}}</td>
+                        <!-- <td>{{m1820.functionalPoint}}</td> -->
                     </tr>
                 </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                <button class="mat-raised-button f-r fun-btn" disabled>{{m1820OasisData.functionalPoint}}</button>
             </div>
             <div class="row">
                 <table style="width:100%" class="mt-14">
@@ -269,7 +286,7 @@
                             Bathing: Current ability to wash entire body safely. Excludes grooming (Washing face,
                             washing hands and shampooing hair)
                         </th>
-                        <th class="w-20">Functional Point</th>
+                        <!-- <th class="w-20">Functional Point</th> -->
                     </tr>
                     <tr *ngFor="let m1830 of m1830OasisData">
                         <td class="text-center">
@@ -279,9 +296,13 @@
                         <td>
                             {{m1830.discription}}
                         </td>
-                        <td>{{m1830.functionalPoint}}</td>
+                        <!-- <td>{{m1830.functionalPoint}}</td> -->
                     </tr>
                 </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                <button class="mat-raised-button f-r fun-btn" disabled>{{m1830OasisData.functionalPoint}}</button>
             </div>
             <div class="row">
                 <table style="width:100%" class="mt-14">
@@ -293,7 +314,7 @@
                             Toilet transferring: Current ability to get to and from the toilet or bedside commode safely
                             and transfer on and off toilet/commode.
                         </th>
-                        <th class="w-20">Functional point</th>
+                        <!-- <th class="w-20">Functional point</th> -->
                     </tr>
                     <tr *ngFor="let m1840 of m1840OasisData">
                         <td class="text-center">
@@ -303,9 +324,13 @@
                         <td>
                             {{m1840.discription}}
                         </td>
-                        <td>{{m1840.functionalPoint}}</td>
+                        <!-- <td>{{m1840.functionalPoint}}</td> -->
                     </tr>
                 </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                <button class="mat-raised-button f-r fun-btn" disabled>{{m1840OasisData.functionalPoint}}</button>
             </div>
             <div class="row">
                 <table style="width:100%" class="mt-14">
@@ -317,7 +342,7 @@
                             Current ability to move safely from bed to chair, or ability to turn and position self in
                             bed if patient is bedfast.
                         </th>
-                        <th class="w-20">Functional Point</th>
+                        <!-- <th class="w-20">Functional Point</th> -->
                     </tr>
                     <tr *ngFor="let m1850 of m1850OasisData">
                         <td class="text-center">
@@ -327,9 +352,13 @@
                         <td>
                             {{m1850.discription}}
                         </td>
-                        <td>{{m1850.functionalPoint}}</td>
+                        <!-- <td>{{m1850.functionalPoint}}</td> -->
                     </tr>
                 </table>
+            </div>
+            <div class="row">
+                <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                <button class="mat-raised-button f-r fun-btn" disabled>{{m1850OasisData.functionalPoint}}</button>
             </div>
             <div class="row">
                 <table style="width:100%" class="mt-14">
@@ -341,7 +370,7 @@
                             Ambulance/Locomotion: Current ability to walk safely, once in a standing position, or use a
                             wheelchair, once in a seated position, on a variety of surfaces.
                         </th>
-                        <th class="w-20">Functional Point</th>
+                        <!-- <th class="w-20">Functional Point</th> -->
                     </tr>
                     <tr *ngFor="let m1860 of m1860OasisData">
                         <td class="text-center">
@@ -349,11 +378,15 @@
                                 [(ngModel)]="m1860.flag" ngDefaultControl></mat-radio-button>
                         </td>
                         <td> {{m1860.discription}} </td>                         
-                        <td>{{m1860.functionalPoint}}</td>
+                        <!-- <td>{{m1860.functionalPoint}}</td> -->
                     </tr>
                 </table>
                 <div class="row">
-                    <h4 class="mb-24 fun-score">Functional Score :</h4>
+                    <h4 class="mb-24 fun-score"> Functional Score :</h4>
+                    <button class="mat-raised-button f-r fun-btn" disabled>{{m1860OasisData.functionalPoint}}</button>
+                </div>
+                <div class="row">
+                    <h4 class="mb-24 fun-score"> Total Functional Score :</h4>
                     <button class="mat-raised-button f-r fun-btn" disabled>{{functionScore}}</button>
                 </div>
             </div>
