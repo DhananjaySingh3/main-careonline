@@ -25,7 +25,11 @@ export class PDGMService {
   }
 
   saveOasisDetailsData(request): Observable<any> {
-    return this.httpClient.post(this.apiURL + '/pdgmToolPosition3', request)
+    return this.httpClient.post(this.apiURL + '/pdgmToolPosition3', request);
+  }
+
+  saveSecondaryCodeData(request): Observable<any> {
+    return this.httpClient.post(this.apiURL + '/pdgmToolDivision6', request);
   }
 
   getpdgmToolPosition3OasisData(request): Observable<any> {

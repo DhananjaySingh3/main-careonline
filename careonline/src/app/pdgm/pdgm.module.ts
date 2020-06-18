@@ -12,9 +12,9 @@ import {
 } from '@angular/material';
 import { PdgmFormComponent } from '../pdgm/pdgm-form/pdgm-form.component';
 import { OasisDetailsComponent } from '../pdgm/oasis-details/oasis-details.component';
-
+import { SecondaryDiagnosisFormComponent } from '../pdgm/secondary-diagnosis-form/secondary-diagnosis.component';
 @NgModule({
-  declarations: [PdgmComponent, PdgmFormComponent, OasisDetailsComponent],
+  declarations: [PdgmComponent, PdgmFormComponent, OasisDetailsComponent, SecondaryDiagnosisFormComponent],
   imports: [
     CommonModule,
     PDGMRoutingModule,
@@ -24,6 +24,6 @@ import { OasisDetailsComponent } from '../pdgm/oasis-details/oasis-details.compo
     FormsModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [PdgmFormComponent, OasisDetailsComponent]
+  entryComponents: [PdgmFormComponent, OasisDetailsComponent, SecondaryDiagnosisFormComponent]
 })
 export class PdgmModule { }
