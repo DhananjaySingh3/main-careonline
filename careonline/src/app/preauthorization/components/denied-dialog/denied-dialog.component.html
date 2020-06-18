@@ -52,6 +52,14 @@
                   [value]="preAuthReponseForm?.get('authorizationDetail')?.get('enquiryId')?.value" autocomplete="off">
                 <mat-label>Enquiry ID</mat-label>
               </mat-form-field>
+              <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('enquiryId')?.invalid || 
+              preAuthReponseForm?.get('authorizationDetail')?.get('enquiryId')?.hasError('pattern')">
+                Please provide a valid enquiry id.
+              </mat-error>
+              <mat-error *ngIf="preAuthReponseForm?.get('authorizationDetail')?.get('enquiryId')?.touched || 
+              preAuthReponseForm?.get('authorizationDetail')?.get('enquiryId')?.hasError('required')">
+                Enquiry id is required.
+              </mat-error>
 
             </div>
           </mat-grid-tile>
@@ -5963,9 +5971,11 @@
 <!-- Main Mat-Dialog Action Start -->
 <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> [disabled]="!(editing && preAuthReponseForm.valid)" -->
 <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
-  <button mat-button mat-raised-button color="primary" type="submit" (click)="onEdit(preAuthReponseForm)">Edit</button>
-  <button mat-button mat-raised-button color="primary" type="submit" (click)="onSave(preAuthReponseForm)">Save</button>
+  <button mat-button mat-raised-button color="primary" type="submit" [disabled]="editing"
+    (click)="onEdit(preAuthReponseForm)">Edit</button>
+  <button mat-button mat-raised-button color="primary" type="submit" [disabled]="!(editing && preAuthReponseForm.valid)"
+    (click)="onSave(preAuthReponseForm)">Save</button>
   <button mat-button mat-raised-button color="warn" (click)="printPage()">Print</button>
-  <button mat-button mat-raised-button [mat-dialog-close]="false" color="accent" (click)="onNoClick()">Close</button>
+  <button mat-button mat-raised-button color="accent" (click)="onNoClick()">Close</button>
 </div>
 <!-- Main Mat-Dialog Action Ends [mat-dialog-close]="false"-->

@@ -46,22 +46,22 @@ export class PreAuthFormComponent implements OnInit {
   /* For Radio buttons under Request For */
   isLoadingResults = true;
   requestedFor: string;
-  isNewAdmission = false;
-  isNewAdmissionSelected = false;
-  isAddiServSelected = false;
-  isExtOnlySelected = false;
-  isAdditional = false;
-  isExtension = false;
-  isNewServiceChecked = false;
-  isExtOnlyChecked = false;
-  isAddSerChecked = false;
-  noActionTaken = false;
-  savedAsDraft = false;
+  // isNewAdmission = false;
+  // isNewAdmissionSelected = false;
+  // isAddiServSelected = false;
+  // isExtOnlySelected = false;
+  // isAdditional = false;
+  // isExtension = false;
+  // isNewServiceChecked = false;
+  // isExtOnlyChecked = false;
+  // isAddSerChecked = false;
+  // noActionTaken = false;
+  // savedAsDraft = false;
   isFormUpdated = false;
   isReadonly = true;
   editing = false;
-  select;
-  select1;
+  // select;
+  // select1;
 
   visitsPattern = '^[0-9]{1,3}$';
   unitsPattern = '^[0-9]{1,3}$';
@@ -554,81 +554,30 @@ export class PreAuthFormComponent implements OnInit {
     this.commonMethods();
     console.log('Data via list page ', this.selectedPatientViaDialog);
 
-    if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
-      this.noActionTaken = true;
-      this.isNewAdmission = true;
-      this.isAdditional = false;
-      this.isExtension = false;
-      // this.isExtOnlyChecked = false;
-      // this.isAddSerChecked = false;
-      // this.isNewServiceChecked = false;
-    }
+    // if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'No Action Taken') {
+    //   this.noActionTaken = true;
+    //   this.isNewAdmission = true;
+    //   this.isAdditional = false;
+    //   this.isExtension = false;
+    // }
 
-    if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'Saved As Draft') {
-      this.noActionTaken = true;
-      this.savedAsDraft = true;
-      this.isNewAdmission = true;
-      this.isAdditional = false;
-      this.isExtension = false;
-    }
+    // if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'Saved As Draft') {
+    //   this.noActionTaken = true;
+    //   this.savedAsDraft = true;
+    //   this.isNewAdmission = true;
+    //   this.isAdditional = false;
+    //   this.isExtension = false;
+    // }
 
-    if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'Sent For Approval') {
-      this.isNewAdmission = false;
-      this.isAdditional = true;
-      this.isExtension = true;
-    }
+    // if (this.selectedPatientViaDialog.episode.preauthFormStatus === 'Sent For Approval') {
+    //   this.isNewAdmission = false;
+    //   this.isAdditional = true;
+    //   this.isExtension = true;
+    // }
 
     this.preAuthService.viewEditPatientData(this.selectedPatientViaDialog).subscribe((selectedPatAuthformInfo) => {
       if (selectedPatAuthformInfo) {
         this.isLoadingResults = false;
-
-        // this.preAuthformDetails = { ...selectedPatAuthformInfo };
-        //  selectedPatAuthformInfo[0].insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
-
-        /* For Cecking and unckecking radio buttons */
-        // if (selectedPatAuthformInfo[0].requestFor.newadmissionService === true) {
-        //   this.isNewServiceChecked = true;
-        //   this.isNewAdmission = false;
-        //   this.isAdditional = true;
-        //   this.isExtension = true;
-        //   console.log('Additional Service is "False"');
-        //   console.log('"requestFor" error cuz api is not returning data');
-        // } else {
-        //   // this.isAdditional = false;
-        // }
-
-        // if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === true) {
-        //   this.isAddSerChecked = true;
-        //   this.isAdditional = true;
-        // }
-        // if (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === true) {
-        //   this.isExtOnlyChecked = true;
-        //   this.isExtension = true;
-        // }
-        /* For Cecking and unckecking radio buttons */
-
-        // if (selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === false) {
-        //   this.isAdditional = false;
-        //   console.log('Additional Service is "False"');
-        //   console.log('"requestFor" error cuz api is not returning data');
-        // } else {
-        //   this.isAdditional = false;
-        // }
-
-        // if (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === false) {
-        //   this.isExtension = false;
-        //   console.log('Extension Service is "False"');
-        //   console.log('"extension" error cuz api is not returning data');
-        // } else {
-        //   this.isAdditional = false;
-        // }
-
-        // if ((selectedPatAuthformInfo[0].requestFor.additionalServices.serviceflag === false) &&
-        //   (selectedPatAuthformInfo[0].requestFor.extension.serviceflag === false)) {
-        //   // selectedPatAuthformInfo[0].requestFor.newadmissionService === false
-        //   console.log('Both Additional and Extension Service is "False" enabling newService true for ui show');
-        //   this.isNewAdmission = true;
-        // }
 
         this.populatePatientFormData(selectedPatAuthformInfo[0]);
       }
@@ -963,75 +912,69 @@ export class PreAuthFormComponent implements OnInit {
 
     // formData.insuranceDetailPreAuth.insuranceTypeSelcted = 'primaryInsuranceDetail';
     this.preAuthForm.setValue(formData);
-    // if (this.preAuthForm.get('requestFor').get('newadmissionService').value === true) {
-    //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: this.newAdmissService.checked = true });
-    // }
-
-    //  this.preAuthForm.get('insuranceDetailPreAuth').patchValue({ insuranceTypeSelcted: 'primaryInsuranceDetail' });
     console.log('Form Populated Data ', formData);
   }
   /* Populating Form Data */
 
-  // compareInsurance = (val1: string, val2: string) => val1 === val2;
 
   /* Request for New Admission Service via Radio button starts */
-  onNewServiceChange(event) {
-    if (this.newAdmissService.checked) {
-      console.log('New Service', this.newAdmissService.checked.valueOf());
-      // console.log('New Service2', event.target.value);
-      this.isNewAdmissionSelected = true;
-      this.newAdmissService.checked = true;
-      this.isNewServiceChecked = true;
-      // formcontrol =newadmissionService and template ref = newAdmissService
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      // this.isAddSerChecked = false;
-      // this.isExtOnlyChecked = false;
+  // onNewServiceChange(event) {
+  //   if (this.newAdmissService.checked) {
+  //     console.log('New Service', this.newAdmissService.checked.valueOf());
+  //     // console.log('New Service2', event.target.value);
+  //     this.isNewAdmissionSelected = true;
+  //     this.newAdmissService.checked = true;
+  //     this.isNewServiceChecked = true;
+  //     // formcontrol =newadmissionService and template ref = newAdmissService
+  //     this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+  //     // this.isAddSerChecked = false;
+  //     // this.isExtOnlyChecked = false;
 
-      this.isAddSerChecked = false;
-      this.additionalService.checked = false;
-      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: false });
+  //     this.isAddSerChecked = false;
+  //     this.additionalService.checked = false;
+  //     this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: false });
 
-      this.isExtOnlyChecked = false;
-      this.extensionOnly.checked = false;
-      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: false });
-    }
-  }
+  //     this.isExtOnlyChecked = false;
+  //     this.extensionOnly.checked = false;
+  //     this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: false });
+  //   }
+  // }
 
-  onExtensionChange() {
-    console.log(this.extensionOnly.checked);
-    if (this.extensionOnly.checked) {
-      // this.preAuthForm.patchValue({ serviceflag: true });
+  // onExtensionChange() {
+  //   console.log(this.extensionOnly.checked);
+  //   if (this.extensionOnly.checked) {
+  //     // this.preAuthForm.patchValue({ serviceflag: true });
 
-      this.isExtOnlySelected = true;
-      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
+  //     this.isExtOnlySelected = true;
+  //     this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
 
-      this.isNewAdmissionSelected = false;
-      this.isNewServiceChecked = false;
-      this.newAdmissService.checked = false;
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+  //     this.isNewAdmissionSelected = false;
+  //     this.isNewServiceChecked = false;
+  //     this.newAdmissService.checked = false;
+  //     this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
 
-      this.isAddSerChecked = false;
-      this.additionalService.checked = false;
-      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: false });
-    }
-  }
+  //     this.isAddSerChecked = false;
+  //     this.additionalService.checked = false;
+  //     this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: false });
+  //   }
+  // }
 
-  onAddServiceChange() {
-    if (this.additionalService.checked) {
-      console.log(this.additionalService.checked);
-      this.isAddiServSelected = true;
-      this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
-      //  this.isNewServiceChecked = false;
-      this.isNewAdmissionSelected = false;
-      this.isNewServiceChecked = false;
-      this.newAdmissService.checked = false;
-      this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+  // onAddServiceChange() {
+  //   if (this.additionalService.checked) {
+  //     console.log(this.additionalService.checked);
+  //     this.isAddiServSelected = true;
+  //     this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
+  //     //  this.isNewServiceChecked = false;
+  //     this.isNewAdmissionSelected = false;
+  //     this.isNewServiceChecked = false;
+  //     this.newAdmissService.checked = false;
+  //     this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
 
-      this.isExtOnlyChecked = false;
-      this.extensionOnly.checked = false;
-      this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: false });
-    }
-  }
+  //     this.isExtOnlyChecked = false;
+  //     this.extensionOnly.checked = false;
+  //     this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: false });
+  //   }
+  // }
   /* Request for New Admission Service via Radio button ends */
   /*Save as Draft */
 
@@ -1099,31 +1042,24 @@ export class PreAuthFormComponent implements OnInit {
     console.log('Form data on send request b4 valid', formDataOnSend);
     if (formDataOnSend.valid) {
 
-      // selectedPatientData.currenttimdate = new Date().toISOString();
-      // this.preAuthReponseForm.get('authorizationDetail').patchValue({ processDateAndTime: (new Date()).toISOString() });
-      // selectedPatntData.authorizationDetail.processDateAndTime =
-      //   new Date(selectedPatntData.authorizationDetail.processDateAndTime).toISOString();
-
-
-
       // console.log('Date after change ', selectedPatientData);
       console.log('Form data on send request', selectedPatntData);
 
-      //  setTimeout(() => {
-      // formcontrol =newadmissionService and template ref = newAdmissService
-      if (this.isNewAdmissionSelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
-      }
+      // //  setTimeout(() => {
+      // // formcontrol =newadmissionService and template ref = newAdmissService
+      // if (this.isNewAdmissionSelected) {
+      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: true });
+      // }
 
-      if (this.isAddiServSelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-        this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
-      }
+      // if (this.isAddiServSelected) {
+      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      //   this.preAuthForm.get('requestFor').get('additionalServices').patchValue({ serviceflag: true });
+      // }
 
-      if (this.isExtOnlySelected) {
-        this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
-        this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
-      }
+      // if (this.isExtOnlySelected) {
+      //   this.preAuthForm.get('requestFor').patchValue({ newadmissionService: false });
+      //   this.preAuthForm.get('requestFor').get('extension').patchValue({ serviceflag: true });
+      // }
 
       const config = new MatDialogConfig();
       config.disableClose = true;
@@ -1168,17 +1104,7 @@ export class PreAuthFormComponent implements OnInit {
     const dialogRef = this.dialog.open(StackedModalComponent, config);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Stacked Dialog Closed: true / false will come ' + result);
-      // this.toasterService.success(':: Submitted Successfully');
-      // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
-      console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
-      // console.log(this.insuranceList);
-      console.log('Data received from stacked model to patient component ends');
-      // console.log(this.eligibilityCheckService.getEligibilityCheckData().value);
-      // if (this.insuranceList) {
-      //   this.ngOnInit();
-      //   console.log('ngOnInit() was executed for patient component');
-      // }
+
       if (result) {
         console.log('Confirm is clicked: ' + result);
         this.isFormUpdated = result;
@@ -1208,13 +1134,6 @@ export class PreAuthFormComponent implements OnInit {
       const dialogRef = this.dialog.open(StackedModalComponent, config);
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log('Stacked Dialog Closed: true / false will come ' + result);
-        // this.toasterService.success(':: Submitted Successfully');
-        // this.insuranceList = this.eligibilityCheckService.getEligibilityCheckData();
-        console.log('Data received from stacked model to patient component start : Acknowlegement of eligi chk');
-        // console.log(this.insuranceList);
-        console.log('Data received from stacked model to patient component ends');
-
         if (result) {
           console.log('Confirm is clicked: ' + result);
           this.dialogRef.close(false);
@@ -1287,9 +1206,6 @@ export class PreAuthFormComponent implements OnInit {
     console.log('Form data on save b4 valid', formDataOnSave);
     if (formDataOnSave.valid) {
 
-
-      // selectedPatientData.currenttimdate = new Date().toISOString();
-      // console.log('Date after change ', selectedPatientData);
       console.log('Form data on save', selectedPatntData);
 
       const config = new MatDialogConfig();
@@ -1320,14 +1236,14 @@ export class PreAuthFormComponent implements OnInit {
     }
   }
 
-  onEdit(selectedPatntData: PreAuthFormModelRequest) {
+  onEdit(formDataOnEdit) {
+    console.log('formDataOnEdit validity', formDataOnEdit);
+    let selectedPatntData: PreAuthFormModelRequest;
+    selectedPatntData = formDataOnEdit.value;
     this.isLoadingResults = true;
     console.log('on edit ', selectedPatntData);
 
     console.log('on edit after reset', this.preAuthForm);
-    // if (this.selectedPatientViaDialog.episode.preauthFormStatus !== 'Sent For Approval') { // 'Saved As Draft'
-    //   this.preAuthForm.get('enquiryDeatils').patchValue({ preauthReqSentDate: (new Date()).toISOString() });
-    // }
 
     this.preAuthService.onEditPatientData(selectedPatntData).subscribe((dataForSelectedPat) => {
       this.isLoadingResults = true;
@@ -1351,19 +1267,6 @@ export class PreAuthFormComponent implements OnInit {
     return (val1 === val2);
   }
 
-  homeHealthAideSelected(event) {
-    event.stopPropagation();
-    // this.primaryChecked = !this.primaryChecked;
-    // console.log('Primary Insurance selected: ', event.target.value);
-
-    // this.selectedPatientViaDialog.
-    //   insuranceDetailByPolicy.primaryInsuranceDetail.
-    //   eligibilityCheckSelected = !this.selectedPatientViaDialog.insuranceDetailByPolicy
-    //     .primaryInsuranceDetail.eligibilityCheckSelected;
-    // if (event.value) {
-    // //  this.preAuthForm.get('requestService')?.get('physicalTherapy')?.get('physicalTherapyServiceType')?.setErrors({ invalid: false });
-    // }
-  }
 
   homeHealthAideClicked(event) {
     console.log(event.checked);

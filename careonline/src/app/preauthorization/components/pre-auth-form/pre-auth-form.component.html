@@ -4357,11 +4357,12 @@
   <!-- <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center"> [disabled]="!(editing && preAuthForm.invalid)"-->
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
     <button mat-button mat-raised-button color="primary" type="submit" [disabled]="editing"
-      (click)="onEdit(preAuthForm.value)">Edit</button>
-    <button mat-button mat-raised-button color="primary" type="submit" (click)="onSave(preAuthForm)">Save as
+      (click)="onEdit(preAuthForm)">Edit</button>
+    <button mat-button mat-raised-button color="primary" type="submit" [disabled]="!(editing && preAuthForm.valid)"
+      (click)="onSave(preAuthForm)">Save as
       Draft</button>
-    <button class="button-green" mat-button mat-raised-button color="primary" (click)="onSendRequest(preAuthForm)"
-      type="submit">Send
+    <button class="button-green" mat-button mat-raised-button color="primary"
+      [disabled]="!(editing && preAuthForm.valid)" (click)="onSendRequest(preAuthForm)" type="submit">Send
       Request</button>
     <button mat-button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
   </div>
