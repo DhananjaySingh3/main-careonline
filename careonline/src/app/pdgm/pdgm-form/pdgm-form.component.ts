@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PDGMService } from '../services/pdgm.service';
-import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel, ComorbidityModel } from '../models/pdgm.model';
+import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel, ComorbidityModel, CaseMixHippsCodeModel } from '../models/pdgm.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -45,6 +45,7 @@ export class PdgmFormComponent implements OnInit {
         this.pdgmToolData[1] = new PdgmAdmissionSourceModel;
         this.pdgmToolData[2] = new ClinicalGroupingModel;
         this.pdgmToolData[3] = new ComorbidityModel;
+        this.pdgmToolData[4] = new CaseMixHippsCodeModel;
         this.getPdgmToolData(this.modelData);
         this.getpdgmToolPosition3OasisData(this.modelData);
     }

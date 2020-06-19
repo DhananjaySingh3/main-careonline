@@ -25,6 +25,17 @@ export class PdgmToolEpisodeDetailsModel {
 
 }
 
+export class CaseMixHippsCodeModel {
+    position1: number;
+    position2: number;
+    position3: number;
+    position4: number;
+    position5: number;
+    hippscode: number;
+    mrnNumber: string;
+    weight: number;
+}
+
 export class PdgmAdmissionSourceModel {
     earlyVisits: boolean;
     lateVisits: boolean;

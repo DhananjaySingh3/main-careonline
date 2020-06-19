@@ -426,7 +426,8 @@
             </div>
             <div class="row">
                 <h4 class="mb-24">4 Position (Comorbidity) - HIPPS Code: </h4>
-                <button class="mat-raised-button f-r" *ngIf="pdgmToolData[3].comorbidityTypeAndHippsCode">{{pdgmToolData[3].comorbidityTypeAndHippsCode.hippsCode}}</button>
+                <button class="mat-raised-button f-r"
+                    *ngIf="pdgmToolData[3].comorbidityTypeAndHippsCode">{{pdgmToolData[3].comorbidityTypeAndHippsCode.hippsCode}}</button>
             </div>
         </mat-expansion-panel>
 
@@ -468,13 +469,13 @@
                         <th>Case Mix Weight</th>
                     </tr>
                     <tr>
-                        <td class="text-center"> </td>
-                        <td class="text-center"> </td>
-                        <td class="text-center"> </td>
-                        <td class="text-center"> </td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center"> </td>
+                        <td class="text-center">{{pdgmToolData[4].position1}} </td>
+                        <td class="text-center">{{pdgmToolData[4].position2}}</td>
+                        <td class="text-center">{{pdgmToolData[4].position3}} </td>
+                        <td class="text-center">{{pdgmToolData[4].position4}} </td>
+                        <td class="text-center">{{pdgmToolData[4].position5}}</td>
+                        <td class="text-center">{{pdgmToolData[4].hippscode}}</td>
+                        <td class="text-center">{{pdgmToolData[4].weight}} </td>
                     </tr>
                 </table>
             </div>
