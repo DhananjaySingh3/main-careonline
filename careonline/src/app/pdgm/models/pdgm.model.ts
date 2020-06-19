@@ -8,6 +8,7 @@ export class PatientFormDataRequest {
     suffix: string;
 }
 
+
 export class PdgmToolEpisodeDetailsModel {
     mrnNumber: string;
     firstName: string;
@@ -29,6 +30,15 @@ export class PdgmAdmissionSourceModel {
     lateVisits: boolean;
     position1Code: string;
     community: string;
+}
+
+export class ComorbidityModel {
+    secondDiagnosisCodeList: [];
+    comorbidityTypeAndHippsCode: {
+        comorbidityType: string;
+        hippsCode: string;
+        mrnNumber: string;
+    };
 }
 
 export class OasisDetailsPdgmModel {

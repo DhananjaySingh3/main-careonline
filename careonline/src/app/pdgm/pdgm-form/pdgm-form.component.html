@@ -247,7 +247,7 @@
                 <h4 class="mb-24 fun-score"> Functional Score :</h4>
                 <button class="mat-raised-button f-r fun-btn" disabled>{{m1810OasisData.functionalPoint}}</button>
             </div>
-           
+
             <div class="row">
                 <table style="width:100%" class="mt-14">
                     <tr>
@@ -377,7 +377,7 @@
                             <mat-radio-button value="{{m1860.flag}}" [checked]="m1860.flag" name="table6" disabled
                                 [(ngModel)]="m1860.flag" ngDefaultControl></mat-radio-button>
                         </td>
-                        <td> {{m1860.discription}} </td>                         
+                        <td> {{m1860.discription}} </td>
                         <!-- <td>{{m1860.functionalPoint}}</td> -->
                     </tr>
                 </table>
@@ -415,29 +415,18 @@
                         <th>Clinical Group</th>
                         <th>Comorbidity Subgroup</th>
                     </tr>
-                    <tr>
-                        <td class="text-center"> A04.71 </td>
-                        <td>Entercolitis due to clostridium difficile, recurrent</td>
-                        <td>MMTA_INFECT</td>
-                        <td>Infectious 1</td>
+                    <tr *ngFor="let codeList of pdgmToolData[3].secondDiagnosisCodeList">
+                        <td class="text-center">{{codeList.secondDiagnosisCode}} </td>
+                        <td>{{codeList.discription}}</td>
+                        <td>{{codeList.clinicalGroup}}</td>
+                        <td>{{codeList.comorbiditySubGroup}}</td>
                     </tr>
-                    <tr>
-                        <td class="text-center"> A00.1 </td>
-                        <td></td>
-                        <td>MMTA_INFECT</td>
-                        <td>Neurological 5</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"> 167.2 </td>
-                        <td>Celebral atherosclerosis</td>
-                        <td>NEURO_REHAB</td>
-                        <td>Celebral 5</td>
-                    </tr>
+
                 </table>
             </div>
             <div class="row">
-                <h4 class="mb-24">4 Position (omorbidity) - HIPPS Code: </h4>
-                <button class="mat-raised-button f-r">HIPPS CODE</button>
+                <h4 class="mb-24">4 Position (Comorbidity) - HIPPS Code: </h4>
+                <button class="mat-raised-button f-r" *ngIf="pdgmToolData[3].comorbidityTypeAndHippsCode">{{pdgmToolData[3].comorbidityTypeAndHippsCode.hippsCode}}</button>
             </div>
         </mat-expansion-panel>
 
@@ -479,7 +468,7 @@
                         <th>Case Mix Weight</th>
                     </tr>
                     <tr>
-                        <td class="text-center">  </td>
+                        <td class="text-center"> </td>
                         <td class="text-center"> </td>
                         <td class="text-center"> </td>
                         <td class="text-center"> </td>

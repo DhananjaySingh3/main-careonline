@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { PDGMService } from '../services/pdgm.service';
-import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel } from '../models/pdgm.model';
+import { PdgmToolEpisodeDetailsModel, PdgmAdmissionSourceModel, ClinicalGroupingModel, ComorbidityModel } from '../models/pdgm.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -44,6 +44,7 @@ export class PdgmFormComponent implements OnInit {
         this.pdgmToolData[0] = new PdgmToolEpisodeDetailsModel;
         this.pdgmToolData[1] = new PdgmAdmissionSourceModel;
         this.pdgmToolData[2] = new ClinicalGroupingModel;
+        this.pdgmToolData[3] = new ComorbidityModel;
         this.getPdgmToolData(this.modelData);
         this.getpdgmToolPosition3OasisData(this.modelData);
     }
@@ -79,7 +80,6 @@ export class PdgmFormComponent implements OnInit {
             for (let i = 0; i <= this.pdgmToolPosition3Data[0].m1033List.length - 1; i++) {
                 if (this.pdgmToolPosition3Data[0].m1033List[i].flag == true) {
                     m1033FunctionalScore = m1033FunctionalScore + this.pdgmToolPosition3Data[0].m1033List[i].functionalPoint;
-               debugger
                 }
                 this.pdgmToolPosition3Data[0].m1033List.functionalPoint = m1033FunctionalScore;
             }
